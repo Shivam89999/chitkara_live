@@ -40,12 +40,45 @@ function create(req, res) {
     });
 }
 
+function createSession(req, res) {
+    console.log("req.user is ", req.user);
+    return res.redirect("/");
+}
+
 function signUp(req, res) {
     return res.render("sign_up");
+}
+
+function signIn(req, res) {
+    return res.render("sign_in");
+}
+
+function update(req, res) {
+    User.uploadAvatar(req, res, function(err) {
+        if (err) {
+            if (err.code === "LIMIT_FILE_SIZE") {
+                console.log("file is too large max size allowed is 5mb");
+                return res.redirect("back");
+            }
+            if (err.code === "LIMIT_UNEXPECTED_FILE") {
+                console.log("Too many files, max 5 allowed");
+                return res.redirect("back");
+            }
+            console.log("err in processing multipart-data with multer: ", err);
+            return res.redirect("back");
+        }
+        for (let file of req.files) {
+            console.log("file is save successfully ", file);
+        }
+        return res.redirect("back");
+    });
 }
 
 module.exports = {
     userProfile,
     create,
     signUp,
+    signIn,
+    createSession,
+    update,
 };
