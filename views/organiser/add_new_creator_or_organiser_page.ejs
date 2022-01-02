@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="/css/add_new_page.css" />
+<div id="add-new-page">
+    <h1>Add New Creator/Organiser</h1>
+    <form action="/organiser/add_new_creator_or_organiser" method="POST">
+        <input type="text" name="name" placeholder="Type Name" />
+        <input type="email" required name="email" placeholder="Type Email.." />
+        <input type="password" required name="password" placeholder="Type password.." />
+        <input type="password" required name="confirm_password" placeholder="Type confirm password.." />
+        <div>
+            <input type="radio" name="tick" value="Hostel" checked />
+            <span>Hostel</span>
+            <input type="radio" name="tick" value="Depart" />
+            <span>Depart</span>
+            <input type="radio" name="tick" value="Club" />
+            <span>Club</span>
+            <input type="radio" name="tick" value="Organiser" />
+            <span>Organiser</span>
+        </div>
+        <input type="submit" value="Add-New" id="submit" />
+    </form>
+</div>

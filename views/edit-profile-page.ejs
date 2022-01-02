@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="/css/new_post.css" />
+<div id="update-profile">
+    <div id="img-container">
+        <img src="<%=locals.user.pic%>" alt="" height="65px" width="65px" style="border-radius: 50%" />
+    </div>
+    <h3>Edit Profile Page</h3>
+    <div>
+        <form action="/user/update" enctype="multipart/form-data" method="POST">
+            <input type="file" name="avatar" id="file-input" placeholder="New Profile" />
+            <div id="preview"></div>
+            <div id="error-div" style="text-align: center; padding: 5px; margin: auto"></div>
+            <input style="border: 1px solid rgba(247, 247, 247, 0.931)" type="text" name="name" placeholder="Type name" value="<%=locals.user.name%>" />
+            <input style="border: 1px solid rgba(247, 247, 247, 0.931)" type="text" name="bio" placeholder="Type Bio" value="<%=locals.user.bio%>" />
+            <div>
+                <abbr title="put your Whatsapp no "><img
+            src="https://cdn-icons.flaticon.com/png/512/3670/premium/3670051.png?token=exp=1640847041~hmac=6aa6c3f6e748466ce6ad38301532748f"
+            height="20px"
+            width="20px"
+            alt=""
+        /></abbr>
+                <input style="border: 1px solid rgba(247, 247, 247, 0.931)" type="text" name="whatsapp" placeholder="Type Whatsapp No" value="<%=locals.user.whatsapp%>" />
+            </div>
+            <div>
+                <abbr title="put your mobile no "><img
+            src="https://cdn-icons-png.flaticon.com/512/724/724664.png"
+            height="20px"
+            width="20px"
+            alt=""
+        /></abbr>
+                <input style="border: 1px solid rgba(247, 247, 247, 0.931)" type="text" name="mobile" placeholder="Type Mobile No" value="<%=locals.user.mobile%>" />
+            </div>
+            <button>Save</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/edit_profile.js"></script>

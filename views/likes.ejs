@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="/css/likes-page.css" />
+
+<div id="likes-page">
+    <div style="
+      justify-content: flex-start;
+      align-items: flex-end;
+      position: relative;
+    ">
+        <a href="reference of photo" style="text-decoration: none; color: black">
+            <%if(post.photos){%>
+                <img src="<%=post.photos[0]%>" alt="photo" height="100px" width="80px" />
+                <%}else{%>
+                    <span style="text-align: center" heigh="100px" width="80px"><%=post.content%></span
+      >
+      <%}%></a
+    >
+    <%if(post.photos && post.photos.length>1){%>
+    <span
+      style="
+        padding: 1px 2px 1px 2px;
+        border-radius: 25px;
+        background-color: #413f3fc9;
+        color: white;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+      "
+      >1/<%=post.photos.length%></span
+    >
+    <%}%>
+    <span style="padding-left: 5px"><%=post.caption%></span>
+    </div>
+
+    <h1>
+        <%=post.likes.length%> Likes</h1>
+    <%if(post.likes.length==0){%>
+
+        <div style="color: rgb(59, 58, 58); justify-content: center; margin: 15px">
+            No Likes
+        </div>
+        <%}else{%>
+            <%for(var like of post.likes){%>
+                <div>
+                    <%if(like.creator){%>
+                        <a href="/user/profile?user_id=<%=like.creator.id%>" style="text-decoration: none">
+                            <div>
+                                <div>
+                                    <img src="<%=like.creator.pic%>" alt="image" height="50px" width="50px" style="border-radius: 50%" />
+                                </div>
+                                <div>
+                                    <span><%=like.creator.name%> </span>
+                                    <span style="font-size: 14; color: rgb(129, 121, 121)"><%=like.creator.onModel%></span
+          >
+        </div>
+      </div>
+    </a>
+    <div>
+      <button>Follow</button>
+    </div>
+    <%}%>
+  </div>
+  <%}%> <%}%>
+</div>

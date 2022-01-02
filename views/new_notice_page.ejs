@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/css/new_post.css" />
+<div id="new-post">
+    <div id="img-container">
+        <img src="<%=locals.user.pic%>" alt="" height="65px" width="65px" style="border-radius: 50%" />
+    </div>
+    <h3>Add New Notice</h3>
+    <div>
+        <form action="/creator/add-new-notice" method="POST" enctype="multipart/form-data">
+            <input type="file" name="notice" required id="select-file" />
+            <div id="preview"></div>
+            <div id="error-div"></div>
+            <input type="text" name="caption" placeholder="Type Caption here" style="border: 1px solid whitesmoke" />
+            <button>Post</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/notice.js"></script>

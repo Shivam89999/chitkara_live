@@ -1,10 +1,16 @@
 <div>
-    <h1>This is Sign Up Page</h1>
-    <form action="/user/create" method="POST">
+    sign-up page
+    <form action="/create" method="POST">
         <input type="text" required name="name" placeholder="Type Name.." />
         <input type="email" required name="email" placeholder="Type Email.." />
         <input type="password" required name="password" placeholder="Type password.." />
         <input type="password" required name="confirm_password" placeholder="Type Confirm pass.." />
+        <input type="radio" name="tick" value="Student" checked />
+        <span>Student</span>
+        <input type="radio" name="tick" value="Staff" />
+        <span>Staff</span>
+        <input type="radio" name="tick" value="Club" />
+        <span>Club</span>
         <input type="submit" value="Sign-Up" />
     </form>
 </div>

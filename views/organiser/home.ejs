@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="/css/organiser_home.css" />
+</head>
+
+<body>
+    <div id="main-area">
+        <div id="sections">
+            <div>Clubs</div>
+            <div>Hostels</div>
+            <div>Departs</div>
+        </div>
+        <div id="content">
+            <%for(let c of locals.clubs){%>
+                <a href="/organiser/profile?profile=<%=c.id%>">
+                    <div class="clubs">
+                        <div><img src="<%=c.pic%>" alt="club-profile" /></div>
+
+                        <div>
+                            <span><%=c.name%></span>
+
+                            <span><%=c.email%></span>
+                        </div>
+                    </div>
+                </a>
+
+                <%}%>
+        </div>
+    </div>
+</body>
+
+</html>

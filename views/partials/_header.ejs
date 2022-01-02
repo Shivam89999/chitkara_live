@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="/css/header.css" />
+<!-- <header>
+    <div>
+        <img src="" alt="Logo" />
+    </div>
+    <div id="search-container">
+        <form action="/search" method="POST">
+            <input type="text" name="name" required placeholder="Search here" />
+            <input type="submit" value="s" />
+        </form>
+    </div>
+    <div id="right-div">
+        <%if(!locals.user){%>
+            <ul>
+                <li>
+                    <a href="/sign-in ">Sign-In</a>
+                </li>
+                <li>
+                    <a href="/sign-up ">Sign-Up</a>
+                </li>
+            </ul>
+            <%}else{%>
+
+                <ul>
+                    <li>
+                        <a href="/user/profile?user_id=<%=locals.user.id%>">
+          <img src="<%=locals.user.pic%>" alt="profile" />
+        </a>
+                    </li>
+                    <li>
+                        <a href="/user/sign-out ">Sign-Out</a>
+                    </li>
+                </ul>
+                <%}%>
+    </div>
+</header> -->
+
+<header style="min-width: 800px">
+    <div id="left-div">
+        <div>
+            <img height="40px" width="40px" src="https://www.pngitem.com/pimgs/m/357-3577326_color-ball-logo-hd-png-download.png" alt="logo" />
+        </div>
+        <div>
+            <form action="/search" method="POST">
+                <input type="text" name="name" required placeholder="Search here" style="background-color: rgb(238, 238, 238)" />
+                <input type="submit" value="s" />
+            </form>
+        </div>
+    </div>
+    <div id="mid-div">
+        <a href="/">
+            <div class="current-active" id="home" onclick="changeHeaderTab('home')">
+                <img height="25px" width="25px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Home-icon.svg/1200px-Home-icon.svg.png" alt="Home" />
+                <span>Home</span>
+            </div>
+        </a>
+        <a href="/home-option-page?type=Depart">
+            <div id="depart" onclick="changeHeaderTab('depart')">
+                <img height="25px" width="25px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoQKCrRgkQx75ymhbX6_fsVNylg0qdNLX4xpywXzgk5d3bdPuI1S4EqD3ysRzspxfMVfg&usqp=CAU" alt="Home" />
+                <span>Depart</span>
+            </div>
+        </a>
+        <a href="/home-option-page?type=Hostel">
+            <div id="hostel" onclick="changeHeaderTab('hostel')">
+                <img height="25px" width="25px" src="https://www.pinclipart.com/picdir/middle/187-1878120_building-icon-svg-png-icon-free-download-384126.png" alt="Home" />
+                <span>Hostel</span>
+            </div>
+        </a>
+        <a href="/home-option-page?type=Club">
+            <div id="club" onclick="changeHeaderTab('club')">
+                <img height="25px" width="25px" src="https://www.freeiconspng.com/thumbs/group-png/group-of-people-in-a-formation-23.png" alt="Home" />
+                <span>Clubs</span>
+            </div>
+        </a>
+        <a href="/user/events">
+            <div id="event" onclick="changeHeaderTab('event')">
+                <img height="25px" width="25px" src="https://thumbs.dreamstime.com/b/open-microphone-shows-black-glyph-icon-stand-up-comedy-music-competition-karaoke-night-talent-show-fun-event-entertainment-227569201.jpg" alt="Home" />
+                <span>Events</span>
+            </div>
+        </a>
+    </div>
+    <div id="right-div">
+        <div>
+            <img src="<%=locals.user.pic%>" alt="profile" height="25px" width="25px" style="border-radius: 50%" />
+        </div>
+        <div>hhhh</div>
+    </div>
+</header>
+<script src="/js/header.js"></script>

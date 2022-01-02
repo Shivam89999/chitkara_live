@@ -1,16 +1,214 @@
-<html>
+<link rel="stylesheet" href="/css/my-profile-page.css" />
+<div id="profile-page">
+    <div id="my-profile">
+        <div id="first-div">
+            <img src="https://thingscareerrelated.files.wordpress.com/2021/10/default-background-image.png" alt="pic" />
+        </div>
+        <div id="profile">
+            <div id="profile-container">
+                <img id="profile-pic" src="<%=user_profile.pic%>" alt="profile-pic" />
+                <%if(locals.user_profile.id===locals.user.id){%>
+                    <a href="/user/profile-requests-page">
+                        <img height="40px" style="border-radius: 50%" width="40px" src="https://cdn-icons.flaticon.com/png/128/5441/premium/5441871.png?token=exp=1640369686~hmac=a2ee7677364520187b02dd2cf1fabdce" alt="user" />
+                    </a>
+                    <%}%>
+            </div>
 
-<head></head>
+            <div id="bio">
+                <span style="font-size: 22"><%=user_profile.name%></span>
+                <br />
+                <span style="color: rgb(51, 49, 49)"><%=user_profile.bio%></span>
+            </div>
+            <div id="buttons">
+                <%if(locals.user && locals.user.id==user_profile.id){%>
+                    <a href="/user/edit-profile-page"><button>Edit Profile</button></a>
+                    <%}%>
+                        <%if((locals.user.onModel=='Student' &&
+        locals.user_profile.onModel!='Student')||(locals.user.onModel!='Student'
+        && locals.user_profile.onModel=='Student')){%>
+                            <%if(locals.user.related.members.includes(locals.user_profile.id)){%>
+                                <a href="/user/remove-membership?target=<%=locals.user_profile.id%>"><button>Remove</button></a
+        >
+        <%} else
+        if(locals.user.related.sendRequest.includes(locals.user_profile.id)){%>
 
-<body>
-    <h1>This is User Profile Page</h1>
-    <h2>Render from html file</h2>
-    <%= locals.user.name%>
+        <a href="/user/withdraw-request?target=<%=locals.user_profile.id%>"
+          ><button>Withdraw</button></a
+        >
 
-        <form action="/user/update" method="POST" enctype="multipart/form-data">
-            <input type="file" name="avatar" multiple />
-            <input type="submit" />
-        </form>
-</body>
+        <%}else
+        if(locals.user.related.comingRequest.includes(locals.user_profile.id)){%>
 
-</html>
+        <a href="/user/accept-request?target=<%=locals.user_profile.id%>"
+          ><button>Accept</button></a
+        >
+        <a href="/user/ignore-request?target=<%=locals.user_profile.id%>"
+          ><button>Ignore</button></a
+        >
+        <%}else{%>
+        <a href="/user/send-request?target=<%=locals.user_profile.id%>"
+          ><button>Connect</button></a
+        >
+        <%}%> <%}%>
+        <a onclick="toggleContact()"
+          ><button
+            style="display: flex; justify-content: center; align-items: center"
+          >
+            Contact
+            <img
+              height="20px"
+              width="20px"
+              id="arrow-down"
+              src="https://cdn-icons-png.flaticon.com/512/32/32195.png"
+              alt="toggle"
+              style="margin: 0px 5px 0px 15px; display: none"
+            />
+            <img
+              height="20px"
+              width="20px"
+              id="arrow-up"
+              src="https://cdn-icons-png.flaticon.com/512/271/271239.png"
+              alt="toggle"
+              style="margin: 0px 5px 0px 15px"
+            /></button
+        ></a>
+            </div>
+        </div>
+    </div>
+    <div id="contact">
+        <h1>Contacts</h1>
+        <div id="details">
+            <div id="email">
+                <abbr title="Email">
+          <a href="mailto:<%=user_profile.email%>">
+            <img
+              height="40px"
+              width="40px"
+              src="https://cdn-icons.flaticon.com/png/512/3128/premium/3128267.png?token=exp=1640848641~hmac=879cf7ab8261b8cd0629393b47a23deb"
+              alt="email"
+          /></a>
+        </abbr>
+                <a href="mailto:<%=user_profile.email%>" id="span-link-email">
+                    <span><%=user_profile.email%></span></a>
+            </div>
+            <div id="whatsapp">
+                <abbr title="Whatsapp">
+          <a href="sms:<%=user_profile.whatsapp%>">
+            <img
+              height="40px"
+              width="40px"
+              src="https://cdn-icons.flaticon.com/png/512/4494/premium/4494494.png?token=exp=1640849753~hmac=7822cc3bc9c6116720e0c47628d55f1d"
+              alt="whatsapp"
+          /></a>
+        </abbr>
+                <a href="sms:<%=user_profile.whatsapp%>" id="span-link-whatsapp">
+                    <%if(user_profile.whatsapp){%>
+                        <span><%=user_profile.whatsapp%></span>
+                        <%}else{%>
+                            <span>Whatsapp number not updated </span>
+                            <%}%>
+                </a>
+            </div>
+            <div id="mobile">
+                <abbr title="Mobile">
+          <a href="tel:<%=user_profile.mobile%>"
+            ><img
+              height="40px"
+              width="40px"
+              src="https://cdn-icons-png.flaticon.com/512/724/724664.png"
+              alt="mobile"
+          /></a>
+        </abbr>
+                <a href="tel:<%=user_profile.mobile%>" id="span-link-mobile">
+                    <%if(user_profile.mobile){%>
+                        <span><%=user_profile.mobile%></span>
+                        <%}else{%>
+                            <span>Mobile number not updated </span>
+                            <%}%>
+                </a>
+            </div>
+        </div>
+    </div>
+    <%if(locals.user_profile && locals.user_profile.onModel!='Student'){%>
+        <div id="Admin">
+            <h1>Admin</h1>
+            <%if(locals.user_profile.related.admin){%>
+
+                <div>
+                    <div>
+                        <img src="<%=locals.user_profile.related.admin.pic%>" alt="pic" height="50px" width="50px" style="border-radius: 50%" />
+                    </div>
+                    <div>
+                        <span><%=locals.user_profile.related.admin.name%></span>
+                        <span><%=locals.user_profile.related.admin.email%></span>
+                    </div>
+                </div>
+                <%}else{%>
+                    <div style="color: red">No admin</div>
+                    <%}%>
+        </div>
+        <%}%>
+            <%if(locals.user_profile && locals.user_profile.onModel=='Student' &&
+  locals.user_profile.related.head){%>
+                <div id="Head">
+                    <h1>Head</h1>
+
+                    <div>
+                        <div>
+                            <img src="<%=locals.user_profile.related.head.pic%>" alt="pic" height="50px" width="50px" style="border-radius: 50%" />
+                        </div>
+                        <div>
+                            <span><%=locals.user_profile.related.head.name%></span>
+                            <span><%=locals.user_profile.related.head.email%></span>
+                        </div>
+                    </div>
+                </div>
+                <%}%>
+                    <%if(locals.user_profile && locals.user_profile.onModel!='Student'){%>
+                        <div id="all-posts">
+                            <h1>
+                                <span class="head-span active" id="span-1" onclick="changeTab('span-1')"><img
+          src="https://cdn-icons-png.flaticon.com/512/6276/6276430.png"
+          alt=""
+        />
+        <sub style="font-size: 18">Posts</sub>
+      </span>
+                                <span class="head-span" id="span-2" onclick="changeTab('span-2')"><img
+          src="https://cdn-icons-png.flaticon.com/512/3143/3143636.png"
+          alt=""
+        /><sub style="font-size: 18">Events</sub></span
+      >
+      <span class="head-span" id="span-3" onclick="changeTab('span-3')"
+        ><img
+          src="https://cdn-icons-png.flaticon.com/512/4807/4807731.png"
+          alt=""
+        /><sub style="font-size: 18">Notices</sub></span
+      >
+      <span class="head-span" id="span-4" onclick="changeTab('span-4')"
+        ><img
+          src="https://cdn-icons-png.flaticon.com/512/564/564619.png"
+          alt=""
+        /><sub style="font-size: 18">Alerts</sub></span
+      >
+    </h1>
+    <div>
+      <%if(locals.user_profile.related.posts.length===0){%>
+      <div style="color: rgb(245, 75, 75); border: none">No Post</div>
+      <%}%> <%for(let post of locals.user_profile.related.posts){%>
+      <div>
+        <a href="/user/posts?u=<%=locals.user_profile.id%>">
+          <img
+            src="<%=post.photos[0]%>"
+            alt="image"
+            height="200px"
+            width="150px"
+          />
+        </a>
+      </div>
+      <%}%>
+    </div>
+  </div>
+  <%}%>
+</div>
+
+<script src="/js/profile.js"></script>

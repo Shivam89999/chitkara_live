@@ -1,0 +1,15 @@
+<div id="edit-my-profile-page">
+    <div>
+        <h1>Edit My Profile Page</h1>
+    </div>
+    <div>
+        <form action="/organiser/update-my-profile" method="POST" enctype="multipart/form-data">
+            <input type="file" name="avatar" />
+            <input type="text" name="name" placeholder="Type Your name" value="<%=me.name%>" />
+            <input type="text" name="bio" placeholder="Type Your bio" value="<%=me.bio%>" />
+            <input type="number" name="mobile" placeholder="Type Your mobile no" value="<%=me.mobile%>" />
+            <input type="text" name="whatsapp" placeholder="Type Your whatsapp" value="<%=me.whatsapp%>" />
+            <button>Update Profile</button>
+        </form>
+    </div>
+</div>

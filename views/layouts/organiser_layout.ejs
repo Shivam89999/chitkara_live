@@ -1,0 +1,22 @@
+<html>
+
+<head>
+    <title>
+        <%=locals.title%>
+    </title>
+
+    <style>
+        body {
+            margin: 0px;
+        }
+    </style>
+    <%- style %>
+</head>
+
+<body>
+    <%-include('../organiser/partials/_header');-%>
+        <%-body-%>
+            <%- script %>
+</body>
+
+</html>

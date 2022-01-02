@@ -19,6 +19,24 @@ const userSchema = mongoose.Schema({
     },
     pic: {
         type: "String",
+        default: AVATAR_PATH + "/" + "avatar-default_profile.png",
+    },
+    bio: {
+        type: "String",
+    },
+    mobile: {
+        type: "String",
+    },
+    whatsapp: {
+        type: "String",
+    },
+    related: {
+        type: mongoose.Schema.Types.ObjectId,
+        refPath: "onModel",
+    },
+    onModel: {
+        type: "String",
+        enum: ["Student", "Club", "Hostel", "Depart"],
     },
 }, {
     timestamps: true,
@@ -54,7 +72,7 @@ userSchema.statics.uploadAvatar = multer({
         cb(null, false);
         return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
     },
-}).array("avatar", 4);
+}).single("avatar");
 
 userSchema.statics.avatarPath = AVATAR_PATH;
 const User = mongoose.model("User", userSchema);

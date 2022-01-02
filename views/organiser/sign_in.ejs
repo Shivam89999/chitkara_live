@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="/css/organiser-login-page.css" />
+<div id="organiser-login">
+    <div id="header-div">
+        <h1>Organiser Sign-In Page</h1>
+    </div>
+    <div id="input-div">
+        <form action="/organiser/create-session" method="POST">
+            <input type="email" name="email" required placeholder="Type Email" />
+            <input type="password" name="password" required placeholder="Type Password" />
+            <input type="hidden" name="isOrganiser" value="organiser" />
+            <button>Sign-In As Organiser</button>
+        </form>
+    </div>
+</div>

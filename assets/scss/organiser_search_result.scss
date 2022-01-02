@@ -1,0 +1,35 @@
+#search-result {
+    background-color: black;
+    color: whitesmoke;
+    width: 30%;
+    margin: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    h1 {
+        margin: auto;
+        background-color: rgb(136, 105, 83);
+    }
+    div {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        width: 100%;
+        a {
+            text-decoration: none;
+            display: flex;
+            flex-direction: row;
+            margin: 10px;
+            background-color: rgb(59, 56, 56);
+            color: white;
+            div {
+                display: flex;
+                flex-direction: row;
+                padding: 2px;
+            }
+            #right-div {
+                width: 50%;
+            }
+        }
+    }
+}

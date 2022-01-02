@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="/css/comment.css" />
+<div class="comment-container" id="comment-<%=post.id%>">
+    <div id="comment-head">
+        <%=post.comments.length%> Comments</div>
+    <div class="comments">
+        <%if(post.comments.length==0){%>
+            <div class="comment" style="text-align: center; color: rgb(31, 29, 29); box-shadow: none">
+                No comments for this post
+            </div>
+            <%}%>
+                <%for(let comment of post.comments){%>
+                    <div class="comment">
+                        <div class="upper-div-1">
+                            <a href="/user/profile?user_id=<%=comment.creator.id%>" style="text-decoration: none">
+                                <div>
+                                    <img src="<%=comment.creator.pic%>" alt="img" height="30px" width="30px" style="border-radius: 50%" />
+                                </div>
+                            </a>
+                            <div>
+                                <a href="/user/profile?user_id=<%=comment.creator.id%>" style="text-decoration: none; color: rgb(117, 112, 112)">
+                                    <span><%=comment.creator.name%></span>
+                                </a>
+                                <span><%=comment.content%></span>
+                            </div>
+                        </div>
+                        <div class="upper-div-2">
+                            <div>
+                                <span><a href="/user/toggle-like?id=<%=comment.id%>&type=Comment"
+              ><span
+                ><img
+                  src="https://cdn-icons-png.flaticon.com/512/833/833472.png"
+                  alt=""
+                  height="25px"
+                  width="25px" /></span
+            ></a> </span
+          ><span><%=comment.likes.length%></span>
+                            </div>
+
+                            <%if(locals.user && comment.creator.id==locals.user.id){%>
+                                <div>
+                                    <a href="/user/delete-comment?comment=<%=comment.id%>?post=<%=post.id%>">:</a
+          >
+        </div>
+        <%}%>
+      </div>
+    </div>
+    <%}%>
+  </div>
+</div>

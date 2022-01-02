@@ -1,0 +1,45 @@
+#form-container {
+    background-color: gold;
+    padding: 20px 0px 30px 0px;
+    position: relative;
+    #poll-form {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        input {
+            margin: auto;
+            height: 28px;
+            border: none;
+            background-color: transparent;
+            font-weight: 750;
+            font-size: 22;
+            color: rgb(83, 83, 83);
+            &:focus {
+                outline: none;
+            }
+        }
+        #div-2 {
+            max-width: 80%;
+            width: 80%;
+            display: flex;
+            flex-direction: row;
+            margin: auto;
+            background-color: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 3px 2px rgba(0, 0, 0, 0.2);
+            input {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                width: 45%;
+                min-width: 45%;
+                max-width: 45%;
+                padding: auto;
+                margin: auto;
+                caret-color: royalblue;
+            }
+        }
+    }
+}

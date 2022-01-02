@@ -1,13 +1,33 @@
 <html>
 
 <head>
+    <title>
+        <%=locals.title%>
+    </title>
+
+    <style>
+        body {
+            background-color: rgb(245, 245, 245);
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        #page-outline {
+            position: relative;
+            padding: 85px 10px 150px 10px;
+            width: 100%;
+            margin: auto;
+        }
+    </style>
     <%- style %>
 </head>
 
 <body>
-    <h1>Render By Layouts</h1>
-    <%-body-%>
-        <h3>This is Footer</h3>
+    <%-include('../partials/_header');-%>
+        <div id="page-outline">
+            <%-body-%>
+        </div>
+
         <%- script %>
 </body>
 

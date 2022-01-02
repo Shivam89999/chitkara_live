@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="/css/organiser_search_result.css" />
+<div id="search-result">
+    <h1>Search Results</h1>
+    <div>
+        <%if(locals.results.length==0){%>
+            <span style="color: tomato; padding: 10px; text-align: center">
+      No user Found
+    </span>
+            <%}%>
+                <%for(let res of locals.results){%>
+                    <a href="/organiser/profile?profile=<%=res.id%>">
+                        <div>
+                            <div>
+                                <img src="<%=res.pic%>" alt="profile" height="50px" width="50px" style="border-radius: 50%" />
+                            </div>
+                            <div>
+                                <span><%=res.name%></span>
+                            </div>
+                        </div>
+                        <div id="right-div">
+                            <%=res.onModel%>
+                        </div>
+                    </a>
+                    <%}%>
+    </div>
+</div>

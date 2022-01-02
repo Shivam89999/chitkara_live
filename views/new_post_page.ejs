@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="/css/new_post.css" />
+
+<div id="new-post">
+    <div id="img-container">
+        <img src="<%=locals.user.pic%>" alt="" height="65px" width="65px" style="border-radius: 50%" />
+    </div>
+    <h3>New Photo Post</h3>
+    <div>
+        <form action="/creator/new-post" enctype="multipart/form-data" method="POST">
+            <input type="file" name="post" required multiple id="file-input" />
+            <div id="preview"></div>
+            <div id="all_images"></div>
+            <input type="text" name="caption" placeholder="Type Caption here" style="border: 1px solid whitesmoke" />
+            <button>Post</button>
+        </form>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/new_post.js "></script>

@@ -1,0 +1,79 @@
+#requests-container {
+  position: relative;
+  background-color: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 40%;
+  max-width: 40%;
+  min-width: 300px;
+  padding: 10px;
+  margin: auto;
+  background-color: transparent;
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+  transition: 0.4;
+}
+
+#requests-container:hover {
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+#requests-container div {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 5px;
+  margin: 0px 0px 5px 0px;
+}
+
+#requests-container div div {
+  display: flex;
+  flex-direction: column;
+}
+
+#requests-container div div div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#requests-container div div div button {
+  margin: 2px;
+  padding: 8px;
+  font-size: 12;
+  border: none;
+  background-color: royalblue;
+  color: white;
+  box-shadow: 1px 1px 1px 1px royalblue;
+  transition: 0.3s;
+}
+
+#requests-container div div div button:hover {
+  background-color: #133496;
+  box-shadow: 0px 0px 0px 0px royalblue;
+}
+
+#requests-container div .request-header {
+  flex-direction: row;
+  background-color: #77d6cd;
+}
+
+#requests-container div .request-header div {
+  background-color: inherit;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  text-align: right;
+  margin: 0px;
+  color: white;
+}
+
+#requests-container div .request-header div:hover {
+  border-bottom: 2px solid black;
+}
+
+#requests-container div .request-header #member-header:hover {
+  border-bottom: none;
+}

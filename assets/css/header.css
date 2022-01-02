@@ -1,0 +1,75 @@
+header {
+  width: 100%;
+  min-width: 100%;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  color: black;
+  z-index: 2;
+  background-color: white;
+  box-shadow: 0px 1px 14px 1px rgba(0, 0, 0, 0.2);
+  padding: 2px;
+  margin: 0px;
+}
+
+header #left-div,
+header #right-div {
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+header #left-div div,
+header #right-div div {
+  padding: 0px 4px 0px 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+header #left-div div form,
+header #right-div div form {
+  padding: 0px;
+  margin: 0px;
+}
+
+header #mid-div {
+  width: 40%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header #mid-div a {
+  text-decoration: none;
+}
+
+header #mid-div a div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.7;
+  padding: 2px 10px 2px 10px;
+  color: rgba(48, 46, 46, 0.781);
+}
+
+header #mid-div a div span {
+  font-size: 12;
+}
+
+header #mid-div a div:hover {
+  opacity: 1;
+  border-bottom: 2px solid black;
+  color: black;
+}
+
+header #mid-div .current-active {
+  opacity: 1;
+  border-bottom: 2px solid red;
+  color: black;
+}

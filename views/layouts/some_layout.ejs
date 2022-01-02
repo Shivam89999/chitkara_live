@@ -1,14 +1,19 @@
 <html>
 
 <head>
+    <title>
+        <%=locals.title%>
+    </title>
     <%- style %>
 </head>
 
 <body>
-    <h1>Render By Some Layouts</h1>
+    <h1>
+        <%=locals.title%>
+    </h1>
     <%-body-%>
-        <h3>This is Footer</h3>
-        <%- script %>
+        <%-include('../partials/_footer');-%>
+            <%- script %>
 </body>
 
 </html>

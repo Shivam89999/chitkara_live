@@ -1,0 +1,31 @@
+#check-email-container {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: auto;
+    background-color: black;
+    color: white;
+    position: relative;
+    top: 10%;
+    div {
+        padding: 10px;
+        text-align: center;
+        background-color: rgb(58, 55, 55);
+        h3 {
+            border: 2px solid rgb(61, 54, 54);
+            background-color: rgb(71, 63, 63);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            input {
+                width: 60%;
+                margin: auto;
+            }
+            button {
+                margin: 10px;
+            }
+        }
+    }
+}

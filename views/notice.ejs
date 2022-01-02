@@ -1,0 +1,159 @@
+<link rel="stylesheet" href="/css/notice.css" />
+<div id="notices">
+    <div class="notice">
+        <div class="head">
+            <div>
+                <img src="<%=notices[2].creator.pic%>" alt="" height="30px" width="30px" style="border-radius: 50%" />
+            </div>
+            <div style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        ">
+                <span> <%=notices[2].creator.name%></span>
+                <sub> <%=notices[2].creator.onModel%></sub>
+            </div>
+        </div>
+        <div class="caption">
+            <%=notices[2].caption%>
+        </div>
+        <div class="content-area">
+            <!-- <img src="https://cdn.slidesharecdn.com/ss_thumbnails/sscnoticepdf-130208033612-phpapp01-thumbnail-4.jpg?cb=1360294651" alt="" height="150px" width="100px" /> -->
+            <img src="<%=notices[2].image%>" alt="" height="150px" width="120px" />
+        </div>
+
+        <div class="name">
+            <%=notices[2].originalFileName%>
+        </div>
+        <div class="footer">
+            <div>
+                <a href="/user/toggle-like?id=<%=notices[2].id%>&type=Notice">
+                    <img class="like" height="25px" width="25px" src="https://cdn-icons.flaticon.com/png/512/2961/premium/2961957.png?token=exp=1640623778~hmac=4d87f7521bb5c11f869abacf3e40c5e2" alt="like" />
+                </a>
+                <span><%=notices[2].likes.length%></span>
+            </div>
+            <div>
+                <a href="/user/notice-download?notice=<%=notices[2].id%>">
+                    <img height="25px" class="download" width="25px" src="https://cdn-icons-png.flaticon.com/512/892/892634.png" alt="download" />
+                </a>
+                <span><%=notices[2].downloads.length%></span>
+            </div>
+        </div>
+    </div>
+    <div class="notice">
+        <div class="head">
+            <div>
+                <img src="<%=locals.user.pic%>" alt="" height="25px" width="25px" style="border-radius: 50%" />
+            </div>
+            <div>
+                <%=locals.user.name%>
+            </div>
+        </div>
+        <div class="content-area">
+            <img src="https://cdn.slidesharecdn.com/ss_thumbnails/sscnoticepdf-130208033612-phpapp01-thumbnail-4.jpg?cb=1360294651" alt="" height="150px" width="100px" />
+        </div>
+        <div class="name">name of notice</div>
+        <div class="footer">
+            <a href="">
+                <img class="like" height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/1077/1077035.png" alt="like" />
+            </a>
+            <a href="">
+                <img height="25px" class="download" width="25px" src="https://cdn-icons-png.flaticon.com/512/892/892634.png" alt="download" />
+            </a>
+        </div>
+        <div class="caption">caption</div>
+    </div>
+    <div class="notice">
+        <div class="head">
+            <div>
+                <img src="<%=locals.user.pic%>" alt="" height="25px" width="25px" style="border-radius: 50%" />
+            </div>
+            <div>
+                <%=locals.user.name%>
+            </div>
+        </div>
+        <div class="content-area">
+            <img src="https://cdn.slidesharecdn.com/ss_thumbnails/sscnoticepdf-130208033612-phpapp01-thumbnail-4.jpg?cb=1360294651" alt="" height="150px" width="100px" />
+        </div>
+        <div class="name">name of notice</div>
+        <div class="footer">
+            <a href="">
+                <img class="like" height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/1077/1077035.png" alt="like" />
+            </a>
+            <a href="">
+                <img height="25px" class="download" width="25px" src="https://cdn-icons-png.flaticon.com/512/892/892634.png" alt="download" />
+            </a>
+        </div>
+        <div class="caption">caption</div>
+    </div>
+    <div class="notice">
+        <div class="head">
+            <div>
+                <img src="<%=locals.user.pic%>" alt="" height="25px" width="25px" style="border-radius: 50%" />
+            </div>
+            <div>
+                <%=locals.user.name%>
+            </div>
+        </div>
+        <div class="content-area">
+            <img src="https://cdn.slidesharecdn.com/ss_thumbnails/sscnoticepdf-130208033612-phpapp01-thumbnail-4.jpg?cb=1360294651" alt="" height="150px" width="100px" />
+        </div>
+        <div class="name">name of notice</div>
+        <div class="footer">
+            <a href="">
+                <img class="like" height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/1077/1077035.png" alt="like" />
+            </a>
+            <a href="">
+                <img height="25px" class="download" width="25px" src="https://cdn-icons-png.flaticon.com/512/892/892634.png" alt="download" />
+            </a>
+        </div>
+        <div class="caption">caption</div>
+    </div>
+    <div class="notice">
+        <div class="head">
+            <div>
+                <img src="<%=locals.user.pic%>" alt="" height="25px" width="25px" style="border-radius: 50%" />
+            </div>
+            <div>
+                <%=locals.user.name%>
+            </div>
+        </div>
+        <div class="content-area">
+            <img src="https://cdn.slidesharecdn.com/ss_thumbnails/sscnoticepdf-130208033612-phpapp01-thumbnail-4.jpg?cb=1360294651" alt="" height="150px" width="100px" />
+        </div>
+        <div class="name">name of notice</div>
+        <div class="footer">
+            <a href="">
+                <img class="like" height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/1077/1077035.png" alt="like" />
+            </a>
+            <a href="">
+                <img height="25px" class="download" width="25px" src="https://cdn-icons-png.flaticon.com/512/892/892634.png" alt="download" />
+            </a>
+        </div>
+        <div class="caption">caption</div>
+    </div>
+    <div class="notice">
+        <div class="head">
+            <div>
+                <img src="<%=locals.user.pic%>" alt="" height="25px" width="25px" style="border-radius: 50%" />
+            </div>
+            <div>
+                <%=locals.user.name%>
+            </div>
+        </div>
+        <div class="content-area">
+            <img src="https://cdn.slidesharecdn.com/ss_thumbnails/sscnoticepdf-130208033612-phpapp01-thumbnail-4.jpg?cb=1360294651" alt="" height="150px" width="100px" />
+        </div>
+        <div class="name">name of notice</div>
+        <div class="footer">
+            <a href="">
+                <img class="like" height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/1077/1077035.png" alt="like" />
+            </a>
+            <a href="">
+                <img height="25px" class="download" width="25px" src="https://cdn-icons-png.flaticon.com/512/892/892634.png" alt="download" />
+            </a>
+        </div>
+        <div class="caption">caption</div>
+    </div>
+</div>

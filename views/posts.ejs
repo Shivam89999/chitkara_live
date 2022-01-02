@@ -1,0 +1,118 @@
+<link rel="stylesheet" href="/css/post.css" />
+<div id="post-container">
+    <%for(let post of posts){%>
+        <div class="post">
+            <div class="post-header">
+                <a href="/user/profile?user_id=<%=post.creator.id%>" style="text-decoration: none;">
+                    <div>
+                        <img src="<%=post.creator.pic%>" alt="creator" />
+                        <div>
+                            <span><%=post.creator.name%></span>
+                            <span style="font-size: 12; color: lightslategray"><%=post.creator.onModel%></span
+          >
+        </div>
+      </div>
+                </a>
+                <div>
+                    <%if(locals.user && post.creator.id==locals.user.id){%>
+                        <span><a href="/user/delete-post?post=<%=post.id%>" style="font-size: 25"
+            >:</a
+          ></span
+        >
+        <%}%>
+      </div>
+    </div>
+    
+    <div class="type-detail">
+        <div>  <img height="25px" width="25px"src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="">
+      <span class="upcoming">Upcoming Event</span></div>
+                        <abbr title="See Event Detail">  <img height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png" alt="detail">
+</abbr>
+                    </div>
+
+                    <div style="padding: 5px; margin: 5px">
+                        <span style="font-size: 15"><%=post.caption%></span>
+                    </div>
+                    <%if(post.photos){%>
+                        <div class="post-main-section">
+                            <div id="displayCount-post-<%=post.id%>">1/
+                                <%=post.photos.length%>
+                            </div>
+
+                            <span class="button back" type="back" id="post-<%=post.id%>">&#10094</span>
+                            <span class="button next" type="next" id="post-<%=post.id%>">&#10095</span>
+
+                            <%var i=0;%>
+                                <%for(let photo of post.photos){%>
+                                    <img src="<%=photo%>" alt="post-pic" class="post-<%=post.id%> post" current_no="<%=i%>" max_no="<%=post.photos.length%>" />
+                                    <%i=i+1;%>
+                                        <%}%>
+                        </div>
+                        <%}%>
+                            <% if(!post.photos){%>
+                                <div class="main-text-section">
+                                    <%=post.content%>
+                                </div>
+                                <%}%>
+                                    <div class="post-footer">
+                                        <span>
+                <a href="/user/toggle-like?id=<%=post.id%>&type=Post">
+                                 <span><img height="20px" width="20px" src="https://www.pinclipart.com/picdir/middle/87-877828_save-the-heart-by-ofirma85-instagram-like-icon.png" alt="like" />
+                              </span>
+                </a>
+
+                <span><%=post.likes.length%> likes</span>
+
+
+                </span>
+                <span style="text-align: center"><span onclick="toggleComment('<%= post.id %>')" >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/13/13673.png"
+            alt="comment"
+            height="20px"
+            width="20px"
+          /> </span
+        ><span><%=post.comments.length%> comments</span></span>
+
+                <span><img
+          src="https://cdn-icons-png.flaticon.com/512/84/84510.png"
+          height="20px"
+          width="20px"
+          alt=""
+      /></span>
+
+                </div>
+
+                <%if(post.likes.length>0){%>
+                    <div class="likes-detail">
+                        <div class="first-div"><span><%=post.likes.length%> people are liked this post</span> <span><a href="/user/likes?post=<%=post.id%>">View All</a></span></div>
+                        <div>
+                            <%for(let i=0; i< 8 &&  i< post.likes.length; i++ ){%>
+                                <%if(post.likes[i].creator){%>
+                                    <img src="<%=post.likes[i].creator.pic%>" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px 7px 0px 7px;">
+                                    <%}%>
+                                        <%}%>
+                        </div>
+                    </div>
+                    <%}%>
+                        <div class="new-comment">
+                            <img src="<%=locals.user.pic%>" alt="pic" height="35px" width="35px" style="border-radius: 50%" />
+                            <form action="/user/add-comment?post=<%=post.id%>" method="POST">
+                                <input type="text" name="comment" required placeholder="Type Your Comment" id="comment-input" />
+                                <button>
+          <img
+            height="20px"
+            width="35px"
+            src="https://cdn.iconscout.com/icon/premium/png-256-thumb/send-message-6-663814.png"
+            alt=""
+          />
+        </button>
+                            </form>
+                        </div>
+                        <div style="display: flex;flex-flow: row-reverse; color:royalblue; font-size: 13;" createdTime="<%=post.createdAt%>" class="created-time">Post created date & time</div>
+            </div>
+            <%-include('comments',{post:post});-%>
+                <%}%>
+        </div>
+
+        <script src="/js/post.js"></script>

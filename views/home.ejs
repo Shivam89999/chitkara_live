@@ -1,5 +1,258 @@
 <link rel="stylesheet" href="/css/home.css" />
 
-<h1>This is Home Page</h1>
-<h2>Render from html file</h2>
-<a href="/user/sign-up">Sign-Up</a>
+<div id="home-content-container">
+    <%if(locals.user.onModel!='Student'){%>
+        <div class="new-post">
+            <div>
+                <div>
+                    <a href="/user/profile?user_id=<%=locals.user.id%>">
+          <img
+            src="<%=locals.user.pic%>"
+            height="50px"
+            width="50px"
+            style="border-radius: 50%"
+            alt="pic"
+            id="profile-pic"
+          />
+        </a>
+                </div>
+                <div style="
+          background-color: rgb(255, 249, 249);
+          border-radius: 25px;
+          border: 1px solid rgb(224, 217, 217);
+          text-align: center;
+          width: 70%;
+          min-height: 30px;
+          font-size: 16;
+          color: gray;
+        ">
+                    Create new Post on below option
+                </div>
+            </div>
+            <div class="div-2">
+                <a href="/creator/create-post-page">
+                    <div>
+                        <img src="https://cdn-icons-png.flaticon.com/512/2659/2659360.png" alt="photo" height="15px" width="20px" style="padding: 4px" />Photo
+                    </div>
+                </a>
+                <a href="/creator/new-event-post-page">
+                    <div>
+                        <img src="https://cdn-icons.flaticon.com/png/512/3277/premium/3277487.png?token=exp=1640003688~hmac=9da6c4068762446a36e62cfd07d6fc61" alt="event" height="15px" width="20px" style="padding: 4px" />Event
+                    </div>
+                </a>
+                <a href="/creator/new-text-post-page">
+                    <div>
+                        <img src="https://cdn-icons-png.flaticon.com/512/4305/4305524.png" alt="text" height="15px" width="20px" style="padding: 4px" />Text
+                    </div>
+                </a>
+                <a href="/creator/new-notice-page">
+                    <div>
+                        <img src="https://cdn-icons-png.flaticon.com/512/4807/4807731.png" alt="notice" height="15px" width="20px" style="padding: 4px" />Notice
+                    </div>
+                </a>
+                <a href="/creator/new-alert-page">
+                    <div>
+                        <img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" alt="notice" height="15px" width="20px" style="padding: 4px" />Alert
+                    </div>
+                </a>
+            </div>
+        </div>
+        <%}%>
+            <%if(alerts.length>0){%>
+                <div id="alerts">
+                    <%for(let alert of alerts){%>
+                        <div class="alert" id="<%=alert.id%>">
+                            <div class="alert-logo">
+                                <img height="35px" width="35px" style="background-color: inherit; color: white" src="https://cdn-icons-png.flaticon.com/512/4539/4539472.png" alt="alert" />
+                            </div>
+                            <div class="alert-content">
+                                <%=alert.content%>
+                            </div>
+                            <div class="alert-cut" onclick="disappearAlert('<%=alert.id%>')">X</div>
+                        </div>
+
+                        <%}%>
+                </div>
+                <%}%>
+                    <div id="polls">
+                        <div class="poll">
+                            <div class="poll-question">poll-question</div>
+                            <div class="poll-options">
+                                <a href="">
+                                    <div class="yes-option">Yes option</div>
+                                </a>
+                                <a href="">
+                                    <div class="no-option">No option</div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="poll">
+                            <div class="poll-question">poll-question</div>
+                            <div class="poll-options">
+                                <a href="">
+                                    <div class="yes-option">Yes option</div>
+                                </a>
+                                <a href="">
+                                    <div class="no-option">No option</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <%-include('./posts',{posts:posts});-%>
+</div>
+
+<div id="profile-view">
+    <div style="padding: 0px; margin: 0px">
+        <img width="250px" height="80px" src="https://career-lunch-storage.s3.eu-central-1.amazonaws.com/v2/blog/articles/linkedin-title-picture.jpg " alt=" " />
+    </div>
+    <div id="profile-info">
+        <a href="/user/profile?user_id=<%=locals.user.id%>" style="text-decoration: none; color: black">
+            <%if(locals.user){%>
+                <img height="80px" width="80px" style="border-radius: 50%; border: 4px solid white" src="<%=locals.user.pic%>" alt="pic" />
+                <%}else{%>
+                    <img height="80px" width="80px" style="border-radius: 50%; border: 4px solid white" src="https://as1.ftcdn.net/v2/jpg/02/42/82/76/1000_F_242827652_Gj3IL5w6gdufgSOESH7qVaYXN8ocQ6sX.jpg" alt="pic" />
+                    <%}%>
+                        <span style="
+          font-size: 18;
+          font-weight: 750;
+          word-spacing: 3px;
+          letter-spacing: 1.2px;
+          font-family: sans-serif;
+          text-transform: uppercase;
+        " id="profile_user_name"><%if(locals.user){%><%=locals.user.name%><%}else{%> Login<%}%></span
+      >
+    </a>
+    <%if(locals.user){%>
+    <span style="font-size: 16; font-weight: 100">Student</span>
+                        <%}%>
+    </div>
+    <div id="info-options">
+        <div id="part-1">
+            <a href="/notices">
+                <div><span>Notices</span> <span><%=noOfNotices%> </span></div>
+            </a>
+            <a href="/user/profile?user_id=<%=locals.user.id%>">
+                <div>My Profile</div>
+            </a>
+        </div>
+        <%if(locals.user){%>
+            <div id="part-2">
+                <a href="/user/profile-requests-page">
+                    <div><span>Requests</span> <span><%=noOfComingRequests%> </span></div>
+                </a>
+                <a href="">
+                    <div style="justify-content: flex-start">
+                        <img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/5667/premium/5667029.png?token=exp=1640970876~hmac=caca3b24d6da0ad02fc608a4349ccc42" alt=" " /><span style="padding-left: 10px"> Save Items</span>
+                    </div>
+                </a>
+                <a href="/user/new-poll-page">
+                    <div style="justify-content: flex-start">
+                        <img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/2668/premium/2668746.png?token=exp=1641104813~hmac=0d2a507917d58c9a35887e1ede73e8c6" alt="" /><span style="padding-left: 10px">Create Poll</span>
+                    </div>
+                </a>
+            </div>
+            <%}%>
+    </div>
+</div>
+<div id="upcoming-events">
+    <div id="event-header">
+        <div>
+            <a href="/user/events">Upcoming & Running Events</a>
+            <span><%=upcomingOrRunningEvents.length%></span>
+        </div>
+        <div onclick="toggleEventsVisibality('all_event')">
+            <img height="20px" width="20px" id="arrow-down" src="https://cdn-icons-png.flaticon.com/512/32/32195.png" alt="toggle" style="display: inline" />
+            <img height="20px" width="20px" id="arrow-up" src="https://cdn-icons-png.flaticon.com/512/271/271239.png" alt="toggle" style="display: none" />
+        </div>
+    </div>
+    <div id="all_event">
+        <%if(upcomingOrRunningEvents.length==0){%>
+            <div style="
+        border-top: 1px solid black;
+        color: tomato;
+        text-align: center;
+        padding: 10px;
+        margin: 15px;
+      ">
+                No Upcoming or Runnning Event
+            </div>
+            <%}%>
+                <%for(let event of upcomingOrRunningEvents){%>
+                    <div class="event-detail">
+                        <div style="background-color: rgb(238, 237, 235)">
+                            <div>
+                                <img src="<%=event.creator.pic%>" alt="" height="25px" width="25px" style="border-radius: 50%" />
+                            </div>
+                            <div>
+                                <%=event.creator.name%>
+                            </div>
+                        </div>
+                        <a href="/user/events">
+                            <div class="event-type">
+                                <div>
+                                    <img height="25px" width="25px" src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="" />
+                                    <span style="color: hsl(93, 100%, 49%)" class="event-head" startTime="<%=event.eventStartTime%>">Upcoming Event</span
+            >
+          </div>
+          <abbr title="See Event Detail">
+            <img
+              height="25px"
+              width="25px"
+              src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png"
+              alt="detail"
+            />
+          </abbr>
+        </div>
+      </a>
+      <div style="position: relative">
+        <img src="<%=event.photos[0]%>" alt="" height="150px" width="100%" />
+        <abbr title="event have more photos"
+          ><img
+            height="25px"
+            width="25px"
+            style="position: absolute; right: 3px; top: 3px"
+            src="https://cdn-icons-png.flaticon.com/512/1060/1060367.png"
+            alt=""
+        /></abbr>
+      </div>
+      <div
+        style="
+          font-size: 14;
+          color: rgb(54, 53, 53);
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div>
+          <a
+            href=""
+            style="text-decoration: none; padding: 2px; padding-right: 5px"
+          >
+            <img
+              class="like"
+              height="20px"
+              width="20px"
+              src="https://cdn-icons.flaticon.com/png/512/2961/premium/2961957.png?token=exp=1640623778~hmac=4d87f7521bb5c11f869abacf3e40c5e2"
+              alt="like"
+            />
+          </a>
+          <%= event.likes.length%>
+        </div>
+
+        <div
+          class="event-time"
+          style="font-size: 13; color: rgb(37, 190, 241)"
+          timing="<%=event.eventStartTime%>"
+        >
+          Date and Time of Event
+        </div>
+      </div>
+      <div style="font-size: 14; color: black"><%=event.caption%></div>
+    </div>
+    <%}%>
+  </div>
+</div>
+
+<script src="/js/home.js "></script>

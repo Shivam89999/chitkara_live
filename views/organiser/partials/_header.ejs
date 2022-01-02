@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="/css/organiser_header.css" />
+<header>
+    <div>
+        <a href="/organiser"> <img src="" alt="Logo" /></a>
+    </div>
+    <%if(locals.user){%>
+        <div id="search-container">
+            <form action="/organiser/search" method="POST">
+                <input type="text" name="name" required placeholder="Search here" />
+                <input type="submit" value="s" />
+            </form>
+        </div>
+        <%}%>
+            <div id="right-div">
+                <%if(!locals.user){%>
+                    <ul>
+                        <li>
+                            <a href="/organiser/sign-in ">Sign-In</a>
+                        </li>
+                    </ul>
+                    <%}else{%>
+
+                        <ul>
+                            <li style="padding-right: 15px">
+                                <a href="/organiser/add_new_creator_or_organiser_page"><img src="https://cdn2.vectorstock.com/i/1000x1000/66/21/create-new-user-icon-male-person-profile-avatar-vector-21206621.jpg" alt="create" height="50px" width="50px" /></a>
+                            </li>
+                            <li>
+                                <a href="/organiser/my-profile">
+          <img src="<%=locals.user.pic%>" />
+        </a>
+                            </li>
+                            <li>
+                                <a href="/organiser/sign-out ">Sign-Out</a>
+                            </li>
+                        </ul>
+                        <%}%>
+            </div>
+</header>

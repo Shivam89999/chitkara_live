@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="/css/organiser_profile_page.css" />
+<div id="profile-page">
+    <div>
+        <div>
+            <img src="<%=locals.profile.pic%>" alt="logo" />
+            <span><%=locals.profile.name%></span>
+            <span><%=locals.profile.email%></span>
+        </div>
+        <div id="add-admin">
+            <!-- <a href="/organiser/check_email_page?type=<%=locals.profile.onModel%>"><button>Add admin</button></a> -->
+            <form action="/organiser/add_admin" method="POST">
+                <input type="email" name="email" required placeholder="Email of user to add admin" />
+                <input type="hidden" name="of" value="<%=locals.profile.id%>" />
+                <%if(locals.profile.related.admin){%>
+                    <button>Change Admin</button>
+                    <%}else{%>
+                        <button>Add Admin</button>
+                        <%}%>
+            </form>
+        </div>
+    </div>
+    <div id="admin-detail">
+        <h1>Admin</h1>
+        <%if(locals.profile.related.admin){%>
+            <div>
+                <div><img src="<%=locals.profile.pic%>" alt="pic" /></div>
+                <div>
+                    <span><%=locals.profile.related.admin.name%></span>
+                    <span><%=locals.profile.related.admin.email%></span>
+                </div>
+                <div>
+                    <a href="/organiser/delete-admin?u=<%=profile.related.admin.id%>"><button>delete from admin</button>
+        </a>
+                </div>
+            </div>
+            <%}else{%>
+                <div style="color: red">No admin for this account</div>
+                <%}%>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+#search-result {
+  background-color: black;
+  color: whitesmoke;
+  width: 30%;
+  margin: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+#search-result h1 {
+  margin: auto;
+  background-color: #886953;
+}
+
+#search-result div {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 100%;
+}
+
+#search-result div a {
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+  background-color: #3b3838;
+  color: white;
+}
+
+#search-result div a div {
+  display: flex;
+  flex-direction: row;
+  padding: 2px;
+}
+
+#search-result div a #right-div {
+  width: 50%;
+}

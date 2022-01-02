@@ -1,0 +1,29 @@
+#add-new-page {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    color: burlywood;
+    width: 50%;
+    margin: auto;
+    h1 {
+        margin: auto;
+        padding: 10px;
+        background-color: rgb(43, 41, 41);
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        margin: auto;
+        padding: 15px;
+        input {
+            padding: 10px;
+            margin: 10px;
+        }
+        #submit {
+            font-weight: 700;
+            font-size: 120%;
+            background-color: rgb(134, 133, 133);
+        }
+    }
+}

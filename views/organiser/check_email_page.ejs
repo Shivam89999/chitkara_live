@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="/css/organiser_check_email_page.css" />
+<div id="check-email-container">
+    <div>
+        <h3>Find Student To Admin</h3>
+    </div>
+
+    <div>
+        <form action="/organiser/check_email" method="POST">
+            <input type="email" name="email" placeholder="Type Email Here" required />
+            <input type="hidden" name="type" value="<%=locals.type%>" />
+            <button>Check Email</button>
+        </form>
+    </div>
+</div>

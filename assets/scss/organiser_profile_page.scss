@@ -1,0 +1,59 @@
+#profile-page {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+    background-color: black;
+    color: white;
+    div {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        div {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding: 10px;
+            img {
+                height: 100px;
+                width: 100px;
+                padding: 10px;
+                margin: auto;
+            }
+        }
+        #add-admin {
+            form {
+                display: flex;
+                flex-direction: column;
+                input {
+                    width: 70%;
+                    margin: auto;
+                }
+                button {
+                    color: white;
+                    background-color: gray;
+                    width: 100%;
+                    margin: 6px;
+                }
+            }
+        }
+    }
+    #admin-detail {
+        div {
+            display: flex;
+            flex-direction: row;
+            color: white;
+            div {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin: 2px;
+                img {
+                    height: 50px;
+                    width: 50px;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+}

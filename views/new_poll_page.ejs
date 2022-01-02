@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="/css/new_post.css" />
+<link rel="stylesheet" href="/css/new_poll.css" />
+<div id="new-post" style="align-items: center">
+    <div id="img-container">
+        <img src="<%=locals.user.pic%>" alt="" height="65px" width="65px" style="border-radius: 50%" />
+    </div>
+    <h3>Add New Poll</h3>
+    <div id="form-container" style="margin: 10px 0px 50px 0px">
+        <form id="poll-form" action="/user/add-new-poll" method="POST">
+            <div>
+                <input type="text" id="poll-question" name="question" placeholder="Ask a question...." />
+            </div>
+            <div id="div-2">
+                <input type="text" name="yes_option" placeholder="YES" value="YES" style="color: rgb(88, 160, 88)" />
+                <input type="text" name="no_option" placeholder="NO" value="NO" style="color: rgb(201, 124, 93)" />
+            </div>
+            <div>
+                <button type="submit" id="submit" class="btn btn-primary">Post</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/notice.js"></script>

@@ -1,0 +1,30 @@
+#my-profile {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: auto;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    div {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        span {
+            margin: auto;
+            padding: 10px 0px 10px 0px;
+        }
+    }
+    #right-div {
+        flex-direction: row;
+        width: 100%;
+        a {
+            margin: 10px 0px 10px 0px;
+            text-decoration: none;
+            width: 50%;
+            button {
+                width: 100%;
+            }
+        }
+    }
+}

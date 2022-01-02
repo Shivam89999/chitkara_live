@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="/css/new_post.css" />
+<div id="new-post">
+    <div id="img-container">
+        <img src="<%=locals.user.pic%>" alt="" height="65px" width="65px" style="border-radius: 50%" />
+    </div>
+    <h3>New Alert</h3>
+    <div>
+        <form action="/creator/new-alert" method="POST">
+            <textarea onfocus="handleFocus(event)" onchange="handleChange(event)" name="content" id="alert-message" required cols="30" rows="10" placeholder="Writing Your Alert Message here" style="border: 1px solid rgb(187, 130, 130); padding: 5px"></textarea>
+
+            <input type="datetime-local" name="endDate" onchange="checkValidDate(event)" />
+
+            <div id="message-div">
+                alert will disappear after 24 hr, for specified time choose time of deletion
+            </div>
+            <button id="post-btn">Post</button>
+        </form>
+    </div>
+</div>
+<script>
+    function handleFocus(e) {
+        console.log("ncdjnv ");
+        console.log("e.target ", e.target);
+        e.target.style.borderColor = "red";
+        e.target.style.outline = "none";
+    }
+
+    function checkValidDate(e) {
+        let messageDiv = document.getElementById("message-div");
+        let date = e.target.value;
+        if (!date) {
+            messageDiv.innerText = "alert will disappear after 24 hr";
+            messageDiv.style.color = "blue";
+            console.log("no date selected");
+            return;
+        }
+        console.log("date is ", date);
+
+        if (new Date().getTime() >= new Date(date).getTime()) {
+            messageDiv.innerText =
+                "selected date & time is invalid, select the future date & time";
+            messageDiv.style.color = "tomato";
+            console.log("invalid date selected");
+            return;
+        } else {
+            messageDiv.innerText = "selected date & time is valid";
+            messageDiv.style.color = "green";
+            console.log("valid date selected");
+            return;
+        }
+        return;
+    }
+
+    function handleChange(e) {
+        console.log("value ", e.target.value.length);
+        if (e.target.value.length > 80) {
+            console.log("max length 80 allowed");
+        }
+    }
+</script>

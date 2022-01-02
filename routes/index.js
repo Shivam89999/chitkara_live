@@ -1,9 +1,21 @@
 const express = require("express");
-const home_controller = require("../controller/home_controller");
+const passport = require("passport");
+
 const router = express.Router();
 
-router.use("/user", require("./user"));
+router.use("/organiser", require("./organiser"));
+router.use(
+    "/user",
+    passport.checkAuthentication,
+    passport.notOrganiser,
+    require("./login_restrict")
+);
+router.use(
+    "/creator",
+    passport.notOrganiser,
+    passport.checkCreator,
+    require("./creator_restrict")
+);
 
-router.get("/", home_controller.homePage);
-
+router.use("/", require("./open"));
 module.exports = router;
