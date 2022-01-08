@@ -59,6 +59,15 @@
                     word-wrap: break-word;
                 }
             }
+            #venu-span {
+                color: cadetblue;
+                font-size: 18;
+                &:hover {
+                    text-decoration: underline;
+                    font-size: 20;
+                    color: royalblue;
+                }
+            }
             input,
             div,
             textarea {

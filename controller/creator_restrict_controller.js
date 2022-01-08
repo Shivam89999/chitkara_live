@@ -10,6 +10,7 @@ const path = require("path");
 const fs = require("fs");
 const Like = require("../model/like");
 const Alert = require("../model/alert");
+const TextPost = require("../model/textPost");
 
 // function newPost(req, res) {
 //     if (!req.user) {
@@ -59,7 +60,7 @@ const Alert = require("../model/alert");
 // }
 
 function newPost(req, res) {
-    if (!req.user) {
+    if (!req.user || !req.user.myUser) {
         console.log("Login First");
         return res.redirect("/sign-in");
     }
@@ -99,6 +100,7 @@ function newPost(req, res) {
             //handle event timing restrication and event location
             obj.eventStartTime = req.body.eventStartTime;
             obj.eventEndTime = req.body.eventEndTime;
+            obj.venu = req.body.venu ? req.body.venu : "";
         }
         console.log("obj is ", obj);
         Post.create(obj, function(err, post) {

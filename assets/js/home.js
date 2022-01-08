@@ -69,6 +69,21 @@ function setPostCreatedTime() {
     }
 }
 
+// function calculate() {
+//     console.log("yes is &&&&&&&&&& ", document.querySelectorAll(".to_calculate"));
+//     document.querySelectorAll(".to_calculate").forEach((item) => {
+//         console.log("item ", item);
+//         let yes = parseInt(item.getAttribute("yes_votes_length"));
+//         let no = parseInt(item.getAttribute("no_votes_length"));
+//         let type = parseInt(item.getAttribute("type"));
+//         yes += 1;
+//         no += 1;
+//         console.log("yes is ", yes, " no is ", no);
+//         let ratio = ((type == "yes" ? yes : no) * 100) / (yes + no);
+//         item.innerText = ratio + " % ";
+//     });
+// }
+// calculate();
 handleEventHeadText();
 setDate();
 setPostCreatedTime();

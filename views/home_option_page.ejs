@@ -8,11 +8,11 @@
             </div>
         </div>
         <%}else{%>
-            <%for(let user of users){%>
-                <a href="/user/profile?user_id=<%=locals.user.id%>">
+            <%for(let u of users){%>
+                <a href="/user/profile?user_id=<%=u.id%>">
                     <div class="page-content-box">
                         <div>
-                            <img height="100px" width="100px" src="<%=user.pic%>" alt="" />
+                            <img height="100px" width="100px" src="<%=u.pic%>" alt="" />
                         </div>
                         <div class="page-content">
                             <div style="
@@ -24,10 +24,10 @@
             font-family: monospace;
             text-transform: uppercase;
           ">
-                                <%=user.name%>
+                                <%=u.name%>
                             </div>
                             <div style="padding: 4px; font-size: 17">
-                                <%=user.bio%>
+                                <%=u.bio%>
                             </div>
                         </div>
                     </div>

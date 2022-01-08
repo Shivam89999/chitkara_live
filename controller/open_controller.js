@@ -12,6 +12,7 @@ const fs = require("fs");
 const Like = require("../model/like");
 const Notice = require("../model/notice");
 const Alert = require("../model/alert");
+const Poll = require("../model/poll");
 
 function create(req, res) {
     //first user email is valid and check via sending otp
@@ -149,7 +150,8 @@ async function homePage(req, res) {
 
     let all_posts = [],
         upcomingOrRunningEvents = [],
-        allAlerts = [];
+        allAlerts = [],
+        allPolls = [];
 
     await addPost(Post);
 
@@ -200,6 +202,7 @@ async function homePage(req, res) {
         return a.updatedAt - b.updatedAt;
     });
     const all_notices = await Notice.find({});
+    all_polls = await Poll.find({});
     var noOfComingRequests = 0;
     if (req.user && req.user.myUser) {
         noOfComingRequests = req.user.myUser.related.comingRequest.length;
@@ -212,6 +215,7 @@ async function homePage(req, res) {
         noOfNotices: all_notices.length,
         noOfComingRequests: noOfComingRequests,
         upcomingOrRunningEvents: upcomingOrRunningEvents,
+        polls: all_polls,
     });
 }
 

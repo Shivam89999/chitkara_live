@@ -164,16 +164,19 @@
                     </div>
                 </div>
                 <%}%>
-                    <%if(locals.user_profile && locals.user_profile.onModel!='Student'){%>
-                        <div id="all-posts">
-                            <h1>
-                                <span class="head-span active" id="span-1" onclick="changeTab('span-1')"><img
+                    <%-include('./mess');%>
+                        <%-include('./team');%>
+                            <%if(locals.user_profile
+  && locals.user_profile.onModel!='Student'){%>
+                                <div id="all-posts">
+                                    <h1>
+                                        <span class="head-span active" id="span-1" onclick="changeTab('span-1')"><img
           src="https://cdn-icons-png.flaticon.com/512/6276/6276430.png"
           alt=""
         />
         <sub style="font-size: 18">Posts</sub>
       </span>
-                                <span class="head-span" id="span-2" onclick="changeTab('span-2')"><img
+                                        <span class="head-span" id="span-2" onclick="changeTab('span-2')"><img
           src="https://cdn-icons-png.flaticon.com/512/3143/3143636.png"
           alt=""
         /><sub style="font-size: 18">Events</sub></span
@@ -200,8 +203,8 @@
           <img
             src="<%=post.photos[0]%>"
             alt="image"
-            height="200px"
-            width="150px"
+            height="205px"
+            width="160px"
           />
         </a>
       </div>

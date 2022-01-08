@@ -1,0 +1,6 @@
+.container {
+  transition: all 1s ease;
+  overflow: hidden;
+  height: auto;
+  min-height: 150px;
+}

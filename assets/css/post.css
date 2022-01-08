@@ -9,8 +9,8 @@
 
 #post-container .post {
   margin: 6px 0px 6px 0px;
-  padding: 6px;
   display: flex;
+  position: relative;
   flex-direction: column;
   background-color: white;
   box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
@@ -23,8 +23,10 @@
 
 #post-container .post div {
   margin: 4px 0px 4px 0px;
+  padding: 6px;
   display: flex;
   flex-direction: row;
+  box-sizing: border-box;
 }
 
 #post-container .post .post-header {
@@ -33,6 +35,7 @@
   justify-content: space-between;
   background-color: black;
   width: 100%;
+  position: relative;
 }
 
 #post-container .post .post-header div {
@@ -69,19 +72,69 @@
   padding: 2.5px;
 }
 
+#post-container .post .event-details {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: none;
+  box-sizing: border-box;
+  padding: 15px;
+  word-wrap: break-word;
+  border-bottom: 1px solid gray;
+  display: flex;
+  display: none;
+  flex-direction: column;
+}
+
+#post-container .post .event-details .detail-container {
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+}
+
+#post-container .post .event-details .detail-container .icon-container {
+  padding: 8px 18px 8px 8px;
+  box-sizing: border-box;
+}
+
+#post-container .post .event-details .detail-container .detail-values {
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+#post-container .post .event-details .detail-container .detail-values span {
+  word-wrap: break-word;
+  text-transform: capitalize;
+}
+
+#post-container .post .event-details .detail-container .detail-values .detail-head {
+  color: #03faee;
+  font-size: 21;
+}
+
+#post-container .post .event-details .detail-container .detail-values .detail-value {
+  color: black;
+  font-size: 15;
+  font-weight: 500;
+}
+
 #post-container .post .post-main-section {
   margin: auto;
   width: 100%;
-  overflow: hidden;
+  box-shadow: none;
   position: relative;
 }
 
 #post-container .post .post-main-section img {
   max-width: 100%;
   max-height: 60%;
+  height: 60%;
   margin: auto;
   display: none;
   padding: 0px;
+  box-shadow: none;
 }
 
 #post-container .post .post-main-section div {
@@ -90,11 +143,12 @@
   color: white;
   padding: 7px;
   top: 0px;
-  right: 0px;
+  right: 4px;
   margin: 0px;
   border-radius: 25px;
   font-size: 13;
   font-weight: 900;
+  z-index: 3;
 }
 
 #post-container .post .post-main-section .button {
@@ -103,6 +157,7 @@
   background-color: rgba(0, 0, 0, 0.39);
   top: 50%;
   color: white;
+  z-index: 3;
 }
 
 #post-container .post .post-main-section .button:hover {
@@ -121,9 +176,13 @@
   font-size: 25;
   padding: 25px;
   margin: auto;
+  display: inline-block;
+  box-sizing: border-box;
   max-width: 100%;
+  width: 100%;
   background-color: white;
   height: auto;
+  word-wrap: break-word;
 }
 
 #post-container .post .post-footer {
@@ -149,7 +208,6 @@
   padding: 0px 15px 0px 15px;
   background-color: rgba(231, 226, 226, 0.116);
   max-width: 96%;
-  overflow: hidden;
 }
 
 #post-container .post .likes-detail .first-div {
@@ -175,7 +233,6 @@
 
 #post-container .post .likes-detail div {
   max-width: 100%;
-  overflow: hidden;
 }
 
 #post-container .post .new-comment {

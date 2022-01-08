@@ -5,10 +5,12 @@
     min-width: 100%;
     position: relative;
     margin: 5px 0px 5px 0px;
+    // overflow: auto;
     .post {
         margin: 6px 0px 6px 0px;
-        padding: 6px;
+        // padding: 6px;
         display: flex;
+        position: relative;
         flex-direction: column;
         background-color: white;
         box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
@@ -18,8 +20,10 @@
         }
         div {
             margin: 4px 0px 4px 0px;
+            padding: 6px;
             display: flex;
             flex-direction: row;
+            box-sizing: border-box;
         }
         .post-header {
             // padding: 4px;
@@ -28,6 +32,7 @@
             justify-content: space-between;
             background-color: black;
             width: 100%;
+            position: relative;
             div {
                 display: flex;
                 flex-direction: row;
@@ -58,17 +63,64 @@
                 }
             }
         }
+        .event-details {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            box-shadow: none;
+            box-sizing: border-box;
+            padding: 15px;
+            word-wrap: break-word;
+            border-bottom: 1px solid gray;
+            display: flex;
+            display: none;
+            flex-direction: column;
+            .detail-container {
+                padding: 10px;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+                .icon-container {
+                    padding: 8px 18px 8px 8px;
+                    box-sizing: border-box;
+                    // background-color: yellow;
+                }
+                .detail-values {
+                    padding: 2px;
+                    display: flex;
+                    flex-direction: column;
+                    // background-color: red;
+                    span {
+                        word-wrap: break-word;
+                        text-transform: capitalize;
+                    }
+                    .detail-head {
+                        color: rgb(3, 250, 238);
+                        font-size: 21;
+                    }
+                    .detail-value {
+                        color: black;
+                        font-size: 15;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
         .post-main-section {
             margin: auto;
             width: 100%;
-            overflow: hidden;
+            // box-sizing: border-box;
+            box-shadow: none;
+            // overflow: hidden;
             position: relative;
             img {
                 max-width: 100%;
                 max-height: 60%;
+                height: 60%;
                 margin: auto;
                 display: none;
                 padding: 0px;
+                box-shadow: none;
             }
             div {
                 position: absolute;
@@ -76,11 +128,12 @@
                 color: white;
                 padding: 7px;
                 top: 0px;
-                right: 0px;
+                right: 4px;
                 margin: 0px;
                 border-radius: 25px;
                 font-size: 13;
                 font-weight: 900;
+                z-index: 3;
             }
             .button {
                 position: absolute;
@@ -88,6 +141,7 @@
                 background-color: rgba(0, 0, 0, 0.39);
                 top: 50%;
                 color: white;
+                z-index: 3;
                 &:hover {
                     background-color: black;
                 }
@@ -99,13 +153,84 @@
                 right: 0px;
             }
         }
+        // .post-main-section {
+        //     margin: auto;
+        //     width: 100%;
+        //     // box-sizing: border-box;
+        //     box-shadow: none;
+        //     height: auto;
+        //     // overflow: hidden;
+        //     position: relative;
+        //     .div-2 {
+        //         // display: none;
+        //         position: relative;
+        //         margin: auto;
+        //         // background-color: yellow;
+        //         width: 100%;
+        //         max-width: 100%;
+        //         box-shadow: none;
+        //         img {
+        //             position: relative;
+        //             max-width: 100%;
+        //             max-height: 60%;
+        //             height: 60%;
+        //             margin: auto;
+        //             display: none;
+        //             padding: 0px;
+        //             box-shadow: none;
+        //         }
+        //         div {
+        //             position: absolute;
+        //             background-color: rgba(0, 0, 0, 0.719);
+        //             color: white;
+        //             padding: 7px;
+        //             top: 0px;
+        //             right: 4px;
+        //             margin: 0px;
+        //             border-radius: 25px;
+        //             font-size: 13;
+        //             font-weight: 900;
+        //             z-index: 3;
+        //         }
+        //         .button {
+        //             position: absolute;
+        //             padding: 5px;
+        //             background-color: rgba(0, 0, 0, 0.39);
+        //             top: 50%;
+        //             color: white;
+        //             z-index: 3;
+        //             &:hover {
+        //                 background-color: black;
+        //             }
+        //         }
+        //         .back {
+        //             left: 0px;
+        //         }
+        //         .next {
+        //             right: 0px;
+        //         }
+        //     }
+        //     .div-1 {
+        //         // position: absolute;
+        //         margin: auto;
+        //         max-width: 100%;
+        //         box-shadow: none;
+        //         top: 0px;
+        //         // display: none;
+        //     }
+        // }
         .main-text-section {
             font-size: 25;
             padding: 25px;
             margin: auto;
+            display: inline-block;
+            box-sizing: border-box;
             max-width: 100%;
+            width: 100%;
             background-color: white;
             height: auto;
+            word-wrap: break-word;
+            // overflow-wrap: break-word;
         }
         .post-footer {
             display: flex;
@@ -128,7 +253,7 @@
             padding: 0px 15px 0px 15px;
             background-color: rgba(231, 226, 226, 0.116);
             max-width: 96%;
-            overflow: hidden;
+            // overflow: hidden;
             .first-div {
                 display: flex;
                 flex-direction: row;
@@ -148,7 +273,7 @@
             }
             div {
                 max-width: 100%;
-                overflow: hidden;
+                // overflow: hidden;
             }
         }
         .new-comment {

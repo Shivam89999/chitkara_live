@@ -1,9 +1,7 @@
 const express = require("express");
 
-const passport = require("passport");
 const router = express.Router();
 const login_restrict_controller = require("../controller/login_restrict_controller");
-const open_controller = require("../controller/open_controller");
 
 router.get("/profile/", login_restrict_controller.userProfile);
 
@@ -37,5 +35,12 @@ router.get("/notice-download/", login_restrict_controller.noticeDownload);
 
 router.post("/add-new-poll", login_restrict_controller.addNewPoll);
 router.get("/new-poll-page", login_restrict_controller.newPollPage);
-router.get("/new-question-page", login_restrict_controller.newQuestionPage);
+router.get("/add-poll-vote/", login_restrict_controller.addPollVote);
+// router.get("/new-question-page", login_restrict_controller.newQuestionPage);
+router.get("/toggle-to-save", login_restrict_controller.toggleToSave);
+router.get("/my-save-items", login_restrict_controller.mySaveItems);
+router.get(
+    "/my-save-items-details",
+    login_restrict_controller.mySaveItemsDetails
+);
 module.exports = router;

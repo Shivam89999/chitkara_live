@@ -66,3 +66,13 @@ function toggleComment(post_id) {
     console.log("newStyle ", newStyle, "  prev Style ", styyle);
     comment.style.display = newStyle;
 }
+
+function toggleEventDetails(event_detail_id) {
+    let target = document.getElementById(event_detail_id);
+
+    let current_style = getComputedStyle(target).display;
+    console.log(" target is ", target, "  current style ", current_style);
+    target.style.display =
+        current_style == "none" || !current_style ? "flex" : "none";
+    return;
+}

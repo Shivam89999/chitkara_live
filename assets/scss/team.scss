@@ -1,0 +1,11 @@
+.container {
+    transition: all 1s ease;
+    // height: auto;
+    overflow: hidden;
+    height: auto;
+    min-height: 150px;
+    // height: 200px;
+    // &:hover {
+    //     height: 600px;
+    // }
+}

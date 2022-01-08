@@ -171,6 +171,11 @@
   flex-direction: row;
   width: 80%;
   max-width: 100%;
+  height: auto;
+  background-color: whitesmoke;
+  align-items: center;
+  box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
 }
 
 #home-content-container #alerts .poll .poll-options a,
@@ -185,9 +190,16 @@
   text-decoration: none;
   text-transform: uppercase;
   box-sizing: border-box;
-  font-size: 16;
+  font-size: 18;
   border: none;
   margin: 0px;
+  border-radius: 15px;
+  height: inherit;
+}
+
+#home-content-container #alerts .poll .poll-options a:hover,
+#home-content-container #polls .poll .poll-options a:hover {
+  font-size: 19;
 }
 
 #home-content-container #alerts .poll .poll-options a div,
@@ -196,23 +208,16 @@
   margin: 0px;
   width: 100%;
   box-sizing: border-box;
-  box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.2);
-  background-color: whitesmoke;
+  background-color: transparent;
 }
 
 #home-content-container #alerts .poll .poll-options a .yes-option,
 #home-content-container #polls .poll .poll-options a .yes-option {
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
   color: #6afd08;
 }
 
 #home-content-container #alerts .poll .poll-options a .no-option,
 #home-content-container #polls .poll .poll-options a .no-option {
-  margin: 0px;
-  width: 100%;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
   color: #e77204;
 }
 
@@ -220,6 +225,10 @@
   position: absolute;
   right: 12%;
   top: 90px;
+  width: 250px;
+  max-width: 250px;
+  min-width: 250px;
+  overflow-wrap: break-word;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -231,6 +240,9 @@
   flex-direction: column;
   box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2);
   padding: 8px;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 #profile-view #profile-info {
@@ -244,6 +256,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
 }
 
 #profile-view #profile-info a:hover {

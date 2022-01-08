@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/css/new_post.css" />
 
-<div id="new-post">
+<div id="new-post" style="width: 40%; max-width: 40%">
     <div id="img-container">
         <img src="<%=locals.user.pic%>" alt="" height="65px" width="65px" style="border-radius: 50%" />
     </div>
@@ -32,11 +32,154 @@
         </abbr>
                 <input type="datetime-local" required name="eventEndTime" placeholder="Select Event End Time" style="border: 1px solid whitesmoke" />
             </div>
+            <div style="display: flex; flex-direction: row">
+                <img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/2838/premium/2838912.png?token=exp=1641372039~hmac=4393bd139984d88263fb11cf012d489b" alt="" />
+                <input style="
+            border: 1px solid whitesmoke;
+            width: 75%;
+            min-width: 75%;
+            max-width: 85%;
+          " type="text" name="venu" id="venu" placeholder="Select Venu of Event" />
+                <span id="venu-span" onclick="getLocation(event)">Select</span>
+            </div>
+            <div style="display: none; text-align: center; color: red" id="venu-error"></div>
+            <div id="show-location" style="height: 300px; width: 600px; display: none"></div>
 
             <input type="text" name="caption" placeholder="Type Caption here" style="border: 1px solid whitesmoke" />
             <button>Post</button>
         </form>
     </div>
 </div>
+<script src="https://maps.google.com/maps/api/js?sensor=true;"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
 <script src="/js/new_post.js "></script>
+<script>
+    //key=AIzaSyAIspBW0Ij2hR2FXso6mU7FXOyHrYFUc_0
+    function getLocation(e) {
+        const venu = document.getElementById("venu");
+        const venuSpan = e.target;
+        const venuError = document.getElementById("venu-error");
+        if (venu.value) {
+            console.log("clear command");
+            venu.value = "";
+            venuSpan.innerText = "Select";
+            document.getElementById("show-location").style.display = "none";
+            venuError.style.display = "none";
+            return;
+        }
+        console.log("select command");
+        // console.log("yes %%");
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            console.log("your browser is not supporting ");
+            venuError.style.display = "inline-block";
+            venuError.innerText = "Sorry! your browser is not supporting";
+        }
+    }
+
+    function showError(err) {
+        const venuError = document.getElementById("venu-error");
+        venuError.style.display = "inline-block";
+        switch (err.code) {
+            case err.PERMISSION_DENIED:
+                venuError.innerText = "User denied the request for Geolocation API.";
+                break;
+            case err.POSITION_UNAVAILABLE:
+                venuError.innerText = "USer location information is unavailable.";
+                break;
+            case err.TIMEOUT:
+                venuError.innerText = "The request to get user location timed out.";
+                break;
+            case err.UNKNOWN_ERROR:
+                venuError.innerText = "An unknown error occurred.";
+                break;
+        }
+    }
+
+    function showPosition(position) {
+        const venuError = document.getElementById("venu-error");
+        venuError.style.display = "none";
+        document.getElementById("show-location").style.display = "inline-block";
+        // console.log("position is ", position);
+        const venu = document.getElementById("venu");
+        const venuSpan = document.getElementById("venu-span");
+        venuSpan.innerText = "Clear";
+        let lett = position.coords.latitude;
+        var longi = position.coords.longitude;
+        venu.value = lett + "," + longi;
+        var lattlong = new google.maps.LatLng(lett, longi);
+        // console.log("let long is ", lattlong);
+        var myOptions = {
+            center: lattlong,
+            zoom: 15,
+            mapTypeControl: true,
+            navigationControlOptions: {
+                style: google.maps.NavigationControlStyle.SMALL,
+            },
+        };
+        var maps = new google.maps.Map(
+            document.getElementById("show-location"),
+            myOptions
+        );
+        var markers = new google.maps.Marker({
+            position: lattlong,
+            map: maps,
+            title: "you are here",
+        });
+        markers.setMap(maps);
+        // Create the initial InfoWindow.
+        let infoWindow = new google.maps.InfoWindow({
+            content: "You are here, Click the map to get Lat/Lng!" + markers.getPosition(),
+            position: lattlong,
+        });
+
+        infoWindow.open(maps);
+        const geocoder = new google.maps.Geocoder();
+        // Configure the click listener.
+        maps.addListener("click", (mapsMouseEvent) => {
+            // Close the current InfoWindow.
+            infoWindow.close();
+            // Create a new InfoWindow.
+            infoWindow = new google.maps.InfoWindow({
+                position: mapsMouseEvent.latLng,
+            });
+            console.log("vfhhvf ", mapsMouseEvent.latLng.toString());
+            let latlngObj = {
+                lat: mapsMouseEvent.latLng.lat(),
+                lng: mapsMouseEvent.latLng.lng(),
+            };
+            console.log("jvdjbvjbdvbd ", latlngObj);
+            infoWindow.setContent(
+                // JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+                "lat: " + latlngObj.lat + ",  lng: " + latlngObj.lng
+            );
+            venu.value = latlngObj.lat + "," + latlngObj.lng;
+            infoWindow.open(maps);
+            // getAddress(latlngObj);
+        });
+        //use it using api key
+        // function getAddress(obj) {
+        //     geocoder
+        //         .geocode({
+        //             location: obj,
+        //         })
+        //         .then((response) => {
+        //             if (response.results[0]) {
+        //                 maps.setZoom(11);
+        //                 infoWindow.close();
+        //                 const marker = new google.maps.Marker({
+        //                     position: obj,
+        //                     map: maps,
+        //                 });
+
+        //                 infowindow.setContent(response.results[0].formatted_address);
+        //                 infowindow.open(maps, marker);
+        //             } else {
+        //                 window.alert("No results found");
+        //             }
+        //         })
+        //         .catch((e) => window.alert("Geocoder failed due to: " + e));
+        // }
+    }
+</script>

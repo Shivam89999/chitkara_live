@@ -24,12 +24,15 @@
         div {
             display: flex;
             flex-direction: column;
+            // justify-content: center;
+            // align-items: center;
             div {
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: space-between;
                 align-items: center;
+                // background-color: red;
                 button {
                     margin: 2px;
                     padding: 8px;

@@ -74,31 +74,57 @@
                         <%}%>
                 </div>
                 <%}%>
-                    <div id="polls">
-                        <div class="poll">
-                            <div class="poll-question">poll-question</div>
-                            <div class="poll-options">
-                                <a href="">
-                                    <div class="yes-option">Yes option</div>
-                                </a>
-                                <a href="">
-                                    <div class="no-option">No option</div>
-                                </a>
-                            </div>
+                    <%if(locals.polls && polls.length>0){%>
+                        <div id="polls">
+                            <%for(let poll of polls){%>
+                                <div class="poll">
+                                    <div style="padding-left: 5px; background-color: transparent">
+                                        <abbr title="See Creator details">
+          <img
+            height="25px"
+            width="25px"
+            src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png"
+            alt="detail"
+          />
+        </abbr>
+                                    </div>
+                                    <div class="poll-question">
+                                        <%=poll.question%>
+                                    </div>
+                                    <div class="poll-options">
+                                        <%if(poll.yes_votes.includes(locals.user.id)||poll.no_votes.includes(locals.user.id)){%>
+                                            <a style="pointer-events: none">
+                                                <div class="yes-option">
+                                                    <%=Math.ceil(
+            (poll.yes_votes.length)*100/(poll.yes_votes.length+poll.no_votes.length))%>
+                                                        %
+                                                </div>
+                                            </a>
+                                            <a style="pointer-events: none">
+                                                <div class="no-option">
+                                                    <%=Math.floor(
+            (poll.no_votes.length)*100/(poll.yes_votes.length+poll.no_votes.length))%>
+                                                        %
+                                                </div>
+                                            </a>
+                                            <%}else{%>
+                                                <a href="/user/add-poll-vote?poll_id=<%=poll.id%>&vote_type=yes">
+                                                    <div class="yes-option">
+                                                        <%=poll.yes_option%>
+                                                    </div>
+                                                </a>
+                                                <a href="/user/add-poll-vote?poll_id=<%=poll.id%>&vote_type=no">
+                                                    <div class="no-option">
+                                                        <%=poll.no_option%>
+                                                    </div>
+                                                </a>
+                                                <%}%>
+                                    </div>
+                                </div>
+                                <%}%>
                         </div>
-                        <div class="poll">
-                            <div class="poll-question">poll-question</div>
-                            <div class="poll-options">
-                                <a href="">
-                                    <div class="yes-option">Yes option</div>
-                                </a>
-                                <a href="">
-                                    <div class="no-option">No option</div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <%-include('./posts',{posts:posts});-%>
+                        <%}%>
+                            <%-include('./posts',{posts:posts});-%>
 </div>
 
 <div id="profile-view">
@@ -140,7 +166,7 @@
                 <a href="/user/profile-requests-page">
                     <div><span>Requests</span> <span><%=noOfComingRequests%> </span></div>
                 </a>
-                <a href="">
+                <a href="/user/my-save-items">
                     <div style="justify-content: flex-start">
                         <img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/5667/premium/5667029.png?token=exp=1640970876~hmac=caca3b24d6da0ad02fc608a4349ccc42" alt=" " /><span style="padding-left: 10px"> Save Items</span>
                     </div>

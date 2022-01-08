@@ -79,6 +79,19 @@
   word-wrap: break-word;
 }
 
+#new-post div form #venu-span,
+#update-profile div form #venu-span {
+  color: cadetblue;
+  font-size: 18;
+}
+
+#new-post div form #venu-span:hover,
+#update-profile div form #venu-span:hover {
+  text-decoration: underline;
+  font-size: 20;
+  color: royalblue;
+}
+
 #new-post div form input,
 #new-post div form div,
 #new-post div form textarea,

@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="/css/user_posts.css" />
+<div id="save_items">
+    <div id="detail-head">
+        <div style="
+        margin: -35px 0px 0px 0px;
+        position: sticky;
+        top: 52px;
+        border: none;
+        padding: 0px;
+        box-sizing: border-box;
+        padding-bottom: 28.5px;
+        /* background-color: red; */
+      ">
+            <img src="<%=locals.user.pic%>" style="border-radius: 50%; border: 2.5px solid white" alt="profile-pic" height="65px" width="65px" />
+        </div>
+        <div style="
+        font-size: 18;
+        font-weight: 800;
+        word-wrap: break-word;
+        padding: 0px;
+        margin: 0px;
+        border: none;
+      ">
+            My Save Item Details
+        </div>
+    </div>
+    <%-include('posts',{posts:mySaveItems});%>
+</div>

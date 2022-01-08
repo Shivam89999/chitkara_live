@@ -23,7 +23,7 @@ const pollSchema = mongoose.Schema({
         type: "String",
         default: "NO",
     },
-    expireAt: { type: Date, default: new Date(), index: { expires: 86400 } },
+    expireAt: { type: Date, default: Date.now, index: { expires: 86400 } },
 });
 
 const Poll = mongoose.model("Poll", pollSchema);

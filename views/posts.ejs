@@ -22,40 +22,70 @@
         <%}%>
       </div>
     </div>
-    
+       <%if(post.photos){%>
     <div class="type-detail">
         <div>  <img height="25px" width="25px"src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="">
       <span class="upcoming">Upcoming Event</span></div>
-                        <abbr title="See Event Detail">  <img height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png" alt="detail">
+                        <abbr title="See Event Detail" onclick="toggleEventDetails('<%=post.id%>-event')">  <img height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png" alt="detail">
 </abbr>
                     </div>
-
-                    <div style="padding: 5px; margin: 5px">
-                        <span style="font-size: 15"><%=post.caption%></span>
-                    </div>
-                    <%if(post.photos){%>
-                        <div class="post-main-section">
-                            <div id="displayCount-post-<%=post.id%>">1/
-                                <%=post.photos.length%>
+                    <div class="event-details" id="<%=post.id%>-event">
+                        <div class="detail-container">
+                            <div class="icon-container"><img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/3239/premium/3239945.png?token=exp=1641371763~hmac=a8c493b4ac98b3a20602304774f5e433" alt=""></div>
+                            <div class="detail-values">
+                                <span class="detail-head">Start Date & Time</span>
+                                <span class="detail-value">Sun,Mar 03 2022 | 9:00AM</span>
                             </div>
-
-                            <span class="button back" type="back" id="post-<%=post.id%>">&#10094</span>
-                            <span class="button next" type="next" id="post-<%=post.id%>">&#10095</span>
-
-                            <%var i=0;%>
-                                <%for(let photo of post.photos){%>
-                                    <img src="<%=photo%>" alt="post-pic" class="post-<%=post.id%> post" current_no="<%=i%>" max_no="<%=post.photos.length%>" />
-                                    <%i=i+1;%>
-                                        <%}%>
                         </div>
-                        <%}%>
-                            <% if(!post.photos){%>
-                                <div class="main-text-section">
-                                    <%=post.content%>
+                        <div class="detail-container">
+                            <div class="icon-container"><img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/3239/premium/3239945.png?token=exp=1641371763~hmac=a8c493b4ac98b3a20602304774f5e433" alt=""></div>
+                            <div class="detail-values">
+                                <span class="detail-head">End Date & Time</span>
+                                <span class="detail-value">Sun,Mar 03 2022 | 9:00AM</span>
+                            </div>
+                        </div>
+                        <div class="detail-container">
+                            <div class="icon-container"><img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/2838/premium/2838912.png?token=exp=1641372039~hmac=4393bd139984d88263fb11cf012d489b" alt="location"></div>
+                            <div class="detail-values">
+                                <span class="detail-head">Location</span>
+                                <span class="detail-value">kdcjck cmdcd dccd cdcd</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <%}%>
+
+                        <div style="padding: 5px; margin: 5px">
+                            <span style="font-size: 15"><%=post.caption%></span>
+                        </div>
+                        <%if(post.photos){%>
+                            <div class="post-main-section">
+
+
+                                <div id="displayCount-post-<%=post.id%>">1/
+                                    <%=post.photos.length%>
                                 </div>
-                                <%}%>
-                                    <div class="post-footer">
-                                        <span>
+
+                                <span class="button back" type="back" id="post-<%=post.id%>">&#10094</span>
+                                <span class="button next" type="next" id="post-<%=post.id%>">&#10095</span>
+
+                                <%var i=0;%>
+                                    <%for(let photo of post.photos){%>
+                                        <img src="<%=photo%>" alt="post-pic" class="post-<%=post.id%> post" current_no="<%=i%>" max_no="<%=post.photos.length%>" />
+                                        <%i=i+1;%>
+                                            <%}%>
+
+
+
+                            </div>
+                            <%}%>
+                                <% if(!post.photos){%>
+                                    <div class="main-text-section">
+                                        <%=post.content%>
+                                    </div>
+                                    <%}%>
+                                        <div class="post-footer">
+                                            <span>
                 <a href="/user/toggle-like?id=<%=post.id%>&type=Post">
                                  <span><img height="20px" width="20px" src="https://www.pinclipart.com/picdir/middle/87-877828_save-the-heart-by-ofirma85-instagram-like-icon.png" alt="like" />
                               </span>
@@ -74,12 +104,14 @@
           /> </span
         ><span><%=post.comments.length%> comments</span></span>
 
-                <span><img
+                <span>
+                    <a href="/user/toggle-to-save?refId=<%=post.id%>&type=<%=post.photos ? 'Post' : 'TextPost'%>">       <img
           src="https://cdn-icons-png.flaticon.com/512/84/84510.png"
           height="20px"
           width="20px"
           alt=""
-      /></span>
+      /></a>
+             </span>
 
                 </div>
 

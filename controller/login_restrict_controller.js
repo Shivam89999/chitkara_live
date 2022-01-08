@@ -13,6 +13,7 @@ const passport = require("passport");
 const { redirect } = require("express/lib/response");
 const Notice = require("../model/notice");
 const Poll = require("../model/poll");
+const Save = require("../model/Save");
 
 function userProfile(req, res) {
     if (!req.user) {
@@ -525,38 +526,45 @@ async function removeMembership(req, response) {
 
 function userPosts(req, res) {
     let user = req.query.u;
-    Post.find({ creator: user })
-        .populate("creator")
-        .populate({
-            path: "comments",
-            populate: [{
-                    path: "likes",
-                    populate: {
+    //find user of which posts are
+    User.findById(user, function(err, success_user) {
+        if (err || !success_user) {
+            console.log("err in finding user ", err);
+            return res.redirect("back");
+        }
+        Post.find({ creator: success_user.id })
+            .populate("creator")
+            .populate({
+                path: "comments",
+                populate: [{
+                        path: "likes",
+                        populate: {
+                            path: "creator",
+                        },
+                    },
+                    {
                         path: "creator",
                     },
-                },
-                {
+                ],
+            })
+            .populate({
+                path: "likes",
+                populate: {
                     path: "creator",
                 },
-            ],
-        })
-        .populate({
-            path: "likes",
-            populate: {
-                path: "creator",
-            },
-        })
-        .exec(function(err, posts) {
-            if (err) {
-                console.log("Err in Finding the posts in user posts", err);
-                posts = [];
-            }
-
-            return res.render("user_posts", {
-                title: "posts page",
-                posts: posts,
+            })
+            .exec(function(err, posts) {
+                if (err) {
+                    console.log("Err in Finding the posts in user posts", err);
+                    posts = [];
+                }
+                return res.render("user_posts", {
+                    title: "posts page",
+                    posts: posts,
+                    u: success_user,
+                });
             });
-        });
+    });
 }
 
 function likes(req, res) {
@@ -760,6 +768,7 @@ function noticeDownload(req, res) {
                 console.log("notice ", notice.downloads);
                 notice.save();
                 console.log(notice.originalFileName, " notice downloaded successfully");
+                return;
             });
         }
     });
@@ -796,6 +805,182 @@ function newQuestionPage(req, res) {
         title: "new question page",
     });
 }
+
+function addPollVote(req, res) {
+    if (!req.query || !req.query.poll_id || !req.query.vote_type) {
+        console.log("bad poll vote request");
+        return res.redirect("back");
+    }
+    let pollId = req.query.poll_id;
+    let voteType = req.query.vote_type;
+    if (voteType != "yes" && voteType != "no") {
+        console.log("not valid vote type ", voteType);
+        return res.redirect("back");
+    }
+    //check poll exist or not expire
+    Poll.findById(pollId, function(err, poll) {
+        if (err || !poll) {
+            console.log("Err in finding poll or may not exist: ", err);
+            return res.redirect("back");
+        }
+        //check this user is not already voted
+        if (
+            poll.yes_votes.includes(req.user.myUser.id) ||
+            poll.no_votes.includes(req.user.myUser.id)
+        ) {
+            console.log("you already voted ");
+            return res.redirect("back");
+        }
+        if (voteType == "yes") poll.yes_votes.push(req.user.myUser.id);
+        else poll.no_votes.push(req.user.myUser.id);
+        poll.save();
+        console.log("you are voted successfully of type ", voteType);
+        return res.redirect("back");
+    });
+}
+
+function toggleToSave(req, res) {
+    if (!req.query || !req.query.type || !req.query.refId) {
+        console.log("bad request in addToSave ");
+        return res.redirect("back");
+    }
+    const allowedType = ["Post", "TextPost"];
+    if (!allowedType.includes(req.query.type)) {
+        console.log("bad reuest ^^");
+        return res.redirect("back");
+    }
+    let type = req.query.type;
+    let refId = req.query.refId;
+    let modelType = type == "Post" ? Post : TextPost;
+    modelType.findById(refId, function(err, target) {
+        if (err || !target) {
+            console.log("err in finding target post or may not exist ", err);
+            return res.redirect("back");
+        }
+        //check targte item already saved by targeted user or not
+        Save.findOne({ refItem: target.id, onModel: type, by: req.user.myUser.id },
+            function(err, exist) {
+                if (err) {
+                    console.log("err in varifying that already saved or not");
+                    return res.redirect("back");
+                }
+                //for requested user it is already in saved so remove it from save model and targeted user save item array
+                if (exist) {
+                    req.user.myUser.saveItems.pull(exist.id);
+                    req.user.myUser.save();
+                    exist.remove();
+                    exist.save();
+                    return res.redirect("back");
+                } else {
+                    Save.create({ refItem: target.id, onModel: type, by: req.user.myUser.id },
+                        function(err, saveItem) {
+                            if (saveItem) {
+                                req.user.myUser.saveItems.push(saveItem.id);
+                                req.user.myUser.save();
+                                console.log("item saved successfully");
+                                return res.redirect("back");
+                            } else {
+                                console.log("err in saving the item ", err);
+                                return res.redirect("back");
+                            }
+                        }
+                    );
+                }
+            }
+        );
+    });
+}
+
+function mySaveItems(req, res) {
+    Save.find({ by: req.user.myUser.id })
+        .populate("refItem")
+        .exec(function(err, saveItems) {
+            if (err) {
+                console.log("err in finding save items ", err);
+                return res.redirect("back");
+            }
+            console.log("save items are ", saveItems);
+            return res.render("my_save_items", {
+                title: "My Save Items",
+                saveItems,
+            });
+        });
+}
+
+async function mySaveItemsDetails(req, res) {
+    let postIds = [],
+        textIds = [];
+    console.log("nvfjbvnfv ^^^^^^^^^^^^^");
+    for (let saveObjid of req.user.myUser.saveItems) {
+        // Save.findById(saveObjid, async function(err, success) {
+        //     if (success) {
+        //         let id = success.refItem;
+        //         if (success.onModel == "Post") postIds.push(id);
+        //         else textIds.push(id);
+        //     } else {
+        //         console.log("err in finding err ", err);
+        //     }
+        //     console.log("d  ^ ");
+        // });
+        const success = await Save.findById(saveObjid);
+        if (success) {
+            let id = success.refItem;
+            if (success.onModel == "Post") postIds.push(id);
+            else textIds.push(id);
+        }
+    }
+
+    // console.log("postIds ", postIds, "  textIds ", textIds);
+    let posts = await Post.find({ _id: { $in: postIds } })
+        .populate("creator")
+        .populate({
+            path: "comments",
+            populate: [{
+                    path: "likes",
+                    populate: {
+                        path: "creator",
+                    },
+                },
+                {
+                    path: "creator",
+                },
+            ],
+        })
+        .populate({
+            path: "likes",
+            populate: {
+                path: "creator",
+            },
+        })
+        .exec();
+    let texts = await TextPost.find({ _id: { $in: textIds } })
+        .populate("creator")
+        .populate({
+            path: "comments",
+            populate: [{
+                    path: "likes",
+                    populate: {
+                        path: "creator",
+                    },
+                },
+                {
+                    path: "creator",
+                },
+            ],
+        })
+        .populate({
+            path: "likes",
+            populate: {
+                path: "creator",
+            },
+        })
+        .exec();
+    console.log("posts ", postIds.length, "  texts length ", textIds.length);
+    return res.render("my_save_items_details", {
+        title: "my save items details",
+        mySaveItems: posts.concat(texts),
+    });
+}
 module.exports = {
     userProfile,
     myProfile,
@@ -820,4 +1005,8 @@ module.exports = {
     newPollPage,
     addNewPoll,
     newQuestionPage,
+    addPollVote,
+    toggleToSave,
+    mySaveItems,
+    mySaveItemsDetails,
 };

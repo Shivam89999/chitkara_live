@@ -26,11 +26,15 @@ const postSchema = mongoose.Schema({
     }, ],
     eventStartTime: {
         type: Date,
-        default: Date.now,
+        default: null,
     },
     eventEndTime: {
         type: Date,
-        default: Date.now,
+        default: null,
+    },
+    venu: {
+        type: "String",
+        default: "",
     },
 }, {
     timestamps: true,

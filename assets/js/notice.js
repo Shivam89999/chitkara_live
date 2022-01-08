@@ -22,12 +22,14 @@ function previewNotice() {
         reader.addEventListener("load", function() {
             var image = new Image();
             var p = document.createElement("p");
+
             image.height = 100;
             image.title = file.name;
             image.src = "https://cdn-icons-png.flaticon.com/512/136/136522.png";
             image.width = 75;
             p.innerText = file.name;
             preview.appendChild(image);
+            preview.style.flexDirection = "column";
             preview.appendChild(p);
             console.log("Y ");
         });

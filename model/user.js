@@ -38,6 +38,11 @@ const userSchema = mongoose.Schema({
         type: "String",
         enum: ["Student", "Club", "Hostel", "Depart"],
     },
+    saveItems: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Save",
+        default: [],
+    }, ],
 }, {
     timestamps: true,
 });
