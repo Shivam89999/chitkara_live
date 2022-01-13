@@ -28,10 +28,22 @@ function userProfile(req, res) {
     User.findById(req.query.user_id)
         .populate({
             path: "related",
-            populate: {
-                //admin based on condition
-                path: "posts",
-            },
+            // populate: {
+            //     //admin based on condition
+
+            // },
+            populate: [
+                { path: "posts" },
+                {
+                    path: "menu",
+                    populate: {
+                        path: "dayWise",
+                        populate: {
+                            path: "timeFood",
+                        },
+                    },
+                },
+            ],
         })
         .exec(function(err, user_profile) {
             if (err || !user_profile) {

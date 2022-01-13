@@ -316,12 +316,35 @@
   transition: 0.4;
 }
 
+#upcoming-events ::-webkit-scrollbar {
+  width: 5px;
+  /* width of the entire scrollbar */
+}
+
+#upcoming-events ::-webkit-scrollbar-track {
+  /* background: orange; */
+  /* color of the tracking area */
+}
+
+#upcoming-events ::-webkit-scrollbar-thumb {
+  /* background-color: blue; */
+  /* color of the scroll thumb */
+  border-radius: 35px;
+  background-color: darkgrey;
+  /* roundness of the scroll thumb */
+  /* border: 3px solid orange; */
+  /* creates padding around scroll thumb */
+}
+
 #upcoming-events:hover {
   box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
 }
 
 #upcoming-events #all_event {
-  transition: 0.4;
+  height: auto;
+  max-height: 0px;
+  overflow: auto;
+  transition: max-height 1s ease-in-out;
 }
 
 #upcoming-events #event-header {

@@ -31,6 +31,8 @@ const noticeSchema = mongoose.Schema({
         type: "String",
         default: "/images/default_pdf_image.jpg",
     },
+}, {
+    strict: false,
 });
 
 const storage = multer.diskStorage({

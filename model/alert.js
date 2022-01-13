@@ -14,6 +14,8 @@ const alertSchema = mongoose.Schema({
     // expireAt: { type: Date, default: Date.now },
 }, {
     timestamps: true,
+}, {
+    strict: false,
 });
 
 // alertSchema.index = { expires: "1m" };

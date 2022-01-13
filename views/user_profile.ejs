@@ -58,77 +58,75 @@
             <img
               height="20px"
               width="20px"
-              id="arrow-down"
-              src="https://cdn-icons-png.flaticon.com/512/32/32195.png"
-              alt="toggle"
-              style="margin: 0px 5px 0px 15px; display: none"
-            />
-            <img
-              height="20px"
-              width="20px"
               id="arrow-up"
               src="https://cdn-icons-png.flaticon.com/512/271/271239.png"
               alt="toggle"
-              style="margin: 0px 5px 0px 15px"
+              style="margin: 0px 5px 0px 15px; transition: all 0.9s linear"
             /></button
         ></a>
             </div>
         </div>
     </div>
-    <div id="contact">
-        <h1>Contacts</h1>
-        <div id="details">
-            <div id="email">
-                <abbr title="Email">
-          <a href="mailto:<%=user_profile.email%>">
-            <img
-              height="40px"
-              width="40px"
-              src="https://cdn-icons.flaticon.com/png/512/3128/premium/3128267.png?token=exp=1640848641~hmac=879cf7ab8261b8cd0629393b47a23deb"
-              alt="email"
-          /></a>
-        </abbr>
-                <a href="mailto:<%=user_profile.email%>" id="span-link-email">
-                    <span><%=user_profile.email%></span></a>
-            </div>
-            <div id="whatsapp">
-                <abbr title="Whatsapp">
-          <a href="sms:<%=user_profile.whatsapp%>">
-            <img
-              height="40px"
-              width="40px"
-              src="https://cdn-icons.flaticon.com/png/512/4494/premium/4494494.png?token=exp=1640849753~hmac=7822cc3bc9c6116720e0c47628d55f1d"
-              alt="whatsapp"
-          /></a>
-        </abbr>
-                <a href="sms:<%=user_profile.whatsapp%>" id="span-link-whatsapp">
-                    <%if(user_profile.whatsapp){%>
-                        <span><%=user_profile.whatsapp%></span>
-                        <%}else{%>
-                            <span>Whatsapp number not updated </span>
-                            <%}%>
-                </a>
-            </div>
-            <div id="mobile">
-                <abbr title="Mobile">
-          <a href="tel:<%=user_profile.mobile%>"
-            ><img
-              height="40px"
-              width="40px"
-              src="https://cdn-icons-png.flaticon.com/512/724/724664.png"
-              alt="mobile"
-          /></a>
-        </abbr>
-                <a href="tel:<%=user_profile.mobile%>" id="span-link-mobile">
-                    <%if(user_profile.mobile){%>
-                        <span><%=user_profile.mobile%></span>
-                        <%}else{%>
-                            <span>Mobile number not updated </span>
-                            <%}%>
-                </a>
+    <!-- wrap contact with another div container to add transition in height property 
+    wrap bcz transition with display: none property are not allowed
+    -->
+    <div id="contact-container">
+        <div id="contact">
+            <h1>Contacts</h1>
+            <div id="details">
+                <div id="email">
+                    <abbr title="Email">
+            <a href="mailto:<%=user_profile.email%>">
+              <img
+                height="40px"
+                width="40px"
+                src="https://cdn-icons.flaticon.com/png/512/3128/premium/3128267.png?token=exp=1640848641~hmac=879cf7ab8261b8cd0629393b47a23deb"
+                alt="email"
+            /></a>
+          </abbr>
+                    <a href="mailto:<%=user_profile.email%>" id="span-link-email">
+                        <span><%=user_profile.email%></span></a>
+                </div>
+                <div id="whatsapp">
+                    <abbr title="Whatsapp">
+            <a href="sms:<%=user_profile.whatsapp%>">
+              <img
+                height="40px"
+                width="40px"
+                src="https://cdn-icons.flaticon.com/png/512/4494/premium/4494494.png?token=exp=1640849753~hmac=7822cc3bc9c6116720e0c47628d55f1d"
+                alt="whatsapp"
+            /></a>
+          </abbr>
+                    <a href="sms:<%=user_profile.whatsapp%>" id="span-link-whatsapp">
+                        <%if(user_profile.whatsapp){%>
+                            <span><%=user_profile.whatsapp%></span>
+                            <%}else{%>
+                                <span>Whatsapp number not updated </span>
+                                <%}%>
+                    </a>
+                </div>
+                <div id="mobile">
+                    <abbr title="Mobile">
+            <a href="tel:<%=user_profile.mobile%>"
+              ><img
+                height="40px"
+                width="40px"
+                src="https://cdn-icons-png.flaticon.com/512/724/724664.png"
+                alt="mobile"
+            /></a>
+          </abbr>
+                    <a href="tel:<%=user_profile.mobile%>" id="span-link-mobile">
+                        <%if(user_profile.mobile){%>
+                            <span><%=user_profile.mobile%></span>
+                            <%}else{%>
+                                <span>Mobile number not updated </span>
+                                <%}%>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
+
     <%if(locals.user_profile && locals.user_profile.onModel!='Student'){%>
         <div id="Admin">
             <h1>Admin</h1>
@@ -164,19 +162,20 @@
                     </div>
                 </div>
                 <%}%>
-                    <%-include('./mess');%>
-                        <%-include('./team');%>
-                            <%if(locals.user_profile
-  && locals.user_profile.onModel!='Student'){%>
-                                <div id="all-posts">
-                                    <h1>
-                                        <span class="head-span active" id="span-1" onclick="changeTab('span-1')"><img
+                    <%if(locals.user_profile&& locals.user_profile.onModel=='Hostel'){%>
+                        <%-include('./mess',{_user:user_profile});%>
+                            <%}%>
+                                <%-include('./team');%>
+                                    <%if(locals.user_profile && locals.user_profile.onModel!='Student'){%>
+                                        <div id="all-posts">
+                                            <h1>
+                                                <span class="head-span active" id="span-1" onclick="changeTab('span-1')"><img
           src="https://cdn-icons-png.flaticon.com/512/6276/6276430.png"
           alt=""
         />
         <sub style="font-size: 18">Posts</sub>
       </span>
-                                        <span class="head-span" id="span-2" onclick="changeTab('span-2')"><img
+                                                <span class="head-span" id="span-2" onclick="changeTab('span-2')"><img
           src="https://cdn-icons-png.flaticon.com/512/3143/3143636.png"
           alt=""
         /><sub style="font-size: 18">Events</sub></span

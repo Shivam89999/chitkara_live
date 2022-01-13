@@ -49,4 +49,7 @@ router.post(
 );
 router.get("/new-alert-page", creator_restrict_controller.newAlertPage);
 router.post("/new-alert", creator_restrict_controller.newAlert);
+
+router.get("/update-menu/", creator_restrict_controller.updateMenu);
+router.post("/update-day-time-menu-content", creator_restrict_controller.updateDayTimeMenuContent);
 module.exports = router;

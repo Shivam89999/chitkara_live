@@ -12,11 +12,13 @@
 
 #main-container #events-container {
   background-color: rgba(131, 128, 128, 0.52);
-  position: relative;
+  background-color: #838080;
+  position: sticky;
   width: 100%;
   margin: auto;
-  top: -15px;
+  top: 52px;
   height: auto;
+  z-index: 4;
   box-shadow: 0px 3px 3px 3px rgba(48, 47, 47, 0.479);
 }
 
@@ -44,7 +46,7 @@
 }
 
 #main-container #events-container #events-head .active-tab {
-  background-color: rgba(88, 88, 88, 0.74);
+  background-color: rgba(88, 88, 88, 0.863);
   border-bottom: 3px solid black;
   color: white;
 }

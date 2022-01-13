@@ -13,6 +13,8 @@ const likeSchema = mongoose.Schema({
         type: "String",
         enum: ["Post", "Comment", "Notice"],
     },
+}, {
+    strict: false,
 });
 
 const Like = mongoose.model("Like", likeSchema);

@@ -13,6 +13,9 @@ const Like = require("../model/like");
 const Notice = require("../model/notice");
 const Alert = require("../model/alert");
 const Poll = require("../model/poll");
+const FoodDetail = require("../model/foodDetail");
+const DayMenuDetail = require("../model/dayMenuDetail");
+const Menu = require("../model/menu");
 
 function create(req, res) {
     //first user email is valid and check via sending otp
@@ -60,22 +63,48 @@ function create(req, res) {
         }
 
         //create user in db
-        User.create(req.body, function(err, user) {
+        User.create(req.body, async function(err, user) {
             if (err) {
                 console.log("Err in creating the user ", err);
                 return res.redirect("back");
             }
             console.log("user created successfully: ");
-            findModel.create({ info: user.id }, function(err, m) {
-                if (err) {
-                    console.log("Err in link user to respected model");
-                    return res.redirect("back");
+            var menuId = null;
+            if (req.body.tick == "Hostel") {
+                //sign up user type is hostel so add default menu for hostel
+                var dayMenuArray = [];
+                for (var k = 0; k < 8; k++) {
+                    var timeFood = [];
+                    for (let i = 0; i < 4; i++) {
+                        var foodDetail = await FoodDetail.create({});
+                        timeFood.push(foodDetail.id);
+                    }
+                    var dayMenu = await DayMenuDetail.create({
+                        timeFood: timeFood,
+                    });
+                    // dayMenu.push(timeFood);
+                    dayMenuArray.push(dayMenu.id);
                 }
-                user.related = m.id;
-                user.onModel = req.body.tick;
-                user.save();
-                console.log("user is ", user);
-            });
+                var menu = await Menu.create({
+                    dayWise: dayMenuArray,
+                    heading: req.body.name + " Hostel chitkara university himachal pradesh",
+                });
+                menuId = menu.id;
+            }
+            console.log("menuId is ", menuId);
+            findModel.create({ info: user.id, menu: menuId },
+                async function(err, m) {
+                    if (err) {
+                        console.log("Err in link user to respected model");
+                        return res.redirect("back");
+                    }
+                    user.related = m.id;
+                    user.onModel = req.body.tick;
+                    user.save();
+
+                    console.log("user is ", user);
+                }
+            );
             return res.redirect("/sign-in");
         });
     });

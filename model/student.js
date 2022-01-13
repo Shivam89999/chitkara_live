@@ -33,6 +33,8 @@ const studentSchema = mongoose.Schema({
         ref: "User",
         default: [],
     }, ],
+}, {
+    strict: false,
 });
 
 const Student = mongoose.model("Student", studentSchema);

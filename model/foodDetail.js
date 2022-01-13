@@ -1,43 +1,32 @@
 const mongoose = require("mongoose");
 const multer = require("multer");
 const path = require("path");
-const AVATAR_PATH = path.join("/uploads/users/avatars");
-
-const organiserSchema = mongoose.Schema({
-    name: {
+const FOOD_PATH = path.join("/uploads/users/food");
+const default_food_image = FOOD_PATH + "/" + "default_food.jpg";
+const foodDetail = mongoose.Schema({
+    items: {
         type: "String",
+        default: "Food items not updated ",
     },
-    email: {
+    image: {
         type: "String",
-        required: true,
-        unique: true,
+        default: default_food_image,
     },
-    password: {
-        type: "String",
-        required: true,
-        select: false,
+    fromTime: {
+        type: Date,
+        default: null,
     },
-    pic: {
-        type: "String",
+    toTime: {
+        type: Date,
+        default: null,
     },
-    bio: {
-        type: "String",
-    },
-    mobile: {
-        type: "String",
-    },
-    whatsapp: {
-        type: "String",
-    },
-}, {
-    timestamps: true,
 }, {
     strict: false,
 });
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        return cb(null, path.join(__dirname, "..", AVATAR_PATH));
+        return cb(null, path.join(__dirname, "..", FOOD_PATH));
     },
     filename: function(req, file, cb) {
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -47,10 +36,11 @@ const storage = multer.diskStorage({
         );
     },
 });
+
 //max size can be 5mb
 const maxSize = 1024 * 1024 * 5;
 
-organiserSchema.statics.uploadAvatar = multer({
+foodDetail.statics.uploadFoodImage = multer({
     storage: storage,
     limits: { fileSize: maxSize },
     fileFilter: function(req, file, cb) {
@@ -65,9 +55,9 @@ organiserSchema.statics.uploadAvatar = multer({
         cb(null, false);
         return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
     },
-}).single("avatar");
+}).single("foodImage");
+foodDetail.statics.foodPath = FOOD_PATH;
+foodDetail.statics.defaultFoodImage = default_food_image;
+const FoodDetail = mongoose.model("FoodDetail", foodDetail);
 
-organiserSchema.statics.avatarPath = AVATAR_PATH;
-const Organiser = mongoose.model("Organiser", organiserSchema);
-
-module.exports = Organiser;
+module.exports = FoodDetail;

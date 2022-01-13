@@ -38,6 +38,8 @@ const postSchema = mongoose.Schema({
     },
 }, {
     timestamps: true,
+}, {
+    strict: false,
 });
 
 const storage = multer.diskStorage({

@@ -40,6 +40,8 @@ const clubSchema = mongoose.Schema({
         ref: "User",
         default: [],
     }, ],
+}, {
+    strict: false,
 });
 
 const Club = mongoose.model("Club", clubSchema);

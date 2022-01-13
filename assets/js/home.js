@@ -2,15 +2,20 @@ console.log("Home script running");
 
 function toggleEventsVisibality(id_name) {
     let obj = document.querySelector("#" + id_name);
+    let currentMaxHeight = getComputedStyle(obj).maxHeight;
+    // console.log("off-set-height is ", obj.offsetHeight);
+    obj.style.maxHeight = currentMaxHeight != "0px" ? "0px" : "600px";
 
-    let currentStyle = obj.style.display;
-    let newStyle = currentStyle === "none" ? "block" : "none";
-    console.log("newStyle ", newStyle, "  prev Style ", currentStyle);
-    obj.style.display = newStyle;
+    // let newStyle = currentStyle === "none" ? "block" : "none";
+    // console.log("newStyle ", newStyle, "  prev Style ", currentStyle);
+    // obj.style.display = newStyle;
     let arrowUp = document.getElementById("arrow-up");
-    let arrowDown = document.getElementById("arrow-down");
-    arrowDown.style.display = newStyle == "block" ? "inline" : "none";
-    arrowUp.style.display = newStyle == "block" ? "none" : "inline";
+    // let arrowDown = document.getElementById("arrow-down");
+    // arrowDown.style.display = obj.style.maxHeight != "0px" ? "inline" : "none";
+    arrowUp.style.transform =
+        obj.style.maxHeight == "0px" ?
+        "rotate3d(1,0,0,0deg)" :
+        "rotate3d(1,0,0,180deg)";
 }
 
 function findDate(dateString) {

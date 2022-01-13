@@ -140,11 +140,29 @@
   flex-direction: column;
 }
 
-#contact {
-  display: none;
+#contact-container {
+  background-color: white;
+  height: auto;
+  max-height: 0px;
+  transition: max-height 0.9s linear;
+  transition-delay: 0;
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
 }
 
-#contact #details {
+#contact-container:hover {
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+#contact-container #contact {
+  height: inherit;
+  display: inline-block;
+  box-shadow: none;
+}
+
+#contact-container #contact #details {
   display: flex;
   flex-wrap: wrap;
   max-width: 100%;
@@ -153,7 +171,7 @@
   align-items: flex-start;
 }
 
-#contact #details div {
+#contact-container #contact #details div {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -161,28 +179,28 @@
   max-width: 95%;
 }
 
-#contact #details div a {
+#contact-container #contact #details div a {
   text-decoration: none;
   color: black;
 }
 
-#contact #details div #span-link-whatsapp,
-#contact #details div #span-link-mobile,
-#contact #details div #span-link-email {
+#contact-container #contact #details div #span-link-whatsapp,
+#contact-container #contact #details div #span-link-mobile,
+#contact-container #contact #details div #span-link-email {
   max-width: 90%;
   overflow-wrap: break-word;
   font-size: 21;
   padding: 10px;
 }
 
-#contact #details div #span-link-whatsapp:hover,
-#contact #details div #span-link-mobile:hover,
-#contact #details div #span-link-email:hover {
+#contact-container #contact #details div #span-link-whatsapp:hover,
+#contact-container #contact #details div #span-link-mobile:hover,
+#contact-container #contact #details div #span-link-email:hover {
   color: royalblue;
   border-bottom: 1px solid royalblue;
 }
 
-#contact #details div abbr {
+#contact-container #contact #details div abbr {
   padding: 5px;
 }
 

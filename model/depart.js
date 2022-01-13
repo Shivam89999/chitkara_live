@@ -37,6 +37,8 @@ const departSchema = mongoose.Schema({
         ref: "User",
         default: [],
     }, ],
+}, {
+    strict: false,
 });
 
 const Depart = mongoose.model("Depart", departSchema);

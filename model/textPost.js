@@ -22,6 +22,8 @@ const textPostSchema = mongoose.Schema({
     }, ],
 }, {
     timestamps: true,
+}, {
+    strict: false,
 });
 
 const TextPost = mongoose.model("TextPost", textPostSchema);

@@ -1,15 +1,10 @@
-<div id="mess-container" style="
-    width: 100%;
-    height: auto;
-    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
-    margin-top: 15px;
-    margin-bottom: 15px;
-  ">
+<link rel="stylesheet" href="/css/mess.css" />
+<div id="mess-container">
     <div id="menu-header" style="
       background-color: rgb(49, 247, 49);
       width: 100%;
-      height: 170px;
+      min-height: 170px;
+      height: auto;
       color: white;
       display: flex;
       flex-direction: column;
@@ -68,93 +63,50 @@
         align-items: space-between;
         justify-content: space-between;
       " id="head-option">
-            <span style="
-          background-color: rgb(82, 79, 79);
-          color: white;
-          padding: 0px 20px 0px 20px;
-          box-sizing: border-box;
-          border-radius: 25px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 0px;
-          margin: 0px;
-          height: unset;
-          text-transform: uppercase;
-          background-color: rgba(19, 153, 231, 0.945);
-          border: 1px solid royalblue;
-        ">
+            <span onclick="menuTabChange(event,'0')" class="menu-options active-menu-tab">
         breakfast
       </span>
-            <span style="
-          background-color: rgb(82, 79, 79);
-          color: white;
-          padding: 0px 20px 0px 20px;
-          box-sizing: border-box;
-          border-radius: 25px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 0px;
-          margin: 0px;
-          height: unset;
-          text-transform: uppercase;
-        ">
+            <span onclick=" menuTabChange(event, '1') " class="menu-options">
         Lunch
       </span>
-            <span style="
-          background-color: rgb(82, 79, 79);
-          color: white;
-          padding: 0px 20px 0px 20px;
-          box-sizing: border-box;
-          border-radius: 25px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 0px;
-          margin: 0px;
-          height: unset;
-          text-transform: uppercase;
-        ">
+            <span onclick="menuTabChange(event, '2') " class="menu-options">
         snacks
       </span>
-            <span style="
-          background-color: rgb(82, 79, 79);
-          color: white;
-          padding: 0px 20px 0px 20px;
-          box-sizing: border-box;
-          border-radius: 25px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 0px;
-          margin: 0px;
-          height: unset;
-          text-transform: uppercase;
-        ">
+            <span onclick="menuTabChange(event, '3') " class="menu-options">
         dinner
       </span>
         </div>
     </div>
-    <div class="day-menu" style="
-      height: 150px;
+    <%for(let i=0;i<7;i++){%>
+        <%for(let j=0;j<4;j++){%>
+            <div class="day-menu type-<%=j%>" day="<%=i%>" time="<%=j%>" style="
+      /* height: 175px; */
+      height: auto;
       background-color: white;
       width: inherit;
       display: flex;
+      overflow: hidden;
       flex-direction: row;
       color: rgb(4, 253, 4);
+      position: relative;
     ">
-        <div style="
+                <%if(_user.id==locals.user.id){%>
+                    <span class="day-menu-edit-option">
+      <a href="/creator/update-menu?day=<%=i%>&time=<%=j%>">&vellip;</a>
+    </span>
+                    <%}%>
+
+                        <div style="
         width: 57%;
         height: inherit;
         /* background-color: violet; */
         display: flex;
         flex-direction: row;
       ">
-            <div style="
+                            <div class="day-name" id="day-<%=i%>-type-<%=j%>" style="
           width: 25%;
           /* background-color: violet; */
-          padding: 20px;
+          padding: 5px;
           box-sizing: border-box;
           height: inherit;
           writing-mode: vertical-lr;
@@ -167,97 +119,29 @@
           overflow: hidden;
           color: black;
         ">
-                Sunday
-            </div>
-            <div style="
+                                Sunday
+                            </div>
+                            <div id="content-<%=i%>-type-<%=j%>" style="
           width: 75%;
+          max-width: 75%;
+          display: inline-block;
           /* background-color: tomato; */
           padding: 20px;
           box-sizing: border-box;
           height: inherit;
-          word-wrap: break-word;
-          display: flex;
-          /* justify-content: center; */
-          align-items: center;
-          font-size: 20;
-          letter-spacing: unset;
-        ">
-                vfvf
-                <br /> vvfvfhvbf <br />vjbvfdvbfhb bjvhfb j jh huvn ubv jhrn n iuh
-            </div>
-        </div>
-        <div style="
-        width: 43%;
-        padding: 20px;
-        box-sizing: border-box;
-        height: inherit;
-        /* background-color: yellow; */
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        padding-bottom: 0px;
-      ">
-            <img style="
-          background-color: transparent;
-          border-top-left-radius: 10px;
-          border-top-right-radius: 10px;
-        " src="https://www.verywellhealth.com/thmb/gF-I-Kf6MyQfEbp1Q9mpXtcENxM=/2880x1920/filters:fill(87E3EF,1)/best-breakfast-choices-and-diabetes-1087468-primary-recirc-603a39fe3b10439eaa9a0cf80a09eec2.jpg" alt="" height="130px" width="150px" />
-        </div>
-    </div>
-    <div class="day-menu" style="
-      height: 150px;
-      /* background-color: rgb(102, 243, 102); */
-      background-color: rgb(71, 233, 71);
-      width: inherit;
-      display: flex;
-      flex-direction: row;
-      color: white;
-      flex-direction: row-reverse;
-    ">
-        <div style="
-        width: 57%;
-        height: inherit;
-        /* background-color: violet; */
-        display: flex;
-        flex-direction: row;
-      ">
-            <div style="
-          width: 25%;
-          /* background-color: violet; */
-          padding: 20px;
-          box-sizing: border-box;
-          height: inherit;
-          writing-mode: vertical-lr;
-          transform: rotate(180deg);
-          font-size: 25;
-          font-weight: 900;
-
-          text-align: center;
-          text-transform: uppercase;
           overflow: hidden;
-          color: black;
-        ">
-                Sunday
-            </div>
-            <div style="
-          width: 75%;
-          /* background-color: tomato; */
-          padding: 20px;
-          box-sizing: border-box;
-          height: inherit;
           word-wrap: break-word;
-          display: flex;
-          /* justify-content: center; */
-          align-items: center;
           font-size: 20;
           letter-spacing: unset;
+          text-transform: capitalize;
         ">
-                vfvf
-                <br /> vvfvfhvbf <br />vjbvfdvbfhb bjvhfb j jh huvn ubv jhrn n iuh
-            </div>
-        </div>
-        <div style="
+                                <%=_user.related.menu.dayWise[i].timeFood[j].items%>
+                            </div>
+                        </div>
+                        <div id="photo-<%=i%>-type-<%=j%>" style="
         width: 43%;
+        max-width: 43%;
+        overflow: hidden;
         padding: 20px;
         box-sizing: border-box;
         height: inherit;
@@ -267,149 +151,59 @@
         justify-content: center;
         padding-bottom: 0px;
       ">
-            <img style="
+                            <img style="
           background-color: transparent;
           border-top-left-radius: 10px;
           border-top-right-radius: 10px;
-        " src="https://www.verywellhealth.com/thmb/gF-I-Kf6MyQfEbp1Q9mpXtcENxM=/2880x1920/filters:fill(87E3EF,1)/best-breakfast-choices-and-diabetes-1087468-primary-recirc-603a39fe3b10439eaa9a0cf80a09eec2.jpg" alt="" height="130px" width="150px" />
-        </div>
-    </div>
-    <div class="day-menu" style="
-      height: 150px;
-      background-color: white;
-      width: inherit;
-      display: flex;
-      flex-direction: row;
-      color: rgb(4, 253, 4);
-    ">
-        <div style="
-        width: 57%;
-        height: inherit;
-        /* background-color: violet; */
-        display: flex;
-        flex-direction: row;
-      ">
-            <div style="
-          width: 25%;
-          /* background-color: violet; */
-          padding: 20px;
-          box-sizing: border-box;
-          height: inherit;
-          writing-mode: vertical-lr;
-          transform: rotate(180deg);
-          font-size: 25;
-          font-weight: 900;
-
-          text-align: center;
-          text-transform: uppercase;
-          overflow: hidden;
-          color: black;
-        ">
-                Sunday
+        " src="<%=_user.related.menu.dayWise[i].timeFood[j].image%>" alt="" height="140px" width="150px" />
+                        </div>
             </div>
-            <div style="
-          width: 75%;
-          /* background-color: tomato; */
-          padding: 20px;
-          box-sizing: border-box;
-          height: inherit;
-          word-wrap: break-word;
-          display: flex;
-          /* justify-content: center; */
-          align-items: center;
-          font-size: 20;
-          letter-spacing: unset;
-        ">
-                vfvf
-                <br /> vvfvfhvbf <br />vjbvfdvbfhb bjvhfb j jh huvn ubv jhrn n iuh
-            </div>
-        </div>
-        <div style="
-        width: 43%;
-        padding: 20px;
-        box-sizing: border-box;
-        height: inherit;
-        /* background-color: yellow; */
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        padding-bottom: 0px;
-      ">
-            <img style="
-          background-color: transparent;
-          border-top-left-radius: 10px;
-          border-top-right-radius: 10px;
-        " src="https://www.verywellhealth.com/thmb/gF-I-Kf6MyQfEbp1Q9mpXtcENxM=/2880x1920/filters:fill(87E3EF,1)/best-breakfast-choices-and-diabetes-1087468-primary-recirc-603a39fe3b10439eaa9a0cf80a09eec2.jpg" alt="" height="130px" width="150px" />
-        </div>
-    </div>
-    <div class="day-menu" style="
-      height: 150px;
-      /* background-color: rgb(102, 243, 102); */
-      background-color: rgb(71, 233, 71);
-      width: inherit;
-      display: flex;
-      flex-direction: row;
-      color: white;
-      flex-direction: row-reverse;
-    ">
-        <div style="
-        width: 57%;
-        height: inherit;
-        /* background-color: violet; */
-        display: flex;
-        flex-direction: row;
-      ">
-            <div style="
-          width: 25%;
-          /* background-color: violet; */
-          padding: 20px;
-          box-sizing: border-box;
-          height: inherit;
-          writing-mode: vertical-lr;
-          transform: rotate(180deg);
-          font-size: 25;
-          font-weight: 900;
-
-          text-align: center;
-          text-transform: uppercase;
-          overflow: hidden;
-          color: black;
-        ">
-                Sunday
-            </div>
-            <div style="
-          width: 75%;
-          /* background-color: tomato; */
-          padding: 20px;
-          box-sizing: border-box;
-          height: inherit;
-          word-wrap: break-word;
-          display: flex;
-          /* justify-content: center; */
-          align-items: center;
-          font-size: 20;
-          letter-spacing: unset;
-        ">
-                vfvf
-                <br /> vvfvfhvbf <br />vjbvfdvbfhb bjvhfb j jh huvn ubv jhrn n iuh
-            </div>
-        </div>
-        <div style="
-        width: 43%;
-        padding: 20px;
-        box-sizing: border-box;
-        height: inherit;
-        /* background-color: yellow; */
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        padding-bottom: 0px;
-      ">
-            <img style="
-          background-color: transparent;
-          border-top-left-radius: 10px;
-          border-top-right-radius: 10px;
-        " src="https://www.verywellhealth.com/thmb/gF-I-Kf6MyQfEbp1Q9mpXtcENxM=/2880x1920/filters:fill(87E3EF,1)/best-breakfast-choices-and-diabetes-1087468-primary-recirc-603a39fe3b10439eaa9a0cf80a09eec2.jpg" alt="" height="130px" width="150px" />
-        </div>
-    </div>
+            <%}%>
+                <%}%>
 </div>
+
+<script>
+    var weekDays = [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday",
+    ];
+    document.querySelectorAll(".day-menu").forEach((item) => {
+        var day = parseInt(item.getAttribute("day"));
+        var time = parseInt(item.getAttribute("time"));
+        if (day % 2 != 0) {
+            item.style.flexDirection = "row-reverse";
+            item.style.backgroundColor = "rgb(4, 253, 4,0.564)";
+            item.style.color = "white";
+        }
+        if (time != 0) {
+            item.style.display = "none";
+        }
+        document.getElementById("day-" + day + "-type-" + time).innerText =
+            weekDays[day];
+        const content = document.getElementById(
+            "content-" + day + "-type-" + time
+        ).innerText;
+        document.getElementById("content-" + day + "-type-" + time).innerHTML =
+            content.replace(/,/g, " </br> ");
+    });
+
+    function menuTabChange(event, type) {
+        document.querySelectorAll(".active-menu-tab").forEach((item) => {
+            item.className = item.className.replace(" active-menu-tab", "");
+        });
+        event.target.className += " active-menu-tab";
+        document.querySelectorAll(".day-menu").forEach((item) => {
+            let time = item.getAttribute("time");
+            if (time + "" == type + "") {
+                item.style.display = "flex";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
+</script>

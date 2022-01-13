@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="/css/new_post.css" />
+
+<div id="new-post" style="width: 40%; min-width: 500px">
+    <div id="img-container">
+        <img src="<%=locals.user.pic%>" alt="" height="65px" width="65px" style="border-radius: 50%" />
+    </div>
+    <h3 style="text-transform: capitalize">
+        <%=hostel.related.menu.heading%>
+    </h3>
+    <h2 id="menu-head" day="<%=day%>" time="<%=time%>" style="
+      color: rgba(10, 207, 10, 0.76);
+      padding: 8px 25px 25px 10px;
+      margin: 0px;
+      box-sizing: border-box;
+      word-wrap: break-word;
+      text-transform: capitalize;
+    ">
+        Monday, Breakfast Menu
+    </h2>
+    <div>
+        <form action="/creator/update-day-time-menu-content" enctype="multipart/form-data" method="POST">
+            <!-- <input type="file" name="post" required multiple id="file-input" />
+                <div id="preview"></div>
+                <div id="all_images"></div>
+                <input type="text" name="caption" placeholder="Type Caption here" style="border: 1px solid whitesmoke" />
+                <button>Post</button> -->
+            <input type="file" name="foodImage" id="file-input" />
+            <div id="preview"></div>
+            <div id="all_images"></div>
+            <textarea required style="
+          font-size: 18;
+          box-sizing: border-box;
+          text-transform: capitalize;
+        " name="newItems" id="items" cols="30" rows="10" placeholder="Write menu  with ,(commas) seprated items. For ex. butter roti,salad,curd,Rice ">
+<%=hostel.related.menu.dayWise[day].timeFood[time].items%></textarea
+      >
+      <input required type="hidden" name="day" value="<%=day%>" />
+      <input required type="hidden" name="time" value="<%=time%>" />
+      <div
+        style="
+          background-color: transparent;
+          width: 100%;
+          min-width: 100%;
+          padding: 10px;
+          margin: 0px;
+          box-sizing: border-box;
+          display: block;
+          text-align: right;
+        "
+      >
+        <button style="width: 100px; position: relative">Update</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  let weekDays = [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+  ];
+  let timing = ["breakfast", "lunch", "snacks", "dinner"];
+  let menuHead = document.getElementById("menu-head");
+  menuHead.innerText =
+    weekDays[parseInt(menuHead.getAttribute("day"))] +
+    ", " +
+    timing[parseInt(menuHead.getAttribute("time"))] +
+    " Menu";
+</script>
+<script src="/js/new_post.js "></script>

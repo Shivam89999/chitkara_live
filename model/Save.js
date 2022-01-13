@@ -13,6 +13,8 @@ const saveSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
+}, {
+    strict: false,
 });
 
 const Save = mongoose.model("Save", saveSchema);

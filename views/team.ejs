@@ -3,10 +3,7 @@
     <div class="container" id="0" tabindex="1" onmouseover="handleFocus('0')" style="
       /* min-height: 300px; */
       width: 100%;
-
-      background: url('https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg')
-          10px 40px,
-        linear-gradient(150deg, #2f154cdc 65%, #2f154c98 35%);
+      position: relative;
       background-size: 150px 200px, 100%;
       background-repeat: no-repeat;
       background-position-x: right;
@@ -15,6 +12,9 @@
       padding: 40px;
       box-sizing: border-box;
     ">
+        <div class="tem-member-edit-option" id="tem-member-edit-option-0">
+            <a href="">&vellip;</a>
+        </div>
         <div class="member-heading" id="heading-0" style="
         word-wrap: break-word;
         overflow: hidden;
@@ -27,6 +27,7 @@
       ">
             Team Member of AAA group
         </div>
+
         <div class="member-desc" id="desc-0" style="
         height: 0;
         padding: 0px;
@@ -395,7 +396,7 @@
             display: inline-block;
             height: inherit;
           "
-          >Shivam kumar mittal jindalGupta</a
+          >Shivam Gupta</a
         >
       </div>
     </div>
@@ -413,6 +414,9 @@
       item.style.height = "0px";
       item.style.opacity = "0";
     });
+    document.querySelectorAll(".tem-member-edit-option").forEach((item) => {
+      item.style.opacity = "0";
+    });
     document.querySelectorAll(".member-heading").forEach((item) => {
       item.style.width = "80%";
     });
@@ -422,7 +426,37 @@
     document.getElementById("name-" + id).style.height = "82px";
     document.getElementById("desc-" + id).style.height = "initial";
     document.getElementById("heading-" + id).style.width = "100%";
-
+    document.getElementById("tem-member-edit-option-" + id).style.opacity = "1";
     // document.getElementById("0").style.height = "1200px";
+  }
+
+  document.querySelectorAll(".container").forEach((item) => {
+    let rgb = generateDarkColorRgb();
+
+    item.style.background =
+      "url('https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg')right bottom / 150px 200px no-repeat, linear-gradient(150deg, " +
+      "rgba(" +
+      rgb[0] +
+      "," +
+      rgb[1] +
+      ", " +
+      rgb[2] +
+      ", 0.8)" +
+      " 65%, " +
+      "rgba(" +
+      rgb[0] +
+      "," +
+      rgb[1] +
+      ", " +
+      rgb[2] +
+      ", 0.7)" +
+      " 35%)";
+    let image =
+      "url('https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg')10px 40px / 150px 200px no-repeat";
+  });
+  function generateDarkColorRgb() {
+    let rgb = [];
+    for (let r = 0; r < 3; r++) rgb.push(Math.floor(Math.random() * 128));
+    return rgb;
   }
 </script>

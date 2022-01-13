@@ -11,6 +11,9 @@ const fs = require("fs");
 const Like = require("../model/like");
 const Alert = require("../model/alert");
 const TextPost = require("../model/textPost");
+const FoodDetail = require("../model/foodDetail");
+const DayMenuDetail = require("../model/dayMenuDetail");
+const Menu = require("../model/menu");
 
 // function newPost(req, res) {
 //     if (!req.user) {
@@ -313,6 +316,117 @@ function newAlert(req, res) {
         }
     );
 }
+
+async function updateMenu(req, res) {
+    if (req.user.myUser.onModel != "Hostel") {
+        console.log("you are not authorized user");
+        return res.redirect("back");
+    }
+    if (!req.query || !req.query.day || !req.query.time) {
+        console.log("bad request dont't try to change the client side code ");
+        return res.redirect("back");
+    }
+    let day = req.query.day;
+    let time = req.query.time;
+    let hostel = req.user.myUser;
+    console.log("day is ", day, " and time is ", time);
+    User.populate(hostel, {
+        path: "related",
+        populate: {
+            path: "menu",
+            populate: {
+                path: "dayWise",
+                populate: {
+                    path: "timeFood",
+                },
+            },
+        },
+    }).then((hostel) => {
+        console.log("hostel is ", hostel.related.menu.dayWise[0].timeFood);
+        return res.render("menu_update", {
+            title: "menu-update-page",
+            hostel: hostel,
+            day: day,
+            time: time,
+        });
+    });
+}
+async function updateDayTimeMenuContent(req, res) {
+    //update day time menu content fn
+    if (req.user.myUser.onModel != "Hostel") {
+        console.log("you are not authorized user");
+        return res.redirect("back");
+    }
+    FoodDetail.uploadFoodImage(req, res, function(err) {
+        if (err) {
+            if (err.code === "LIMIT_FILE_SIZE") {
+                console.log("file is too large max size allowed is 5mb");
+                return res.redirect("back");
+            }
+
+            console.log("err in processing multipart-data with multer: ", err);
+            return res.redirect("back");
+        }
+        if (!req.body || !req.body.day || !req.body.time || !req.body.newItems) {
+            console.log("bad request dont't try to change the client side code ");
+            return res.redirect("back");
+        }
+
+        let day = req.body.day;
+        let time = req.body.time;
+        let hostel = req.user.myUser;
+        let newItems = req.body.newItems;
+        if (newItems.length == 0) {
+            console.log("new item can not be empty");
+            return res.redirect("back");
+        }
+        console.log("day is ", day, " and time is ", time);
+        User.populate(hostel, {
+            path: "related",
+            populate: {
+                path: "menu",
+                populate: {
+                    path: "dayWise",
+                    populate: {
+                        path: "timeFood",
+                    },
+                },
+            },
+        }).then((hostel) => {
+            console.log(
+                "prev items are is ",
+                hostel.related.menu.dayWise[day].timeFood[time]
+            );
+            hostel.related.menu.dayWise[day].timeFood[time].items = newItems;
+            if (req.file) {
+                //if already food image exist than remove it
+                if (
+                    hostel.related.menu.dayWise[day].timeFood[time].image &&
+                    hostel.related.menu.dayWise[day].timeFood[time].image !=
+                    FoodDetail.defaultFoodImage
+                ) {
+                    fs.unlinkSync(
+                        path.join(
+                            __dirname,
+                            "..",
+                            hostel.related.menu.dayWise[day].timeFood[time].image
+                        )
+                    );
+                }
+                //add new image
+                hostel.related.menu.dayWise[day].timeFood[time].image =
+                    FoodDetail.foodPath + "/" + req.file.filename;
+            }
+            hostel.related.menu.dayWise[day].timeFood[time].save();
+            hostel.save();
+            console.log(
+                "new food items updated successfully ",
+                hostel.related.menu.dayWise[day].timeFood[time]
+            );
+            return res.redirect("/");
+        });
+    });
+}
 module.exports = {
     newPost,
     deletePost,
@@ -324,4 +438,6 @@ module.exports = {
     newEventPostPage,
     newAlertPage,
     newAlert,
+    updateMenu,
+    updateDayTimeMenuContent,
 };
