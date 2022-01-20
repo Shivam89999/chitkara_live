@@ -9,6 +9,10 @@ const clubSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
+    teamMembers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Member",
+    }, ],
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post",

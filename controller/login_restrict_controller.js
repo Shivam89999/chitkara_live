@@ -14,6 +14,7 @@ const { redirect } = require("express/lib/response");
 const Notice = require("../model/notice");
 const Poll = require("../model/poll");
 const Save = require("../model/Save");
+const Member = require("../model/Member");
 
 function userProfile(req, res) {
     if (!req.user) {
@@ -41,6 +42,12 @@ function userProfile(req, res) {
                         populate: {
                             path: "timeFood",
                         },
+                    },
+                },
+                {
+                    path: "teamMembers",
+                    populate: {
+                        path: "userId",
                     },
                 },
             ],
@@ -993,6 +1000,77 @@ async function mySaveItemsDetails(req, res) {
         mySaveItems: posts.concat(texts),
     });
 }
+async function OwnAsMemberUpdateDetails(req, res) {
+    if (req.user.myUser.onModel != "Student") {
+        console.log("bad request");
+        return res.redirect("back");
+    }
+    Member.uploadMember(req, res, function(err) {
+        if (err) {
+            if (err.code === "LIMIT_FILE_SIZE") {
+                console.log("file is too large max size allowed is 5mb");
+                return res.redirect("back");
+            }
+
+            console.log("err in processing multipart-data with multer: ", err);
+            return res.redirect("back");
+        }
+        if (!req.body.memberId) {
+            console.log("bad request ");
+            return res.redirect("back");
+        }
+        let memberId = req.body.memberId;
+        Member.findById(memberId, function(err, member) {
+            if (err || !member) {
+                console.log("member not found ");
+                return res.redirect("back");
+            }
+            if (member.userId + "" != req.user.myUser.id + "") {
+                console.log("u r not authorized to update this member");
+                return res.redirect("back");
+            }
+
+            if (req.file) {
+                if (
+                    member.image != null &&
+                    member.image != Member.defaultTeamCoverImage
+                )
+                    fs.unlinkSync(path.join(__dirname, "..", member.image));
+                member.image = Member.memberPath + "/" + req.file.filename;
+            }
+            member.save();
+            return res.redirect("/");
+        });
+    });
+}
+async function OwnAsMemberUpdateDetailsPage(req, res) {
+    if (!req.query || !req.query.member) {
+        console.log("bad request  ", req.query);
+        return res.redirect("back");
+    }
+    let memberId = req.query.member;
+    Member.findById(memberId)
+        .populate("userId")
+        .exec(function(err, member) {
+            if (err || !member) {
+                console.log(
+                    "bad request member id is incorrect or error in finding member"
+                );
+                return res.redirect("back");
+            }
+            if (member.userId.id != "" + req.user.myUser.id) {
+                console.log(
+                    "request is invalid, you are not authorized user to update that request "
+                );
+                return res.redirect("back");
+            }
+            return res.render("updateOrAddMemberPage", {
+                title: "Updat  Member Page",
+                member: member,
+                userDetails: null,
+            });
+        });
+}
 module.exports = {
     userProfile,
     myProfile,
@@ -1021,4 +1099,6 @@ module.exports = {
     toggleToSave,
     mySaveItems,
     mySaveItemsDetails,
+    OwnAsMemberUpdateDetails,
+    OwnAsMemberUpdateDetailsPage,
 };

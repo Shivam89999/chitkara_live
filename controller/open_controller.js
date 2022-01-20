@@ -248,22 +248,35 @@ async function homePage(req, res) {
     });
 }
 
-function search(req, res) {
+async function findResults(req, res) {
+    let results = await User.find({
+        name: { $regex: req.body.name, $options: "i" },
+    });
+    return results;
+}
+
+async function search(req, res) {
     console.log("req.name ", req.body.name);
-    User.find({ name: { $regex: req.body.name, $options: "i" } },
-        function(err, results) {
-            if (err) {
-                console.log("err in searching  users: ", err);
-                return res.redirect("back");
-            }
-            console.log("results ", results);
-            return res.render("option_page", {
-                title: "Search Result Page",
-                options: results,
-                type: "Search Result",
-            });
-        }
-    );
+    let results = await findResults(req, res);
+    // User.find({ name: { $regex: req.body.name, $options: "i" } },
+    //     function(err, results) {
+    //         if (err) {
+    //             console.log("err in searching  users: ", err);
+    //             return res.redirect("back");
+    //         }
+    //         console.log("results ", results);
+    //         return res.render("option_page", {
+    //             title: "Search Result Page",
+    //             options: results,
+    //             type: "Search Result",
+    //         });
+    //     }
+    // );
+    return res.render("option_page", {
+        title: "Search Result Page",
+        options: results,
+        type: "Search Result",
+    });
 }
 
 function notices(req, res) {
@@ -315,6 +328,16 @@ function homeOptionPage(req, res) {
         });
     });
 }
+async function searchStudents(req, res) {
+    let results = await findResults(req, res);
+    let newResults = await results.filter(function(item) {
+        return item.onModel == "Student";
+    });
+    return res.render("select_user_page", {
+        title: "Select User To add new Team Member Page",
+        results: newResults,
+    });
+}
 module.exports = {
     homePage,
     signIn,
@@ -324,5 +347,6 @@ module.exports = {
     findOptions,
     search,
     notices,
+    searchStudents,
     homeOptionPage,
 };

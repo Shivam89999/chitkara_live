@@ -1,0 +1,79 @@
+<link rel="stylesheet" href="/css/new_post.css" />
+<link rel="stylesheet" href="/css/option-page.css" />
+<div id="new-post" style="width: 40%; min-width: 500px">
+    <div id="img-container">
+        <img src="<%=locals.user.pic%>" alt="" height="65px" width="65px" style="border-radius: 50%" />
+    </div>
+    <h3>Select New Team Member</h3>
+    <div style="margin-top: 20px">
+        <form action="/search_students" method="POST" style="display: flex; flex-direction: row">
+            <input type="text" name="name" required placeholder="Search users using name" style="
+          background-color: rgba(238, 238, 238, 0.329);
+          width: 90%;
+          border-radius: 20px;
+        " />
+            <input type="submit" value="s" style="width: 10%" />
+        </form>
+    </div>
+    <div id="option-page" style="
+      width: 100%;
+      left: 0px;
+      margin: 0px;
+      max-width: 100%;
+      box-shadow: none;
+    ">
+        <div id="empty-div" type="<%=locals.results ? true: false;%>">
+            No user Found
+        </div>
+        <!-- <div id="empty-div">vnfbv</div>
+    <div id="empty-div">jvfhvjfn</div> -->
+        <%if(locals.results){%>
+            <%for(let option of locals.results){%>
+                <main class="link search-result <%=option.onModel%>-result">
+                    <a href="/user/profile?user_id=<%=option.id%>" style="
+          height: inherit;
+          max-width: 80%;
+          width: 80%;
+          text-decoration: none;
+          color: black;
+        ">
+                        <div class="option" style="height: auto; width: auto; margin: 0px">
+                            <div style="height: auto; width: auto; display: inline; margin: 0px">
+                                <img src="<%=option.pic%>" alt="Logo" />
+                            </div>
+                            <div class="right-div" style="margin: 0px 0px 0px 4px; width: auto; max-width: 90%">
+                                <span><%=option.name%></span>
+                                <span style="font-size: 11"><%=option.onModel%></span>
+                                <span style="font-size: 11"><%=option.email%></span>
+
+                                <span style="font-size: 11"><%=option.bio%></span>
+                            </div>
+                        </div>
+                    </a>
+                    <div style="
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0;
+          height: auto;
+          width: auto;
+          margin: 0;
+        ">
+                        <a href="/creator/updateOrAddTeamMember?user=<%=option.id%>"><button class="select-button">Select</button></a
+        >
+      </div>
+    </main>
+    <%}%> <%}%>
+  </div>
+</div>
+
+<script>
+  let emptyDiv = document.getElementById("empty-div");
+  let type = emptyDiv.getAttribute("type");
+  let search_users = document.querySelectorAll(".search-result").length;
+  if (search_users == 0 && type != "false") {
+    emptyDiv.innerText = "No User Found";
+    emptyDiv.style.display = "block";
+  }
+</script>

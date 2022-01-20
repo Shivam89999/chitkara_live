@@ -43,4 +43,13 @@ router.get(
     "/my-save-items-details",
     login_restrict_controller.mySaveItemsDetails
 );
+router.get(
+    "/own-as-member-update-details-page/",
+    login_restrict_controller.OwnAsMemberUpdateDetailsPage
+);
+router.post(
+    "/own-as-member-update-details",
+    login_restrict_controller.OwnAsMemberUpdateDetails
+);
+
 module.exports = router;

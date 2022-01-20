@@ -69,7 +69,7 @@
   word-wrap: break-word;
 }
 
-#option-page a {
+#option-page .link {
   text-decoration: none;
   color: black;
   background-color: white;
@@ -78,28 +78,48 @@
   padding: 25px;
   border-radius: 2%;
   border-bottom: 1px solid black;
-}
-
-#option-page a div {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#option-page .link .option {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   flex-wrap: wrap;
   padding: 2px;
 }
 
-#option-page a div img {
+#option-page .link .option img {
   height: 50px;
   width: 50px;
   border-radius: 50%;
 }
 
-#option-page a div .right-div {
+#option-page .link .option .right-div {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   padding: 5px;
 }
 
-#option-page a:hover {
+#option-page .link:hover {
   box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.2);
+}
+
+.select-button {
+  position: relative;
+  padding: 8px 16px 8px 16px;
+  background-color: rgba(65, 105, 225, 0.89);
+  border-color: rgba(65, 105, 225, 0.788);
+  color: white;
+  font-size: 16;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+.select-button:hover {
+  background-color: #224fd6;
 }

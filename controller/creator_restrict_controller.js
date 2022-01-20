@@ -14,6 +14,7 @@ const TextPost = require("../model/textPost");
 const FoodDetail = require("../model/foodDetail");
 const DayMenuDetail = require("../model/dayMenuDetail");
 const Menu = require("../model/menu");
+const Member = require("../model/Member");
 
 // function newPost(req, res) {
 //     if (!req.user) {
@@ -427,6 +428,197 @@ async function updateDayTimeMenuContent(req, res) {
         });
     });
 }
+
+function addNewTeamMemberSelectUser(req, res) {
+    return res.render("select_user_page", {
+        title: "Select User To add new Team Member Page",
+        results: null,
+    });
+}
+async function getRequestUserWithPopulated(req) {
+    return await User.findById(req.user.myUser.id)
+        .populate({
+            path: "related",
+            populate: {
+                path: "teamMembers",
+            },
+        })
+        .exec();
+}
+async function checkTargetUserAlreadyInTeamOrNot(members, targetUserId) {
+    for (let member of members) {
+        if (member.userId == "" + targetUserId) {
+            console.log("already member");
+            return await Member.populate(member, {
+                path: "userId",
+            });
+        }
+    }
+    return null;
+}
+async function updateOrAddTeamMember(req, res) {
+    let target_user_id = req.query.user;
+    User.findOne({ _id: target_user_id, onModel: "Student" },
+        async function(err, user) {
+            if (user) {
+                let requestUser = await getRequestUserWithPopulated(req);
+                console.log("request user is ", requestUser);
+
+                console.log(
+                    "requestUser.related.teamMebers    ",
+                    requestUser.related.teamMembers
+                );
+                let memberPass = await checkTargetUserAlreadyInTeamOrNot(
+                    requestUser.related.teamMembers,
+                    user.id
+                );
+
+                console.log("user find, usre is ", user);
+                return res.render("updateOrAddMemberPage", {
+                    title: "Updat or Add Member Page",
+                    member: memberPass,
+                    userDetails: user,
+                });
+            } else {
+                console.log("user not find");
+            }
+            return res.redirect("");
+        }
+    );
+}
+
+async function update_Team_Member(req, res) {
+    if (!req.query || !req.query.member) return re.redirect("back");
+    let memberId = req.query.member;
+    Member.findById(memberId)
+        .populate("userId")
+        .exec(async function(err, member) {
+            if (err || !member) {
+                console.log("bad request member not found ");
+                return res.redirect("back");
+            }
+            let requestUser = await getRequestUserWithPopulated(req);
+            console.log("request user is ", requestUser);
+
+            console.log(
+                "requestUser.related.teamMebers    ",
+                requestUser.related.teamMembers
+            );
+            let memberPass = await checkTargetUserAlreadyInTeamOrNot(
+                requestUser.related.teamMembers,
+                member.userId.id
+            );
+            if (memberPass == null) {
+                console.log("member is not in  team so update request is meaning less");
+                return res.redirect("back");
+            }
+
+            return res.render("updateOrAddMemberPage", {
+                title: "Updat  Member Page",
+                member: memberPass,
+                userDetails: member.userId,
+            });
+        });
+}
+async function addNewTeamMember(req, res) {
+    //get user_id of targeted user
+    let userId = req.body.user_id;
+    //check user_id is correct means user for that id is exist and onModel is student
+    User.findOne({ _id: userId, onModel: "Student" },
+        async function(err, targetUser) {
+            if (err || !targetUser) {
+                console.log("err in finding target user or may not exist");
+                return res.redirect("back");
+            }
+            //check user is already in team-member or not
+            let requestUser = await getRequestUserWithPopulated(req);
+            console.log("request user is ", requestUser);
+
+            let memberIncludes = await checkTargetUserAlreadyInTeamOrNot(
+                requestUser.related.teamMembers,
+                targetUser.id
+            );
+            let isAlreadyMember = !(memberIncludes == null);
+            //if already in team member than add new request is invalid it should be update request
+            if (isAlreadyMember) {
+                console.log(
+                    "this user is already team mmember so make the update request"
+                );
+                return res.redirect("back");
+            }
+            //if not already in team member add it in team member
+            let body = req.body;
+            let obj = {
+                userId: body.user_id,
+            };
+            if (body.heading.length != 0) {
+                obj.heading = body.heading;
+            }
+            if (body.description.length != 0) {
+                obj.desc = body.description;
+            }
+            let newMember = await Member.create(obj);
+            console.log("new member created successfully ", newMember);
+            requestUser.related.teamMembers.push(newMember.id);
+            requestUser.related.save();
+            requestUser.save();
+            console.log(
+                "in requestUser add it in new team Member successfully ",
+                requestUser
+            );
+            return res.redirect("/");
+        }
+    );
+
+    //if already in team member than add new request is invalid it should be update request
+    // if not already in team that add it in team member
+}
+async function UpdateTeamMember(req, res) {
+    //get user_id of targeted user
+    let userId = req.body.user_id;
+    //check user_id is correct means user for that id is exist and onModel is student
+    User.findOne({ _id: userId, onModel: "Student" },
+        async function(err, targetUser) {
+            if (err || !targetUser) {
+                console.log("err in finding target user or may not exist");
+                return res.redirect("back");
+            }
+            //check user is already in team-member or not
+            let requestUser = await getRequestUserWithPopulated(req);
+            console.log("request user is ", requestUser);
+
+            let memberExist = await checkTargetUserAlreadyInTeamOrNot(
+                requestUser.related.teamMembers,
+                targetUser.id
+            );
+            let isAlreadyMember = !(memberExist == null);
+            //if already not in team member than update member  request is invalid it should be add new member request
+            if (!isAlreadyMember) {
+                console.log(
+                    "this user is not already team mmember so make the add new  request"
+                );
+                return res.redirect("back");
+            }
+            //if  already in team member update it in team member
+            let body = req.body;
+            let obj = {
+                heading: body.heading.length != 0 ? body.heading : "Team Member",
+                desc: body.description.length != 0 ?
+                    body.description :
+                    "Working Criteria or Rights of the member not updated yet",
+            };
+
+            // await Member.findByIdAndUpdate(memberExist.id, obj);
+            //or we can update like below
+            memberExist.heading = obj.heading;
+            memberExist.desc = obj.desc;
+            memberExist.save();
+            console.log("updated successfully");
+            return res.redirect("/");
+        }
+    );
+}
+
 module.exports = {
     newPost,
     deletePost,
@@ -440,4 +632,10 @@ module.exports = {
     newAlert,
     updateMenu,
     updateDayTimeMenuContent,
+    addNewTeamMemberSelectUser,
+    updateOrAddTeamMember,
+    addNewTeamMember,
+    UpdateTeamMember,
+
+    update_Team_Member,
 };

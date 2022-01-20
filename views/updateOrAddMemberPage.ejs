@@ -1,0 +1,158 @@
+<link rel="stylesheet" href="/css/new_post.css" />
+
+<div id="new-post" style="width: 40%; min-width: 500px">
+    <div id="img-container">
+        <img src="<%=locals.user.pic%>" alt="" height="65px" width="65px" style="border-radius: 50%" />
+    </div>
+    <h3>
+        <%= locals.member!=null ? " Update Team Member" : " Add New Member" ;%>
+    </h3>
+    <div>
+        <%if(locals.user.onModel=='Student'){%>
+            <form action="/user/own-as-member-update-details" method="POST" enctype="multipart/form-data">
+                <div style="
+          margin: auto;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        ">
+                    <img src="<%=locals.member.userId.pic%>" alt="" height="100px" width="100px" style="border-radius: 50%; border: 2px solid white" />
+
+                    <span><%=locals.member.userId.name%></span>
+                    <span><%=locals.member.userId.email%></span>
+                </div>
+                <input type="hidden" name="memberId" value="<%=locals.member.id%>" />
+                <div style="font-weight: 700; font-size: 18">
+                    Your current cover photo
+                </div>
+                <div style="margin: auto; display: flex; justify-content: center">
+                    <img style="border: 2px solid gray" src="<%=locals.member.image%>" alt="cover-photo" height="200px" width="150px" />
+                </div>
+                <div style="font-weight: 700; font-size: 18">Choose new Cover photo</div>
+
+                <input type="file" name="memberPhoto" id="file-input" placeholder="New Profile" />
+                <div id="preview" style="margin: auto"></div>
+                <div id="error-div" style="text-align: center; padding: 5px; margin: auto"></div>
+
+                <div style="
+          background-color: transparent;
+          width: 100%;
+          min-width: 100%;
+          padding: 10px;
+          margin: 0px;
+          box-sizing: border-box;
+          display: block;
+          text-align: right;
+        ">
+                    <button style="text-transform: capitalize">Update</button>
+                </div>
+            </form>
+            <%}else{%>
+                <form action="/creator/<%=locals.member!=null ? 'update-team-member':'add-new-team-member'%>" method="POST">
+                    <div style="
+          margin: auto;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        ">
+                        <img src="<%=locals.userDetails.pic%>" alt="" height="100px" width="100px" style="border-radius: 50%; border: 2px solid white" />
+
+                        <span><%=locals.member==null ? locals.userDetails.name :
+          locals.member.userId.name%></span
+        >
+        <span
+          ><%=locals.member==null ? locals.userDetails.email :
+          locals.member.userId.email%></span
+        >
+      </div>
+      <%if(locals.member!=null){%>
+      <div style="font-weight: 700; font-size: 18">
+        Member current cover photo
+      </div>
+      <div style="margin: auto; display: flex; justify-content: center">
+        <abbr title="You can not update, member can update own"
+          ><img
+            style="border: 2px solid gray"
+            src="<%=locals.member.image%>"
+            alt="cover-photo"
+            height="200px"
+            width="150px"
+        /></abbr>
+      </div>
+      <%}%>
+      <input type="hidden" name="user_id" value="<%=locals.userDetails.id%>" />
+      <textarea
+        name="heading"
+        id=""
+        cols="30"
+        rows="3"
+        placeholder="Write the heading that suit the best to this member.For Ex. Team Cultural Head,Team Event  Head. by default t will be Team Member"
+        style="border: 1px solid rgb(224, 214, 214); padding: 5px"
+      >
+<%=locals.member!=null ? locals.member.heading : ''%></textarea
+      >
+      <textarea
+        name="description"
+        id=""
+        cols="30"
+        rows="5"
+        placeholder="describe the working criteria, rights of the member or other description. by default it will be, 'Working Criteria or Rights of the member not updated yet'"
+        style="border: 1px solid rgb(224, 214, 214); padding: 5px"
+      >
+<%=locals.member!=null ? locals.member.desc : ''%></textarea
+      >
+      <div
+        style="
+          background-color: transparent;
+          width: 100%;
+          min-width: 100%;
+          padding: 10px;
+          margin: 0px;
+          box-sizing: border-box;
+          display: block;
+          text-align: right;
+        "
+      >
+        <button style="text-transform: capitalize">
+          <%= locals.member!=null ? "Update" : "Add" ;%>
+        </button>
+      </div>
+    </form>
+    <%}%>
+  </div>
+</div>
+<script>
+  function changeImage() {
+    var preview = document.querySelector("#preview");
+    var errorDiv = document.querySelector("#error-div");
+    preview.innerHTML = "";
+    errorDiv.innerHTML = "";
+    if (!this.files) return;
+    if (!/\.(jpe?g|png)$/i.test(this.files[0].name)) {
+      let ele = document.createElement("span");
+      ele.innerHTML = "only jpg jpeg or png are allowed";
+      ele.style.cssText = "color:red; padding:40px";
+      errorDiv.appendChild(ele);
+      return;
+    }
+    read(this.files[0]);
+
+    function read(file) {
+      var reader = new FileReader();
+      reader.addEventListener("load", function () {
+        var image = new Image();
+        image.height = 200;
+        image.title = file.name;
+        image.src = this.result;
+        image.width = 150;
+
+        image.style.border = "2px solid grey";
+        preview.appendChild(image);
+        console.log("Y ");
+      });
+      reader.readAsDataURL(file);
+      console.log("yes ");
+    }
+  }
+  document.querySelector("#file-input").addEventListener("change", changeImage);
+</script>

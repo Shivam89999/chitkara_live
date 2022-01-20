@@ -149,75 +149,77 @@
       >
     </a>
     <%if(locals.user){%>
-    <span style="font-size: 16; font-weight: 100">Student</span>
-                        <%}%>
-    </div>
-    <div id="info-options">
-        <div id="part-1">
-            <a href="/notices">
-                <div><span>Notices</span> <span><%=noOfNotices%> </span></div>
-            </a>
-            <a href="/user/profile?user_id=<%=locals.user.id%>">
-                <div>My Profile</div>
-            </a>
-        </div>
-        <%if(locals.user){%>
-            <div id="part-2">
-                <a href="/user/profile-requests-page">
-                    <div><span>Requests</span> <span><%=noOfComingRequests%> </span></div>
-                </a>
-                <a href="/user/my-save-items">
-                    <div style="justify-content: flex-start">
-                        <img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/5667/premium/5667029.png?token=exp=1640970876~hmac=caca3b24d6da0ad02fc608a4349ccc42" alt=" " /><span style="padding-left: 10px"> Save Items</span>
-                    </div>
-                </a>
-                <a href="/user/new-poll-page">
-                    <div style="justify-content: flex-start">
-                        <img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/2668/premium/2668746.png?token=exp=1641104813~hmac=0d2a507917d58c9a35887e1ede73e8c6" alt="" /><span style="padding-left: 10px">Create Poll</span>
-                    </div>
-                </a>
-            </div>
-            <%}%>
-    </div>
+    <span style="font-size: 16; font-weight: 100"
+      ><%=locals.user.onModel%></span
+    >
+    <%}%>
+  </div>
+  <div id="info-options">
+    <div id="part-1">
+      <a href="/notices">
+        <div><span>Notices</span> <span><%=noOfNotices%> </span></div>
+    </a>
+    <a href="/user/profile?user_id=<%=locals.user.id%>">
+        <div>My Profile</div>
+    </a>
 </div>
-<div id="upcoming-events">
-    <div id="event-header">
-        <div>
-            <a href="/user/events">Upcoming & Running Events</a>
-            <span><%=upcomingOrRunningEvents.length%></span>
-        </div>
-        <div onclick="toggleEventsVisibality('all_event')">
-            <!-- <img height="20px" width="20px" id="arrow-down" src="https://cdn-icons-png.flaticon.com/512/32/32195.png" alt="toggle" style="display: inline" /> -->
-            <img style="transition: all 1s linear" height="20px" width="20px" id="arrow-up" src="https://cdn-icons-png.flaticon.com/512/271/271239.png" alt="toggle" />
-        </div>
+<%if(locals.user){%>
+    <div id="part-2">
+        <a href="/user/profile-requests-page">
+            <div><span>Requests</span> <span><%=noOfComingRequests%> </span></div>
+        </a>
+        <a href="/user/my-save-items">
+            <div style="justify-content: flex-start">
+                <img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/5667/premium/5667029.png?token=exp=1640970876~hmac=caca3b24d6da0ad02fc608a4349ccc42" alt=" " /><span style="padding-left: 10px"> Save Items</span>
+            </div>
+        </a>
+        <a href="/user/new-poll-page">
+            <div style="justify-content: flex-start">
+                <img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/2668/premium/2668746.png?token=exp=1641104813~hmac=0d2a507917d58c9a35887e1ede73e8c6" alt="" /><span style="padding-left: 10px">Create Poll</span>
+            </div>
+        </a>
     </div>
-    <div id="all_event">
-        <%if(upcomingOrRunningEvents.length==0){%>
-            <div style="
+    <%}%>
+        </div>
+        </div>
+        <div id="upcoming-events">
+            <div id="event-header">
+                <div>
+                    <a href="/user/events">Upcoming & Running Events</a>
+                    <span><%=upcomingOrRunningEvents.length%></span>
+                </div>
+                <div onclick="toggleEventsVisibality('all_event')">
+                    <!-- <img height="20px" width="20px" id="arrow-down" src="https://cdn-icons-png.flaticon.com/512/32/32195.png" alt="toggle" style="display: inline" /> -->
+                    <img style="transition: all 1s linear" height="20px" width="20px" id="arrow-up" src="https://cdn-icons-png.flaticon.com/512/271/271239.png" alt="toggle" />
+                </div>
+            </div>
+            <div id="all_event">
+                <%if(upcomingOrRunningEvents.length==0){%>
+                    <div style="
         border-top: 1px solid black;
         color: tomato;
         text-align: center;
         padding: 10px;
         margin: 15px;
       ">
-                No Upcoming or Runnning Event
-            </div>
-            <%}%>
-                <%for(let event of upcomingOrRunningEvents){%>
-                    <div class="event-detail">
-                        <div style="background-color: rgb(238, 237, 235)">
-                            <div>
-                                <img src="<%=event.creator.pic%>" alt="" height="25px" width="25px" style="border-radius: 50%" />
-                            </div>
-                            <div>
-                                <%=event.creator.name%>
-                            </div>
-                        </div>
-                        <a href="/user/events">
-                            <div class="event-type">
-                                <div>
-                                    <img height="25px" width="25px" src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="" />
-                                    <span style="color: hsl(93, 100%, 49%)" class="event-head" startTime="<%=event.eventStartTime%>">Upcoming Event</span
+                        No Upcoming or Runnning Event
+                    </div>
+                    <%}%>
+                        <%for(let event of upcomingOrRunningEvents){%>
+                            <div class="event-detail">
+                                <div style="background-color: rgb(238, 237, 235)">
+                                    <div>
+                                        <img src="<%=event.creator.pic%>" alt="" height="25px" width="25px" style="border-radius: 50%" />
+                                    </div>
+                                    <div>
+                                        <%=event.creator.name%>
+                                    </div>
+                                </div>
+                                <a href="/user/events">
+                                    <div class="event-type">
+                                        <div>
+                                            <img height="25px" width="25px" src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="" />
+                                            <span style="color: hsl(93, 100%, 49%)" class="event-head" startTime="<%=event.eventStartTime%>">Upcoming Event</span
             >
           </div>
           <abbr title="See Event Detail">

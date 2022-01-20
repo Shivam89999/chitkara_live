@@ -1,6 +1,9 @@
 <link rel="stylesheet" href="/css/team.css" />
 <div id="team-contaainer" style="height: auto; width: 100%">
-    <div class="container" id="0" tabindex="1" onmouseover="handleFocus('0')" style="
+    <%var i=0;%>
+        <%for(member of _user.related.teamMembers){%>
+
+            <div class="container" id="<%=i%>" backImage="<%=member.image%>" tabindex="1" onmouseover="handleFocus('<%=i%>')" style="
       /* min-height: 300px; */
       width: 100%;
       position: relative;
@@ -12,10 +15,20 @@
       padding: 40px;
       box-sizing: border-box;
     ">
-        <div class="tem-member-edit-option" id="tem-member-edit-option-0">
-            <a href="">&vellip;</a>
-        </div>
-        <div class="member-heading" id="heading-0" style="
+                <%if(locals.user.id==_user.id||member.userId.id==locals.user.id){%>
+                    <div class="tem-member-edit-option" id="tem-member-edit-option-<%=i%>">
+                        <%if(locals.user.onModel!='Student'){%>
+                            <a href="/creator/update-Team-Member?member=<%=member.id%>">&vellip;</a>
+                            <%}else{%>
+                                <a href="/user/own-as-member-update-details-page?member=<%=member.id%>">&vellip;</a
+      >
+      <%}%>
+    </div>
+    <%}%>
+    <div
+      class="member-heading"
+      id="heading-<%=i%>"
+      style="
         word-wrap: break-word;
         overflow: hidden;
         font-size: 35;
@@ -24,18 +37,25 @@
         height: auto;
         max-height: 200px;
         box-sizing: border-box;
-      ">
-            Team Member of AAA group
-        </div>
+      "
+    >
+      <!-- Team Member of AAA group -->
+      <%=member.heading%>
+    </div>
 
-        <div class="member-desc" id="desc-0" style="
+    <div
+      class="member-desc"
+      id="desc-<%=i%>"
+      style="
         height: 0;
         padding: 0px;
         margin: 0px;
         transition: height 0.5s ease;
         box-sizing: border-box;
-      ">
-            <div style="
+      "
+    >
+      <div
+        style="
           word-wrap: break-word;
           overflow: hidden;
           margin: 80px 100px 10px 0px;
@@ -44,419 +64,110 @@
           font-weight: 500;
           /* max-height: 250px; */
           height: inherit;
-        ">
-                describe the working criteria or working writes of member jbfvb jvf jfv jfv jfvb hvf jfv jfnv jfvn jhvf kjfvn jnvf jkfvn
+        "
+      >
+        <%=member.desc%>
+        <!-- describe the working criteria or working writes of member jbfvb jvf jfv jfv jfvb hvf jfv jfnv jfvn jhvf kjfvn jnvf jkfvn -->
+      </div>
+    </div>
+    <div
+      class="member-name"
+      id="name-<%=i%>"
+      style="
+        height: 0;
+        padding: 0px;
+        margin: 0px;
+        transition: height 0.5s ease;
+        box-sizing: border-box;
+      "
+    >
+      <div
+        style="
+          word-wrap: break-word;
+
+          font-weight: 700;
+          font-size: 26;
+          padding: 50px;
+          padding-left: 0px;
+          word-wrap: break-word;
+          overflow: hidden;
+          height: auto;
+          /* max-height: 150px; */
+          height: inherit;
+        "
+      >
+        <a href="/user/profile?user_id=<%=member.userId%>" class="profile-link">
+          <!-- Shivam kumar mittal jindalGupta -->
+          <%=member.userId.name%>
+        </a>
+                    </div>
             </div>
-        </div>
-        <div class="member-name" id="name-0" style="
-        height: 0;
-        padding: 0px;
-        margin: 0px;
-        transition: height 0.5s ease;
-        box-sizing: border-box;
-      ">
-            <div style="
-          word-wrap: break-word;
-
-          font-weight: 700;
-          font-size: 26;
-          padding: 50px;
-          padding-left: 0px;
-          word-wrap: break-word;
-          overflow: hidden;
-          height: auto;
-          /* max-height: 150px; */
-          height: inherit;
-        ">
-                <a href="" style="
-            text-decoration: none;
-            color: white;
-            word-wrap: break-word;
-            overflow: hidden;
-            display: inline-block;
-            height: inherit;
-          ">Shivam kumar mittal jindalGupta</a
-        >
-      </div>
-    </div>
-  </div>
-
-  <div
-    class="container"
-    id="1"
-    tabindex="1"
-    onmouseover="handleFocus('1')"
-    style="
-      /* min-height: 300px; */
-      width: 100%;
-
-      background: url('https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg')
-          10px 40px,
-        linear-gradient(150deg, #2f154cdc 65%, #2f154c98 35%);
-      background-size: 150px 200px, 100%;
-      background-repeat: no-repeat;
-      background-position-x: right;
-      background-position-y: bottom;
-      color: white;
-      padding: 40px;
-      box-sizing: border-box;
-    "
-  >
-    <div
-      class="member-heading"
-      id="heading-1"
-      style="
-        word-wrap: break-word;
-        overflow: hidden;
-        font-size: 35;
-        font-weight: 800;
-        margin-right: 50px;
-        height: auto;
-        max-height: 200px;
-        box-sizing: border-box;
-      "
-    >
-      Team Member of AAA group
-    </div>
-    <div
-      class="member-desc"
-      id="desc-1"
-      style="
-        height: 0;
-        padding: 0px;
-        margin: 0px;
-        transition: height 0.5s ease;
-        box-sizing: border-box;
-      "
-    >
-      <div
-        style="
-          word-wrap: break-word;
-          overflow: hidden;
-          margin: 80px 100px 10px 0px;
-          font-size: 24;
-          font-weight: 10;
-          font-weight: 500;
-          /* max-height: 250px; */
-          height: inherit;
-        "
-      >
-        describe the working criteria or working writes of member jbfvb jvf jfv
-        jfv jfvb hvf jfv jfnv jfvn jhvf kjfvn jnvf jkfvn
-      </div>
-    </div>
-    <div
-      class="member-name"
-      id="name-1"
-      style="
-        height: 0;
-        padding: 0px;
-        margin: 0px;
-        transition: height 0.5s ease;
-        box-sizing: border-box;
-      "
-    >
-      <div
-        style="
-          word-wrap: break-word;
-
-          font-weight: 700;
-          font-size: 26;
-          padding: 50px;
-          padding-left: 0px;
-          word-wrap: break-word;
-          overflow: hidden;
-          height: auto;
-          /* max-height: 150px; */
-          height: inherit;
-        "
-      >
-        <a
-          href=""
-          style="
-            text-decoration: none;
-            color: white;
-            word-wrap: break-word;
-            overflow: hidden;
-            display: inline-block;
-            height: inherit;
-          "
-          >Shivam kumar mittal jindalGupta</a
-        >
-      </div>
-    </div>
-  </div>
-  <div
-    class="container"
-    id="2"
-    tabindex="1"
-    onmouseover="handleFocus('2')"
-    style="
-      /* min-height: 300px; */
-      width: 100%;
-
-      background: url('https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg')
-          10px 40px,
-        linear-gradient(150deg, #2f154cdc 65%, #2f154c98 35%);
-      background-size: 150px 200px, 100%;
-      background-repeat: no-repeat;
-      background-position-x: right;
-      background-position-y: bottom;
-      color: white;
-      padding: 40px;
-      box-sizing: border-box;
-    "
-  >
-    <div
-      class="member-heading"
-      id="heading-2"
-      style="
-        word-wrap: break-word;
-        overflow: hidden;
-        font-size: 35;
-        font-weight: 800;
-        margin-right: 50px;
-        height: auto;
-        max-height: 200px;
-        box-sizing: border-box;
-      "
-    >
-      Team Member of AAA group
-    </div>
-    <div
-      class="member-desc"
-      id="desc-2"
-      style="
-        height: 0;
-        padding: 0px;
-        margin: 0px;
-        transition: height 0.5s ease;
-        box-sizing: border-box;
-      "
-    >
-      <div
-        style="
-          word-wrap: break-word;
-          overflow: hidden;
-          margin: 80px 100px 10px 0px;
-          font-size: 24;
-          font-weight: 10;
-          font-weight: 500;
-          /* max-height: 250px; */
-          height: inherit;
-        "
-      >
-        describe the working criteria or working writes of member jbfvb jvf jfv
-        jfv jfvb hvf jfv jfnv jfvn jhvf kjfvn jnvf jkfvn
-      </div>
-    </div>
-    <div
-      class="member-name"
-      id="name-2"
-      style="
-        height: 0;
-        padding: 0px;
-        margin: 0px;
-        transition: height 0.5s ease;
-        box-sizing: border-box;
-      "
-    >
-      <div
-        style="
-          word-wrap: break-word;
-
-          font-weight: 700;
-          font-size: 26;
-          padding: 50px;
-          padding-left: 0px;
-          word-wrap: break-word;
-          overflow: hidden;
-          height: auto;
-          /* max-height: 150px; */
-          height: inherit;
-        "
-      >
-        <a
-          href=""
-          style="
-            text-decoration: none;
-            color: white;
-            word-wrap: break-word;
-            overflow: hidden;
-            display: inline-block;
-            height: inherit;
-          "
-          >Shivam kumar mittal jindalGupta</a
-        >
-      </div>
-    </div>
-  </div>
-
-  <div
-    class="container"
-    id="3"
-    tabindex="1"
-    onmouseover="handleFocus('3')"
-    style="
-      /* min-height: 300px; */
-      width: 100%;
-
-      background: url('https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg')
-          10px 40px,
-        linear-gradient(150deg, #2f154cdc 65%, #2f154c98 35%);
-      background-size: 150px 150px, 100%;
-      background-repeat: no-repeat;
-      background-position-x: right;
-      background-position-y: bottom;
-      color: white;
-      padding: 40px;
-      box-sizing: border-box;
-    "
-  >
-    <div
-      class="member-heading"
-      id="heading-3"
-      style="
-        word-wrap: break-word;
-        overflow: hidden;
-        font-size: 35;
-        font-weight: 800;
-        margin-right: 50px;
-        height: auto;
-        max-height: 200px;
-        box-sizing: border-box;
-      "
-    >
-      Team Member of AAA group
-    </div>
-    <div
-      class="member-desc"
-      id="desc-3"
-      style="
-        height: 0;
-        max-height: 200px;
-        padding: 0px;
-        margin: 0px;
-        transition: height 0.5s ease;
-        box-sizing: border-box;
-      "
-    >
-      <div
-        style="
-          word-wrap: break-word;
-          overflow: hidden;
-          margin: 80px 100px 10px 0px;
-          font-size: 24;
-          font-weight: 10;
-          font-weight: 500;
-          /* max-height: 250px; */
-          height: inherit;
-        "
-      >
-        describe the working criteria or working writes of member jbfvb jvf jfv
-        jfv jfvb hvf jfv jfnv jfvn jhvf kjfvn jnvf jkfvn mvfb kvn vn kn jvf kfv
-        kjvhfj kjvf jvf kjfv kjfhn jhvf jh jhvdnjkhdkn kjvhd kjvh jvhdn jkf
-        mfjhvjfvn jifvn jfv jvf vfb jknvfm jfn jn jvnfnfjkn jfn vfv fvf bvh
-      </div>
-    </div>
-    <div
-      class="member-name"
-      id="name-3"
-      style="
-        height: 0;
-        max-height: 150px;
-        padding: 0px;
-        margin: 0px;
-        transition: height 0.5s ease;
-        box-sizing: border-box;
-      "
-    >
-      <div
-        style="
-          word-wrap: break-word;
-
-          font-weight: 700;
-          font-size: 26;
-          padding: 25px;
-          padding-left: 0px;
-          word-wrap: break-word;
-          overflow: hidden;
-          height: auto;
-          /* max-height: 150px; */
-          height: inherit;
-        "
-      >
-        <a
-          href=""
-          style="
-            text-decoration: none;
-            color: white;
-            word-wrap: break-word;
-            overflow: hidden;
-            display: inline-block;
-            height: inherit;
-          "
-          >Shivam Gupta</a
-        >
-      </div>
-    </div>
-  </div>
 </div>
+<%i=i+1;%>
+    <%}%>
+        </div>
 
-<script>
-  function handleFocus(id) {
-    console.log("runnning ", id);
-    document.querySelectorAll(".member-desc").forEach((item) => {
-      item.style.height = "0px";
-      item.style.opacity = "0";
-    });
-    document.querySelectorAll(".member-name").forEach((item) => {
-      item.style.height = "0px";
-      item.style.opacity = "0";
-    });
-    document.querySelectorAll(".tem-member-edit-option").forEach((item) => {
-      item.style.opacity = "0";
-    });
-    document.querySelectorAll(".member-heading").forEach((item) => {
-      item.style.width = "80%";
-    });
-    // document.getElementById("heading-0").style.display = "block";
-    document.getElementById("name-" + id).style.opacity = "1";
-    document.getElementById("desc-" + id).style.opacity = "1";
-    document.getElementById("name-" + id).style.height = "82px";
-    document.getElementById("desc-" + id).style.height = "initial";
-    document.getElementById("heading-" + id).style.width = "100%";
-    document.getElementById("tem-member-edit-option-" + id).style.opacity = "1";
-    // document.getElementById("0").style.height = "1200px";
-  }
+        <script>
+            function handleFocus(id) {
+                console.log("runnning ", id);
+                document.querySelectorAll(".member-desc").forEach((item) => {
+                    item.style.height = "0px";
+                    item.style.opacity = "0";
+                });
+                document.querySelectorAll(".member-name").forEach((item) => {
+                    item.style.height = "0px";
+                    item.style.opacity = "0";
+                });
+                document.querySelectorAll(".tem-member-edit-option").forEach((item) => {
+                    item.style.opacity = "0";
+                });
+                document.querySelectorAll(".member-heading").forEach((item) => {
+                    item.style.width = "80%";
+                });
+                // document.getElementById("heading-0").style.display = "block";
+                document.getElementById("name-" + id).style.opacity = "1";
+                document.getElementById("desc-" + id).style.opacity = "1";
+                document.getElementById("name-" + id).style.height = "82px";
+                document.getElementById("desc-" + id).style.height = "initial";
+                document.getElementById("heading-" + id).style.width = "100%";
+                document.getElementById("tem-member-edit-option-" + id).style.opacity = "1";
+                // document.getElementById("0").style.height = "1200px";
+            }
 
-  document.querySelectorAll(".container").forEach((item) => {
-    let rgb = generateDarkColorRgb();
+            document.querySelectorAll(".container").forEach((item) => {
+                let rgb = generateDarkColorRgb();
+                let backImage = item.getAttribute("backImage");
+                backImage = backImage.replace(/\\/g, "/");
+                console.log("backImage is ", backImage);
+                let image =
+                    "url('http://localhost:8000" +
+                    backImage +
+                    "')right bottom / 150px 200px no-repeat";
+                console.log("image is ", image);
+                item.style.background =
+                    image +
+                    ", linear-gradient(150deg, " +
+                    "rgba(" +
+                    rgb[0] +
+                    "," +
+                    rgb[1] +
+                    ", " +
+                    rgb[2] +
+                    ", 0.8)" +
+                    " 65%, " +
+                    "rgba(" +
+                    rgb[0] +
+                    "," +
+                    rgb[1] +
+                    ", " +
+                    rgb[2] +
+                    ", 0.7)" +
+                    " 35%)";
+            });
 
-    item.style.background =
-      "url('https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg')right bottom / 150px 200px no-repeat, linear-gradient(150deg, " +
-      "rgba(" +
-      rgb[0] +
-      "," +
-      rgb[1] +
-      ", " +
-      rgb[2] +
-      ", 0.8)" +
-      " 65%, " +
-      "rgba(" +
-      rgb[0] +
-      "," +
-      rgb[1] +
-      ", " +
-      rgb[2] +
-      ", 0.7)" +
-      " 35%)";
-    let image =
-      "url('https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg')10px 40px / 150px 200px no-repeat";
-  });
-  function generateDarkColorRgb() {
-    let rgb = [];
-    for (let r = 0; r < 3; r++) rgb.push(Math.floor(Math.random() * 128));
-    return rgb;
-  }
-</script>
+            function generateDarkColorRgb() {
+                let rgb = [];
+                for (let r = 0; r < 3; r++) rgb.push(Math.floor(Math.random() * 128));
+                return rgb;
+            }
+        </script>

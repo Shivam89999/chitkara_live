@@ -5,6 +5,7 @@ function previewNotice() {
     var preview = document.getElementById("preview");
     var errorDiv = document.querySelector("#error-div");
     preview.innerText = "";
+    errorDiv.innerHTML = "";
     console.log("this.files ", this.files);
     if (!this.files) return;
     console.log("this.files.name ", this.files[0].name);

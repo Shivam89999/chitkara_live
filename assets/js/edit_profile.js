@@ -2,6 +2,7 @@ function changeImage() {
     var preview = document.querySelector("#preview");
     var errorDiv = document.querySelector("#error-div");
     preview.innerHTML = "";
+    errorDiv.innerHTML = "";
     if (!this.files) return;
     if (!/\.(jpe?g|png)$/i.test(this.files[0].name)) {
         let ele = document.createElement("span");

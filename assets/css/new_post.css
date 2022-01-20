@@ -47,6 +47,7 @@
   box-sizing: border-box;
   word-wrap: break-word;
   overflow: hidden;
+  text-transform: capitalize;
 }
 
 #new-post div,
@@ -154,13 +155,13 @@
 
 #new-post div form button,
 #update-profile div form button {
-  padding: 5px 10px 5px 10px;
-  font-weight: 700;
   color: white;
   display: inline-block;
-  width: 50px;
-  max-width: 150px;
   position: relative;
+  padding: 10px 20px 10px 20px;
+  width: auto;
+  font-size: 18;
+  font-weight: 700;
   background-color: #0a66c2;
   border-color: #0a66c2;
 }

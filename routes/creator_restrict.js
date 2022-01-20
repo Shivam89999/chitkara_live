@@ -51,5 +51,36 @@ router.get("/new-alert-page", creator_restrict_controller.newAlertPage);
 router.post("/new-alert", creator_restrict_controller.newAlert);
 
 router.get("/update-menu/", creator_restrict_controller.updateMenu);
-router.post("/update-day-time-menu-content", creator_restrict_controller.updateDayTimeMenuContent);
+router.post(
+    "/update-day-time-menu-content",
+    creator_restrict_controller.updateDayTimeMenuContent
+);
+router.get(
+    "/add-new-team-member-select-user",
+    creator_restrict_controller.addNewTeamMemberSelectUser
+);
+router.get(
+    "/updateOrAddTeamMember/",
+    function(req, res, next) {
+        if (!req.query || !req.query.user) {
+            console.log("bad request");
+            return res.redirect("back");
+        }
+        next();
+    },
+    creator_restrict_controller.updateOrAddTeamMember
+);
+router.post(
+    "/add-new-team-member",
+    creator_restrict_controller.addNewTeamMember
+);
+router.post(
+    "/update-team-member",
+    creator_restrict_controller.UpdateTeamMember
+);
+router.get(
+    "/update-Team-Member/",
+    creator_restrict_controller.update_Team_Member
+);
+
 module.exports = router;

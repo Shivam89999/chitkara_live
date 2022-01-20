@@ -28,71 +28,76 @@
     </div>
 
     <div id="empty-div">No user Found</div>
-    <div id="empty-div">vnfbv</div>
-    <div id="empty-div">jvfhvjfn</div>
+    <!-- <div id="empty-div">vnfbv</div>
+    <div id="empty-div">jvfhvjfn</div> -->
     <%for(let option of options){%>
-        <a href="/user/profile?user_id=<%=option.id%>" class="search-result <%=option.onModel%>-result">
+        <a href="/user/profile?user_id=<%=option.id%>" class="link search-result <%=option.onModel%>-result">
             <div class="option">
                 <div><img src="<%=option.pic%>" alt="Logo" /></div>
-                <div class="right-div">
+                <div class="right-div" style="word-wrap: break-word">
                     <span><%=option.name%></span>
-                    <span style="font-size: 11"><%=option.onModel%></span>
-                    <span style="font-size: 11"><%=option.email%></span>
+                    <span style="font-size: 11; word-wrap: break-word"><%=option.onModel%></span
+        >
+        <span style="font-size: 11; word-wrap: break-word"
+          ><%=option.email%></span
+        >
 
-                    <span style="font-size: 11"><%=option.bio%></span>
-                </div>
-            </div>
-        </a>
+        <span style="font-size: 11; word-wrap: break-word"
+          ><%=option.bio%></span
+        >
+      </div>
+    </div>
+  </a>
 
-        <%}%>
+  <%}%>
 </div>
 
 <script>
-    let emptyDiv = document.getElementById("empty-div");
-    let search_users = document.querySelectorAll(".search-result").length;
-    if (search_users == 0) {
+  let emptyDiv = document.getElementById("empty-div");
+  let search_users = document.querySelectorAll(".search-result").length;
+  if (search_users == 0) {
+    emptyDiv.innerText = "No User Found";
+    emptyDiv.style.display = "block";
+  }
+
+  function showOption(type, event) {
+    let target = event.target;
+    console.log("target is ", target, " type is ", type);
+    //change current active to in-active
+    document.querySelectorAll(".active").forEach((ele) => {
+      ele.className = ele.className.replace(" active", "");
+    });
+    target.className += " active";
+    //change search result display property acc. to selected tab
+    document.querySelectorAll(".search-result").forEach((ele) => {
+      ele.style.display = "none";
+    });
+
+    if (type == "All") {
+      var displayable = document.querySelectorAll(".search-result");
+      console.log("displayable is ", displayable);
+      if (displayable.length == 0) {
         emptyDiv.innerText = "No User Found";
         emptyDiv.style.display = "block";
-    }
-
-    function showOption(type, event) {
-        let target = event.target;
-        console.log("target is ", target, " type is ", type);
-        //change current active to in-active
-        document.querySelectorAll(".active").forEach((ele) => {
-            ele.className = ele.className.replace(" active", "");
+      } else {
+        emptyDiv.style.display = "none";
+        displayable.forEach((ele) => {
+          ele.style.display = "block";
         });
-        target.className += " active";
-        //change search result display property acc. to selected tab
-        document.querySelectorAll(".search-result").forEach((ele) => {
-            ele.style.display = "none";
+      }
+    } else {
+      var displayable = document.querySelectorAll("." + type + "-result");
+      console.log("displayable is ", displayable);
+      if (displayable.length == 0) {
+        emptyDiv.innerText = "No " + type + " Found";
+        emptyDiv.style.display = "block";
+      } else {
+        emptyDiv.style.display = "none";
+        displayable.forEach((ele) => {
+          //console.log("displayable ele  is ", ele);
+          ele.style.display = "block";
         });
-
-        if (type == "All") {
-            var displayable = document.querySelectorAll(".search-result");
-            console.log("displayable is ", displayable);
-            if (displayable.length == 0) {
-                emptyDiv.innerText = "No User Found";
-                emptyDiv.style.display = "block";
-            } else {
-                emptyDiv.style.display = "none";
-                displayable.forEach((ele) => {
-                    ele.style.display = "block";
-                });
-            }
-        } else {
-            var displayable = document.querySelectorAll("." + type + "-result");
-            console.log("displayable is ", displayable);
-            if (displayable.length == 0) {
-                emptyDiv.innerText = "No " + type + " Found";
-                emptyDiv.style.display = "block";
-            } else {
-                emptyDiv.style.display = "none";
-                displayable.forEach((ele) => {
-                    //console.log("displayable ele  is ", ele);
-                    ele.style.display = "block";
-                });
-            }
-        }
+      }
     }
+  }
 </script>

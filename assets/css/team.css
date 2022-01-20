@@ -2,7 +2,7 @@
   transition: all 1s ease;
   overflow: hidden;
   height: auto;
-  min-height: 150px;
+  min-height: 200px;
 }
 
 #team-contaainer {
@@ -30,4 +30,17 @@
   color: black;
   font-size: 25;
   font-weight: 900;
+}
+
+.profile-link {
+  text-decoration: none;
+  color: white;
+  word-wrap: break-word;
+  overflow: hidden;
+  display: inline-block;
+  height: inherit;
+}
+
+.profile-link:hover {
+  text-decoration: underline;
 }

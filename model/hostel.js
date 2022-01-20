@@ -46,6 +46,10 @@ const hostelSchema = mongoose.Schema({
         ref: "Menu",
         default: null,
     },
+    teamMembers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Member",
+    }, ],
 }, {
     strict: false,
 });
