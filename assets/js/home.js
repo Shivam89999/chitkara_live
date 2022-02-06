@@ -18,42 +18,49 @@ function toggleEventsVisibality(id_name) {
         "rotate3d(1,0,0,180deg)";
 }
 
-function findDate(dateString) {
-    var options = {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    };
+// function findDate(dateString) {
+//     var options = {
+//         weekday: "long",
+//         year: "numeric",
+//         month: "long",
+//         day: "numeric",
+//     };
 
-    // return dateString.toLocaleDateString("en-US", options); // 9/17/2016
-    console.log(dateString.toLocaleDateString("en-US", options));
-    return "";
-}
+//     // return dateString.toLocaleDateString("en-US", options); // 9/17/2016
+//     console.log(dateString.toLocaleDateString("en-US", options));
+//     return "";
+// }
 
-function setDate() {
-    var allEle = document.querySelectorAll(".event-time");
-    for (let ele of allEle) {
-        let dateString = ele.getAttribute("timing");
-        //  findDate(dateString);
-        ele.innerText = dateString.substring(0, dateString.length - 30);
-    }
-}
+// function setDate() {
+//     var allEle = document.querySelectorAll(".event-time");
+//     for (let ele of allEle) {
+//         let dateString = ele.getAttribute("timing");
+//         //  findDate(dateString);
+//         ele.innerText =
+//             new Date(dateString).toDateString() +
+//             " | " +
+//             new Date(dateString).toLocaleString("en-US", {
+//                 hour: "numeric",
+//                 minute: "numeric",
+//                 hour12: true,
+//             });
+//     }
+// }
 
-function handleEventHeadText() {
-    var eles = document.querySelectorAll(".event-head");
-    for (let ele of eles) {
-        let current = new Date();
-        let startTime = ele.getAttribute("startTime");
-        startTime = new Date(startTime);
-        //converting time in miliseconds and comparing
-        console.log("current ", current.getTime(), "  event ", startTime.getTime());
-        if (startTime.getTime() <= current.getTime()) {
-            ele.innerText = "Running Event";
-            ele.style.color = "royalblue";
-        }
-    }
-}
+// function handleEventHeadText() {
+//     var eles = document.querySelectorAll(".event-head");
+//     for (let ele of eles) {
+//         let current = new Date();
+//         let startTime = ele.getAttribute("startTime");
+//         startTime = new Date(startTime);
+//         //converting time in miliseconds and comparing
+//         console.log("current ", current.getTime(), "  event ", startTime.getTime());
+//         if (startTime.getTime() <= current.getTime()) {
+//             ele.innerText = "Running Event";
+//             ele.style.color = "royalblue";
+//         }
+//     }
+// }
 var noOfVisibleAlerts = document.querySelectorAll(".alert").length;
 
 function disappearAlert(id) {
@@ -66,13 +73,21 @@ function disappearAlert(id) {
     }
 }
 
-function setPostCreatedTime() {
-    var eles = document.querySelectorAll(".created-time");
-    for (let ele of eles) {
-        let dateString = ele.getAttribute("createdTime");
-        ele.innerText = dateString.substring(0, dateString.length - 30);
-    }
-}
+// function setPostCreatedTime() {
+//     var eles = document.querySelectorAll(".created-time");
+//     for (let ele of eles) {
+//         let dateString = ele.getAttribute("createdTime");
+//         console.log("dateString is ", dateString);
+//         ele.innerText =
+//             new Date(dateString).toDateString() +
+//             " | " +
+//             new Date(dateString).toLocaleString("en-US", {
+//                 hour: "numeric",
+//                 minute: "numeric",
+//                 hour12: true,
+//             });
+//     }
+// }
 
 // function calculate() {
 //     console.log("yes is &&&&&&&&&& ", document.querySelectorAll(".to_calculate"));
@@ -89,6 +104,6 @@ function setPostCreatedTime() {
 //     });
 // }
 // calculate();
-handleEventHeadText();
-setDate();
-setPostCreatedTime();
+// handleEventHeadText();
+// setDate();
+// setPostCreatedTime();

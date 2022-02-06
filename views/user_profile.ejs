@@ -8,8 +8,17 @@
             <div id="profile-container">
                 <img id="profile-pic" src="<%=user_profile.pic%>" alt="profile-pic" />
                 <%if(locals.user_profile.id===locals.user.id){%>
-                    <a href="/user/profile-requests-page">
+                    <a href="/user/profile-requests-page" style="
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          ">
                         <img height="40px" style="border-radius: 50%" width="40px" src="https://cdn-icons.flaticon.com/png/128/5441/premium/5441871.png?token=exp=1640369686~hmac=a2ee7677364520187b02dd2cf1fabdce" alt="user" />
+
+                        <!-- <Span>7 Members</span> -->
                     </a>
                     <%}%>
             </div>
@@ -27,27 +36,37 @@
         locals.user_profile.onModel!='Student')||(locals.user.onModel!='Student'
         && locals.user_profile.onModel=='Student')){%>
         <%if(locals.user.related.members.includes(locals.user_profile.id)){%>
-        <a href="/user/remove-membership?target=<%=locals.user_profile.id%>"
+        <a
+          class="request-link"
+          href="/user/remove-membership?target=<%=locals.user_profile.id%>"
           ><button>Remove</button></a
         >
         <%} else
         if(locals.user.related.sendRequest.includes(locals.user_profile.id)){%>
 
-        <a href="/user/withdraw-request?target=<%=locals.user_profile.id%>"
+        <a
+          class="request-link"
+          href="/user/withdraw-request?target=<%=locals.user_profile.id%>"
           ><button>Withdraw</button></a
         >
 
         <%}else
         if(locals.user.related.comingRequest.includes(locals.user_profile.id)){%>
 
-        <a href="/user/accept-request?target=<%=locals.user_profile.id%>"
+        <a
+          class="request-link"
+          href="/user/accept-request?target=<%=locals.user_profile.id%>"
           ><button>Accept</button></a
         >
-        <a href="/user/ignore-request?target=<%=locals.user_profile.id%>"
+        <a
+          class="request-link"
+          href="/user/ignore-request?target=<%=locals.user_profile.id%>"
           ><button>Ignore</button></a
         >
         <%}else{%>
-        <a href="/user/send-request?target=<%=locals.user_profile.id%>"
+        <a
+          class="request-link"
+          href="/user/send-request?target=<%=locals.user_profile.id%>"
           ><button>Connect</button></a
         >
         <%}%> <%}%>
@@ -179,47 +198,137 @@
                 </div>
             </div>
             <%}%>
-                <%if(locals.user_profile&& locals.user_profile.onModel=='Hostel'){%>
-                    <%-include('./mess',{_user:user_profile});%>
-                        <%}%>
-                            <%if(locals.user_profile &&
+                <%if(locals.user_profile.polls && locals.user_profile.polls.length>0){%>
+                    <div id="polls">
+                        <%for(let poll of locals.user_profile.polls){%>
+                            <div class="poll" id="poll-<%=poll.id%>">
+                                <div style="
+          padding-left: 12px;
+          padding-right: 12px;
+          background-color: transparent;
+          margin-bottom: 5px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        ">
+                                    <%if(locals.user && poll.creator==locals.user.id){%>
+                                        <abbr title="See Votes">
+          <a
+            href="/user/poll-votes?poll=<%=poll.id%>"
+            style="text-decoration: none; color: black"
+          >
+            <img
+              height="25px"
+              width="25px"
+              src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png"
+              alt="detail"
+            />
+          </a>
+        </abbr>
+                                        <span class="poll-edit-link" link="/user/delete-poll?poll=<%=poll.id%>">&vellip;</span
+        >
+
+        <%}else{%>
+
+        <span style="color: seagreen"
+          ><%=poll.yes_votes.length+poll.no_votes.length%> votes</span
+        >
+        <%}%>
+      </div>
+
+      <div class="poll-question"><%=poll.question%></div>
+      <div class="poll-options">
+        <%if(poll.yes_votes.includes(locals.user.id)||poll.no_votes.includes(locals.user.id)){%>
+        <a style="pointer-events: none">
+          <div class="yes-option">
+            <%=Math.ceil(
+            (poll.yes_votes.length)*100/(poll.yes_votes.length+poll.no_votes.length))%>
+            %
+          </div>
+        </a>
+        <a style="pointer-events: none">
+          <div class="no-option">
+            <%=Math.floor(
+            (poll.no_votes.length)*100/(poll.yes_votes.length+poll.no_votes.length))%>
+            %
+          </div>
+        </a>
+        <%}else{%>
+        <a
+          href="/user/add-poll-vote?poll_id=<%=poll.id%>&vote_type=yes"
+          class="left_poll"
+        >
+          <div class="yes-option"><%=poll.yes_option%></div>
+        </a>
+        <a
+          href="/user/add-poll-vote?poll_id=<%=poll.id%>&vote_type=no"
+          class="right_poll"
+        >
+          <div class="no-option"><%=poll.no_option%></div>
+        </a>
+        <%}%>
+      </div>
+    </div>
+    <%}%>
+  </div>
+  <%}%> <%if(locals.user_profile&& locals.user_profile.onModel=='Hostel'){%>
+  <%-include('./mess',{_user:user_profile});%> <%}%> <%if(locals.user_profile &&
+  locals.user_profile.onModel!='Student' &&
+  locals.user_profile.related.teamMembers.length>0){%>
+  <%-include('./team',{_user:user_profile});%> <%}%> <%if(locals.user_profile &&
   locals.user_profile.onModel!='Student'){%>
-                                <%-include('./team',{_user:user_profile});%>
-                                    <%}%>
-                                        <%if(locals.user_profile &&
-  locals.user_profile.onModel!='Student'){%>
-                                            <div id="all-posts">
-                                                <h1>
-                                                    <span class="head-span active" id="span-1" onclick="changeTab('span-1')"><img
+  <div id="all-posts">
+    <h1 style="margin-top: 0px">
+      <span
+        class="head-span active"
+        id="span-1"
+        onclick="changeTab('span-1','post')"
+        ><img
           src="https://cdn-icons-png.flaticon.com/512/6276/6276430.png"
           alt=""
         />
         <sub style="font-size: 18">Posts</sub>
       </span>
-                                                    <span class="head-span" id="span-2" onclick="changeTab('span-2')"><img
+                                        <span class="head-span" id="span-2" onclick="changeTab('span-2','event')"><img
           src="https://cdn-icons-png.flaticon.com/512/3143/3143636.png"
           alt=""
         /><sub style="font-size: 18">Events</sub></span
       >
-      <span class="head-span" id="span-3" onclick="changeTab('span-3')"
+      <span class="head-span" id="span-3" onclick="changeTab('span-3','notice')"
         ><img
           src="https://cdn-icons-png.flaticon.com/512/4807/4807731.png"
           alt=""
         /><sub style="font-size: 18">Notices</sub></span
       >
-      <span class="head-span" id="span-4" onclick="changeTab('span-4')"
+      <span class="head-span" id="span-4" onclick="changeTab('span-4','alert')"
         ><img
           src="https://cdn-icons-png.flaticon.com/512/564/564619.png"
           alt=""
         /><sub style="font-size: 18">Alerts</sub></span
       >
     </h1>
-    <div>
-      <%if(locals.user_profile.related.posts.length===0){%>
-      <div style="color: rgb(245, 75, 75); border: none">No Post</div>
-      <%}%> <%for(let post of locals.user_profile.related.posts){%>
-      <div>
-        <a href="/user/posts?u=<%=locals.user_profile.id%>">
+    <div style="margin: auto; max-width: 80%">
+      <div
+        id="not-found"
+        style="
+          text-transform: capitalize;
+          color: black;
+          font-size: 18;
+          box-shadow: none;
+          border: none;
+          display: none;
+        "
+      >
+        No Post Found
+      </div>
+      <%for(let post of locals.user_profile.related.posts){%>
+      <div
+        type="<%=post.eventStartTime ? 'event' : 'post'%>"
+        class="all-content"
+      >
+        <a
+          href="/user/posts?u=<%=locals.user_profile.id%>&types=<%=post.eventStartTime ? 'events' : 'posts'%>"
+        >
           <img
             src="<%=post.photos[0]%>"
             alt="image"
@@ -227,6 +336,65 @@
             width="160px"
           />
         </a>
+      </div>
+      <%}%> <%for(let textPost of locals.user_profile.related.textPosts){%>
+      <div class="all-content" type="post">
+        <a
+          href="/user/posts?u=<%=locals.user_profile.id%>&types=posts"
+          style="text-decoration: none; color: black"
+        >
+          <div
+            style="
+              height: 190px;
+              width: 140px;
+              overflow: hidden;
+              word-wrap: break-word;
+              font-size: 15;
+              box-shadow: none;
+              box-sizing: border-box;
+              border: none;
+            "
+          >
+            <%=textPost.content%>
+          </div>
+        </a>
+      </div>
+      <%}%> <%for(let notice of locals.user_profile.related.notices){%>
+      <div class="all-content" type="notice" style="width: 160px">
+        <a
+          href="/notices"
+          style="
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          "
+        >
+          <img
+            src="<%=notice.image%>"
+            alt="image"
+            style="width: 160px; height: 185px; margin: auto"
+          />
+
+          <span
+            style="
+              word-wrap: break-word;
+              max-width: 98%;
+              margin: auto;
+              text-align: center;
+            "
+            ><%=notice.originalFileName%></span
+          >
+        </a>
+      </div>
+      <%}%> <%for(let alert of locals.user_profile.related.alerts){%>
+      <div
+        type="alert"
+        class="all-content alert-display alert"
+        id="alert-<%=alert.id%>"
+      >
+        <%=alert.content%>
       </div>
       <%}%>
     </div>

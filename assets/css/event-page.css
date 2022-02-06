@@ -55,6 +55,58 @@
   display: none;
 }
 
+#main-container .toUpdate {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 8px;
+  z-index: 1;
+  transition: all 0.2s linear;
+  right: 2px;
+  background-color: white;
+  color: black;
+  height: auto;
+  width: auto;
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+#main-container .toUpdate a {
+  text-decoration: none;
+  color: black;
+  font-size: 24;
+  padding: 4px 7px 4px 7px;
+  box-sizing: border-box;
+}
+
+#main-container .toUpdate a:hover {
+  background-color: rgba(65, 105, 225, 0.164);
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+#main-container .toUpdateComment {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0px;
+  z-index: 1;
+  transition: all 0.2s linear;
+  right: 0px;
+  background-color: white;
+  color: black;
+  height: auto;
+  width: auto;
+  box-shadow: none;
+}
+
+#main-container .toUpdateComment a {
+  text-decoration: none;
+  color: black;
+  font-size: 24;
+  padding: 4px;
+  box-sizing: border-box;
+  box-shadow: none;
+}
+
 .no-event-box {
   position: relative;
   top: 20%;
@@ -62,4 +114,5 @@
   font-size: 22;
   font-weight: 800;
   color: #5f1616;
+  margin-top: 10px;
 }

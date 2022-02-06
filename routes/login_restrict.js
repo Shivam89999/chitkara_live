@@ -1,4 +1,7 @@
 const express = require("express");
+const res = require("express/lib/response");
+
+const middleware = require("../config/middleware");
 
 const router = express.Router();
 const login_restrict_controller = require("../controller/login_restrict_controller");
@@ -8,22 +11,50 @@ router.get("/profile/", login_restrict_controller.userProfile);
 router.get("/edit-profile-page", login_restrict_controller.editProfilePage);
 router.get("/sign-out", login_restrict_controller.signOut);
 router.post("/update", login_restrict_controller.update);
-router.post("/add-comment/", login_restrict_controller.addComment);
-router.get("/delete-comment/", login_restrict_controller.deleteComment);
+router.post(
+    "/add-comment",
+    middleware.addComment,
+    login_restrict_controller.addComment
+);
+router.get(
+    "/delete-comment/",
+    middleware.deleteComment,
+    login_restrict_controller.deleteComment
+);
 
 router.get("/toggle-like/", login_restrict_controller.toggleLike);
 // router.get(
 //     "/toggle",
 //     login_restrict_controller.toggleAccount
 // );
-router.get("/posts/", login_restrict_controller.userPosts);
-router.get("/likes/", login_restrict_controller.likes);
+router.get("/posts/", middleware.posts, login_restrict_controller.userPosts);
+router.get("/likes/", middleware.likes, login_restrict_controller.likes);
 
-router.get("/send-request/", login_restrict_controller.sendRequest);
-router.get("/accept-request", login_restrict_controller.acceptRequest);
-router.get("/ignore-request", login_restrict_controller.declineRequest);
-router.get("/withdraw-request", login_restrict_controller.dropRequest);
-router.get("/remove-membership", login_restrict_controller.removeMembership);
+router.get(
+    "/send-request/",
+    middleware.checkValidRequest,
+    login_restrict_controller.sendRequest
+);
+router.get(
+    "/accept-request",
+    middleware.checkValidRequest,
+    login_restrict_controller.acceptRequest
+);
+router.get(
+    "/ignore-request",
+    middleware.checkValidRequest,
+    login_restrict_controller.declineRequest
+);
+router.get(
+    "/withdraw-request",
+    middleware.checkValidRequest,
+    login_restrict_controller.dropRequest
+);
+router.get(
+    "/remove-membership",
+    middleware.checkValidRequest,
+    login_restrict_controller.removeMembership
+);
 
 router.get(
     "/profile-requests-page",
@@ -35,9 +66,17 @@ router.get("/notice-download/", login_restrict_controller.noticeDownload);
 
 router.post("/add-new-poll", login_restrict_controller.addNewPoll);
 router.get("/new-poll-page", login_restrict_controller.newPollPage);
-router.get("/add-poll-vote/", login_restrict_controller.addPollVote);
+router.get(
+    "/add-poll-vote/",
+    middleware.checkValidPollVoteRequest,
+    login_restrict_controller.addPollVote
+);
 // router.get("/new-question-page", login_restrict_controller.newQuestionPage);
-router.get("/toggle-to-save", login_restrict_controller.toggleToSave);
+router.get(
+    "/toggle-to-save",
+    middleware.checkForToogleToSave,
+    login_restrict_controller.toggleToSave
+);
 router.get("/my-save-items", login_restrict_controller.mySaveItems);
 router.get(
     "/my-save-items-details",
@@ -51,5 +90,16 @@ router.post(
     "/own-as-member-update-details",
     login_restrict_controller.OwnAsMemberUpdateDetails
 );
+router.get("/poll-votes/", login_restrict_controller.pollVotes);
 
+// router.get(
+//     "/delete-poll/",
+//     middleware.deletePollRequestCheck,
+//     login_restrict_controller.deletePoll
+// );
+router.get(
+    "/delete-by-type/",
+    middleware.deleteTypeRequestCheck,
+    login_restrict_controller.deleteTypeObj
+);
 module.exports = router;

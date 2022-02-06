@@ -1,0 +1,69 @@
+#notifications {
+    width: 380px;
+    height: auto;
+    background-color: transparent;
+    /* background-color: indigo; */
+    position: fixed;
+    top: 56px;
+    right: 20px;
+    z-index: 454545212;
+    display: flex;
+    flex-direction: column;
+    /* overflow: hidden; */
+}
+
+.notification {
+    width: 94%;
+    left: 100%;
+    margin-bottom: 5px;
+    font-size: 17;
+    font-weight: 600;
+    height: auto;
+    transition: all 0.22s ease-out;
+    overflow: hidden;
+    word-wrap: break-word;
+    position: relative;
+    top: 0px;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.message {
+    padding: 8px;
+}
+
+.indicator {
+    background-color: rgb(47, 59, 47);
+    height: 1.4px;
+    width: 100%;
+    border: none;
+    transition: all 0.1s linear;
+}
+
+.success_notification {
+    background-color: rgb(174, 248, 174);
+    border: 0.6px solid rgba(79, 201, 79, 0.5);
+    color: rgb(0, 100, 0);
+}
+
+// .error_notification {}
+// .success_notification {
+//     background-color: rgb(174, 248, 174);
+//     border: 0.6px solid rgba(79, 201, 79, 0.5);
+//     color: rgb(0, 100, 0);
+// }
+.error_notification {
+    background-color: rgb(253, 123, 100);
+    border: 0.6px solid rgb(243, 132, 112);
+    color: white;
+}
+
+.normal_notification {
+    background-color: rgb(119, 151, 247);
+    border: 0.6px solid rgb(119, 151, 247);
+    color: white;
+}

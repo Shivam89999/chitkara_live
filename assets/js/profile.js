@@ -1,6 +1,6 @@
 // console.log("running @@@@@@@");
 
-async function makeAllHeadLessVisible(id) {
+async function makeAllHeadLessVisible(id, type) {
     let spans = document.querySelectorAll(".active");
 
     for (let sp of spans) {
@@ -8,11 +8,29 @@ async function makeAllHeadLessVisible(id) {
     }
     let target = document.getElementById(id);
     target.className += " active";
+    let count = 0;
+    document.querySelectorAll(".all-content").forEach((itm) => {
+        let itmType = itm.getAttribute("type");
+        if (itmType + "" == type + "") {
+            count++;
+            itm.style.display = "inline-block";
+        } else itm.style.display = "none";
+    });
+    console.log("count is ", count);
+    let notFound = document.getElementById("not-found");
+    if (count == 0) {
+        notFound.innerText = "no " + type + " found";
+        notFound.style.display = "inline-block";
+    } else {
+        document.getElementById("not-found").style.display = "none";
+    }
 }
 
-async function changeTab(id) {
-    await makeAllHeadLessVisible(id);
+async function changeTab(id, type) {
+    await makeAllHeadLessVisible(id, type);
 }
+
+changeTab("span-1", "post");
 
 function toggleContact() {
     console.log("toggle contact running");

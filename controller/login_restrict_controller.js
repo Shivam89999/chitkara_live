@@ -15,8 +15,13 @@ const Notice = require("../model/notice");
 const Poll = require("../model/poll");
 const Save = require("../model/Save");
 const Member = require("../model/Member");
+const res = require("express/lib/response");
+const commentsMailer = require("../mailers/comment_mailers");
+const queue = require("../config/kue");
+const commentEmailWorker = require("../workers/comment_email_worker");
+const Alert = require("../model/alert");
 
-function userProfile(req, res) {
+async function userProfile(req, res) {
     if (!req.user) {
         console.log("Sign-in first");
         return res.redirect("/sign-in");
@@ -27,38 +32,75 @@ function userProfile(req, res) {
         return res.redirect("/");
     }
     User.findById(req.query.user_id)
-        .populate({
-            path: "related",
-            // populate: {
-            //     //admin based on condition
-
-            // },
-            populate: [
-                { path: "posts" },
-                {
-                    path: "menu",
-                    populate: {
-                        path: "dayWise",
-                        populate: {
-                            path: "timeFood",
-                        },
-                    },
-                },
-                {
-                    path: "teamMembers",
-                    populate: {
-                        path: "userId",
-                    },
-                },
-            ],
-        })
-        .exec(function(err, user_profile) {
+        .populate([{
+                path: "polls",
+            },
+            {
+                path: "related",
+            },
+        ])
+        .exec(async function(err, user_profile) {
             if (err || !user_profile) {
                 console.log(
                     "Err in finding user from user_id or may does not exist ",
                     err
                 );
                 return res.redirect("/");
+            }
+            if (
+                user_profile.onModel != "Student" &&
+                user_profile.onModel != "Hostel"
+            ) {
+                await User.populate(user_profile, [{
+                        path: "related",
+                        populate: [
+                            { path: "posts" },
+                            { path: "notices" },
+                            { path: "alerts" },
+                            { path: "textPosts" },
+                            {
+                                path: "teamMembers",
+                                populate: {
+                                    path: "userId",
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        path: "polls",
+                    },
+                ]);
+            }
+            if (user_profile.onModel == "Hostel") {
+                console.log("yes hostel");
+                await User.populate(user_profile, [{
+                        path: "polls",
+                    },
+                    {
+                        path: "related",
+                        populate: [
+                            { path: "posts" },
+                            { path: "notices" },
+                            { path: "alerts" },
+                            { path: "textPosts" },
+                            {
+                                path: "menu",
+                                populate: {
+                                    path: "dayWise",
+                                    populate: {
+                                        path: "timeFood",
+                                    },
+                                },
+                            },
+                            {
+                                path: "teamMembers",
+                                populate: {
+                                    path: "userId",
+                                },
+                            },
+                        ],
+                    },
+                ]);
             }
             console.log("user_profile ", user_profile);
             return res.render("user_profile", {
@@ -75,38 +117,85 @@ function myProfile(req, res) {
     }
 }
 
-function addComment(req, res) {
-    if (!req.user) {
-        console.log("login first");
-        return res.redirect("/sign-in");
-    }
-    if (!req.body.comment) {
-        console.log("comment can not be null");
-        return res.redirect("back");
-    }
-    Post.findById(req.query.post, function(err, post) {
-        if (err || !post) {
-            console.log("Err in finding post or post does not exist", err);
+async function addComment(req, res) {
+    console.log(
+        "reached ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ "
+    );
+    try {
+        let type = req.body.type;
+        let model = type == "Post" ? Post : TextPost;
+        let post = await model.findById(req.body.postId);
+        if (!post) {
+            console.log("post does not exist");
+            if (req.xhr) {
+                return res.status(300).json({
+                    data: {},
+                    message: "post does not exist",
+                });
+            }
             return res.redirect("back");
         }
-        //create comment
-        Comment.create({
-                content: req.body.comment,
-                creator: req.user.myUser.id,
-                related: post.id,
-            },
-            function(err, comment) {
-                if (err || !comment) {
-                    console.log("Err in creating comment or comment not created", err);
-                    return res.redirect("back");
-                }
-                post.comments.push(comment.id);
-                post.save();
-                console.log("comment created successfully");
-                return res.redirect("back");
+        let comment = await Comment.create({
+            content: req.body.comment,
+            creator: req.user.myUser.id,
+            related: post.id,
+        });
+        if (!comment) {
+            console.log("comment not created");
+            if (req.xhr) {
+                return res.status(404).json({
+                    data: {},
+                    message: "comment not created internal server error",
+                });
             }
-        );
-    });
+            return res.redirect("back");
+        }
+        await post.comments.unshift(comment.id);
+        await post.save();
+        console.log("comment is ", comment);
+        comment = await Comment.populate(comment, {
+            path: "creator",
+        });
+        // let all_students = await User.find({ onModel: "Student" });
+        // for (let student of all_students) {
+        //     let job = queue
+        //         .create("email", {
+        //             comment: comment,
+        //             type: "yes",
+        //             to: "" + student.email,
+        //         })
+        //         .save(function(err) {
+        //             if (err) {
+        //                 console.log("err in sending to the queue ", err);
+        //                 return;
+        //             }
+        //             console.log("email en-queued ", job.id);
+        //             return;
+        //         });
+        // }
+        req.flash("success", "new comment added successfully ");
+        console.log("comment created successfully");
+        if (req.xhr) {
+            console.log("yes %%%%%%%%%%%%  ajax request ");
+            return res.status(200).json({
+                data: {
+                    comment: comment,
+                    post: post,
+                },
+                message: "comment created successfully",
+            });
+        }
+        return res.redirect("back");
+    } catch (err) {
+        console.log("err is ", err);
+        if (req.xhr) {
+            return res.status(500).json({
+                err: "err in creating the comment :  " + err,
+            });
+        }
+        req.flash("error", err);
+        return res.redirect("back");
+    }
 }
 
 async function toggleLike(req, res) {
@@ -121,129 +210,269 @@ async function toggleLike(req, res) {
     });
     console.log("existLike is ", existLike);
     let type = req.query.type;
-    if (type == "Post") {
-        Post.findById(req.query.id, function(err, post) {
-            if (err || !post) {
-                console.log("Err in finding post or may not exist", req.query.id);
+
+    if (type == "Post" || type == "TextPost") {
+        try {
+            let model = type == "Post" ? Post : TextPost;
+            let post = await model.findById(req.query.id);
+            if (!post) {
+                if (req.xhr) {
+                    return res.status(404).json({
+                        message: "post not found may deleted if you still seeing the post plzz refresh the page",
+                    });
+                }
+                console.log(
+                    "post not found may deleted if you still seeing the post plzz refresh the page"
+                );
                 return res.redirect("back");
             }
             if (existLike) {
-                Like.findByIdAndRemove(existLike.id, function(err) {
-                    if (err) {
-                        console.log("err in deleting the comment Like");
-                    }
+                await Like.findByIdAndRemove(existLike.id);
+                await post.likes.pull(existLike.id);
+                await post.save();
+                await model.populate(post, {
+                    path: "likes",
+                    populate: {
+                        path: "creator",
+                    },
                 });
-                post.likes.pull(existLike.id);
-                post.save();
+                if (req.xhr) {
+                    return res.status(200).json({
+                        data: { post: post },
+                        message: "like deleted from post successfully",
+                    });
+                }
                 console.log("like deleted from post successfully");
                 return res.redirect("back");
             } else {
-                Like.create({ creator: req.user.myUser.id, onModel: type, obj: post.id },
-                    function(err, like) {
-                        if (err) {
-                            console.log("Err in creating like");
-                            return res.redirect("back");
-                        }
-                        post.likes.push(like.id);
-                        post.save();
-                        console.log("like added to post successfully");
-                        return res.redirect("back");
-                    }
-                );
-            }
-        });
-    } else if (type == "Notice") {
-        Notice.findById(req.query.id, function(err, notice) {
-            if (err || !notice) {
-                console.log("Err in finding notice or may not exist", req.query.id);
+                let like = await Like.create({
+                    creator: req.user.myUser.id,
+                    onModel: type,
+                    obj: post.id,
+                });
+
+                await post.likes.unshift(like.id);
+                await post.save();
+                await model.populate(post, {
+                    path: "likes",
+                    populate: {
+                        path: "creator",
+                    },
+                });
+                if (req.xhr) {
+                    return res.status(200).json({
+                        data: { post: post, like: true },
+                        message: "like added to post successfully",
+                    });
+                }
+                console.log("like added to post successfully");
                 return res.redirect("back");
             }
-            if (existLike) {
-                Like.findByIdAndRemove(existLike.id, function(err) {
-                    if (err) {
-                        console.log("err in deleting the comment Like");
-                    }
+        } catch (err) {
+            if (req.xhr) {
+                return res.status(405).json({
+                    message: "err in toggling post like" + err,
                 });
-                notice.likes.pull(existLike.id);
-                notice.save();
+            }
+            console.log("err is ", err);
+            return res.redirect("back");
+        }
+    } else if (type == "Notice") {
+        try {
+            let notice = await Notice.findById(req.query.id);
+            if (!notice) {
+                if (req.xhr) {
+                    return res.status(404).json({
+                        err: "Notice not found, may deleted",
+                    });
+                }
+                console.log("Notice not found may deleted");
+                return res.redirect("back");
+            }
+
+            if (existLike) {
+                await Like.findByIdAndRemove(existLike.id);
+
+                await notice.likes.pull(existLike.id);
+                await notice.save();
+                if (req.xhr) {
+                    return res.status(200).json({
+                        data: { notice: notice },
+                        message: "like deleted from notice successfully",
+                    });
+                }
                 console.log("like deleted from notice successfully");
                 return res.redirect("back");
             } else {
-                Like.create({ creator: req.user.myUser.id, onModel: type, obj: notice.id },
-                    function(err, like) {
-                        if (err) {
-                            console.log("Err in creating like");
-                            return res.redirect("back");
-                        }
-                        notice.likes.push(like.id);
-                        notice.save();
-                        console.log("like added to notice successfully");
-                        return res.redirect("back");
+                let like = await Like.create({
+                    creator: req.user.myUser.id,
+                    onModel: type,
+                    obj: notice.id,
+                });
+                if (!like) {
+                    console.log("internal server err, like can not added ");
+                    if (req.xhr) {
+                        return res.status(500).json({
+                            err: "internal server, like can not added ",
+                        });
                     }
-                );
+                    return res.redirect("back");
+                }
+                await notice.likes.push(like.id);
+                await notice.save();
+                if (req.xhr) {
+                    return res.status(200).json({
+                        data: { notice: notice, like: true },
+                        message: "like added to notice successfully",
+                    });
+                }
+                console.log("like added to notice successfully");
+                return res.redirect("back");
             }
-        });
+        } catch (err) {
+            if (req.xhr) {
+                return res.status(405).json({
+                    message: "err in toggling post like" + err,
+                });
+            }
+            console.log("err is ", err);
+            return res.redirect("back");
+        }
     } else if (type == "Comment") {
-        Comment.findById(req.query.id, function(err, comment) {
-            if (err || !comment) {
-                console.log("Err in finding comment or may not exist", err);
+        try {
+            console.log("new like &&&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&&&&&& ");
+            let comment = await Comment.findById(req.query.id);
+            if (!comment) {
+                if (req.xhr) {
+                    return res.status(404).json({
+                        message: "comment not found may be deleted",
+                    });
+                }
+                console.log("comment not found may be deleted");
                 return res.redirect("back");
             }
             if (existLike) {
-                Like.findByIdAndRemove(existLike.id, function(err) {
-                    if (err) {
-                        console.log("err in deleting the comment Like");
-                    }
-                });
-                comment.likes.pull(existLike.id);
-                comment.save();
+                await Like.findByIdAndRemove(existLike.id);
+                await comment.likes.pull(existLike.id);
+                await comment.save();
+                if (req.xhr) {
+                    return res.status(200).json({
+                        data: { comment: comment },
+                        message: "like removed successfully",
+                    });
+                }
                 return res.redirect("back");
             } else {
-                Like.create({ creator: req.user.myUser.id, onModel: type, obj: comment.id },
-                    function(err, like) {
-                        if (err) {
-                            console.log("Err in creating like");
-                            return res.redirect("back");
-                        }
-                        comment.likes.push(like.id);
-                        comment.save();
-                        return res.redirect("back");
-                    }
-                );
+                let like = await Like.create({
+                    creator: req.user.myUser.id,
+                    onModel: type,
+                    obj: comment.id,
+                });
+                await comment.likes.push(like.id);
+                await comment.save();
+                if (req.xhr) {
+                    return res.status(200).json({
+                        data: { comment: comment, like: true },
+                        message: "like added successfully",
+                    });
+                }
+                return res.redirect("back");
             }
-        });
-    }
-}
-
-function deleteComment(req, res) {
-    if (!req.user) {
-        console.log("login first");
-        return res.redirect("/sign-in");
-    }
-    if (!req.query || !req.query.comment) {
-        console.log("bad request");
-        return res.redirect("back");
-    }
-    Comment.findById(req.query.comment, function(err, comment) {
-        if (err || !comment) {
-            console.log("err in finding comment or may does not exist");
+        } catch (err) {
+            if (req.xhr) {
+                return res.status(405).json({
+                    message: "err in toggling comment like" + err,
+                });
+            }
+            console.log("err is ", err);
             return res.redirect("back");
         }
-        //delete all likes of comment
-        Like.deleteMany({ _id: { $in: comment.likes } }, function(err) {
-            if (err) console.log("err in deleting likes of comment");
-        });
-        //elete comment from  post comment array
-        let postId = req.query.post;
-        Post.findById(postId, function(err, post) {
-            if (post) {
-                post.comments.pull(comment.id);
-            }
-        });
-        comment.remove();
+    }
+}
+async function deleteActualComment(comment) {
+    // for (let like of comment.likes) {
+    //     await like.remove();
+    // }
+    await Like.deleteMany({ _id: { $in: comment.likes } });
 
+    await comment.remove();
+    console.log("comment deleted successfully");
+    return;
+}
+async function deleteComment(req, res) {
+    try {
+        let commentId = req.query.comment;
+        let postId = req.query.post;
+        let type = req.query.type;
+        let model = type == "Post" ? Post : TextPost;
+        let comment = await Comment.findById(commentId).exec();
+        if (!comment) {
+            if (req.xhr) {
+                return res.status(404).json({
+                    message: "comment does not exist, may deleted already",
+                });
+            }
+            console.log("comment does not exist");
+            return res.redirect("back");
+        }
+        let cmntId = comment.id;
+        let post = await model.findById(postId);
+        if (!post) {
+            if (req.xhr) {
+                return res.status(404).json({
+                    message: "post for associated comment does not exist, may deleted already",
+                });
+            }
+            console.log(
+                "post for associated comment does not exist, may deleted already"
+            );
+            return res.redirect("back");
+        }
+        if (!post.creator ||
+            (post.creator != req.user.myUser.id &&
+                comment.creator != req.user.myUser.id)
+        ) {
+            if (req.xhr) {
+                return res.status(401).json({
+                    message: "u can not delete this comment",
+                });
+            }
+            console.log("unauthorized req, u can not delete this comment");
+
+            return res.redirect("back");
+        }
+
+        //elete comment from  post comment array
+        //delete all likes of comment
+        await deleteActualComment(comment);
+
+        // post = await model.findByIdAndUpdate(postId, {
+        //     $pull: { comments: comment.id },
+        // });
+        await post.comments.pull(cmntId);
+        await post.save();
+
+        if (req.xhr) {
+            return res.status(200).json({
+                data: {
+                    commentId: cmntId,
+                    postId: post.id,
+                    commentLength: post.comments.length,
+                },
+                message: "comment deleted successfully",
+            });
+        }
+        console.log("comment deleted successfully");
         return res.redirect("back");
-    });
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(405).json({
+                message: "err in deleting comment " + err,
+            });
+        }
+        console.log("err in deleting comment", err);
+        return res.redirect("back");
+    }
 }
 
 function signOut(req, res) {
@@ -285,7 +514,7 @@ function update(req, res) {
         req.user.myUser.whatsapp = req.body.whatsapp;
         req.user.myUser.mobile = req.body.mobile;
         if (req.file) {
-            if (req.user.myUser.pic)
+            if (req.user.myUser.pic && req.user.myUser.pic != User.defaultAvatarPath)
                 fs.unlinkSync(path.join(__dirname, "..", req.user.myUser.pic));
             req.user.myUser.pic = User.avatarPath + "/" + req.file.filename;
         }
@@ -392,207 +621,480 @@ function update(req, res) {
 //     });
 // }
 async function checkValidRequest(req, res) {
-    if (!req.query || !req.query.target) {
-        console.log("bad request not correct query ");
-        return false;
+    try {
+        let target = await User.findById(req.query.target);
+        if (!target) {
+            console.log("target user not found");
+            return false;
+        }
+        console.log("req.user ", req.user.myUser.onModel);
+        console.log("target is ", target.onModel);
+        if (!(req.user.myUser.onModel === "Student" && target.onModel != "Student") &&
+            !(target.onModel === "Student" && req.user.myUser.onModel != "Student")
+        ) {
+            console.log("bad request ** ");
+            return false;
+        }
+        return true;
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(405).json({
+                err: "err in deleting comment " + err,
+            });
+        }
+        console.log("err in deleting comment", err);
+        return res.redirect("back");
     }
-    let target = await User.findById(req.query.target);
-    if (!target) {
-        console.log("target user not found");
-        return false;
-    }
-    console.log("req.user ", req.user.myUser.onModel);
-    console.log("target is ", target.onModel);
-    if (!(req.user.myUser.onModel === "Student" && target.onModel != "Student") &&
-        !(target.onModel === "Student" && req.user.myUser.onModel != "Student")
-    ) {
-        console.log("bad request ** ");
-        return false;
-    }
-    return true;
 }
 async function sendRequest(req, response) {
-    let res = await checkValidRequest(req, response);
-    console.log("res is ", res);
-    if (res != true) {
+    try {
+        let res = await checkValidRequest(req, response);
+        // console.log("res is ", res);
+        if (res != true) {
+            if (req.xhr) {
+                return response.status(400).json({
+                    err: "bad request",
+                });
+            }
+            return response.redirect("back");
+        }
+        let target = await User.findById(req.query.target)
+            .populate("related")
+            .exec();
+        console.log("target is ", target);
+        if (target.related.comingRequest.includes(req.user.myUser.id)) {
+            if (req.xhr) {
+                return response.status(400).json({
+                    err: "you are already requested",
+                });
+            }
+            console.log("you are already requested");
+            return response.redirect("back");
+        }
+        if (target.related.members.includes(req.user.myUser.id)) {
+            if (req.xhr) {
+                return response.status(400).json({
+                    err: "you are already member",
+                });
+            }
+            console.log("you are already member");
+            return response.redirect("back");
+        }
+        if (target.related.sendRequest.includes(req.user.myUser.id)) {
+            if (req.xhr) {
+                return response.status(400).json({
+                    err: "target  already send you a request accept it ",
+                });
+            }
+            console.log("target  already send you a request accept it ");
+            return response.redirect("back");
+        }
+        // console.log("mfnjfnbf ");
+        await target.related.comingRequest.push(req.user.myUser.id);
+        await target.related.save();
+        await target.save();
+        await req.user.myUser.related.sendRequest.push(target.id);
+        await req.user.myUser.related.save();
+        await req.user.myUser.save();
+        console.log("request send successfully");
+        if (req.xhr) {
+            return response.status(200).json({
+                message: "request send successfully",
+                data: {
+                    type: "connect",
+                    profileId: target._id,
+                },
+            });
+        }
+        return response.redirect("back");
+    } catch (err) {
+        if (req.xhr) {
+            return response.status(405).json({
+                err: "err in deleting comment " + err,
+            });
+        }
+        console.log("err in deleting comment", err);
         return response.redirect("back");
     }
-    let target = await User.findById(req.query.target).populate("related").exec();
-    console.log("target is ", target);
-    if (target.related.comingRequest.includes(req.user.myUser.id)) {
-        console.log("you are already requested");
-        return response.redirect("back");
-    }
-    if (target.related.members.includes(req.user.myUser.id)) {
-        console.log("you are already member");
-        return response.redirect("back");
-    }
-    if (target.related.sendRequest.includes(req.user.myUser.id)) {
-        console.log("target  already send you a request accept it ");
-        return response.redirect("back");
-    }
-    console.log("mfnjfnbf ");
-    target.related.comingRequest.push(req.user.myUser.id);
-    target.related.save();
-    target.save();
-    req.user.myUser.related.sendRequest.push(target.id);
-    req.user.myUser.related.save();
-    req.user.myUser.save();
-    console.log("request send successfully");
-    return response.redirect("back");
 }
 
-async function cancelRequest(from, to) {
-    if (
-        from.related.sendRequest.includes(to.id) &&
-        to.related.comingRequest.includes(from.id)
-    ) {
-        from.related.sendRequest.pull(to.id);
-        from.related.save();
-        from.save();
-        to.related.comingRequest.pull(from.id);
-        to.related.save();
-        to.save();
-        return true;
-    } else {
-        console.log("bad request");
-        return false;
+async function cancelRequest(from, to, req, res) {
+    try {
+        if (
+            from.related.sendRequest.includes(to.id) &&
+            to.related.comingRequest.includes(from.id)
+        ) {
+            await from.related.sendRequest.pull(to.id);
+            await from.related.save();
+            await from.save();
+            await to.related.comingRequest.pull(from.id);
+            await to.related.save();
+            await to.save();
+            return true;
+        } else {
+            console.log("bad request");
+            return false;
+        }
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(405).json({
+                err: "err in cancel request " + err,
+            });
+        }
+        console.log("err in cancel request ", err);
+        return res.redirect("back");
     }
 }
 
 async function dropRequest(req, response) {
-    let res = await checkValidRequest(req, response);
-    console.log("res is ", res);
-    if (res != true) {
+    try {
+        let res = await checkValidRequest(req, response);
+        console.log("res is ", res);
+        if (res != true) {
+            if (req.xhr) {
+                return response.status(400).json({
+                    err: "bad request",
+                });
+            }
+            console.log("bad request ");
+            return response.redirect("back");
+        }
+        let target = await User.findById(req.query.target)
+            .populate("related")
+            .exec();
+        let r = await cancelRequest(req.user.myUser, target, req, response);
+        if (r == true) {
+            if (req.xhr) {
+                return response.status(200).json({
+                    message: "request drop successfully",
+                    data: {
+                        type: "withdraw",
+                        profileId: target._id,
+                    },
+                });
+            }
+            return response.redirect("back");
+        }
+
+        if (req.xhr) {
+            return response.status(500).json({
+                err: "Internal server err,request  not droped, try again after some time",
+            });
+        }
+        console.log("drop request ", r === true ? "Success" : "Fail");
+        return response.redirect("back");
+    } catch (err) {
+        if (req.xhr) {
+            return response.status(405).json({
+                err: "err in drop request " + err,
+            });
+        }
+        console.log("err in drop request ", err);
         return response.redirect("back");
     }
-    let target = await User.findById(req.query.target).populate("related").exec();
-    let r = await cancelRequest(req.user.myUser, target);
-    console.log("drop request ", r === true ? "Success" : "Fail");
-    return response.redirect("back");
 }
 
 async function declineRequest(req, response) {
-    let res = await checkValidRequest(req, response);
-    console.log("res is ", res);
-    if (res != true) {
+    try {
+        let res = await checkValidRequest(req, response);
+        console.log("res is ", res);
+        if (res != true) {
+            if (req.xhr) {
+                return response.status(400).json({
+                    err: "bad request",
+                });
+            }
+            console.log("bad request ");
+            return response.redirect("back");
+        }
+        let target = await User.findById(req.query.target)
+            .populate("related")
+            .exec();
+        let r = await cancelRequest(target, req.user.myUser, req, response);
+        if (r == true) {
+            if (req.xhr) {
+                return response.status(200).json({
+                    message: "request decline successfully",
+                    data: {
+                        type: "ignore",
+                        profileId: target._id,
+                    },
+                });
+            }
+            return response.redirect("back");
+        }
+        if (req.xhr) {
+            return response.status(500).json({
+                err: "Internal server err,request  not declined, try again after some time",
+            });
+        }
+        console.log("decline request ", r === true ? "Success" : "Fail");
+        return response.redirect("back");
+    } catch (err) {
+        if (req.xhr) {
+            return response.status(405).json({
+                err: "err in decline request " + err,
+            });
+        }
+        console.log("err in decline request ", err);
         return response.redirect("back");
     }
-    let target = await User.findById(req.query.target).populate("related").exec();
-    let r = await cancelRequest(target, req.user.myUser);
-    console.log("decline request ", r === true ? "Success" : "Fail");
-    return response.redirect("back");
 }
 
-async function addMembership(from, to) {
-    if (
-        from.related.sendRequest.includes(to.id) &&
-        to.related.comingRequest.includes(from.id)
-    ) {
-        from.related.sendRequest.pull(to.id);
-        to.related.comingRequest.pull(from.id);
-        from.related.members.push(to.id);
-        to.related.members.push(from.id);
-        from.related.save();
-        from.save();
-        to.related.save();
-        to.save();
-        return true;
-    } else {
-        console.log("no request exist ");
-        return false;
+async function addMembership(from, to, req, res) {
+    try {
+        if (
+            from.related.sendRequest.includes(to.id) &&
+            to.related.comingRequest.includes(from.id)
+        ) {
+            await from.related.sendRequest.pull(to.id);
+            await to.related.comingRequest.pull(from.id);
+            await from.related.members.push(to.id);
+            await to.related.members.push(from.id);
+            await from.related.save();
+            await from.save();
+            await to.related.save();
+            await to.save();
+            return true;
+        } else {
+            console.log("no request exist ");
+            return false;
+        }
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(500).json({
+                err: "Internal server err, in add membership",
+            });
+        }
+        return res.redirect("back");
     }
 }
 async function acceptRequest(req, response) {
-    let res = await checkValidRequest(req, response);
-    console.log("res is ", res);
-    if (res != true) {
+    try {
+        let res = await checkValidRequest(req, response);
+        console.log("res is ", res);
+        if (res != true) {
+            if (req.xhr) {
+                return response.status(405).json({
+                    err: "Invalid request,  can not accept",
+                });
+            }
+            console.log("Invalid request, can not accept");
+            return response.redirect("back");
+        }
+        let target = await User.findById(req.query.target)
+            .populate("related")
+            .exec();
+        let r = await addMembership(target, req.user.myUser, req, response);
+        if (r == true) {
+            if (req.xhr) {
+                return response.status(200).json({
+                    message: "Request accept successfully",
+                    data: {
+                        type: "accept",
+                        profileId: target._id,
+                    },
+                });
+            }
+            console.log("request accepted successfully");
+            return response.redirect("back");
+        }
+        if (req.xhr) {
+            return response.status(500).json({
+                err: "Intebal Server err, in accepting the request! try again",
+            });
+        }
+        console.log("accept request ", r === true ? "Success" : "Fail");
+        return response.redirect("back");
+    } catch (err) {
+        if (req.xhr) {
+            return response.status(500).json({
+                err: "Internal server err in accept request:  " + err,
+            });
+        }
         return response.redirect("back");
     }
-    let target = await User.findById(req.query.target).populate("related").exec();
-    let r = await addMembership(target, req.user.myUser);
-    console.log("accept request ", r === true ? "Success" : "Fail");
-    return response.redirect("back");
 }
-async function endMembership(from, to) {
-    if (
-        from.related.members.includes(to.id) &&
-        to.related.members.includes(from.id)
-    ) {
-        from.related.members.pull(to.id);
-        to.related.members.pull(from.id);
-        from.related.save();
-        from.save();
-        to.related.save();
-        to.save();
-        return true;
-    } else {
-        console.log("bad request *** ");
-        return false;
+async function endMembership(from, to, req, res) {
+    try {
+        if (
+            from.related.members.includes(to.id) &&
+            to.related.members.includes(from.id)
+        ) {
+            await from.related.members.pull(to.id);
+            await to.related.members.pull(from.id);
+            await from.related.save();
+            await from.save();
+            await to.related.save();
+            await to.save();
+            return true;
+        } else {
+            console.log("bad request *** ");
+            return false;
+        }
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(500).json({
+                err: "Internal server err in end membership:  " + err,
+            });
+        }
+        return res.redirect("back");
     }
 }
 async function removeMembership(req, response) {
-    let res = await checkValidRequest(req, response);
-    console.log("res is ", res);
-    if (res != true) {
+    try {
+        let res = await checkValidRequest(req, response);
+        console.log("res is ", res);
+        if (res != true) {
+            if (req.xhr) {
+                return response.status(405).json({
+                    err: "Invalid request,  can not remove membership",
+                });
+            }
+            console.log("Invalid request, can not remove membership");
+            return response.redirect("back");
+        }
+        let target = await User.findById(req.query.target)
+            .populate("related")
+            .exec();
+        let r = await endMembership(req.user.myUser, target, req, response);
+        if (r == true) {
+            if (req.xhr) {
+                return response.status(200).json({
+                    message: "Membership remove successfully",
+                    data: {
+                        type: "remove",
+                        profileId: target._id,
+                    },
+                });
+            }
+            console.log("Membership remove successfully");
+            return response.redirect("back");
+        }
+        if (req.xhr) {
+            return response.status(500).json({
+                err: "Intebal Server err, in remove the membership! try again",
+            });
+        }
+        console.log("remove membership request ", r === true ? "Success" : "Fail");
+        return response.redirect("back");
+    } catch (err) {
+        if (req.xhr) {
+            return response.status(500).json({
+                err: "Internal server err in remove membership:  " + err,
+            });
+        }
         return response.redirect("back");
     }
-    let target = await User.findById(req.query.target).populate("related").exec();
-    let r = await endMembership(req.user.myUser, target);
-    console.log("remove membership request ", r === true ? "Success" : "Fail");
-    return response.redirect("back");
 }
 
-function userPosts(req, res) {
+async function userPosts(req, res) {
     let user = req.query.u;
+    let types = req.query.types;
+    let model = null;
+    if (types == "posts" || types == "events") {
+        model = Post;
+    }
+    console.log("type is ", types);
+    if (model == null) {
+        console.log("invalid type");
+        return res.redirect("back");
+    }
+
     //find user of which posts are
-    User.findById(user, function(err, success_user) {
+    User.findById(user, async function(err, success_user) {
         if (err || !success_user) {
             console.log("err in finding user ", err);
             return res.redirect("back");
         }
-        Post.find({ creator: success_user.id })
-            .populate("creator")
-            .populate({
-                path: "comments",
-                populate: [{
+        if (types == "events") {
+            Post.find({
+                    creator: success_user.id,
+                    eventStartTime: { $ne: null },
+                })
+                .populate("creator")
+                .populate({
+                    path: "comments",
+                    populate: [{
+                            path: "likes",
+                            populate: {
+                                path: "creator",
+                            },
+                        },
+                        {
+                            path: "creator",
+                        },
+                    ],
+                })
+                .populate({
+                    path: "likes",
+                    populate: {
+                        path: "creator",
+                    },
+                })
+                .exec(function(err, posts) {
+                    if (err) {
+                        console.log("Err in Finding the posts in user posts", err);
+                        posts = [];
+                    }
+                    return res.render("user_posts", {
+                        title: "posts page",
+                        posts: posts,
+                        types: req.query.types,
+                        u: success_user,
+                    });
+                });
+        } else {
+            let models = [Post, TextPost];
+            let posts = [];
+            for (let model of models) {
+                let newPosts = await model
+                    .find({
+                        creator: success_user.id,
+                        eventStartTime: { $eq: null },
+                    })
+                    .populate("creator")
+                    .populate({
+                        path: "comments",
+                        populate: [{
+                                path: "likes",
+                                populate: {
+                                    path: "creator",
+                                },
+                            },
+                            {
+                                path: "creator",
+                            },
+                        ],
+                    })
+                    .populate({
                         path: "likes",
                         populate: {
                             path: "creator",
                         },
-                    },
-                    {
-                        path: "creator",
-                    },
-                ],
-            })
-            .populate({
-                path: "likes",
-                populate: {
-                    path: "creator",
-                },
-            })
-            .exec(function(err, posts) {
-                if (err) {
-                    console.log("Err in Finding the posts in user posts", err);
-                    posts = [];
-                }
-                return res.render("user_posts", {
-                    title: "posts page",
-                    posts: posts,
-                    u: success_user,
-                });
+                    });
+                posts = posts.concat(newPosts);
+            }
+            return res.render("user_posts", {
+                title: "posts page",
+                posts: posts,
+                types: req.query.types,
+                u: success_user,
             });
+        }
     });
 }
 
 function likes(req, res) {
-    if (!req.query || !req.query.post) {
-        console.log("bad request ");
+    let postId = req.query.post;
+    let type = req.query.type;
+    let model = type == "Post" ? Post : type == "TextPost" ? TextPost : null;
+    if (model == null) {
+        console.log("invalid request");
         return res.redirect("back");
     }
-    let postId = req.query.post;
-    Post.findById(postId)
+    model
+        .findById(postId)
         .populate({
             path: "likes",
             populate: {
@@ -644,73 +1146,59 @@ function profileRequestsPage(req, res) {
 function eventsPage(req, res) {
     Post.find({
             eventStartTime: { $exists: true },
-            eventEndDate: { $exists: true },
+            eventStartTime: { $ne: null },
         })
-        .populate({
-            path: "creator",
-            populate: {
-                path: "related",
-            },
-        })
-        .populate({
-            path: "likes",
-            populate: {
-                path: "creator",
-                populate: {
-                    path: "related",
-                },
-            },
-        })
-        .populate({
-            path: "comments",
-            populate: [{
-                    path: "likes",
-                    populate: {
+        .populate("creator")
+        .populate([{
+                path: "comments",
+                populate: [{
                         path: "creator",
                     },
-                },
-                {
+                    { path: "likes" },
+                ],
+            },
+            {
+                path: "likes",
+                populate: {
                     path: "creator",
-                    populate: {
-                        path: "related",
-                    },
+                    options: { limit: 15 },
                 },
-            ],
-        })
-        .exec(function(err, posts) {
-            if (!posts || err) {
-                console.log("err in finding event  post or may no event exist ", err);
-                posts = [];
+            },
+        ])
+        .sort({ updatedAt: -1 })
+
+    .exec(function(err, posts) {
+        if (!posts || err) {
+            console.log("err in finding event  post or may no event exist ", err);
+            posts = [];
+        }
+        let upcomingOrrunning = [],
+            passed = [];
+        for (let post of posts) {
+            let type;
+            let current = parseInt(new Date().valueOf());
+            if (!post.eventStartTime) {
+                console.log("bad found");
+                continue;
             }
-            let upcoming = [],
-                passed = [],
-                running = [];
-            for (let post of posts) {
-                let type;
-                let current = new Date();
-                if (new Date(post.eventEndTime).getTime() < current.getTime()) {
-                    type = "past";
-                    passed.push(post);
-                } else if (
-                    new Date(post.eventStartTime).getTime() > current.getTime()
-                ) {
-                    type = "upcoming";
-                    upcoming.push(post);
-                } else {
-                    type = "running";
-                    running.push(post);
-                }
+            console.log("&&&&&&&&&&&&&&&&&*************");
+            if (parseInt(new Date(post.eventEndTime).valueOf()) < current) {
+                type = "past";
+                passed.push(post);
+            } else {
+                type = "running";
+                upcomingOrrunning.push(post);
             }
-            console.log("upcomings ", upcoming);
-            console.log("passed ", passed);
-            console.log("running ", running);
-            return res.render("events_page", {
-                title: "Events Page",
-                upcoming,
-                running,
-                passed,
-            });
+        }
+        console.log("upcomings ", upcomingOrrunning);
+        console.log("passed ", passed);
+
+        return res.render("events_page", {
+            title: "Events Page",
+            upcomingOrrunning,
+            passed,
         });
+    });
 }
 // function createPostPage(req, res) {
 //     if (!req.user) {
@@ -765,32 +1253,73 @@ function eventsPage(req, res) {
 // }
 
 // function addNewNotice(req, res) {}
-function noticeDownload(req, res) {
-    if (!req.query.notice) {
-        console.log("bad request");
-        return res.redirect("back");
-    }
-    let noticeId = req.query.notice;
-    Notice.findById(noticeId, function(err, notice) {
-        if (notice) {
-            let filePath = path.join(__dirname, "..", notice.noticeFile);
-            res.download(filePath, notice.originalFileName, (err) => {
+async function noticeDownload(req, res) {
+    try {
+        if (!req.query.notice) {
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "bad request",
+                });
+            }
+            console.log("bad request");
+            return res.redirect("back");
+        }
+        let noticeId = req.query.notice;
+        let notice = await Notice.findById(noticeId);
+        if (!notice) {
+            if (req.xhr) {
+                return res.status(404).json({
+                    err: "can not find notice, may be deleted",
+                });
+            }
+            console.log("can not find notice, may be deleted");
+            return res.redirect("back");
+        }
+        let filePath = path.join(__dirname, "..", notice.noticeFile);
+        return res.download(
+            filePath,
+            notice.originalFileName,
+            async function(err) {
                 if (err) {
+                    // if (req.xhr) {
+                    //     return res.status(500).json({
+                    //         err: "Err in downloading the pdf file " + err,
+                    //     });
+                    // }
                     console.log("Err in downloading the pdf file ", err);
-                    return res.redirect("back");
+                    // return res.redirect("back");
+                    return;
                 }
-                console.log("pull  is ", notice.downloads.pull(req.user.myUser.id));
-                console.log(
-                    "downloading is ",
-                    notice.downloads.push(req.user.myUser.id)
-                );
-                console.log("notice ", notice.downloads);
-                notice.save();
+                if (notice.downloads.indexOf(req.user.myUser.id) == -1) {
+                    await notice.downloads.push(req.user.myUser.id);
+                }
+
+                // console.log("pull  is ", notice.downloads.pull(req.user.myUser.id));
+                // console.log(
+                //     "downloading is ",
+                //     notice.downloads.push(req.user.myUser.id)
+                // );
+                console.log("notice no of  downloads ", notice.downloads.length);
+                await notice.save();
+                // if (req.xhr) {
+                //     return res.status(200).json({
+                //         message: notice.originalFileName + " notice downloaded successfully",
+                //     });
+                // }
                 console.log(notice.originalFileName, " notice downloaded successfully");
+                // return res.redirect("back");
                 return;
+            }
+        );
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(500).json({
+                err: "err is " + err,
             });
         }
-    });
+        console.log("err is ", err);
+        return res.redirect("back");
+    }
 }
 
 function newPollPage(req, res) {
@@ -814,6 +1343,8 @@ function addNewPoll(req, res) {
             console.log("err in creating poll: ", err);
             return res.redirect("back");
         }
+        req.user.myUser.polls.push(poll.id);
+        req.user.myUser.save();
         console.log("poll created successfully");
         return res.redirect("/");
     });
@@ -825,21 +1356,35 @@ function newQuestionPage(req, res) {
     });
 }
 
-function addPollVote(req, res) {
-    if (!req.query || !req.query.poll_id || !req.query.vote_type) {
-        console.log("bad poll vote request");
-        return res.redirect("back");
-    }
-    let pollId = req.query.poll_id;
-    let voteType = req.query.vote_type;
-    if (voteType != "yes" && voteType != "no") {
-        console.log("not valid vote type ", voteType);
-        return res.redirect("back");
-    }
-    //check poll exist or not expire
-    Poll.findById(pollId, function(err, poll) {
-        if (err || !poll) {
-            console.log("Err in finding poll or may not exist: ", err);
+async function addPollVote(req, res) {
+    // if (!req.query || !req.query.poll_id || !req.query.vote_type) {
+    //     console.log("bad poll vote request");
+    //     return res.redirect("back");
+    // }
+    try {
+        let pollId = req.query.poll_id;
+        let voteType = req.query.vote_type;
+        if (voteType != "yes" && voteType != "no") {
+            console.log("not valid vote type ", voteType);
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "invalid request",
+                });
+            }
+            return res.redirect("back");
+        }
+        //check poll exist or not expire
+        let poll = await Poll.findById(pollId);
+        if (!poll) {
+            if (req.xhr) {
+                return res.status(404).json({
+                    err: "poll not found or may not exist, deleted by creator or organiser:",
+                });
+            }
+            console.log(
+                "poll not found or may not exist, deleted by creator or organiser: ",
+                err
+            );
             return res.redirect("back");
         }
         //check this user is not already voted
@@ -847,67 +1392,131 @@ function addPollVote(req, res) {
             poll.yes_votes.includes(req.user.myUser.id) ||
             poll.no_votes.includes(req.user.myUser.id)
         ) {
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "you already voted ",
+                });
+            }
             console.log("you already voted ");
             return res.redirect("back");
         }
-        if (voteType == "yes") poll.yes_votes.push(req.user.myUser.id);
-        else poll.no_votes.push(req.user.myUser.id);
-        poll.save();
+        if (voteType == "yes") await poll.yes_votes.push(req.user.myUser.id);
+        else await poll.no_votes.push(req.user.myUser.id);
+        await poll.save();
+        if (req.xhr) {
+            let totalVotes = poll.yes_votes.length + poll.no_votes.length;
+            let yesPercent = ((poll.yes_votes.length * 100) / totalVotes).toFixed(0);
+            let noPercent = ((poll.no_votes.length * 100) / totalVotes).toFixed(0);
+            return res.status(200).json({
+                message: "you are voted successfully of type " + voteType,
+                data: {
+                    pollId: poll._id,
+                    yesPercent: yesPercent,
+                    noPercent: noPercent,
+                    totalVotes: totalVotes,
+                },
+            });
+        }
         console.log("you are voted successfully of type ", voteType);
         return res.redirect("back");
-    });
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(405).json({
+                message: "err in toggling save " + err,
+            });
+        }
+        console.log("err is ", err);
+        return res.redirect("back");
+    }
 }
 
-function toggleToSave(req, res) {
-    if (!req.query || !req.query.type || !req.query.refId) {
-        console.log("bad request in addToSave ");
-        return res.redirect("back");
-    }
-    const allowedType = ["Post", "TextPost"];
-    if (!allowedType.includes(req.query.type)) {
-        console.log("bad reuest ^^");
-        return res.redirect("back");
-    }
-    let type = req.query.type;
-    let refId = req.query.refId;
-    let modelType = type == "Post" ? Post : TextPost;
-    modelType.findById(refId, function(err, target) {
-        if (err || !target) {
-            console.log("err in finding target post or may not exist ", err);
+async function toggleToSave(req, res) {
+    // if (!req.query || !req.query.type || !req.query.refId) {
+    //     console.log("bad request in addToSave ");
+    //     return res.redirect("back");
+    // }
+    // const allowedType = ["Post", "TextPost"];
+    // if (!allowedType.includes(req.query.type)) {
+    //     console.log("bad reuest ^^");
+    //     return res.redirect("back");
+    // }
+    try {
+        let type = req.query.type;
+        let refId = req.query.refId;
+        let modelType = type == "Post" ? Post : TextPost;
+        let target = await modelType.findById(refId);
+
+        if (!target) {
+            if (req.xhr) {
+                return res.status(404).json({
+                    message: "post not found may be deleted",
+                });
+            }
+            console.log("post not found may be deleted");
             return res.redirect("back");
         }
         //check targte item already saved by targeted user or not
-        Save.findOne({ refItem: target.id, onModel: type, by: req.user.myUser.id },
-            function(err, exist) {
-                if (err) {
-                    console.log("err in varifying that already saved or not");
-                    return res.redirect("back");
-                }
-                //for requested user it is already in saved so remove it from save model and targeted user save item array
-                if (exist) {
-                    req.user.myUser.saveItems.pull(exist.id);
-                    req.user.myUser.save();
-                    exist.remove();
-                    exist.save();
-                    return res.redirect("back");
-                } else {
-                    Save.create({ refItem: target.id, onModel: type, by: req.user.myUser.id },
-                        function(err, saveItem) {
-                            if (saveItem) {
-                                req.user.myUser.saveItems.push(saveItem.id);
-                                req.user.myUser.save();
-                                console.log("item saved successfully");
-                                return res.redirect("back");
-                            } else {
-                                console.log("err in saving the item ", err);
-                                return res.redirect("back");
-                            }
-                        }
-                    );
-                }
+        let exist = await Save.findOne({
+            refItem: target.id,
+            onModel: type,
+            by: req.user.myUser.id,
+        });
+        if (exist) {
+            console.log("exist is ", exist._id);
+            // //find save-items without populating
+            // let u = await User.findById(req.user.myUser.id);
+            console.log("remove before ", req.user.myUser.saveItems);
+            await req.user.myUser.saveItems.pull(exist._id);
+            await req.user.myUser.save();
+            await exist.remove();
+            console.log("remove after ", req.user.myUser.saveItems);
+            if (req.xhr) {
+                return res.status(200).json({
+                    data: { target: target },
+                    message: "item remove from save items",
+                });
             }
-        );
-    });
+            console.log("item remove from save items");
+            return res.redirect("back");
+        } else {
+            let saveItem = await Save.create({
+                refItem: target.id,
+                onModel: type,
+                by: req.user.myUser.id,
+            });
+            if (saveItem) {
+                await req.user.myUser.saveItems.push(saveItem.id);
+                await req.user.myUser.save();
+
+                if (req.xhr) {
+                    return res.status(200).json({
+                        data: { target: target, state: true },
+                        message: "item saved successfully",
+                    });
+                }
+                console.log("item saved successfully");
+                return res.redirect("back");
+            } else {
+                if (req.xhr) {
+                    return res.status(500).json({
+                        message: "item not saved, Internal server error",
+                    });
+                }
+                console.log("item not saved, Internal server error");
+                return res.redirect("back");
+            }
+        }
+
+        //for requested user it is already in saved so remove it from save model and targeted user save item array
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(405).json({
+                message: "err in toggling save " + err,
+            });
+        }
+        console.log("err is ", err);
+        return res.redirect("back");
+    }
 }
 
 function mySaveItems(req, res) {
@@ -1071,11 +1680,141 @@ async function OwnAsMemberUpdateDetailsPage(req, res) {
             });
         });
 }
+async function pollVotes(req, res) {
+    if (!req.query || !req.query.poll) {
+        console.log("invalid request");
+        return res.redirect("back");
+    }
+    let pollId = req.query.poll;
+    Poll.findById(pollId)
+        .populate([{
+                path: "yes_votes",
+            },
+            {
+                path: "no_votes",
+            },
+        ])
+        .exec(function(err, poll) {
+            if (err || !poll) {
+                console.log("err in finding poll or may not exist");
+                return res.redirect("back");
+            }
+            if (poll.creator != req.user.myUser.id) {
+                console.log(
+                    "you are not authorized to access of poll votes for this poll"
+                );
+                return res.redirect("back");
+            }
+            console.log("page rendered successfully");
+            return res.render("./poll_vote_page", {
+                title: "poll vote page",
+                poll: poll,
+            });
+        });
+}
+
+async function handleDeleteNotice(req, res, found) {
+    try {
+        //delete all notice likes
+        for (let likeId of found.likes) {
+            await Like.findByIdAndDelete(likeId);
+        }
+        await found.remove();
+        return;
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(405).json({
+                message: "err in deleting  " + err,
+            });
+        }
+        console.log("err is ", err);
+        return res.redirect("back");
+    }
+}
+async function deleteTypeObj(req, res) {
+    try {
+        let typeId = req.query.typeId;
+        let type = req.query.type;
+        console.log("type is ", type);
+        let allowedType = ["alert", "poll", "notice"];
+        if (!allowedType.includes(type)) {
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "bad request, type is invalid",
+                });
+            }
+            console.log("invalid type ");
+            return res.redirect("back");
+        }
+        let model = type == "alert" ? Alert : type == "poll" ? Poll : Notice;
+
+        let found = await model.findById(typeId);
+        //check authorized user or not
+        if (found.creator != req.user.myUser.id) {
+            if (req.xhr) {
+                return res.status(405).json({
+                    err: "you are not authorized to delete this ",
+                });
+            }
+            console.log("you are not authorized to delete this ");
+            return res.redirect("back");
+        }
+        const type_id = found._id;
+        if (type == "notice") {
+            await handleDeleteNotice(req, res, found);
+        } else {
+            await found.remove();
+        }
+        if (req.xhr) {
+            return res.status(200).json({
+                data: { typeId: type_id, type: type },
+                message: type + " deleted successfully",
+            });
+        }
+        console.log(type + " deleted successfully");
+        return res.redirect("back");
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(405).json({
+                message: "err in deleting  " + err,
+            });
+        }
+        console.log("err is ", err);
+        return res.redirect("back");
+    }
+}
+
+// async function deletePoll(req, res) {
+//     let pollId = req.query.poll;
+//     let poll = await Poll.findById(pollId);
+//     //check authorized user or not
+//     if (poll.creator != req.user.myUser.id) {
+//         if (req.xhr) {
+//             return res.status(405).json({
+//                 err: "you are not authorized to delete this poll",
+//             });
+//         }
+//         console.log("you are not authorized to delete this poll");
+//         return res.redirect("back");
+//     }
+//     const poll_Id = poll._id;
+//     await poll.remove();
+//     if (req.xhr) {
+//         return res.status(200).json({
+//             data: { pollId: poll_Id },
+//             message: "poll deleted successfully",
+//         });
+//     }
+//     console.log("poll deleted successfully");
+//     return res.redirect("back");
+// }
+
 module.exports = {
     userProfile,
     myProfile,
     addComment,
     deleteComment,
+    deleteActualComment,
     toggleLike,
     signOut,
     update,
@@ -1101,4 +1840,6 @@ module.exports = {
     mySaveItemsDetails,
     OwnAsMemberUpdateDetails,
     OwnAsMemberUpdateDetailsPage,
+    pollVotes,
+    deleteTypeObj,
 };

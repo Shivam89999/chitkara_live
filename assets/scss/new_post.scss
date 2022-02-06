@@ -39,6 +39,7 @@
         word-wrap: break-word;
         overflow: hidden;
         text-transform: capitalize;
+        color: black;
     }
     div {
         margin: auto;
@@ -124,11 +125,18 @@
                 font-size: 18;
                 font-weight: 700;
                 background-color: #0a66c2;
-                border-color: #0a66c2;
+                // border-color: #0a66c2;
+                border: none;
+                cursor: pointer;
                 &:hover {
                     background-color: rgb(40, 73, 172);
                 }
             }
         }
     }
+}
+
+.apply_disable {
+    background-color: gray;
+    pointer-events: none;
 }

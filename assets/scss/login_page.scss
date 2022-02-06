@@ -1,12 +1,134 @@
-#container {
+#outer {
     height: 500px;
-    width: 500px;
-    min-height: 500px;
-    min-width: 400px;
+    width: 800px;
+    top: 50px;
+    display: flex;
     border: 2px solid rgb(255, 0, 85);
     position: relative;
     margin: auto;
     background-color: rgb(255, 0, 85);
+}
+
+#option-container,
+#container {
+    height: 500px;
+    width: 500px;
+    // min-height: 500px;
+    // min-width: 400px;
+    border: none;
+    position: relative;
+    margin: auto;
+    background-color: inherit;
+}
+
+#option-container {
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+#options {
+    height: 370px;
+    width: 210px;
+    margin: auto;
+    position: relative;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#option-page {
+    background-color: white;
+    background-image: url("/uploads/users/member/boat_image.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100% 310px;
+    height: 310px;
+    width: 100%;
+    margin: auto;
+    margin-top: 0px;
+    position: relative;
+    border-radius: 15px 15px 200px 200px;
+    z-index: 4;
+}
+
+.heading {
+    height: auto;
+    max-width: 100%;
+    margin: auto;
+    text-align: center;
+    color: black;
+    color: rgb(5, 109, 255);
+}
+
+.main-heading {
+    top: 50px;
+    font-size: 23;
+    padding: 5px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.support-heading {
+    top: 10px;
+    font-size: 13;
+    font-weight: 400;
+    padding: 10px;
+    margin: auto;
+}
+
+#content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    // background-color: red;
+    // top: 250px;
+    // height: 120px;
+    // // border-start-end-radius: 30%;
+    // border-top-left-radius: 30%;
+    display: flex;
+    justify-content: space-between;
+    // background-color: orangered;
+}
+
+.actual-option {
+    width: 102px;
+    position: relative;
+    width: 50%;
+    height: 100%;
+    background: white;
+    color: greenyellow;
+    transition: all 0.3s linear;
+}
+
+.option-head {
+    color: #748194;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    margin: auto;
+    cursor: pointer;
+    left: 20%;
+    padding-bottom: 5px;
+}
+
+.left-head {
+    color: #ee9ba3;
+}
+
+.left-div-active {
+    z-index: 2;
+    box-shadow: 5px 0 18px -10px #333;
+}
+
+.right-div-active {
+    box-shadow: -5px 0 15px -10px #333;
+    z-index: 2;
 }
 
 #ear-container {
@@ -178,6 +300,7 @@
 
 #login-form {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     // background-color: rgb(10, 121, 0);
@@ -193,6 +316,113 @@
     // background-color: lawngreen;
     z-index: 3;
     position: absolute;
+    #google-with {
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        height: auto;
+        margin: auto;
+        display: flex;
+        text-decoration: none;
+        background-color: transparent;
+        background-color: white;
+        color: black;
+        box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+        span {
+            margin: 0px 5px 0px 5px;
+        }
+        &:hover {
+            background-color: rgba(95, 158, 160, 0.062);
+        }
+    }
+    form {
+        margin: auto;
+        margin-top: 20px;
+        margin-bottom: 0px;
+        display: flex;
+        width: 70%;
+        flex-direction: column;
+        justify-content: center;
+        span {
+            margin: auto;
+        }
+        .forgot-link {
+            position: relative;
+            right: 0px;
+            text-align: right;
+            margin: 0px;
+            color: royalblue;
+            padding: 2px;
+            &:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+        button {
+            margin: auto;
+            height: 40px;
+            width: 150px;
+            color: white;
+            background: royalblue;
+            border-radius: 25px;
+            border: none;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            box-shadow: 0px 3px 6px 3px rgba(0, 0, 0, 0.2);
+            font-size: 17;
+            text-transform: capitalize;
+            cursor: pointer;
+            &:hover {
+                background-color: rgb(34, 85, 238);
+            }
+        }
+        #otp-button {
+            width: 70px;
+            height: 35px;
+            background-color: rgba(255, 68, 0, 0.87);
+            margin-top: 5px;
+            box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+            font-size: 15;
+            &:hover {
+                background-color: orangered;
+            }
+        }
+        .sign-up {
+            height: 40px;
+        }
+    }
+}
+
+.input {
+    width: 100%;
+    height: 40px;
+    border: none;
+    margin: auto;
+    padding: 4px;
+    box-sizing: border-box;
+    border: 2px solid green;
+    border: none;
+    margin-bottom: 2px;
+    font-size: 18;
+    box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 7px;
+    &:focus {
+        outline-color: royalblue;
+    }
+}
+
+.resend-link {
+    text-decoration: none;
+    font-size: 14;
+    text-transform: capitalize;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+#disable {
+    background: rgba(128, 128, 128, 0.596) !important;
+    pointer-events: none;
 }
 
 .feet-finger {

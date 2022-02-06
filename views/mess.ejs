@@ -91,19 +91,26 @@
       position: relative;
     ">
                 <%if(_user.id==locals.user.id){%>
-                    <span class="day-menu-edit-option">
-      <a href="/creator/update-menu?day=<%=i%>&time=<%=j%>">&vellip;</a>
-    </span>
-                    <%}%>
 
-                        <div style="
+                    <div class="day-menu-edit-option">
+                        <span onClick="handleEditMenuOption(event)" link="/creator/update-menu?day=<%=i%>&time=<%=j%>" id="<%=i%>*4+<%=j%>">&vellip;</span
+      >
+    </div>
+    <%}%>
+
+    <div
+      style="
         width: 57%;
         height: inherit;
         /* background-color: violet; */
         display: flex;
         flex-direction: row;
-      ">
-                            <div class="day-name" id="day-<%=i%>-type-<%=j%>" style="
+      "
+    >
+      <div
+        class="day-name"
+        id="day-<%=i%>-type-<%=j%>"
+        style="
           width: 25%;
           /* background-color: violet; */
           padding: 5px;
@@ -118,10 +125,13 @@
           text-transform: uppercase;
           overflow: hidden;
           color: black;
-        ">
-                                Sunday
-                            </div>
-                            <div id="content-<%=i%>-type-<%=j%>" style="
+        "
+      >
+        Sunday
+      </div>
+      <div
+        id="content-<%=i%>-type-<%=j%>"
+        style="
           width: 75%;
           max-width: 75%;
           display: inline-block;
@@ -134,11 +144,14 @@
           font-size: 20;
           letter-spacing: unset;
           text-transform: capitalize;
-        ">
-                                <%=_user.related.menu.dayWise[i].timeFood[j].items%>
-                            </div>
-                        </div>
-                        <div id="photo-<%=i%>-type-<%=j%>" style="
+        "
+      >
+        <%=_user.related.menu.dayWise[i].timeFood[j].items%>
+      </div>
+    </div>
+    <div
+      id="photo-<%=i%>-type-<%=j%>"
+      style="
         width: 43%;
         max-width: 43%;
         overflow: hidden;
@@ -150,60 +163,91 @@
         align-items: flex-end;
         justify-content: center;
         padding-bottom: 0px;
-      ">
-                            <img style="
+      "
+    >
+      <img
+        style="
           background-color: transparent;
           border-top-left-radius: 10px;
           border-top-right-radius: 10px;
-        " src="<%=_user.related.menu.dayWise[i].timeFood[j].image%>" alt="" height="140px" width="150px" />
-                        </div>
-            </div>
-            <%}%>
-                <%}%>
+        "
+        src="<%=_user.related.menu.dayWise[i].timeFood[j].image%>"
+        alt=""
+        height="140px"
+        width="150px"
+      />
+    </div>
+  </div>
+  <%}%> <%}%>
 </div>
 
 <script>
-    var weekDays = [
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday",
-    ];
-    document.querySelectorAll(".day-menu").forEach((item) => {
-        var day = parseInt(item.getAttribute("day"));
-        var time = parseInt(item.getAttribute("time"));
-        if (day % 2 != 0) {
-            item.style.flexDirection = "row-reverse";
-            item.style.backgroundColor = "rgb(4, 253, 4,0.564)";
-            item.style.color = "white";
-        }
-        if (time != 0) {
-            item.style.display = "none";
-        }
-        document.getElementById("day-" + day + "-type-" + time).innerText =
-            weekDays[day];
-        const content = document.getElementById(
-            "content-" + day + "-type-" + time
-        ).innerText;
-        document.getElementById("content-" + day + "-type-" + time).innerHTML =
-            content.replace(/,/g, " </br> ");
-    });
-
-    function menuTabChange(event, type) {
-        document.querySelectorAll(".active-menu-tab").forEach((item) => {
-            item.className = item.className.replace(" active-menu-tab", "");
-        });
-        event.target.className += " active-menu-tab";
-        document.querySelectorAll(".day-menu").forEach((item) => {
-            let time = item.getAttribute("time");
-            if (time + "" == type + "") {
-                item.style.display = "flex";
-            } else {
-                item.style.display = "none";
-            }
-        });
+  var weekDays = [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+  ];
+  document.querySelectorAll(".day-menu").forEach((item) => {
+    var day = parseInt(item.getAttribute("day"));
+    var time = parseInt(item.getAttribute("time"));
+    if (day % 2 != 0) {
+      item.style.flexDirection = "row-reverse";
+      item.style.backgroundColor = "rgb(4, 253, 4,0.564)";
+      item.style.color = "white";
     }
+    if (time != 0) {
+      item.style.display = "none";
+    }
+    document.getElementById("day-" + day + "-type-" + time).innerText =
+      weekDays[day];
+    const content = document.getElementById(
+      "content-" + day + "-type-" + time
+    ).innerText;
+    document.getElementById("content-" + day + "-type-" + time).innerHTML =
+      content.replace(/,/g, " </br> ");
+  });
+
+  function menuTabChange(event, type) {
+    document.querySelectorAll(".active-menu-tab").forEach((item) => {
+      item.className = item.className.replace(" active-menu-tab", "");
+    });
+    event.target.className += " active-menu-tab";
+    document.querySelectorAll(".day-menu").forEach((item) => {
+      let time = item.getAttribute("time");
+      if (time + "" == type + "") {
+        item.style.display = "flex";
+      } else {
+        item.style.display = "none";
+      }
+    });
+  }
+  function handleEditMenuOption(event) {
+    let classs = "toUpdate";
+    console.log("event.target is ");
+    let ele = event.target;
+
+    let id = eval(ele.getAttribute("id"));
+    console.log("id is *************** ", id);
+
+    let D = document.createElement("div");
+    D.id = classs + "-" + id;
+    D.className = classs;
+    D.className += " clickDisappear";
+
+    let addr = ele.getAttribute("link");
+    var link = document.createElement("a");
+    link.innerText = "Update";
+    link.href = addr;
+    D.appendChild(link);
+
+    // // console.log("D is &&&&&&&&&&&&&&&&&&&&&&& ", D);
+    // console.log("mrfn  ", document.getElementsByClassName("day-menu"));
+    document.getElementsByClassName("day-menu")[id].appendChild(D);
+  }
+  //click on t=other place disappear logic is
+  //to all it added to home layout
 </script>

@@ -48,11 +48,13 @@ app.use(cookieParser());
 //user passport
 const passport = require("passport");
 const passportLocal = require("./config/passport-local-strategy");
+const passportGoogle = require("./config/passport-google-oauth2-strategy");
 const session = require("express-session");
 
 //add mongoStore to store session at server permanantly
 const MongoStore = require("connect-mongo");
-
+const flash = require("connect-flash");
+const customMWare = require("./config/middleware");
 app.use(
     session({
         name: "chitkara_live",
@@ -80,6 +82,9 @@ app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
 
+//add flash
+app.use(flash());
+app.use(customMWare.setFlash);
 app.use("/", require("./routes"));
 
 app.listen(port, function(err) {

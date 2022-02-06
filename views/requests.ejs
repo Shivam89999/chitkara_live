@@ -17,6 +17,10 @@
                 </div>
                 <%}%>
                     <%for(let u of locals.myProfile.related.comingRequest){%>
+                      <a
+          href="/user/profile?user_id=<%=u.id%>"
+          style="text-decoration: none; color: black"
+        >
                         <div class="coming all">
                             <div>
                                 <div>
@@ -28,6 +32,7 @@
                                 </div>
                             </div>
                             <div>
+                            </a>
                                 <a href="/user/accept-request?target=<%=u.id%>"><button>Accept</button></a
           >
           <a href="/user/ignore-request?target=<%=u.id%>"

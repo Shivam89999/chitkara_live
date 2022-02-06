@@ -74,7 +74,7 @@
     }
     #option-header {
         position: sticky;
-        top: 51;
+        top: 53;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
@@ -101,7 +101,7 @@
                 border: 2px solid royalblue;
             }
         }
-        .active {
+        .active-search-tab {
             border: 2px solid green;
             // border: 2px solid rgba(41, 41, 41, 0.705);
             background-color: rgb(167, 164, 164);
@@ -109,7 +109,8 @@
             box-shadow: 0 2px 3px 2px rgba(0, 0, 0, 0.2);
         }
     }
-    #empty-div {
+    #empty-div,
+    #select-user-empty-div {
         color: rgb(27, 1, 1);
         background-color: white;
         margin: 0px;
@@ -139,6 +140,8 @@
         // background-color: yellow;
         justify-content: space-between;
         flex-wrap: wrap;
+        overflow: hidden;
+        word-wrap: break-word;
         .option {
             display: flex;
             flex-direction: row;
@@ -146,6 +149,7 @@
             justify-content: flex-start;
             flex-wrap: wrap;
             padding: 2px;
+            word-wrap: break-word;
             // background-color: red;
             img {
                 height: 50px;
@@ -156,7 +160,14 @@
                 display: flex;
                 flex-direction: column;
                 flex-wrap: wrap;
+                overflow: hidden;
+                word-wrap: break-word;
                 padding: 5px;
+                div {
+                    padding: 0px 2px 0px 2px;
+                    word-wrap: break-word;
+                    word-break: break-all;
+                }
             }
         }
         &:hover {

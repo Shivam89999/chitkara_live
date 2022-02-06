@@ -14,7 +14,7 @@
   box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
 }
 
-.comment-container #comment-head {
+.comment-container .comment-head {
   color: #4d4dec;
   padding: 10px 0px 0px 10px;
   font-size: 17;
@@ -26,6 +26,7 @@
   padding: 0px;
   margin: 0px;
   width: 100%;
+  position: relative;
 }
 
 .comment-container .comments .comment {
@@ -38,6 +39,7 @@
   margin-top: 15px;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .comment-container .comments .comment:hover {
@@ -63,6 +65,24 @@
   color: black;
 }
 
+.comment-container .comments .comment .upper-div-1 div .edit-comment,
+.comment-container .comments .comment .upper-div-2 div .edit-comment {
+  padding: 1.5px;
+  transition: all 0.3s ease-in-out;
+  border-radius: 50%;
+  font-size: 28;
+  font-weight: 900;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.comment-container .comments .comment .upper-div-1 div .edit-comment:hover,
+.comment-container .comments .comment .upper-div-2 div .edit-comment:hover {
+  padding: 1.5px 15px 1.5px 15px;
+  background: black;
+  color: white;
+}
+
 .comment-container .comments .comment .upper-div-1 div span,
 .comment-container .comments .comment .upper-div-2 div span {
   overflow-wrap: break-word;
@@ -74,6 +94,38 @@
   max-width: 80%;
 }
 
+.comment-container .comments .comment .upper-div-1 a:hover img {
+  border: 1px solid #25b9f3;
+}
+
+.comment-container .comments .comment .upper-div-2 {
+  position: relative;
+}
+
 .comment-container .comments .comment .upper-div-2 div {
   align-items: center;
+}
+
+.comment-container .comments .comment .toUpdateComment {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0px;
+  z-index: 1;
+  transition: all 0.2s linear;
+  right: 0px;
+  background-color: white;
+  color: black;
+  height: auto;
+  width: auto;
+  box-shadow: none;
+}
+
+.comment-container .comments .comment .toUpdateComment a {
+  text-decoration: none;
+  color: black;
+  font-size: 24;
+  padding: 4px;
+  box-sizing: border-box;
+  box-shadow: none;
 }

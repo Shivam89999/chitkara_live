@@ -4,12 +4,21 @@
     <title>
         <%=locals.title%>
     </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <style>
         body {
             background-color: rgb(245, 245, 245);
             margin: 0px;
             padding: 0px;
+            scroll-behavior: smooth;
+        }
+        
+        .darkMode {
+            background-color: rgb(15, 15, 15);
+            color: white;
         }
         
         #page-outline {
@@ -17,18 +26,72 @@
             padding: 85px 10px 150px 10px;
             width: 100%;
             margin: auto;
+            box-sizing: border-box;
         }
+        /* .success_notification {
+            background-color: rgba(255, 99, 71, 0.678);
+            color: tomato;
+            background-color: rgb(174, 248, 174);
+            border: 0.6px solid rgba(79, 201, 79, 0.5);
+            color: rgb(0, 100, 0);
+            width: 94%;
+            left: 100%;
+            margin-bottom: 5px;
+            font-size: 17;
+            font-weight: 500;
+            height: auto;
+            transition: all 0.22s ease-out;
+            overflow: hidden;
+            word-wrap: break-word;
+            position: relative;
+            top: 0px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        
+        .error_notification {} */
     </style>
     <%- style %>
+        <link rel="stylesheet" href="/css/notifications.css" />
+        <link rel="stylesheet" href="/css/option-page.css" />
+        <link rel="stylesheet" href="/css/home_layout.css" />
 </head>
 
 <body>
+    <div id="notifications"></div>
     <%-include('../partials/_header');-%>
+
         <div id="page-outline">
             <%-body-%>
         </div>
 
         <%- script %>
+            <script>
+                <%if(flash.success&&flash.success.length>0){%>
+                new Noty({
+                    theme: 'relax',
+                    text: "<%=flash.success%>",
+                    type: 'success',
+                    layout: 'topRight',
+                    timeout: 1500,
+                }).show();
+                <%}%>
+                <%if(flash.error&&flash.error.length>0){%>
+                new Noty({
+                    theme: 'relax',
+                    text: "<%=flash.error%>",
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1500,
+                }).show();
+                <%}%>
+            </script>
+
+            <script src="/js/login.js"></script>
+            <script src="/js/option_page.js"></script>
 </body>
 
 </html>
+
+<script src="/js/home_layout.js"></script>
+<script src="/js/ajax_request.js"></script>

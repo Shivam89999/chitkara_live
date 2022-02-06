@@ -5,6 +5,8 @@
     min-width: 100%;
     position: relative;
     margin: 5px 0px 5px 0px;
+    position: relative;
+    color: black;
     // overflow: auto;
     .post {
         margin: 6px 0px 6px 0px;
@@ -33,6 +35,7 @@
             background-color: black;
             width: 100%;
             position: relative;
+            margin-top: 2px;
             div {
                 display: flex;
                 flex-direction: row;
@@ -96,6 +99,7 @@
                     }
                     .detail-head {
                         color: rgb(3, 250, 238);
+                        border-color: hotpink;
                         font-size: 21;
                     }
                     .detail-value {
@@ -250,10 +254,11 @@
         .likes-detail {
             display: flex;
             flex-direction: column;
-            padding: 0px 15px 0px 15px;
+            padding: 0px 25px 0px 25px;
             background-color: rgba(231, 226, 226, 0.116);
-            max-width: 96%;
-            // overflow: hidden;
+            min-width: 100%;
+            margin: 0px;
+            overflow: hidden;
             .first-div {
                 display: flex;
                 flex-direction: row;
@@ -344,5 +349,68 @@
     img {
         color: yellow;
         background-color: transparent;
+    }
+}
+
+.post-edit-option {
+    transition: all 0.3s ease-in-out;
+    padding: 0;
+    border-radius: 50%;
+    // background-color:red;
+    span {
+        text-decoration: none;
+        color: white;
+        font-size: 28;
+        font-weight: 900;
+        padding: 2px 16px 2px 16px;
+    }
+    &:hover {
+        background-color: white;
+        span {
+            color: black;
+        }
+    }
+}
+
+.toUpdate {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 8px;
+    z-index: 1;
+    transition: all 0.2s linear;
+    right: 2px;
+    background-color: white;
+    color: black;
+    height: auto;
+    width: auto;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
+    a {
+        text-decoration: none;
+        color: black;
+        font-size: 24;
+        padding: 4px 7px 4px 7px;
+        box-sizing: border-box;
+        // box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
+        &:hover {
+            background-color: rgba(65, 105, 225, 0.164);
+            box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+        }
+    }
+}
+
+.comment-button {
+    &:hover {
+        border-bottom: 2px solid rgb(3, 250, 238);
+    }
+}
+
+.post-creator-link {
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        img {
+            transition: all 0.3s ease-in-out;
+            border: 1px solid rgb(3, 250, 238);
+        }
     }
 }

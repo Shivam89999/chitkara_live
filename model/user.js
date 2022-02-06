@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const multer = require("multer");
 const AVATAR_PATH = path.join("/uploads/users/avatars");
-
+const DEFAULT_AVATAR_PATH = AVATAR_PATH + "/" + "avatar-default_profile.png";
 const userSchema = mongoose.Schema({
     name: {
         type: "String",
@@ -19,10 +19,11 @@ const userSchema = mongoose.Schema({
     },
     pic: {
         type: "String",
-        default: AVATAR_PATH + "/" + "avatar-default_profile.png",
+        default: DEFAULT_AVATAR_PATH,
     },
     bio: {
         type: "String",
+        default: "",
     },
     mobile: {
         type: "String",
@@ -30,6 +31,11 @@ const userSchema = mongoose.Schema({
     whatsapp: {
         type: "String",
     },
+    polls: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Poll",
+        default: [],
+    }, ],
     related: {
         type: mongoose.Schema.Types.ObjectId,
         refPath: "onModel",
@@ -82,6 +88,7 @@ userSchema.statics.uploadAvatar = multer({
 }).single("avatar");
 
 userSchema.statics.avatarPath = AVATAR_PATH;
+userSchema.statics.defaultAvatarPath = DEFAULT_AVATAR_PATH;
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

@@ -1,15 +1,16 @@
 <link rel="stylesheet" href="/css/comment.css" />
 <div class="comment-container" id="comment-<%=post.id%>">
-    <div id="comment-head">
-        <%=post.comments.length%> Comments</div>
-    <div class="comments">
+    <div class="comment-head" id="comment-head-<%=post.id%>">
+        <%=post.comments.length%> Comments
+    </div>
+    <div class="comments" id="all-comment-<%=post.id%>">
         <%if(post.comments.length==0){%>
-            <div class="comment" style="text-align: center; color: rgb(31, 29, 29); box-shadow: none">
+            <div class="comment no-comment" style="text-align: center; color: rgb(31, 29, 29); box-shadow: none">
                 No comments for this post
             </div>
             <%}%>
                 <%for(let comment of post.comments){%>
-                    <div class="comment">
+                    <div class="comment" id="comment-id-<%=comment.id%>">
                         <div class="upper-div-1">
                             <a href="/user/profile?user_id=<%=comment.creator.id%>" style="text-decoration: none">
                                 <div>
@@ -25,25 +26,51 @@
                         </div>
                         <div class="upper-div-2">
                             <div>
-                                <span><a href="/user/toggle-like?id=<%=comment.id%>&type=Comment"
-              ><span
-                ><img
+                                <span><a
+              class="toggle-comment-like-link"
+              id="toggle-comment-like-link-<%=comment.id%>"
+              href="/user/toggle-like?id=<%=comment.id%>&type=Comment"
+              ><span id="toggle-comment-like-span-<%=comment.id%>">
+                <%var existLike=false;%> <%if(locals.user){%> <%for(lik of
+                comment.likes){%> <%if(lik.creator==locals.user.id){%> <%
+                existLike=true;%> <% break %> <%}%> <%}%> <%}%>
+                <%if(existLike){%>
+                <img
                   src="https://cdn-icons-png.flaticon.com/512/833/833472.png"
-                  alt=""
+                  alt="yes-like"
                   height="25px"
-                  width="25px" /></span
-            ></a> </span
-          ><span><%=comment.likes.length%></span>
-                            </div>
-
-                            <%if(locals.user && comment.creator.id==locals.user.id){%>
-                                <div>
-                                    <a href="/user/delete-comment?comment=<%=comment.id%>?post=<%=post.id%>">:</a
+                  width="25px"
+                />
+                <%}else{%>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/151/151910.png"
+                  alt="no-like"
+                  height="25px"
+                  width="25px"
+                />
+                <%}%>
+              </span></a>
+                                </span><span id="comment-like-count-<%=comment.id%>"><%=comment.likes.length%></span
           >
         </div>
-        <%}%>
-      </div>
+
+        <%if(locals.user &&
+        (comment.creator.id==locals.user.id||locals.user.id==post.creator.id)){%>
+        <div>
+          <span
+            onClick="handleEditCommentOption(event)"
+            class="edit-comment"
+            link="/user/delete-comment?comment=<%=comment.id%>&post=<%=post.id%>&type=<%=post.photos ? 'Post' : 'TextPost' %>"
+            >&vellip;</span
+          >
+        </div>
+        <%}else{%>
+        <div style="visibility: hidden">
+          <span style="width: 12px"></span>
+                            </div>
+                            <%}%>
+                        </div>
+                    </div>
+                    <%}%>
     </div>
-    <%}%>
-  </div>
 </div>

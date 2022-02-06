@@ -19,7 +19,7 @@
             alt="start-time"
           />
         </abbr>
-                <input type="datetime-local" required name="eventStartTime" placeholder="Select Event Start Time" style="border: 1px solid whitesmoke" />
+                <input id="event-start-time" type="datetime-local" oninput="handleEventTimeChange()" required name="eventStartTime" placeholder="Select Event Start Time" style="border: 1px solid whitesmoke" />
             </div>
             <div>
                 <abbr title="select event end date & time">
@@ -27,11 +27,12 @@
             height="32px"
             width="25px"
             src="https://cdn-icons-png.flaticon.com/512/1827/1827359.png"
-            alt="start-time"
+            alt="end-time"
           />
         </abbr>
-                <input type="datetime-local" required name="eventEndTime" placeholder="Select Event End Time" style="border: 1px solid whitesmoke" />
+                <input id="event-end-time" type="datetime-local" oninput="handleEventTimeChange()" required name="eventEndTime" placeholder="Select Event End Time" style="border: 1px solid whitesmoke" />
             </div>
+            <div style="display: none; text-align: center; color: red" id="time-error"></div>
             <div style="display: flex; flex-direction: row">
                 <img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/2838/premium/2838912.png?token=exp=1641372039~hmac=4393bd139984d88263fb11cf012d489b" alt="" />
                 <input style="
@@ -56,16 +57,48 @@
           display: block;
           text-align: right;
         ">
-                <button>Post</button>
+                <button id="event-add-button">Post</button>
             </div>
         </form>
     </div>
 </div>
 <script src="https://maps.google.com/maps/api/js?sensor=true;"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/new_post.js "></script>
 <script>
     //key=AIzaSyAIspBW0Ij2hR2FXso6mU7FXOyHrYFUc_0
+    function handleEventTimeChange() {
+        let eventStartTime = new Date(
+            document.getElementById("event-start-time").value
+        ).valueOf();
+        let eventEndTime = new Date(
+            document.getElementById("event-end-time").value
+        ).valueOf();
+        let eventErrorDiv = document.getElementById("time-error");
+        let eventAddButton = document.getElementById("event-add-button");
+        console.log("event-error-div ", eventErrorDiv);
+        console.log(
+            "event start time is ",
+            document.getElementById("event-start-time").value,
+            " and start time is: ",
+            eventStartTime
+        );
+        if (eventEndTime && eventStartTime && eventStartTime > eventEndTime) {
+            console.log("invalid time peroid");
+            eventErrorDiv.style.display = "inline-block";
+            eventErrorDiv.innerText = "select valid time peroid";
+            // eventAddButton.disabled = "true";
+            eventAddButton.classList.add("apply_disable");
+            eventAddButton.style.backgroundColor = "gray";
+        } else {
+            eventErrorDiv.innerText = "";
+            eventErrorDiv.style.display = "none";
+            // eventAddButton.disabled = "false";
+            eventAddButton.classList.remove("apply_disable");
+            eventAddButton.style.backgroundColor = "#0a66c2";
+        }
+    }
+
     function getLocation(e) {
         const venu = document.getElementById("venu");
         const venuSpan = e.target;
@@ -118,9 +151,10 @@
         venuSpan.innerText = "Clear";
         let lett = position.coords.latitude;
         var longi = position.coords.longitude;
+        console.log("lett is ", lett, " longi is ", longi);
         venu.value = lett + "," + longi;
         var lattlong = new google.maps.LatLng(lett, longi);
-        // console.log("let long is ", lattlong);
+        console.log("let long is ****** ", lattlong);
         var myOptions = {
             center: lattlong,
             zoom: 15,

@@ -12,8 +12,7 @@ header {
   margin: 0px;
 }
 
-header #left-div,
-header #right-div {
+header #left-div {
   width: 30%;
   display: flex;
   flex-direction: row;
@@ -21,8 +20,7 @@ header #right-div {
   justify-content: center;
 }
 
-header #left-div div,
-header #right-div div {
+header #left-div div {
   padding: 0px 4px 0px 4px;
   display: flex;
   flex-direction: row;
@@ -30,13 +28,13 @@ header #right-div div {
   align-items: center;
 }
 
-header #left-div div form,
-header #right-div div form {
+header #left-div div form {
   padding: 0px;
   margin: 0px;
 }
 
-header #mid-div {
+header #mid-div,
+header #right-div {
   width: 40%;
   display: flex;
   flex-direction: row;
@@ -44,11 +42,13 @@ header #mid-div {
   justify-content: space-between;
 }
 
-header #mid-div a {
+header #mid-div a,
+header #right-div a {
   text-decoration: none;
 }
 
-header #mid-div a div {
+header #mid-div a div,
+header #right-div a div {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -58,18 +58,36 @@ header #mid-div a div {
   color: rgba(48, 46, 46, 0.781);
 }
 
-header #mid-div a div span {
+header #mid-div a div span,
+header #right-div a div span {
   font-size: 12;
 }
 
-header #mid-div a div:hover {
+header #mid-div a div:hover,
+header #right-div a div:hover {
   opacity: 1;
   border-bottom: 2px solid black;
   color: black;
 }
 
-header #mid-div .current-active {
+header #mid-div .current-active,
+header #right-div .current-active {
   opacity: 1;
   border-bottom: 2px solid red;
+  color: black;
+}
+
+header #right-div {
+  width: 30%;
+  justify-content: center;
+}
+
+header #right-div a div {
+  opacity: 1;
+}
+
+header #right-div a div span {
+  font-size: 16;
+  opacity: 1;
   color: black;
 }

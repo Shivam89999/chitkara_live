@@ -5,15 +5,61 @@ const router = express.Router();
 console.log("running g                ggggggggggggg    ");
 const open_controller = require("../controller/open_controller");
 
-function checkValidSearchReq(req, res, next) {
-    console.log("middleware running");
-    if (!req.body || !req.body.name) {
-        console.log("bad request ");
-        return res.redirect("back");
-    }
-    console.log("valid request");
-    next();
-}
+const middleware = require("../config/middleware");
+router.get(
+    "/auth/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+);
+router.get(
+    "/auth/google/callback",
+    passport.authenticate("google", { failureRedirect: "/sign-in" }),
+    open_controller.createSession
+);
+router.post(
+    "/sign-up-with-secret",
+    // middleware.passwordCheck,
+    open_controller.signUpWithSecret
+);
+router.post(
+    "/update-password-with-secret",
+    // middleware.passwordCheck,
+    open_controller.updatePasswordWithSecret
+);
+
+router.get(
+    "/resend-sign-up-otp-email/",
+
+    middleware.resendMail,
+    open_controller.resendOtpMailForSignUp
+);
+router.get(
+    "/resend-forgot-password-otp-email/",
+
+    middleware.resendMail,
+    open_controller.resendOtpMailForForgotPassword
+);
+
+router.post(
+    "/sign-up-send-otp",
+    middleware.checkOtpRequest,
+    open_controller.signUpOtp
+);
+router.post(
+    "/forgot-password-send-otp",
+    middleware.checkOtpRequest,
+    open_controller.forgotPasswordOtp
+);
+router.post(
+    "/sign-up-email-verification",
+    middleware.emailVerification,
+    open_controller.signupEmailVerification
+);
+router.post(
+    "/forgot-password-email-verification",
+    middleware.emailVerification,
+    open_controller.forgotPasswordEmailVerification
+);
+
 router.get("/sign-up", open_controller.signUp);
 router.get("/sign-in", open_controller.signIn);
 router.post("/create", open_controller.create);
@@ -25,12 +71,14 @@ router.post(
 
 router.get("/", open_controller.homePage);
 router.get("/options/", open_controller.findOptions);
-router.post("/search", checkValidSearchReq, open_controller.search);
+router.post("/search", middleware.checkValidSearchReq, open_controller.search);
 router.post(
     "/search_students",
-    checkValidSearchReq,
+    middleware.checkValidSearchReq,
     open_controller.searchStudents
 );
 router.get("/notices", open_controller.notices);
 router.get("/home-option-page/", open_controller.homeOptionPage);
+router.get("/post-for-location/", open_controller.postForLocation);
+
 module.exports = router;

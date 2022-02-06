@@ -3,7 +3,7 @@
     <%var i=0;%>
         <%for(member of _user.related.teamMembers){%>
 
-            <div class="container" id="<%=i%>" backImage="<%=member.image%>" tabindex="1" onmouseover="handleFocus('<%=i%>')" style="
+            <div class="container" id="member-container-<%=i%>" backImage="<%=member.image%>" tabindex="1" onmouseover="handleFocus('<%=i%>')" style="
       /* min-height: 300px; */
       width: 100%;
       position: relative;
@@ -18,10 +18,18 @@
                 <%if(locals.user.id==_user.id||member.userId.id==locals.user.id){%>
                     <div class="tem-member-edit-option" id="tem-member-edit-option-<%=i%>">
                         <%if(locals.user.onModel!='Student'){%>
-                            <a href="/creator/update-Team-Member?member=<%=member.id%>">&vellip;</a>
-                            <%}else{%>
-                                <a href="/user/own-as-member-update-details-page?member=<%=member.id%>">&vellip;</a
+                            <span onClick="handleEditOption(event)" link1="/creator/update-Team-Member?member=<%=member.id%>" link2="/creator/delete-Team-Member?member=<%=member.id%>" id="<%=i%>">&vellip;</span
       >
+      <!-- <a href="/creator/update-Team-Member?member=<%=member.id%>">&vellip;</a> -->
+      <%}else{%>
+      <span
+        onClick="handleEditOption(event)"
+        link1="/user/own-as-member-update-details-page?member=<%=member.id%>"
+        id="<%=i%>"
+        >&vellip;</span
+      >
+      <!-- <a href="/user/own-as-member-update-details-page?member=<%=member.id%>">&vellip;</a
+      > -->
       <%}%>
     </div>
     <%}%>
@@ -96,78 +104,109 @@
           height: inherit;
         "
       >
-        <a href="/user/profile?user_id=<%=member.userId%>" class="profile-link">
+        <a
+          href="/user/profile?user_id=<%=member.userId.id%>"
+          class="profile-link"
+        >
           <!-- Shivam kumar mittal jindalGupta -->
           <%=member.userId.name%>
         </a>
-                    </div>
-            </div>
+      </div>
+    </div>
+  </div>
+  <%i=i+1;%> <%}%>
 </div>
-<%i=i+1;%>
-    <%}%>
-        </div>
 
-        <script>
-            function handleFocus(id) {
-                console.log("runnning ", id);
-                document.querySelectorAll(".member-desc").forEach((item) => {
-                    item.style.height = "0px";
-                    item.style.opacity = "0";
-                });
-                document.querySelectorAll(".member-name").forEach((item) => {
-                    item.style.height = "0px";
-                    item.style.opacity = "0";
-                });
-                document.querySelectorAll(".tem-member-edit-option").forEach((item) => {
-                    item.style.opacity = "0";
-                });
-                document.querySelectorAll(".member-heading").forEach((item) => {
-                    item.style.width = "80%";
-                });
-                // document.getElementById("heading-0").style.display = "block";
-                document.getElementById("name-" + id).style.opacity = "1";
-                document.getElementById("desc-" + id).style.opacity = "1";
-                document.getElementById("name-" + id).style.height = "82px";
-                document.getElementById("desc-" + id).style.height = "initial";
-                document.getElementById("heading-" + id).style.width = "100%";
-                document.getElementById("tem-member-edit-option-" + id).style.opacity = "1";
-                // document.getElementById("0").style.height = "1200px";
-            }
+<script>
+  function handleFocus(id) {
+    console.log("runnning ", id);
+    document.querySelectorAll(".member-desc").forEach((item) => {
+      item.style.height = "0px";
+      item.style.opacity = "0";
+    });
+    document.querySelectorAll(".member-name").forEach((item) => {
+      item.style.height = "0px";
+      item.style.opacity = "0";
+    });
+    document.querySelectorAll(".tem-member-edit-option").forEach((item) => {
+      item.style.opacity = "0";
+    });
+    document.querySelectorAll(".toDelete").forEach((item) => {
+      item.style.opacity = "0";
+    });
+    document.querySelectorAll(".member-heading").forEach((item) => {
+      item.style.width = "80%";
+    });
+    // document.getElementById("heading-0").style.display = "block";
+    document.getElementById("name-" + id).style.opacity = "1";
+    document.getElementById("desc-" + id).style.opacity = "1";
+    document.getElementById("name-" + id).style.height = "82px";
+    document.getElementById("desc-" + id).style.height = "initial";
+    document.getElementById("heading-" + id).style.width = "100%";
+    document.getElementById("tem-member-edit-option-" + id).style.opacity = "1";
+    document.getElementById("toDelete-" + id).style.opacity = "1";
+    // document.getElementById("0").style.height = "1200px";
+  }
 
-            document.querySelectorAll(".container").forEach((item) => {
-                let rgb = generateDarkColorRgb();
-                let backImage = item.getAttribute("backImage");
-                backImage = backImage.replace(/\\/g, "/");
-                console.log("backImage is ", backImage);
-                let image =
-                    "url('http://localhost:8000" +
-                    backImage +
-                    "')right bottom / 150px 200px no-repeat";
-                console.log("image is ", image);
-                item.style.background =
-                    image +
-                    ", linear-gradient(150deg, " +
-                    "rgba(" +
-                    rgb[0] +
-                    "," +
-                    rgb[1] +
-                    ", " +
-                    rgb[2] +
-                    ", 0.8)" +
-                    " 65%, " +
-                    "rgba(" +
-                    rgb[0] +
-                    "," +
-                    rgb[1] +
-                    ", " +
-                    rgb[2] +
-                    ", 0.7)" +
-                    " 35%)";
-            });
+  document.querySelectorAll(".container").forEach((item) => {
+    let rgb = generateDarkColorRgb();
+    let backImage = item.getAttribute("backImage");
+    backImage = backImage.replace(/\\/g, "/");
+    console.log("backImage is ", backImage);
+    let image =
+      "url('http://localhost:8000" +
+      backImage +
+      "')right bottom / 150px 200px no-repeat";
+    console.log("image is ", image);
+    item.style.background =
+      image +
+      ", linear-gradient(150deg, " +
+      "rgba(" +
+      rgb[0] +
+      "," +
+      rgb[1] +
+      ", " +
+      rgb[2] +
+      ", 0.8)" +
+      " 65%, " +
+      "rgba(" +
+      rgb[0] +
+      "," +
+      rgb[1] +
+      ", " +
+      rgb[2] +
+      ", 0.7)" +
+      " 35%)";
+  });
 
-            function generateDarkColorRgb() {
-                let rgb = [];
-                for (let r = 0; r < 3; r++) rgb.push(Math.floor(Math.random() * 128));
-                return rgb;
-            }
-        </script>
+  function generateDarkColorRgb() {
+    let rgb = [];
+    for (let r = 0; r < 3; r++) rgb.push(Math.floor(Math.random() * 128));
+    return rgb;
+  }
+
+  function handleEditOption(event) {
+    let classs = "toDelete";
+    console.log("event.target is ");
+    let ele = event.target;
+    let addr2 = ele.getAttribute("link2");
+    console.log("addr2 ***************** ", addr2);
+
+    let id = parseInt(ele.getAttribute("id"));
+    let D = document.createElement("div");
+    D.id = classs + "-" + id;
+    D.className = classs;
+    D.className += " clickDisappear";
+    let limit = addr2 != null ? 3 : 2;
+
+    for (let i = 1; i < limit; i++) {
+      let addr = ele.getAttribute("link" + i);
+      var link = document.createElement("a");
+      link.innerText = i == 1 ? "Update" : "Delete";
+      link.href = addr;
+      D.appendChild(link);
+    }
+    // console.log("D is &&&&&&&&&&&&&&&&&&&&&&& ", D);
+    document.getElementsByClassName("container")[id].appendChild(D);
+  }
+</script>

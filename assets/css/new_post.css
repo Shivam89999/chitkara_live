@@ -48,6 +48,7 @@
   word-wrap: break-word;
   overflow: hidden;
   text-transform: capitalize;
+  color: black;
 }
 
 #new-post div,
@@ -163,10 +164,16 @@
   font-size: 18;
   font-weight: 700;
   background-color: #0a66c2;
-  border-color: #0a66c2;
+  border: none;
+  cursor: pointer;
 }
 
 #new-post div form button:hover,
 #update-profile div form button:hover {
   background-color: #2849ac;
+}
+
+.apply_disable {
+  background-color: gray;
+  pointer-events: none;
 }

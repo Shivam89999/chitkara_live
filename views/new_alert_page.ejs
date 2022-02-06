@@ -6,7 +6,7 @@
     <h3>New Alert</h3>
     <div>
         <form action="/creator/new-alert" method="POST">
-            <textarea onfocus="handleFocus(event)" onchange="handleChange(event)" name="content" id="alert-message" required cols="30" rows="10" placeholder="Writing Your Alert Message here" style="border: 1px solid rgb(187, 130, 130); padding: 5px"></textarea>
+            <textarea onfocus="handleFocus(event)" onchange="handleChange(event)" name="content" id="alert-message" required cols="30" rows="10" placeholder="Writing Your Alert Message here" style="border: 1px solid rgb(187, 130, 130); padding: 5px" maxlength="80"></textarea>
 
             <input type="datetime-local" name="endDate" onchange="checkValidDate(event)" />
 

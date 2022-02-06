@@ -12,12 +12,11 @@
     </div>
 
     <div id="upcoming">
-        <%if(upcoming.length==0 && running.length==0){%>
+        <%if(upcomingOrrunning.length==0){%>
             <div class="no-event-box">No Upcoming or Current Event</div>
             <%}else{%>
-                <%-include('./posts',{posts:upcoming});-%>
-                    <%-include('./posts',{posts:running});-%>
-                        <%}%>
+                <%-include('./posts',{posts:upcomingOrrunning});-%>
+                    <%}%>
     </div>
     <div id="passed">
         <%if(passed.length==0){%>

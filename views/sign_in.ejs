@@ -1,97 +1,120 @@
 <link rel="stylesheet" href="/css/login_page.css" />
-<div>
-    <div id="container">
-        <div id="ear-container">
-            <div class="ear" id="left-ear"></div>
+<div id="outer">
+    <div id="option-container">
+        <div id="options">
+            <div id="option-page">
+                <div class="heading main-heading"></div>
+                <div class="heading support-heading"></div>
+            </div>
+            <div id="content">
+                <div class="actual-option left-div-active">
+                    <h2 class="option-head left-head">
+                        <span onclick="handleTabChange('left',event)">SIGN</span>
+                        <sub style="display: block" onclick="handleTabChange('left',event)">IN</sub
+            >
+          </h2>
+        </div>
+        <div class="actual-option">
+          <h2 class="option-head right-head">
+            <span onclick="handleTabChange('right',event)">SIGN</span>
+            <sub style="display: block" onclick="handleTabChange('right',event)"
+              >UP</sub
+            >
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <div id="ear-container">
+      <div class="ear" id="left-ear"></div>
 
-            <div class="ear" id="right-year"></div>
-        </div>
-
-        <div id="face">
-            <div id="eye-container">
-                <div class="eye" id="left-eye">
-                    <div class="eye-white">
-                        <div class="eye-manik"></div>
-                    </div>
-                </div>
-                <div class="eye" id="right-eye">
-                    <div class="eye-white">
-                        <div class="eye-manik"></div>
-                    </div>
-                </div>
-            </div>
-            <div id="mouth"></div>
-        </div>
-        <div id="stomach"></div>
-        <!-- <div id="feet-container"> -->
-        <div class="feet" id="left-feet">
-            <div class="feet-finger">
-                <div class="little-finger"></div>
-                <div class="little-finger"></div>
-                <div class="little-finger"></div>
-            </div>
-            <div class="big-finger"></div>
-        </div>
-        <div class="feet" id="right-feet">
-            <div class="feet-finger">
-                <div class="little-finger"></div>
-                <div class="little-finger"></div>
-                <div class="little-finger"></div>
-            </div>
-            <div class="big-finger"></div>
-        </div>
-        <!-- </div> -->
-        <div id="slide-container">
-            <div id="login-form">
-                <form action="/create-session" method="POST">
-                    <br />
-                    <br />
-                    <input type="text" name="email" oninput="handleInputChange(event)" onfocus="handleInputChange(event)" placeholder="Type Email .." />
-                    <br />
-                    <br />
-                    <input type="password" name="password" id="" placeholder="password" onfocus="slideup(event)" onfocusout="slidedown(event)" />
-                    <br />
-                    <br />
-                    <input type="radio" name="tick" value="Student" checked />
-                    <span>Student</span>
-                    <input type="radio" name="tick" value="Staff" />
-                    <span>Staff</span>
-                    <input type="radio" name="tick" value="Club" />
-                    <span>Club</span>
-                    <input type="radio" name="tick" value="Hostel" />
-                    <span>Hostel</span>
-                    <br />
-                    <br />
-                    <button style="margin-left: 45px">Sign-in</button>
-                    <!-- <input type="submit" value="Sign-In" style="margin-left: 45px" /> -->
-                </form>
-            </div>
-            <!-- <div id="hand-container"> -->
-            <div class="hand" id="left-hand">
-                <div class="finger"></div>
-                <div class="finger"></div>
-                <div class="finger"></div>
-            </div>
-            <div class="hand" id="right-hand">
-                <div class="finger"></div>
-                <div class="finger"></div>
-                <div class="finger"></div>
-            </div>
-            <!-- </div> -->
-        </div>
+      <div class="ear" id="right-year"></div>
     </div>
 
-    <!--rm action="/create-session" method="POST ">
-    <input type="email " required name="email " placeholder="Type Email.. " />
-    <input type="password " required name="password " placeholder="Type password.. " />
-        <input type="radio " name="tick " value="Student " checked />
-    <span>Student</span>
-        <input type="radio " name="tick " value="Staff " />
-        <span>Staff</span>
-        <input type="radio " name="tick " value="Club " />
-        <span>Club</span>
-        <input type="submit " value="Sign-In " />
-    </form> -->
+    <div id="face">
+      <div id="eye-container">
+        <div class="eye" id="left-eye">
+          <div class="eye-white">
+            <div class="eye-manik"></div>
+          </div>
+        </div>
+        <div class="eye" id="right-eye">
+          <div class="eye-white">
+            <div class="eye-manik"></div>
+          </div>
+        </div>
+      </div>
+      <div id="mouth"></div>
+    </div>
+    <div id="stomach"></div>
+    <!-- <div id="feet-container"> -->
+    <div class="feet" id="left-feet">
+      <div class="feet-finger">
+        <div class="little-finger"></div>
+        <div class="little-finger"></div>
+        <div class="little-finger"></div>
+      </div>
+      <div class="big-finger"></div>
+    </div>
+    <div class="feet" id="right-feet">
+      <div class="feet-finger">
+        <div class="little-finger"></div>
+        <div class="little-finger"></div>
+        <div class="little-finger"></div>
+      </div>
+      <div class="big-finger"></div>
+    </div>
+    <!-- </div> -->
+    <div id="slide-container">
+      <div id="login-form">
+        <!-- Get Otp by email -->
+        <!-- <%if(type=='sign-up-send-otp'){%>
+        
+        <%}else if(type=='sign-up-verify-email') {%> -->
+
+        <!-- verify email -->
+        <!-- 
+        <%} else if(type=='sign-up-after-email-verified'){%> -->
+        <!-- sign up after otp verify -->
+        <!-- 
+        <%}else{%>
+        <div>hbjcd</div>
+        <%}%> -->
+        <div
+          style="
+            width: 50%;
+            height: auto;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 3px 6px 3px rgba(0, 0, 0, 0.2); ;
+          "
+        >
+          <img
+            src="https://www.transparentpng.com/thumb/google-logo/google-logo-png-icon-free-download-SUF63j.png"
+            alt="logo"
+            height="40px"
+            width="40px"
+          />
+          <span>Google</span>
+        </div>
+      </div>
+      <!-- <div id="hand-container"> -->
+      <div class="hand" id="left-hand">
+        <div class="finger"></div>
+        <div class="finger"></div>
+        <div class="finger"></div>
+      </div>
+      <div class="hand" id="right-hand">
+        <div class="finger"></div>
+        <div class="finger"></div>
+        <div class="finger"></div>
+      </div>
+      <!-- </div> -->
+    </div>
+  </div>
 </div>
 
 <script src="/js/login.js"></script>

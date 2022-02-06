@@ -59,10 +59,12 @@ passport.use(
                     .populate("related")
                     .exec(function(err, user) {
                         if (err) {
+                            req.flash("error", "err in finding user");
                             console.log("Err in finding user in passport");
                             return done(err);
                         }
                         if (!user || user.password != password) {
+                            req.flash("error", "incorrect username / password");
                             console.log("Invalid username / password");
                             return done(null, false);
                         }
@@ -75,6 +77,7 @@ passport.use(
                             console.log("Model not match");
                             return done(null, false);
                         }
+                        req.flash("success", "user authenticated successfully");
                         console.log("user authenticate successfully");
                         // console.log("user is ---- > ", user);
                         return done(null, {
@@ -116,7 +119,13 @@ passport.deserializeUser(function({ organiser, id }, done) {
     //deserialize a user
     else {
         User.findById(id)
-            .populate("related")
+            .populate([{
+                    path: "related",
+                },
+                {
+                    path: "saveItems",
+                },
+            ])
             .exec(function(err, user) {
                 if (err) {
                     console.log("err in de-serialize the user");
@@ -141,11 +150,19 @@ passport.checkAuthentication = function(req, res, next) {
         next();
     }
     //render it to login page
-    else return res.redirect("/sign-in");
+    else {
+        if (req.xhr) {
+            return res.status(401).json({});
+        }
+        return res.redirect("/sign-in");
+    }
 };
 
 passport.checkCreator = function(req, res, next) {
     if (!req.isAuthenticated()) {
+        if (req.xhr) {
+            return res.status(401);
+        }
         return res.redirect("/sign-in");
     }
     let findType = req.user.myUser.onModel;

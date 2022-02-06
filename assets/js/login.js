@@ -1,7 +1,4 @@
 console.log("login script running ");
-document.getElementById("container").addEventListener("mousemove", function() {
-    console.log("yes ");
-});
 
 function handleInputChange(e) {
     // console.log("e is ", e);
@@ -21,12 +18,34 @@ function handleInputChange(e) {
 }
 
 function slideup(e) {
+    //console.log("slideup running ", e.target);
     let ele = document.getElementById("slide-container");
     ele.style.top = "122px";
 }
 
 function slidedown(e) {
-    console.log("out running ");
-    let ele = document.getElementById("slide-container");
-    ele.style.top = "175px";
+    //console.log("slide down running ", e.target);
+    setTimeout(function() {
+        let ele = document.getElementById("slide-container");
+        ele.style.top = "175px";
+    }, 500);
+}
+
+function handleTabChange(type, event) {
+    document.querySelectorAll(".actual-option").forEach((itm) => {
+        itm.className = "actual-option";
+    });
+    document.querySelectorAll(".option-head").forEach((itm) => {
+        itm.style.color = "#748194";
+    });
+    let target = event.target.parentNode;
+    // console.log("target is ", target);
+    // console.log("parent ", target.parentNode);
+    target.style.color = "#EE9BA3";
+    target.parentNode.className += " " + type + "-div-active";
+    if (type == "left") {
+        showSignInPage();
+    } else {
+        showSignUpGetOtpPage();
+    }
 }

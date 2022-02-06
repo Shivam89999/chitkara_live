@@ -14,6 +14,7 @@ const noticeSchema = mongoose.Schema({
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Like",
+        default: [],
     }, ],
     downloads: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -32,7 +33,7 @@ const noticeSchema = mongoose.Schema({
         default: "/images/default_pdf_image.jpg",
     },
 }, {
-    strict: false,
+    timestamps: true,
 });
 
 const storage = multer.diskStorage({

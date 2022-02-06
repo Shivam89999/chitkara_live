@@ -5,11 +5,14 @@
         <img src="<%=locals.user.pic%>" alt="" height="65px" width="65px" style="border-radius: 50%" />
     </div>
     <h3>
-        <%= locals.member!=null ? " Update Team Member" : " Add New Member" ;%>
+        <%if(locals.type && locals.type=='delete'){%> Delete Team Member
+            <%}else{%>
+                <%= locals.member!=null ? " Update Team Member" : " Add New Member" ;%>
+                    <%}%>
     </h3>
     <div>
-        <%if(locals.user.onModel=='Student'){%>
-            <form action="/user/own-as-member-update-details" method="POST" enctype="multipart/form-data">
+        <%if(locals.type && locals.type=='delete'){%>
+            <form action="/creator/delete-team-member" method="POST">
                 <div style="
           margin: auto;
           display: flex;
@@ -23,17 +26,12 @@
                 </div>
                 <input type="hidden" name="memberId" value="<%=locals.member.id%>" />
                 <div style="font-weight: 700; font-size: 18">
-                    Your current cover photo
+                    Member current cover photo
                 </div>
                 <div style="margin: auto; display: flex; justify-content: center">
                     <img style="border: 2px solid gray" src="<%=locals.member.image%>" alt="cover-photo" height="200px" width="150px" />
                 </div>
-                <div style="font-weight: 700; font-size: 18">Choose new Cover photo</div>
-
-                <input type="file" name="memberPhoto" id="file-input" placeholder="New Profile" />
-                <div id="preview" style="margin: auto"></div>
-                <div id="error-div" style="text-align: center; padding: 5px; margin: auto"></div>
-
+                <br /><br />
                 <div style="
           background-color: transparent;
           width: 100%;
@@ -44,20 +42,60 @@
           display: block;
           text-align: right;
         ">
-                    <button style="text-transform: capitalize">Update</button>
+                    <button style="text-transform: capitalize">Delete</button>
                 </div>
             </form>
-            <%}else{%>
-                <form action="/creator/<%=locals.member!=null ? 'update-team-member':'add-new-team-member'%>" method="POST">
+            <%} else if(locals.user.onModel=='Student'){%>
+                <form action="/user/own-as-member-update-details" method="POST" enctype="multipart/form-data">
                     <div style="
           margin: auto;
           display: flex;
           flex-direction: column;
           justify-content: center;
         ">
-                        <img src="<%=locals.userDetails.pic%>" alt="" height="100px" width="100px" style="border-radius: 50%; border: 2px solid white" />
+                        <img src="<%=locals.member.userId.pic%>" alt="" height="100px" width="100px" style="border-radius: 50%; border: 2px solid white" />
 
-                        <span><%=locals.member==null ? locals.userDetails.name :
+                        <span><%=locals.member.userId.name%></span>
+                        <span><%=locals.member.userId.email%></span>
+                    </div>
+                    <input type="hidden" name="memberId" value="<%=locals.member.id%>" />
+                    <div style="font-weight: 700; font-size: 18">
+                        Your current cover photo
+                    </div>
+                    <div style="margin: auto; display: flex; justify-content: center">
+                        <img style="border: 2px solid gray" src="<%=locals.member.image%>" alt="cover-photo" height="200px" width="150px" />
+                    </div>
+                    <div style="font-weight: 700; font-size: 18">Choose new Cover photo</div>
+
+                    <input type="file" name="memberPhoto" id="file-input" placeholder="New Profile" />
+                    <div id="preview" style="margin: auto"></div>
+                    <div id="error-div" style="text-align: center; padding: 5px; margin: auto"></div>
+
+                    <div style="
+          background-color: transparent;
+          width: 100%;
+          min-width: 100%;
+          padding: 10px;
+          margin: 0px;
+          box-sizing: border-box;
+          display: block;
+          text-align: right;
+        ">
+                        <button style="text-transform: capitalize">Update</button>
+                    </div>
+                </form>
+                <%}else{%>
+                    <form action="/creator/<%=locals.member!=null ? 'update-team-member':'add-new-team-member'%>" method="POST">
+                        <div style="
+          margin: auto;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        ">
+                            <img src="<%=locals.member==null ? locals.userDetails.pic :
+          locals.member.userId.pic%>" alt="" height="100px" width="100px" style="border-radius: 50%; border: 2px solid white" />
+
+                            <span><%=locals.member==null ? locals.userDetails.name :
           locals.member.userId.name%></span
         >
         <span
@@ -80,7 +118,13 @@
         /></abbr>
       </div>
       <%}%>
-      <input type="hidden" name="user_id" value="<%=locals.userDetails.id%>" />
+      <input
+        type="hidden"
+        name="<%=locals.member==null ? 'user_id' :
+          'memberId'%>"
+        value="<%=locals.member==null ? locals.userDetails.id :
+          locals.member.id%>"
+      />
       <textarea
         name="heading"
         id=""

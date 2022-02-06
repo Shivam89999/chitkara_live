@@ -1,0 +1,208 @@
+<link rel="stylesheet" href="/css/poll_votes.css" />
+<div id="poll-votes">
+    <div id="img-container">
+        <img src="<%=locals.user.pic%>" alt="" height="65px" width="65px" style="border-radius: 50%" />
+    </div>
+    <h3>Poll Vote Details</h3>
+    <div id="polls">
+        <div class="poll">
+            <div class="poll-question">
+                <%=poll.question%>
+            </div>
+            <div class="poll-options">
+                <a style="pointer-events: none">
+                    <div class="yes-option">
+                        <%=poll.yes_option%>
+                    </div>
+                </a>
+                <a style="pointer-events: none">
+                    <div class="no-option">
+                        <%=poll.no_option%>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="votes">
+        <div id="votes-header">
+            <div class="active" onclick="changeActiveTab('yes',event)" style="background-color: rgba(172, 255, 47, 0.664)">
+                <span style="font-size: 21; color: blue"><%=poll.yes_votes.length%>
+          <span style="font-size: 15">votes for</span></span>
+                <span style="
+            font-size: 12;
+            height: auto;
+            word-wrap: break-word;
+            width: 100%;
+            max-width: 100%;
+            text-align: center;
+          "><%=poll.yes_option%></span
+        >
+      </div>
+      <div
+        class=""
+        onclick="changeActiveTab('no',event)"
+        style="background-color: rgba(255, 0, 0, 0.459)"
+      >
+        <span style="font-size: 21; color: blue"
+          ><%=poll.no_votes.length%>
+          <span style="font-size: 15">votes for</span></span>
+                <span style="
+            font-size: 12;
+            height: auto;
+            word-wrap: break-word;
+            width: 100%;
+            max-width: 100%;
+            text-align: center;
+          "><%=poll.no_option%></span
+        >
+      </div>
+    </div>
+    <div id="voter-details">
+      <div
+        class="like-by voter"
+        id="no-voter"
+        style="
+          padding: 10px;
+          padding-top: 25px;
+          display: none;
+          pointer-events: none;
+        "
+      >
+        No voter found
+      </div>
+      <%for(let vote of poll.yes_votes){%>
+      <div class="like-by voter" type="yes">
+        <a
+          class="liked-user-link"
+          href="/user/profile?user_id=<%=vote.id%>"
+          style="text-decoration: none"
+        >
+          <div>
+            <div>
+              <img
+                src="<%=vote.pic%>"
+                alt="image"
+                height="50px"
+                width="50px"
+                style="border-radius: 50%"
+              />
+            </div>
+            <div>
+              <span><%=vote.name%> </span>
+                <span style="font-size: 14; color: rgb(129, 121, 121)"><%=vote.onModel%></span
+              >
+            </div>
+          </div>
+        </a>
+        <div>
+          <%if(locals.user&&((locals.user.onModel=='Student' &&
+          vote.onModel!='Student')||(locals.user.onModel!='Student' &&
+          vote.onModel=='Student'))){%>
+          <%if(locals.user.related.members.includes(vote.id)){%>
+          <a href="/user/remove-membership?target=<%=vote.id%>"
+            ><button>Remove</button></a
+          >
+          <%} else if(locals.user.related.sendRequest.includes(vote.id)){%>
+
+          <a href="/user/withdraw-request?target=<%=vote.id%>"
+            ><button>Withdraw</button></a
+          >
+
+          <%}else if(locals.user.related.comingRequest.includes(vote.id)){%>
+
+          <a href="/user/accept-request?target=<%=vote.id%>"
+            ><button>Accept</button></a
+          >
+          <a href="/user/ignore-request?target=<%=vote.id%>"
+            ><button>Ignore</button></a
+          >
+          <%}else{%>
+          <a href="/user/send-request?target=<%=vote.id%>"
+            ><button>Connect</button></a
+          >
+          <%}%> <%}%>
+        </div>
+      </div>
+
+      <%}%> <%for(let vote of poll.no_votes){%>
+      <div class="like-by voter" type="no" style="display: none">
+        <a
+          class="liked-user-link"
+          href="/user/profile?user_id=<%=vote.id%>"
+          style="text-decoration: none"
+        >
+          <div>
+            <div>
+              <img
+                src="<%=vote.pic%>"
+                alt="image"
+                height="50px"
+                width="50px"
+                style="border-radius: 50%"
+              />
+            </div>
+            <div>
+              <span><%=vote.name%> </span>
+                <span style="font-size: 14; color: rgb(129, 121, 121)"><%=vote.onModel%></span
+              >
+            </div>
+          </div>
+        </a>
+        <div>
+          <%if(locals.user&&((locals.user.onModel=='Student' &&
+          vote.onModel!='Student')||(locals.user.onModel!='Student' &&
+          vote.onModel=='Student'))){%>
+          <%if(locals.user.related.members.includes(vote.id)){%>
+          <a href="/user/remove-membership?target=<%=vote.id%>"
+            ><button>Remove</button></a
+          >
+          <%} else if(locals.user.related.sendRequest.includes(vote.id)){%>
+
+          <a href="/user/withdraw-request?target=<%=vote.id%>"
+            ><button>Withdraw</button></a
+          >
+
+          <%}else if(locals.user.related.comingRequest.includes(vote.id)){%>
+
+          <a href="/user/accept-request?target=<%=vote.id%>"
+            ><button>Accept</button></a
+          >
+          <a href="/user/ignore-request?target=<%=vote.id%>"
+            ><button>Ignore</button></a
+          >
+          <%}else{%>
+          <a href="/user/send-request?target=<%=vote.id%>"
+            ><button>Connect</button></a
+          >
+          <%}%> <%}%>
+        </div>
+      </div>
+
+      <%}%>
+    </div>
+  </div>
+</div>
+<script>
+  function changeActiveTab(type, e) {
+    document.querySelectorAll(".active").forEach((itm) => {
+      itm.className = itm.className.replace("active", "");
+    });
+    e.target.className += "active";
+    changeVisibleVoteTypes(type);
+  }
+  function changeVisibleVoteTypes(type) {
+    let count = 0;
+    document.querySelectorAll(".voter").forEach((itm) => {
+      if (itm.getAttribute("type") + "" == "" + type) {
+        itm.style.display = "flex";
+        count++;
+      } else itm.style.display = "none";
+    });
+    console.log("count is ", count);
+    if (count == 0) {
+      document.getElementById("no-voter").style.display = "inline-block";
+    }
+  }
+  changeVisibleVoteTypes("yes");
+</script>

@@ -1,0 +1,122 @@
+.toUpdatepoll,
+.toUpdatealert,
+.toUpdatenotice {
+    display: flex;
+    flex-direction: column;
+    position: absolute !important;
+    top: 14px;
+    z-index: 1;
+    transition: all 0.2s linear;
+    right: 14px;
+    background-color: white;
+    color: black;
+    height: fit-content;
+    width: fit-content;
+    box-shadow: none;
+    cursor: pointer;
+    a {
+        text-decoration: none;
+        color: black;
+        font-size: 24;
+        padding: 4px;
+        box-sizing: border-box;
+        box-shadow: none;
+        background-color: transparent;
+        // box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
+        // img {
+        //     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
+        // }
+    }
+}
+
+.toUpdatealert {
+    right: 10.5px;
+}
+
+.toUpdatenotice {
+    top: -2px;
+    right: 0px;
+}
+
+.poll-edit-link,
+.alert-edit-link,
+.notice-edit-link {
+    transition: all 0.3s ease-in-out;
+    padding: 0;
+    border-radius: 50%;
+    color: black;
+    // background-color:red;  text-decoration: none;
+    font-size: 30;
+    font-weight: 900;
+    padding: 2px;
+    cursor: pointer;
+    &:hover {
+        background-color: white;
+        padding: 2px 16px 2px 16px;
+        span {
+            color: black;
+        }
+    }
+}
+
+#no-internet {
+    position: fixed;
+    top: 2px;
+    margin: auto;
+    /* trick to make absolute/fixed position in center */
+    left: 50%;
+    margin-left: -200px;
+    width: 400px;
+    height: auto;
+    padding: 4px 10px 4px 10px;
+    background-color: rgb(255, 179, 38);
+    z-index: 454454545;
+    color: white;
+    font-weight: 500;
+    vertical-align: middle;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-container {
+    background-color: rgb(204, 196, 196);
+    width: 66px;
+    height: 26px;
+    border-radius: 22px;
+    padding: 1.5px;
+    position: relative;
+    cursor: pointer;
+}
+
+.toggle-container-active {
+    background-color: rgb(63, 107, 240);
+}
+
+.toggle-btn {
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    background-color: white;
+    position: relative;
+    left: 0px !important;
+    transition: all 0.3s;
+}
+
+.toggle-btn-active {
+    left: 40px !important;
+}
+
+.disable_btn {
+    background-color: rgb(124, 124, 124) !important;
+    pointer-events: none;
+    border-color: rgb(124, 124, 124) !important;
+    opacity: 0.7;
+    button {
+        border-color: rgb(124, 124, 124) !important;
+        background-color: rgb(124, 124, 124) !important;
+    }
+}
+
+.disable_btn_without_back {
+    opacity: 0.7;
+    pointer-events: none;
+}

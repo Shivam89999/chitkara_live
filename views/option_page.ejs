@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="/css/option-page.css" />
+<!-- we will add script and styling not here but from layout page -->
+
 <!-- <div id="search-tags">
     <div>
         <div>
@@ -20,8 +21,9 @@
 </div> -->
 <div id="option-page">
     <div id="option-header">
-        <span class="All active" onclick="showOption('All',event)">All</span>
-        <span class="Student" onclick="showOption('Student',event)">Student</span>
+        <span class="All active-search-tab" onclick="showOption('All',event)">All</span
+    >
+    <span class="Student" onclick="showOption('Student',event)">Student</span>
         <span class="Club" onclick="showOption('Club',event)">Club</span>
         <span class="Depart" onclick="showOption('Depart',event)">Depart</span>
         <span class="Hostel" onclick="showOption('Hostel',event)">Hostel</span>
@@ -30,74 +32,31 @@
     <div id="empty-div">No user Found</div>
     <!-- <div id="empty-div">vnfbv</div>
     <div id="empty-div">jvfhvjfn</div> -->
-    <%for(let option of options){%>
-        <a href="/user/profile?user_id=<%=option.id%>" class="link search-result <%=option.onModel%>-result">
-            <div class="option">
-                <div><img src="<%=option.pic%>" alt="Logo" /></div>
-                <div class="right-div" style="word-wrap: break-word">
-                    <span><%=option.name%></span>
-                    <span style="font-size: 11; word-wrap: break-word"><%=option.onModel%></span
-        >
-        <span style="font-size: 11; word-wrap: break-word"
-          ><%=option.email%></span
-        >
+    <main id="search-user-result-main">
+        <%for(let option of options){%>
+            <a href="/user/profile?user_id=<%=option.id%>" type="<%=option.onModel%>" class="link search-result <%=option.onModel%>-result">
+                <div class="option">
+                    <div><img src="<%=option.pic%>" alt="Logo" /></div>
+                    <div class="right-div">
+                        <div>
+                            <%=option.name%>
+                        </div>
+                        <div style="font-size: 11">
+                            <%=option.onModel%>
+                        </div>
+                        <div style="font-size: 11">
+                            <!-- <%=option.email%> -->
+                            cdbghcvdvdchbbdcbcdbchdvhgcvdgvcdhgvcvdvgdg
+                        </div>
 
-        <span style="font-size: 11; word-wrap: break-word"
-          ><%=option.bio%></span
-        >
-      </div>
-    </div>
-  </a>
+                        <div style="font-size: 11">
+                            <%=option.bio%>
+                        </div>
+                    </div>
+                </div>
+            </a>
 
-  <%}%>
+            <%}%>
+    </main>
 </div>
-
-<script>
-  let emptyDiv = document.getElementById("empty-div");
-  let search_users = document.querySelectorAll(".search-result").length;
-  if (search_users == 0) {
-    emptyDiv.innerText = "No User Found";
-    emptyDiv.style.display = "block";
-  }
-
-  function showOption(type, event) {
-    let target = event.target;
-    console.log("target is ", target, " type is ", type);
-    //change current active to in-active
-    document.querySelectorAll(".active").forEach((ele) => {
-      ele.className = ele.className.replace(" active", "");
-    });
-    target.className += " active";
-    //change search result display property acc. to selected tab
-    document.querySelectorAll(".search-result").forEach((ele) => {
-      ele.style.display = "none";
-    });
-
-    if (type == "All") {
-      var displayable = document.querySelectorAll(".search-result");
-      console.log("displayable is ", displayable);
-      if (displayable.length == 0) {
-        emptyDiv.innerText = "No User Found";
-        emptyDiv.style.display = "block";
-      } else {
-        emptyDiv.style.display = "none";
-        displayable.forEach((ele) => {
-          ele.style.display = "block";
-        });
-      }
-    } else {
-      var displayable = document.querySelectorAll("." + type + "-result");
-      console.log("displayable is ", displayable);
-      if (displayable.length == 0) {
-        emptyDiv.innerText = "No " + type + " Found";
-        emptyDiv.style.display = "block";
-      } else {
-        emptyDiv.style.display = "none";
-        displayable.forEach((ele) => {
-          //console.log("displayable ele  is ", ele);
-          ele.style.display = "block";
-        });
-      }
-    }
-  }
-</script>
+<!-- we will add script and styling not here but from layout page -->

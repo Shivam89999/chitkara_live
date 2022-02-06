@@ -27,6 +27,10 @@ const departSchema = mongoose.Schema({
         ref: "User",
         default: [],
     }, ],
+    teamMembers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Member",
+    }, ],
     comingRequest: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

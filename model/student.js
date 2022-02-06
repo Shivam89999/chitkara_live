@@ -4,6 +4,7 @@ const studentSchema = mongoose.Schema({
     info: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        required: true,
     },
     branch: {
         type: "String",
@@ -13,7 +14,6 @@ const studentSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         refPath: "onHeadModel",
     },
-    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     onHeadModel: {
         type: "String",
         enum: ["Depart", "Club", "Hostel", null],
