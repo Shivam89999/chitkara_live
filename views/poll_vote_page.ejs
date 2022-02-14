@@ -90,7 +90,11 @@
             </div>
             <div>
               <span><%=vote.name%> </span>
-                <span style="font-size: 14; color: rgb(129, 121, 121)"><%=vote.onModel%></span
+                <span style="
+                  font-size: 14;
+                  color: rgb(129, 121, 121);
+                  padding-left: 4px;
+                "><%=vote.onModel%></span
               >
             </div>
           </div>
@@ -100,25 +104,31 @@
           vote.onModel!='Student')||(locals.user.onModel!='Student' &&
           vote.onModel=='Student'))){%>
           <%if(locals.user.related.members.includes(vote.id)){%>
-          <a href="/user/remove-membership?target=<%=vote.id%>"
+          <a
+            class="request-link"
+            href="/user/remove-membership?target=<%=vote.id%>"
             ><button>Remove</button></a
           >
           <%} else if(locals.user.related.sendRequest.includes(vote.id)){%>
 
-          <a href="/user/withdraw-request?target=<%=vote.id%>"
+          <a
+            class="request-link"
+            href="/user/withdraw-request?target=<%=vote.id%>"
             ><button>Withdraw</button></a
           >
 
           <%}else if(locals.user.related.comingRequest.includes(vote.id)){%>
 
-          <a href="/user/accept-request?target=<%=vote.id%>"
+          <a
+            class="request-link"
+            href="/user/accept-request?target=<%=vote.id%>"
             ><button>Accept</button></a
           >
           <a href="/user/ignore-request?target=<%=vote.id%>"
             ><button>Ignore</button></a
           >
           <%}else{%>
-          <a href="/user/send-request?target=<%=vote.id%>"
+          <a class="request-link" href="/user/send-request?target=<%=vote.id%>"
             ><button>Connect</button></a
           >
           <%}%> <%}%>
@@ -154,25 +164,33 @@
           vote.onModel!='Student')||(locals.user.onModel!='Student' &&
           vote.onModel=='Student'))){%>
           <%if(locals.user.related.members.includes(vote.id)){%>
-          <a href="/user/remove-membership?target=<%=vote.id%>"
+          <a
+            class="request-link"
+            href="/user/remove-membership?target=<%=vote.id%>"
             ><button>Remove</button></a
           >
           <%} else if(locals.user.related.sendRequest.includes(vote.id)){%>
 
-          <a href="/user/withdraw-request?target=<%=vote.id%>"
+          <a
+            class="request-link"
+            href="/user/withdraw-request?target=<%=vote.id%>"
             ><button>Withdraw</button></a
           >
 
           <%}else if(locals.user.related.comingRequest.includes(vote.id)){%>
 
-          <a href="/user/accept-request?target=<%=vote.id%>"
+          <a
+            class="request-link"
+            href="/user/accept-request?target=<%=vote.id%>"
             ><button>Accept</button></a
           >
-          <a href="/user/ignore-request?target=<%=vote.id%>"
+          <a
+            class="request-link"
+            href="/user/ignore-request?target=<%=vote.id%>"
             ><button>Ignore</button></a
           >
           <%}else{%>
-          <a href="/user/send-request?target=<%=vote.id%>"
+          <a class="request-link" href="/user/send-request?target=<%=vote.id%>"
             ><button>Connect</button></a
           >
           <%}%> <%}%>
@@ -205,4 +223,12 @@
     }
   }
   changeVisibleVoteTypes("yes");
+  // function listenerToAllRequestLink() {
+  //   $(".request-link").each((i, link) => {
+  //     console.log("links are $$$$$$$$$$$$$$ ", link);
+  //     handleRequests($(link));
+  //   });
+  // }
+  // listenerToAllRequestLink();
+  handleRequests($(".request-link"));
 </script>

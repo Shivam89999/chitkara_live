@@ -27,9 +27,8 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-between !important;
   padding: 10px;
-  margin: 1px;
   background-color: white;
 }
 
@@ -54,15 +53,18 @@
 }
 
 #likes-page div div button {
-  background-color: royalblue;
-  border-color: white;
+  position: relative;
   padding: 8px 16px 8px 16px;
+  background-color: rgba(65, 105, 225, 0.89);
+  border-color: rgba(65, 105, 225, 0.788);
   color: white;
-  font-weight: 700;
+  font-size: 16;
+  font-weight: 600;
+  border-radius: 5px;
 }
 
 #likes-page div div button:hover {
-  background-color: blue;
+  background-color: #224fd6;
 }
 
 button {
@@ -71,6 +73,7 @@ button {
   padding: 5px 10px 5px 10px;
   color: white;
   font-weight: 700;
+  margin: 1px;
 }
 
 button:hover {

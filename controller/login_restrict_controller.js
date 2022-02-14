@@ -20,6 +20,7 @@ const commentsMailer = require("../mailers/comment_mailers");
 const queue = require("../config/kue");
 const commentEmailWorker = require("../workers/comment_email_worker");
 const Alert = require("../model/alert");
+const Upcoming = require("../model/upcomingEvents");
 
 async function userProfile(req, res) {
     if (!req.user) {
@@ -39,6 +40,7 @@ async function userProfile(req, res) {
                 path: "related",
             },
         ])
+        .sort({ createdAt: -1 })
         .exec(async function(err, user_profile) {
             if (err || !user_profile) {
                 console.log(
@@ -409,7 +411,7 @@ async function deleteComment(req, res) {
         if (!comment) {
             if (req.xhr) {
                 return res.status(404).json({
-                    message: "comment does not exist, may deleted already",
+                    err: "comment does not exist, may deleted already",
                 });
             }
             console.log("comment does not exist");
@@ -420,7 +422,7 @@ async function deleteComment(req, res) {
         if (!post) {
             if (req.xhr) {
                 return res.status(404).json({
-                    message: "post for associated comment does not exist, may deleted already",
+                    err: "post for associated comment does not exist, may deleted already",
                 });
             }
             console.log(
@@ -434,7 +436,7 @@ async function deleteComment(req, res) {
         ) {
             if (req.xhr) {
                 return res.status(401).json({
-                    message: "u can not delete this comment",
+                    err: "u can not delete this comment",
                 });
             }
             console.log("unauthorized req, u can not delete this comment");
@@ -467,7 +469,7 @@ async function deleteComment(req, res) {
     } catch (err) {
         if (req.xhr) {
             return res.status(405).json({
-                message: "err in deleting comment " + err,
+                err: "err in deleting comment " + err,
             });
         }
         console.log("err in deleting comment", err);
@@ -519,6 +521,7 @@ function update(req, res) {
             req.user.myUser.pic = User.avatarPath + "/" + req.file.filename;
         }
         req.user.myUser.save();
+        req.flash("success", "Profile Updated successfully");
         return res.redirect("back");
     });
 }
@@ -1012,6 +1015,7 @@ async function userPosts(req, res) {
                     creator: success_user.id,
                     eventStartTime: { $ne: null },
                 })
+                .sort({ createdAt: -1 })
                 .populate("creator")
                 .populate({
                     path: "comments",
@@ -1042,6 +1046,7 @@ async function userPosts(req, res) {
                         posts: posts,
                         types: req.query.types,
                         u: success_user,
+                        loadMorePost: false,
                     });
                 });
         } else {
@@ -1080,6 +1085,7 @@ async function userPosts(req, res) {
                 posts: posts,
                 types: req.query.types,
                 u: success_user,
+                loadMorePost: false,
             });
         }
     });
@@ -1095,18 +1101,19 @@ function likes(req, res) {
     }
     model
         .findById(postId)
-        .populate({
-            path: "likes",
-            populate: {
-                path: "creator",
-            },
-        })
+        // .populate({
+        //     path: "likes",
+        //     populate: {
+        //         path: "creator",
+        //     },
+        // })
         .exec(function(err, post) {
             console.log("post is ", post);
             if (post)
                 return res.render("likes", {
                     title: "likes page",
                     post: post,
+                    currentTime: Date.now(),
                 });
             else {
                 console.log("err in finding post or may not exist");
@@ -1142,62 +1149,133 @@ function profileRequestsPage(req, res) {
             });
         });
 }
+async function loadMoreUpcoming(time, loadLimit) {
+    let currentTime = Date.now();
+    console.log("time is $$$$$$$$$$$$ ", time);
+    let events = await Post.find({
+            createdAt: { $lt: time },
+            eventEndTime: { $gte: currentTime },
+        })
+        .sort({ createdAt: -1 })
+        .limit(loadLimit)
+        .populate({
+            path: "likes",
+            populate: {
+                path: "creator",
+            },
+        })
+        .populate("creator");
+    return events;
+}
+async function loadMorePassed(time, loadLimit) {
+    let currentTime = Date.now();
+    let events = await Post.find({
+            createdAt: { $lt: time },
+            eventEndTime: { $lt: currentTime },
+        })
+        .sort({ createdAt: -1 })
+        .limit(loadLimit)
+        .populate({
+            path: "likes",
+            populate: {
+                path: "creator",
+            },
+        })
+        .populate("creator");
+    return events;
+}
+async function loadMoreEvents(req, res) {
+    try {
+        let type = req.query.type;
+        let time = req.query.time;
+        let events = [];
+        if (type == "upcoming") {
+            //console.log("time is @@@@@@@@@@@ ", time);
+            events = await loadMoreUpcoming(time, 2);
+        } else {
+            events = await loadMorePassed(time, 2);
+            //events = [];
+        }
+
+        let lastTime =
+            events.length == 0 ? new Date(0) : events[events.length - 1].createdAt;
+
+        return res.status(200).json({
+            message: "events loaded successfully",
+            data: {
+                events: events,
+                lastTime: lastTime,
+                localUser: req.user && req.user.myUser ? req.user.myUser : null,
+            },
+        });
+    } catch (err) {
+        console.log("err in loading events " + err);
+        return res.status(500).json({
+            err: "Internal server err in loading events ",
+        });
+    }
+}
 
 function eventsPage(req, res) {
-    Post.find({
-            eventStartTime: { $exists: true },
-            eventStartTime: { $ne: null },
-        })
-        .populate("creator")
-        .populate([{
-                path: "comments",
-                populate: [{
-                        path: "creator",
-                    },
-                    { path: "likes" },
-                ],
-            },
-            {
-                path: "likes",
-                populate: {
-                    path: "creator",
-                    options: { limit: 15 },
-                },
-            },
-        ])
-        .sort({ updatedAt: -1 })
+    // Post.find({
+    //         eventStartTime: { $exists: true },
+    //         eventStartTime: { $ne: null },
+    //     })
+    //     .populate("creator")
+    //     .populate([{
+    //             path: "comments",
+    //             populate: [{
+    //                     path: "creator",
+    //                 },
+    //                 { path: "likes" },
+    //             ],
+    //         },
+    //         {
+    //             path: "likes",
+    //             populate: {
+    //                 path: "creator",
+    //                 options: { limit: 15 },
+    //             },
+    //         },
+    //     ])
+    //     .sort({ updatedAt: -1 })
 
-    .exec(function(err, posts) {
-        if (!posts || err) {
-            console.log("err in finding event  post or may no event exist ", err);
-            posts = [];
-        }
-        let upcomingOrrunning = [],
-            passed = [];
-        for (let post of posts) {
-            let type;
-            let current = parseInt(new Date().valueOf());
-            if (!post.eventStartTime) {
-                console.log("bad found");
-                continue;
-            }
-            console.log("&&&&&&&&&&&&&&&&&*************");
-            if (parseInt(new Date(post.eventEndTime).valueOf()) < current) {
-                type = "past";
-                passed.push(post);
-            } else {
-                type = "running";
-                upcomingOrrunning.push(post);
-            }
-        }
-        console.log("upcomings ", upcomingOrrunning);
-        console.log("passed ", passed);
+    // .exec(function(err, posts) {
+    //     if (!posts || err) {
+    //         console.log("err in finding event  post or may no event exist ", err);
+    //         posts = [];
+    //     }
+    //     let upcomingOrrunning = [],
+    //         passed = [];
+    //     for (let post of posts) {
+    //         let type;
+    //         let current = parseInt(new Date().valueOf());
+    //         if (!post.eventStartTime) {
+    //             console.log("bad found");
+    //             continue;
+    //         }
+    //         console.log("&&&&&&&&&&&&&&&&&*************");
+    //         if (parseInt(new Date(post.eventEndTime).valueOf()) < current) {
+    //             type = "past";
+    //             passed.push(post);
+    //         } else {
+    //             type = "running";
+    //             upcomingOrrunning.push(post);
+    //         }
+    //     }
+    //     console.log("upcomings ", upcomingOrrunning);
+    //     console.log("passed ", passed);
 
-        return res.render("events_page", {
-            title: "Events Page",
-            upcomingOrrunning,
-            passed,
-        });
+    //     return res.render("events_page", {
+    //         title: "Events Page",
+    //         upcomingOrrunning,
+    //         passed,
+    //     });
+    // });
+    return res.render("events_page", {
+        title: "Events Page",
+        upcomingOrrunning: [],
+        passed: [],
     });
 }
 // function createPostPage(req, res) {
@@ -1328,26 +1406,41 @@ function newPollPage(req, res) {
     });
 }
 
-function addNewPoll(req, res) {
-    if (!req.body || !req.body.question) {
-        console.log("question can not be empty");
-        return res.redirect("back");
-    }
-    let obj = {
-        ...req.body,
-        creator: req.user.myUser.id,
-    };
-    console.log("obj is ", obj);
-    Poll.create(obj, function(err, poll) {
-        if (err || !poll) {
+async function addNewPoll(req, res) {
+    try {
+        let obj = {
+            ...req.body,
+            creator: req.user.myUser.id,
+        };
+        // console.log("obj is ", obj);
+        let poll = await Poll.create(obj);
+        if (!poll) {
             console.log("err in creating poll: ", err);
+            if (req.xhr) {
+                return res.status(500).json({
+                    err: "Internal server err, poll can not be created",
+                });
+            }
             return res.redirect("back");
         }
-        req.user.myUser.polls.push(poll.id);
-        req.user.myUser.save();
+        await req.user.myUser.polls.push(poll.id);
+        await req.user.myUser.save();
         console.log("poll created successfully");
+        if (req.xhr) {
+            return res.status(200).json({
+                message: "poll created successfully",
+            });
+        }
         return res.redirect("/");
-    });
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(500).json({
+                err: "Internal server err, in creating the poll",
+            });
+        }
+        console.log("internal server err in creating the poll");
+        return res.redirect("back");
+    }
 }
 
 function newQuestionPage(req, res) {
@@ -1408,7 +1501,7 @@ async function addPollVote(req, res) {
             let yesPercent = ((poll.yes_votes.length * 100) / totalVotes).toFixed(0);
             let noPercent = ((poll.no_votes.length * 100) / totalVotes).toFixed(0);
             return res.status(200).json({
-                message: "you are voted successfully of type " + voteType,
+                message: "you are voted successfully for type " + voteType,
                 data: {
                     pollId: poll._id,
                     yesPercent: yesPercent,
@@ -1607,6 +1700,7 @@ async function mySaveItemsDetails(req, res) {
     return res.render("my_save_items_details", {
         title: "my save items details",
         mySaveItems: posts.concat(texts),
+        loadMorePost: false,
     });
 }
 async function OwnAsMemberUpdateDetails(req, res) {
@@ -1809,6 +1903,50 @@ async function deleteTypeObj(req, res) {
 //     return res.redirect("back");
 // }
 
+async function loadMorePostLikes(req, res) {
+    console.log("reached #########33 ");
+    try {
+        let postId = req.query.postId;
+        let time = req.query.time;
+        let limit = 1;
+        let post = await Post.findById(postId).populate({
+            path: "likes",
+            options: {
+                sort: { createdAt: -1 },
+            },
+            match: { createdAt: { $lt: time } },
+            perDocumentLimit: limit,
+            populate: {
+                path: "creator",
+            },
+        });
+        let lastTime =
+            post.likes.length == 0 ?
+            new Date(0) :
+            post.likes[post.likes.length - 1].createdAt;
+        // console.log("likes are ", post.likes.length);
+        if (req.xhr) {
+            return res.status(200).json({
+                message: "likes loaded successfully ",
+                data: {
+                    likes: post.likes,
+                    lastTime: lastTime,
+                    localUser: req.user && req.user.myUser ? req.user.myUser : null,
+                    postId: postId,
+                },
+            });
+        }
+        return res.redirect("back");
+    } catch (err) {
+        console.log("Internal server err in loading more likes : ", err);
+        if (req.xhr) {
+            return res.status(401).json({
+                err: "Internal server err in loading more likes Refresh the page ",
+            });
+        }
+        return res.redirect("back");
+    }
+}
 module.exports = {
     userProfile,
     myProfile,
@@ -1842,4 +1980,6 @@ module.exports = {
     OwnAsMemberUpdateDetailsPage,
     pollVotes,
     deleteTypeObj,
+    loadMorePostLikes,
+    loadMoreEvents,
 };

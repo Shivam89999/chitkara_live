@@ -51,6 +51,8 @@ const hostelSchema = mongoose.Schema({
         ref: "Member",
     }, ],
 }, {
+    timestamps: true,
+}, {
     strict: false,
 });
 

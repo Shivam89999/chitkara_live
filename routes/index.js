@@ -4,10 +4,21 @@ const passport = require("passport");
 const router = express.Router();
 const middleware = require("../config/middleware");
 
-router.use("/", middleware.parseEmail, require("./open"));
-router.use("/organiser", middleware.parseEmail, require("./organiser"));
+router.use(
+    "/",
+    // middleware.checkOrSetDarkModeStatus,
+    middleware.parseEmail,
+    require("./open")
+);
+router.use(
+    "/organiser",
+    // middleware.checkOrSetDarkModeStatus,
+    middleware.parseEmail,
+    require("./organiser")
+);
 router.use(
     "/user",
+    // middleware.checkOrSetDarkModeStatus,
     middleware.parseEmail,
     passport.checkAuthentication,
     passport.notOrganiser,
@@ -15,6 +26,7 @@ router.use(
 );
 router.use(
     "/creator",
+    // middleware.checkOrSetDarkModeStatus,
     middleware.parseEmail,
     passport.notOrganiser,
     passport.checkCreator,

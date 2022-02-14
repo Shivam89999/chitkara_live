@@ -34,6 +34,8 @@ const studentSchema = mongoose.Schema({
         default: [],
     }, ],
 }, {
+    timestamps: true,
+}, {
     strict: false,
 });
 

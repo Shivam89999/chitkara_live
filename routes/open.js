@@ -80,5 +80,15 @@ router.post(
 router.get("/notices", open_controller.notices);
 router.get("/home-option-page/", open_controller.homeOptionPage);
 router.get("/post-for-location/", open_controller.postForLocation);
-
+router.get("/get-comments-of-post/", open_controller.commentsOfPost);
+router.get(
+    "/load-more-comments-of-post",
+    open_controller.loadMoreCommentOfPost
+);
+router.get("/load-more-post/", open_controller.loadMorePost);
+router.get("/load-more-notice/", open_controller.loadMoreNotices);
+router.get(
+    "/load-upcoming-or-running-events/",
+    open_controller.loadUpcomingOrRunningEvents
+);
 module.exports = router;

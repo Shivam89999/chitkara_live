@@ -23,7 +23,11 @@ router.post(
 
     creator_restrict_controller.newPost
 );
-router.post("/new-text-post", creator_restrict_controller.newTextPost);
+router.post(
+    "/new-text-post",
+    middleware.checkForTextPostOrAlert,
+    creator_restrict_controller.newTextPost
+);
 router.get("/new-notice-page", creator_restrict_controller.newNoticePage);
 router.post("/add-new-notice", creator_restrict_controller.addNewNotice);
 router.get(
@@ -32,7 +36,11 @@ router.get(
 );
 router.post("/new-event-post", creator_restrict_controller.newPost);
 router.get("/new-alert-page", creator_restrict_controller.newAlertPage);
-router.post("/new-alert", creator_restrict_controller.newAlert);
+router.post(
+    "/new-alert",
+    middleware.checkForTextPostOrAlert,
+    creator_restrict_controller.newAlert
+);
 
 router.get("/update-menu/", creator_restrict_controller.updateMenu);
 router.post(

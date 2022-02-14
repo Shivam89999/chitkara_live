@@ -215,8 +215,88 @@ function checkValidRequest(req, res, next) {
         }
         return res.redirect("back");
     }
+
     next();
 }
+
+function checkForTextPostOrAlert(req, res, next) {
+    if (!req.body.content) {
+        if (req.xhr) {
+            return res.status(405).json({
+                err: "invalid request, content is required",
+            });
+        }
+        console.log("invalid request content is required");
+        return res.redirect("back");
+    }
+    req.body.content = req.body.content.trim();
+    if (req.body.content.length == 0) {
+        if (req.xhr) {
+            return res.status(405).json({
+                err: "you can not creat with empty content",
+            });
+        }
+        console.log("you can not creat with empty content");
+        return res.redirect("back");
+    }
+    next();
+}
+
+function checkNewPollRequest(req, res, next) {
+    if (!req.body || !req.body.question) {
+        console.log("question can not be empty");
+        if (req.xhr) {
+            return res.status(405).json({
+                err: "question can not be empty",
+            });
+        }
+        return res.redirect("back");
+    }
+    // trim the question and option
+    req.body.question = req.body.question.trim();
+    if (req.body.question.length == 0) {
+        console.log("question can not be empty");
+        if (req.xhr) {
+            return res.status(405).json({
+                err: "question can not be empty",
+            });
+        }
+        return res.redirect("back");
+    }
+    if (req.body.yes_option) {
+        req.body.yes_option = req.body.yes_option.trim();
+    }
+    if (req.body.no_option) {
+        req.body.no_option = req.body.no_option.trim();
+    }
+    next();
+}
+
+function checkNewTextPost(req, res, next) {
+    if (!req.body || !req.body.content) {
+        if (req.xhr) {
+            return res.status(405).json({
+                err: "can not be created null post",
+            });
+        }
+        console.log("can not be created null post");
+        return res.redirect("back");
+    }
+    next();
+}
+
+//the cookie will be set on client side
+// function checkOrSetDarkModeStatus(req, res, next) {
+//     let darkModeStatus = req.cookies.darkModeStatus;
+
+//     if (darkModeStatus == undefined) {
+//         res.cookie("darkModeStatus", false, { maxAge: 1000 * 60 * 60 * 12 });
+//         console.log("cookis created successfully ^^^^^^^^^^^^^^  &&&&&&&  ");
+//     } else {
+//         console.log("cookie exist ***************** ^^^^^^^^^^^^^^^");
+//     }
+//     next();
+// }
 module.exports = {
     deletePost,
     updateOrAddTeamMember,
@@ -235,4 +315,8 @@ module.exports = {
     checkValidPollVoteRequest,
     checkValidRequest,
     parseEmail,
+    checkForTextPostOrAlert,
+    checkNewPollRequest,
+    checkNewTextPost,
+    // checkOrSetDarkModeStatus,
 };

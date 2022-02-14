@@ -66,26 +66,6 @@
         </div>
 
         <%- script %>
-            <script>
-                <%if(flash.success&&flash.success.length>0){%>
-                new Noty({
-                    theme: 'relax',
-                    text: "<%=flash.success%>",
-                    type: 'success',
-                    layout: 'topRight',
-                    timeout: 1500,
-                }).show();
-                <%}%>
-                <%if(flash.error&&flash.error.length>0){%>
-                new Noty({
-                    theme: 'relax',
-                    text: "<%=flash.error%>",
-                    type: 'error',
-                    layout: 'topRight',
-                    timeout: 1500,
-                }).show();
-                <%}%>
-            </script>
 
             <script src="/js/login.js"></script>
             <script src="/js/option_page.js"></script>
@@ -95,3 +75,42 @@
 
 <script src="/js/home_layout.js"></script>
 <script src="/js/ajax_request.js"></script>
+
+<script>
+    // let cookies = {};
+
+    // async function getCookieValueByName() {
+    //     await document.cookie.split(';').forEach((nameValuePair) => {
+    //         let [name, val] = nameValuePair.split("=");
+    //         cookies[name.trim()] = val.trim();
+    //     });
+    // }
+    // getCookieValueByName();
+    // //handle the dark mode using cookie
+    // let darkModeStatus = false;
+    // if (cookies['darkModeStatus'] && cookies['darkModeStatus'] == 'true') {
+    //     darkModeStatus = true;
+    // }
+
+    // console.log("local is ^^^^^^^^^^^^^ ", vt);
+    <%if(flash.success&&flash.success.length>0){%>
+    // new Noty({
+    //     theme: 'relax',
+    //     text: "<%=flash.success%>",
+    //     type: 'success',
+    //     layout: 'topRight',
+    //     timeout: 1500,
+    // }).show();
+    handleNotification('success', '<%=flash.success%>');
+    <%}%>
+    <%if(flash.error&&flash.error.length>0){%>
+    // new Noty({
+    //     theme: 'relax',
+    //     text: "<%=flash.error%>",
+    //     type: 'error',
+    //     layout: 'topRight',
+    //     timeout: 1500,
+    // }).show();
+    handleNotification('error', '<%=flash.error%>');
+    <%}%>
+</script>

@@ -24,7 +24,9 @@ const dayMenuDetail = mongoose.Schema({
     //     ref: "FoodDetail",
     // },
 }, {
-    strict: false
+    timestamps: true,
+}, {
+    strict: false,
 });
 
 const DayMenuDetail = mongoose.model("DayMenuDetail", dayMenuDetail);

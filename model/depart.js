@@ -42,6 +42,8 @@ const departSchema = mongoose.Schema({
         default: [],
     }, ],
 }, {
+    timestamps: true,
+}, {
     strict: false,
 });
 

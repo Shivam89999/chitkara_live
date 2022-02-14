@@ -14,6 +14,8 @@ const saveSchema = mongoose.Schema({
         ref: "User",
     },
 }, {
+    timestamps: true,
+}, {
     strict: false,
 });
 

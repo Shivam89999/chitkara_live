@@ -2,7 +2,7 @@
 <div id="post-container">
     <%var count=0;%>
         <%for(let post of posts){%>
-            <div class="post" id="post-<%=count%>">
+            <div class="post-class" id="post-<%=count%>">
                 <div class="post-header">
                     <a class="post-creator-link" href="/user/profile?user_id=<%=post.creator.id%>" style="text-decoration: none;">
                         <div>
@@ -27,18 +27,18 @@
       <%}%>
     </div>
        <%if(post.eventStartTime){%>
-    <div class="type-detail" start="<%=post.eventStartTime%>" end="<%=post.eventEndTime%>" location="<%=post.venu%>" postId="<%=post.id%>">
+    <div class="type-detail"onclick="toggleEventDetails('<%=post.id%>-event')" start="<%=post.eventStartTime%>" end="<%=post.eventEndTime%>" location="<%=post.venu%>" postId="<%=post.id%>">
         <div>  <img height="25px" width="25px"src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="">
       </div>
-                            <abbr title="See/Hide Event Detail" onclick="toggleEventDetails('<%=post.id%>-event')">  <img height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png" alt="detail">
+                            <abbr title="See/Hide Event Detail" >  <img height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png" alt="detail">
 </abbr>
 
                             </div>
 
                             <%}%>
 
-                                <div style="padding: 5px; margin: 5px">
-                                    <span style="font-size: 15"><%=post.caption%></span>
+                                <div style="padding: 5px; margin: 5px; ">
+                                    <span style="font-size: 15;"><%=post.caption%></span>
                             </div>
                             <%if(post.photos){%>
                                 <div class="post-main-section">
@@ -166,17 +166,9 @@
         </button>
                                 </form>
                     </div>
-                    <div style="display: flex;flex-flow: row-reverse; color:royalblue; font-size: 13;" createdTime="<%=post.createdAt%>" class="created-time">Post created date & time</div>
-                    <div id="loader" style=" display: flex; flex-direction: column;  align-items: center; width: 200px ;margin:0px auto 0px auto; padding: 0px;">
-                        <div class="loading" style="display: flex; flex-direction: row; justify-content: space-between; align-items: space-between;">
-                            <div class="loading-box"></div>
-                            <div class="loading-box"></div>
-                            <div class="loading-box"></div>
 
-                            <div class="loading-box"></div>
-                        </div>
-                        <div style=" margin-top: 0px; padding-top: 0px; font-size: 12;">processing....</div>
-                    </div>
+                    <div style="width: 100%; position: absolute; bottom: 0px; display: flex;flex-flow: row-reverse; color:royalblue; font-size: 13;" createdTime="<%=post.createdAt%>" class="created-time">Post created date & time</div>
+
                     </div>
                     <%-include('comments',{post:post});-%>
                         <%count=count+1;%>
@@ -184,26 +176,23 @@
                 </div>
 
                 <script src="/js/post.js"></script>
-
                 <script>
-                    let loader = $('#loader');
-                    let box = $('.loading-box', loader);
-                    let i = 0;
-                    setInterval(() => {
-                        $(box[i]).toggleClass('active-loading');
-                        i = (i + 1) % 4;
+                    // add button to load more post
 
-                    }, 100);
+                    function loadMorePostButton(lastTime) {
+                        console.log(" time is ", lastTime);
+                        return $(
+                            `<button class='load-post load-on-demand'  time=${lastTime} >Load More Post</button>`
+                        );
+                    }
+                    async function intialPostLoadButton() {
+                        let loadMorePostbtn = loadMorePostButton(Date.now());
+                        await $("#post-container").append(loadMorePostbtn);
+                        // loadMorePost(loadMorePostbtn);
+                        // handleLoadingPostVisiblity(loadMorePostbtn);
+                    }
+                    <%if(loadMorePost==true){%>
+                    console.log("fjbbdc$$$$$$$$$$  $$$$$$$$$$$$ ", '<%=loadMorePost%>')
+                    intialPostLoadButton();
+                    <%}%>
                 </script>
-                <style>
-                    .loading-box {
-                        height: 10px;
-                        width: 10px;
-                        background-color: rgb(139, 139, 139);
-                        margin: 0px 8px 0px 8px !important;
-                    }
-                    
-                    .active-loading {
-                        background-color: rgb(53, 53, 53) !important;
-                    }
-                </style>

@@ -10,7 +10,11 @@ router.get("/profile/", login_restrict_controller.userProfile);
 
 router.get("/edit-profile-page", login_restrict_controller.editProfilePage);
 router.get("/sign-out", login_restrict_controller.signOut);
-router.post("/update", login_restrict_controller.update);
+router.post(
+    "/update",
+
+    login_restrict_controller.update
+);
 router.post(
     "/add-comment",
     middleware.addComment,
@@ -64,7 +68,11 @@ router.get(
 router.get("/events", login_restrict_controller.eventsPage);
 router.get("/notice-download/", login_restrict_controller.noticeDownload);
 
-router.post("/add-new-poll", login_restrict_controller.addNewPoll);
+router.post(
+    "/add-new-poll",
+    middleware.checkNewPollRequest,
+    login_restrict_controller.addNewPoll
+);
 router.get("/new-poll-page", login_restrict_controller.newPollPage);
 router.get(
     "/add-poll-vote/",
@@ -101,5 +109,13 @@ router.get(
     "/delete-by-type/",
     middleware.deleteTypeRequestCheck,
     login_restrict_controller.deleteTypeObj
+);
+router.get(
+    "/load-more-post-likes/",
+    login_restrict_controller.loadMorePostLikes
+);
+router.get(
+    "/load-event-for-event-page/",
+    login_restrict_controller.loadMoreEvents
 );
 module.exports = router;

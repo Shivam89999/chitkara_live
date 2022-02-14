@@ -35,8 +35,8 @@
     </div>
 </header> -->
 
-<header style="min-width: 800px; z-index: 999999999">
-    <div id="left-div">
+<header style="z-index: 999999999">
+    <div class="left-div">
         <div>
             <img height="40px" width="40px" src="https://www.pngitem.com/pimgs/m/357-3577326_color-ball-logo-hd-png-download.png" alt="logo" />
         </div>
@@ -47,7 +47,7 @@
             </form>
         </div>
     </div>
-    <div id="mid-div">
+    <div class="mid-div">
         <a href="/">
             <div class="current-active" id="home" onclick="changeHeaderTab('home')">
                 <img height="25px" width="25px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Home-icon.svg/1200px-Home-icon.svg.png" alt="Home" />
@@ -79,13 +79,13 @@
             </div>
         </a>
     </div>
-    <div id="right-div">
+    <div class="right-div">
         <%if(locals.user){%>
             <a href="/user/profile?user_id=<%=locals.user.id%>">
                 <div>
                     <img src="<%=locals.user.pic%>" alt="profile" height="25px" width="25px" style="border-radius: 50%" />
 
-                    <span><%=locals.user.name%></span>
+                    <span class="header-user-name"><%=locals.user.name%></span>
                 </div>
             </a>
             <a href="/user/sign-out">
@@ -100,14 +100,9 @@
                     </div>
                 </a>
                 <%}%>
-                    <div style="display: flex; flex-direction: row">
-                        <div style="padding-right: 5px; padding-left: 5px">
+                    <div id="complete-toggle-container" style="display: flex; flex-direction: row">
+                        <div class="header-day-night" style="padding-right: 5px; padding-left: 5px">
                             <img src="https://cdn-icons-png.flaticon.com/512/702/702471.png" alt="day" height="32px" width="32px" />
-                        </div>
-                        <div>
-                            <div class="toggle-container" type="not-active">
-                                <div class="toggle-btn"></div>
-                            </div>
                         </div>
                     </div>
     </div>

@@ -45,6 +45,8 @@ const clubSchema = mongoose.Schema({
         default: [],
     }, ],
 }, {
+    timestamps: true,
+}, {
     strict: false,
 });
 

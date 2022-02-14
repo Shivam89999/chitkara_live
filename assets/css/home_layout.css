@@ -70,7 +70,7 @@
   /* trick to make absolute/fixed position in center */
   left: 50%;
   margin-left: -200px;
-  width: 400px;
+  width: 380px;
   height: auto;
   padding: 4px 10px 4px 10px;
   background-color: #ffb326;
@@ -101,8 +101,9 @@
   border-radius: 50%;
   background-color: white;
   position: relative;
-  left: 0px !important;
+  left: 0px;
   transition: all 0.3s;
+  transition-delay: 0s;
 }
 
 .toggle-btn-active {
@@ -113,7 +114,7 @@
   background-color: #7c7c7c !important;
   pointer-events: none;
   border-color: #7c7c7c !important;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .disable_btn button {
@@ -122,6 +123,266 @@
 }
 
 .disable_btn_without_back {
-  opacity: 0.7;
-  pointer-events: none;
+  opacity: 0.8;
+  pointer-events: none !important;
+}
+
+.loader {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 120px !important;
+  margin: 0px auto 0px auto !important;
+  padding: 0px !important;
+  opacity: 1 !important;
+  z-index: 565556;
+}
+
+.loader-content {
+  font-size: 12;
+  padding: 0px;
+  opacity: inherit;
+  color: black !important;
+}
+
+.loading {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin: 4px !important;
+  padding: 6px !important;
+  opacity: inherit;
+}
+
+.loading-box {
+  height: 12px !important;
+  width: 12px !important;
+  background-color: #8b8b8b !important;
+  margin: 0px 8px 0px 8px !important;
+  padding: 0px !important;
+  opacity: inherit;
+}
+
+.active-loading {
+  background-color: #353535 !important;
+  opacity: 1 !important;
+}
+
+.triple-line {
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  vertical-align: center;
+  color: black;
+  font-size: 32;
+  font-weight: 900;
+  position: absolute;
+  left: 10px;
+  cursor: pointer;
+}
+
+.triple-line:hover {
+  background-color: #c1e7f3;
+}
+
+#wrapper {
+  width: 400px;
+  height: auto;
+  margin: auto;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.left-options {
+  position: fixed;
+  width: auto;
+  top: 44px !important;
+  z-index: 999;
+  left: -100px;
+  height: 100%;
+  overflow: auto;
+  background-color: white;
+  /* min-width: 150px; */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 10px;
+  box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.2);
+  animation-delay: 0ms;
+}
+
+.left-view-header-option {
+  flex-direction: column !important;
+  min-height: 400px !important;
+  width: auto !important;
+  margin-top: 15px;
+}
+
+.left-view-header-option2 {
+  flex-direction: column !important;
+  height: auto !important;
+  width: auto !important;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  min-height: 100px !important;
+  align-items: flex-start !important;
+  justify-content: space-between;
+}
+
+.left-view-header-option2 .header-user-name {
+  display: none;
+}
+
+.left-view-header-option2 .header-day-night {
+  display: none;
+}
+
+.left-view-header-option2 .toggle-container {
+  margin-top: 15px;
+  margin-bottom: 100px;
+}
+
+.comment-container {
+  width: 100%;
+  background-color: white;
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 20px;
+  display: none;
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+  transition: 0.4;
+  transition: 0.4;
+}
+
+.comment-container:hover {
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+.comment-container .comment-head {
+  color: #4d4dec;
+  padding: 10px 0px 0px 10px;
+  font-size: 17;
+}
+
+.comment-container .comments {
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  position: relative;
+}
+
+.comment-container .comments .comment {
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-shadow: 0px 0.4px 0.4px 0.4px rgba(0, 0, 0, 0.2);
+  transition: 0.4;
+  margin-top: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.comment-container .comments .comment:hover {
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.comment-container .comments .comment .upper-div-1,
+.comment-container .comments .comment .upper-div-2 {
+  display: flex;
+  flex-direction: row;
+}
+
+.comment-container .comments .comment .upper-div-1 div,
+.comment-container .comments .comment .upper-div-2 div {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.comment-container .comments .comment .upper-div-1 div a,
+.comment-container .comments .comment .upper-div-2 div a {
+  text-decoration: none;
+  color: black;
+}
+
+.comment-container .comments .comment .upper-div-1 div .edit-comment,
+.comment-container .comments .comment .upper-div-2 div .edit-comment {
+  padding: 1.5px;
+  transition: all 0.3s ease-in-out;
+  border-radius: 50%;
+  font-size: 28;
+  font-weight: 900;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.comment-container .comments .comment .upper-div-1 div .edit-comment:hover,
+.comment-container .comments .comment .upper-div-2 div .edit-comment:hover {
+  padding: 1.5px 15px 1.5px 15px;
+  background: black;
+  color: white;
+}
+
+.comment-container .comments .comment .upper-div-1 div span,
+.comment-container .comments .comment .upper-div-2 div span {
+  overflow-wrap: break-word;
+  max-width: 85%;
+}
+
+.comment-container .comments .comment .upper-div-1 {
+  width: 80%;
+  max-width: 80%;
+}
+
+.comment-container .comments .comment .upper-div-1 a:hover img {
+  border: 1px solid #25b9f3;
+}
+
+.comment-container .comments .comment .upper-div-2 {
+  position: relative;
+}
+
+.comment-container .comments .comment .upper-div-2 div {
+  align-items: center;
+}
+
+.comment-container .comments .comment .toUpdateComment {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0px;
+  z-index: 1;
+  transition: all 0.2s linear;
+  right: 0px;
+  background-color: white;
+  color: black;
+  height: auto;
+  width: auto;
+  box-shadow: none;
+}
+
+.comment-container .comments .comment .toUpdateComment a {
+  text-decoration: none;
+  color: black;
+  font-size: 24;
+  padding: 4px;
+  box-sizing: border-box;
+  box-shadow: none;
+}
+
+.load-on-demand {
+  visibility: hidden !important;
 }

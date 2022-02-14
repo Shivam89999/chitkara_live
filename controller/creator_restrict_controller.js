@@ -19,72 +19,115 @@ const login_restrict = require("./login_restrict_controller");
 const queue = require("../config/kue");
 const postEmailWorker = require("../workers/post_email_worker");
 const postMailer = require("../mailers/post_mailer");
+const upcomingEvent = require("../model/upcomingEvents");
 
-function newPost(req, res) {
-    if (!req.user || !req.user.myUser) {
-        console.log("Login First");
-        return res.redirect("/sign-in");
-    }
-    const type = req.user.myUser.onModel;
-    console.log("type is ", type);
+async function newPost(req, res) {
+    // if (!req.user || !req.user.myUser) {
+    //     console.log("Login First");
+    //     return res.redirect("/sign-in");
+    // }
+    try {
+        const type = req.user.myUser.onModel;
+        console.log("type is ", type);
 
-    Post.uploadFeed(req, res, function(err) {
-        if (err) {
-            if (err.code === "LIMIT_FILE_SIZE") {
-                console.log("file is too large max size allowed is 5mb");
+        Post.uploadFeed(req, res, async function(err) {
+            if (err) {
+                if (err.code === "LIMIT_FILE_SIZE") {
+                    console.log("file is too large max size allowed is 5mb");
+                    if (req.xhr) {
+                        return res.status(405).json({
+                            err: "file is too large max size allowed is 5mb",
+                        });
+                    }
+                    return res.redirect("back");
+                }
+                if (err.code === "LIMIT_UNEXPECTED_FILE") {
+                    console.log("Too many files, max 5 allowed");
+                    if (req.xhr) {
+                        return res.status(405).json({
+                            err: "Too many files, max 5 allowed",
+                        });
+                    }
+                    return res.redirect("back");
+                }
+                console.log("Err in processing data of new post with multer ", err);
+                if (req.xhr) {
+                    return res.status(405).json({
+                        err: "Err in processing data of new post with multer",
+                    });
+                }
                 return res.redirect("back");
             }
-            if (err.code === "LIMIT_UNEXPECTED_FILE") {
-                console.log("Too many files, max 5 allowed");
+
+            if (!req.files || req.files.length === 0) {
+                console.log("Can not be created empty post ");
+                if (req.xhr) {
+                    return res.status(405).json({
+                        err: "Can not be created empty post",
+                    });
+                }
                 return res.redirect("back");
             }
-            console.log("Err in processing data of new post with multer ", err);
-            return res.redirect("back");
-        }
-        if (req.files.length === 0) {
-            console.log("Can not be created empty post");
-            return res.redirect("back");
-        }
-        const post_array = [];
-        for (let file of req.files) {
-            post_array.push(Post.feedPath + "/" + file.filename);
-        }
-        let obj = {
-            caption: req.body.caption,
-            photos: post_array,
-            creator: req.user.myUser.id,
-        };
-        if (req.body.eventStartTime) {
-            if (!req.body.eventEndTime) {
-                console.log("invalid request event end time is required");
-                return res.redirect("back");
+            const post_array = [];
+            for (let file of req.files) {
+                post_array.push(Post.feedPath + "/" + file.filename);
             }
-            let eventStartTime = new Date(req.body.eventStartTime).valueOf();
-            let eventEndTime = new Date(req.body.eventEndTime).valueOf();
-            console.log(
-                "event start time is ",
-                eventStartTime,
-                " and event End Time is ",
-                eventEndTime
-            );
-            if (eventEndTime < eventStartTime) {
+            let obj = {
+                caption: req.body.caption,
+                photos: post_array,
+                creator: req.user.myUser.id,
+            };
+            if (req.body.eventStartTime) {
+                if (!req.body.eventEndTime) {
+                    console.log("invalid request event end time is required");
+                    return res.redirect("back");
+                }
+                let eventStartTime = new Date(req.body.eventStartTime).valueOf();
+                let eventEndTime = new Date(req.body.eventEndTime).valueOf();
                 console.log(
-                    "invalid event request event start time should less than event end time"
+                    "event start time is ",
+                    eventStartTime,
+                    " and event End Time is ",
+                    eventEndTime
                 );
-                return res.redirect("back");
+                if (eventEndTime < eventStartTime) {
+                    console.log(
+                        "invalid event request event start time should less than event end time"
+                    );
+                    if (req.xhr) {
+                        return res.status(405).json({
+                            err: "invalid event request event start time should less than event end time",
+                        });
+                    }
+                    return res.redirect("back");
+                }
+                //handle event timing restrication and event location
+                obj.eventStartTime = eventStartTime;
+                obj.eventEndTime = eventEndTime;
+                obj.venu = req.body.venu ? req.body.venu : "";
             }
-            //handle event timing restrication and event location
-            obj.eventStartTime = eventStartTime;
-            obj.eventEndTime = eventEndTime;
-            obj.venu = req.body.venu ? req.body.venu : "";
-        }
-        console.log("obj is ", obj);
-        Post.create(obj, async function(err, post) {
-            if (err || !post) {
-                console.log("Some error in creating post", err);
+            console.log("obj is ", obj);
+            let post = await Post.create(obj);
+            if (!post) {
+                if (req.xhr) {
+                    return res.status(500).json({
+                        err: "Internal server err,post can not be created ",
+                    });
+                }
+                console.log("Internal server err,post can not be created ");
                 return res.redirect("back");
             }
             console.log("new post created successfully");
+            let currentDate = Date.now();
+            if (
+                obj.eventStartTime &&
+                (currentDate <= obj.eventStartTime || obj.eventEndTime >= currentDate)
+            ) {
+                await upcomingEvent.create({
+                    postRef: post.id,
+                    expireAt: obj.eventEndTime,
+                });
+            }
             //    console.log("req.user is ", req.user.related);
             post = await Post.populate(post, {
                 path: "creator",
@@ -98,11 +141,24 @@ function newPost(req, res) {
                 return;
             });
             // postMailer.newPost(post);
-            req.user.myUser.related.posts.push(post.id);
-            req.user.myUser.related.save();
+            await req.user.myUser.related.posts.push(post.id);
+            await req.user.myUser.related.save();
+            if (req.xhr) {
+                return res.status(200).json({
+                    message: "post created successfully",
+                });
+            }
             return res.redirect("/");
         });
-    });
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(500).json({
+                err: "Intenal server err in creating new post",
+            });
+        }
+        console.log("internal server in creating new post : ", err);
+        return res.redirect("back");
+    }
 }
 
 async function deletePost(req, res) {
@@ -119,6 +175,7 @@ async function deletePost(req, res) {
     //     console.log("not authorized");
     //     return res.redirect("back");
     // }
+    console.log("reached ^^^^^^^^^^^^^  ");
     try {
         let type = req.query.type;
         let model = type == "Post" ? Post : TextPost;
@@ -268,28 +325,45 @@ function createPostPage(req, res) {
     });
 }
 
-function newTextPost(req, res) {
-    if (!req.user) {
-        console.log("Login First");
-        return res.redirect("/sign-in");
-    }
-    TextPost.create({
+async function newTextPost(req, res) {
+    // if (!req.user) {
+    //     console.log("Login First");
+    //     return res.redirect("/sign-in");
+    // }
+    try {
+        let textPost = await TextPost.create({
             content: req.body.content,
             creator: req.user.myUser.id,
             caption: req.body.caption,
-        },
-        function(err, textPost) {
-            if (err || !textPost) {
-                console.log("Some error in creating text post", err);
-                return res.redirect("back");
+        });
+        if (!textPost) {
+            if (req.xhr) {
+                return res.status(500).json({
+                    err: "Internal server err, text post can not be created",
+                });
             }
-            console.log("new text post created successfully");
-            //    console.log("req.user is ", req.user.related);
-            req.user.myUser.related.textPosts.push(textPost.id);
-            req.user.myUser.related.save();
-            return res.redirect("/");
+            console.log("Internal server err, text post can not be created");
+            return res.redirect("back");
         }
-    );
+        console.log("new text post created successfully");
+        //    console.log("req.user is ", req.user.related);
+        await req.user.myUser.related.textPosts.push(textPost.id);
+        await req.user.myUser.related.save();
+        if (req.xhr) {
+            return res.status(200).json({
+                message: "new text post created successfully",
+            });
+        }
+        return res.redirect("/");
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(500).json({
+                err: "Internal server err in creating new text post",
+            });
+        }
+        console.log("internal server err in creating new text post : ", err);
+        return res.redirect("back");
+    }
 }
 
 function newTexPostPage(req, res) {
@@ -304,41 +378,73 @@ function newNoticePage(req, res) {
     });
 }
 
-function addNewNotice(req, res) {
-    Notice.uploadNotice(req, res, function(err) {
-        if (err) {
-            if (err.code === "LIMIT_FILE_SIZE") {
-                console.log("file is too large max size allowed is 5mb");
+async function addNewNotice(req, res) {
+    try {
+        Notice.uploadNotice(req, res, async function(err) {
+            if (err) {
+                if (err.code === "LIMIT_FILE_SIZE") {
+                    if (req.xhr) {
+                        return res.status(405).json({
+                            err: "file is too large max size allowed is 5mb",
+                        });
+                    }
+                    console.log("file is too large max size allowed is 5mb");
+                    return res.redirect("back");
+                }
+                if (req.xhr) {
+                    return res.status(405).json({
+                        err: "Err in processing data of new post with multer ",
+                    });
+                }
+                console.log("Err in processing data of new post with multer ", err);
                 return res.redirect("back");
             }
-            console.log("Err in processing data of new post with multer ", err);
-            return res.redirect("back");
-        }
-        if (!req.file) {
-            console.log("Can not be created empty post");
-            return res.redirect("back");
-        }
-        console.log("original file name ", req.file.originalname);
-        let noticeFile = Notice.noticePath + "/" + req.file.filename;
-        Notice.create({
+            if (!req.file) {
+                if (req.xhr) {
+                    return res.status(405).json({
+                        err: "Can not be created empty post, pdf file is required",
+                    });
+                }
+                console.log("Can not be created empty post");
+                return res.redirect("back");
+            }
+            console.log("original file name ", req.file.originalname);
+            let noticeFile = Notice.noticePath + "/" + req.file.filename;
+            let notice = await Notice.create({
                 caption: req.body.caption,
                 noticeFile: noticeFile,
                 creator: req.user.myUser.id,
                 originalFileName: req.file.originalname,
-            },
-            function(err, notice) {
-                if (err || !notice) {
-                    console.log("Some error in creating notice", err);
-                    return res.redirect("back");
+            });
+            if (!notice) {
+                console.log("Internal server err, notice can not be created");
+                if (req.xhr) {
+                    return res.status(500).json({
+                        err: "Internal server err, notice can not be created",
+                    });
                 }
-                console.log("new notice created successfully");
-                //    console.log("req.user is ", req.user.related);
-                req.user.myUser.related.notices.push(notice.id);
-                req.user.myUser.related.save();
-                return res.redirect("/");
+                return res.redirect("back");
             }
-        );
-    });
+            console.log("new notice created successfully");
+            //    console.log("req.user is ", req.user.related);
+            await req.user.myUser.related.notices.push(notice.id);
+            await req.user.myUser.related.save();
+            if (req.xhr) {
+                return res.status(200).json({
+                    message: "new notice created successfully",
+                });
+            }
+            return res.redirect("/");
+        });
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(500).json({
+                err: "Internal server err, new notice can not be added",
+            });
+        }
+        console.log("err in adding new notice ", err);
+        return res.redirect("back");
+    }
 }
 
 function newEventPostPage(req, res) {
@@ -353,42 +459,70 @@ function newAlertPage(req, res) {
     });
 }
 
-function newAlert(req, res) {
-    if (!req.body.content) {
-        console.log("alert can not be empty");
-        return res.redirect("back");
-    }
-    if (req.body.content.length > 80) {
-        console.log("alert max length is 80 allowed");
-        return res.redirect("back");
-    }
-    let expireDate = req.body.endDate ?
-        new Date(req.body.endDate) :
-        new Date(new Date().getTime() + 1000 * 60 * 60 * 24);
-    console.log("Expire Date ", expireDate);
-    if (expireDate.getTime() <= new Date().getTime()) {
-        console.log(
-            "you can not created this alert select correct time of deleting "
-        );
-        return res.redirect("back");
-    }
-    Alert.create({
+async function newAlert(req, res) {
+    // if (!req.body.content) {
+    //     console.log("alert can not be empty");
+    //     return res.redirect("back");
+    // }
+    try {
+        if (req.body.content.length > 80) {
+            if (req.xhr) {
+                return res.status(405).json({
+                    err: "alert max length is 80 allowed",
+                });
+            }
+            console.log("alert max length is 80 allowed");
+            return res.redirect("back");
+        }
+        let expireDate = req.body.endDate ?
+            new Date(req.body.endDate) :
+            new Date(new Date().getTime() + 1000 * 60 * 60 * 24);
+        console.log("Expire Date ", expireDate);
+        if (expireDate.getTime() <= new Date().getTime()) {
+            if (req.xhr) {
+                return res.status(405).json({
+                    err: "you can not created this alert select correct time of deleting ",
+                });
+            }
+            console.log(
+                "you can not created this alert select correct time of deleting "
+            );
+            return res.redirect("back");
+        }
+        let alert = await Alert.create({
             content: req.body.content,
             creator: req.user.myUser.id,
             expireAt: expireDate,
-        },
-        function(err, alert) {
-            if (err || !alert) {
-                console.log("err in creating alert ", err);
-                return res.redirect("back");
+        });
+        if (!alert) {
+            if (req.xhr) {
+                return res.status(500).json({
+                    err: "Internal server err, alert can not be created",
+                });
             }
-            req.user.myUser.related.alerts.push(alert.id);
-            req.user.myUser.related.save();
-            req.user.myUser.save();
-            console.log("alert created successfully");
-            return res.redirect("/");
+            console.log("alert can not created ");
+            return res.redirect("back");
         }
-    );
+
+        await req.user.myUser.related.alerts.push(alert.id);
+        await req.user.myUser.related.save();
+        await req.user.myUser.save();
+        console.log("alert created successfully");
+        if (req.xhr) {
+            return res.status(200).json({
+                message: "alert created successfully",
+            });
+        }
+        return res.redirect("/");
+    } catch (err) {
+        console.log("err in adding new alert ", err);
+        if (req.xhr) {
+            return res.status(500).json({
+                err: "err in adding new alert",
+            });
+        }
+        return res.redirect("back");
+    }
 }
 
 async function updateMenu(req, res) {
@@ -737,6 +871,7 @@ async function deleteTeamMember(req, res) {
         return res.redirect("/user/profile?user_id=" + id);
     });
 }
+
 module.exports = {
     newPost,
     deletePost,

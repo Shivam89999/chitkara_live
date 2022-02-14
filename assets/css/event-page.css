@@ -1,7 +1,7 @@
 #main-container {
   position: relative;
   top: 0px;
-  width: 37%;
+  width: 38%;
   min-width: 400px;
   margin: auto;
 }
@@ -113,6 +113,6 @@
   text-align: center;
   font-size: 22;
   font-weight: 800;
-  color: #5f1616;
+  color: #990000;
   margin-top: 10px;
 }

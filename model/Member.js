@@ -22,6 +22,8 @@ const memberSchema = mongoose.Schema({
         ref: "User",
         required: true,
     },
+}, {
+    timestamps: true,
 });
 
 const storage = multer.diskStorage({

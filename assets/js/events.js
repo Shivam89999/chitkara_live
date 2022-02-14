@@ -13,4 +13,5 @@ function changeTab(id) {
     document.getElementById("passed").style.display = "none";
     //make target type content visible
     document.getElementById(id).style.display = "block";
+    handleLoadingEventVisiblity($(".load-event", $("#" + id)));
 }

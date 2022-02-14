@@ -152,7 +152,7 @@
             padding: 10px;
             border-radius: 5px;
             &:hover {
-                border: 2px solid gray;
+                border: 2px solid rgb(104, 102, 102);
             }
             span {
                 pointer-events: none;
@@ -223,5 +223,5 @@
 }
 
 .active {
-    border: 2px solid gray;
+    border: 2px solid royalblue;
 }

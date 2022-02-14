@@ -114,17 +114,22 @@ function findOptionPage(options) {
     return $(result);
 }
 
-document.addEventListener("mouseup", function(e) {
-    let classs = "clickDisappear";
-    // let not = document.getElementsByClassName("tem-member-edit-option");
-    let no = document.getElementsByClassName(classs);
-    if (!no[0].contains(e.target)) {
-        console.log("yes mfvnjvjfv ****** ");
-        document.querySelectorAll("." + classs).forEach((item) => {
-            item.remove();
-        });
-    }
-});
+// document.addEventListener("mouseup", function(e) {
+//     let classs = "clickDisappear";
+//     // let not = document.getElementsByClassName("tem-member-edit-option");
+//     // let no = document.getElementsByClassName(classs);
+//     // if (!no[0].contains(e.target)) {
+//     //     console.log("yes mfvnjvjfv ****** ");
+//     //     document.querySelectorAll("." + classs).forEach((item) => {
+//     //         item.remove();
+//     //     });
+//     // }
+
+//     let no = $("." + classs)[0];
+//     if (no && !no.contains(e.target)) {
+//         $("." + classs).remove();
+//     }
+// });
 
 function animationOnInternet(top, time) {
     $("#no-internet").animate({
@@ -168,11 +173,211 @@ setInterval(function() {
 function handleDarkMode() {
     let toggle = $(".toggle-container");
     let toggleBtn = $(".toggle-btn");
+    // console.log("toggle ^^^^^^^^6666 ", toggle.length);
+    // console.log("btn is ^^^^&&&&&& ", toggleBtn.length);
     $(toggle).click((e) => {
-        let type = $(toggle).prop("type");
-        $("body").toggleClass("darkMode");
+        console.log("yes click ", e.target);
+        // let type = $(toggle).prop("type");
+
+        if ($("body").hasClass("darkMode")) {
+            $("body").removeClass("darkMode");
+            let expireDate = new Date();
+            expireDate.setTime(expireDate.getTime() + 1000 * 60 * 60 * 24 * 365);
+
+            document.cookie =
+                "darkModeStatus = false; expires=" + expireDate.toUTCString();
+        } else {
+            $("body").addClass("darkMode");
+            let expireDate = new Date();
+            expireDate.setTime(expireDate.getTime() + 1000 * 60 * 60 * 24 * 365);
+
+            document.cookie =
+                "darkModeStatus = true; expires=" + expireDate.toUTCString();
+        }
+        // $("body").addClass(" darkMode");
         $(toggle).toggleClass(" toggle-container-active");
         $(toggleBtn).toggleClass(" toggle-btn-active");
     });
 }
 handleDarkMode();
+
+//handle  media query
+function wrapperDom() {
+    return $(`<div id="wrapper">
+  </div>`);
+}
+
+var intialProfileView = null;
+var intialEventInfo = null;
+var leftSideHeaderDiv = null;
+var rightSideHeaderDiv = true;
+
+function handleIntialState() {
+    if ($("#wrapper").length <= 0) {
+        return;
+    }
+    if ($("#wrapper").length > 0) {
+        $("#wrapper").remove();
+    }
+    if (intialEventInfo != null && intialProfileView != null) {
+        $("#home-container").prepend($(intialEventInfo));
+        // $("#home-container").prepend($(leftSideHeaderDiv));
+        $("#home-container").append($(intialProfileView));
+    }
+}
+
+function handleMediaQuery() {
+    if ($("#wrapper").length > 0) {
+        return;
+    }
+
+    intialProfileView = $("#profile-view");
+    intialEventInfo = $("#upcoming-events");
+    let profileViewClone = $("#profile-view").clone(true);
+    let eventInfoClone = $("#upcoming-events").clone(true);
+
+    $(profileViewClone).css({
+        width: "195px",
+        minWidth: "195px",
+    });
+    let wrapper = wrapperDom();
+    $(wrapper).append(profileViewClone);
+    console.log("kjvjbf $$$$$$$$$ ", $("#profile-view", wrapper).css("height"));
+    $(eventInfoClone).css({
+        height: $("#profile-view").css("height"),
+        width: "195px",
+        minWidth: "195px",
+        maxWidth: "195px",
+        flexDirection: "column",
+        // overflowX: "hidden",
+        overflowY: "auto",
+    });
+
+    $("#profile-view").remove();
+    $("#upcoming-events").remove();
+    $("#event-header", eventInfoClone).css({
+        fontSize: "13px",
+    });
+    $("a", $("#event-header", eventInfoClone)).hover(
+        function() {
+            $(this).css("fontSize", "13.1px");
+        },
+        function() {
+            $(this).css("fontSize", "13px");
+        }
+    );
+    $(wrapper).append(eventInfoClone);
+
+    $("#home-content-container").prepend($(wrapper));
+}
+
+function makeLeftOptions() {
+    return $(`<div class="left-options"></div>`);
+}
+
+function animateAccording(target, pos) {
+    $(target).animate({
+            left: pos,
+        },
+        "fast"
+    );
+}
+
+function listenerTo3Line() {
+    $(".triple-line").click((e) => {
+        let leftOption = $(" .left-options")[0];
+        let left = $(leftOption).position().left;
+        console.log("left is ", left);
+        if (left < -50) animateAccording(leftOption, 0);
+        else animateAccording(leftOption, -100);
+    });
+}
+listenerTo3Line();
+
+function headerMediaQuery() {
+    if ($("header .mid-div").length > 0) {
+        leftSideHeaderDiv = $(".mid-div").clone(true);
+        //remove if prevoius exist
+        if ($(".left-options").length > 0) $(".left-options").remove();
+        //add left options
+        let left = makeLeftOptions();
+        let clone = $(leftSideHeaderDiv).clone(true);
+        $(clone).addClass(" left-view-header-option");
+        $(left).append(clone);
+        $("body").append(left);
+        $("header .mid-div").remove();
+    }
+
+    if ($("header .triple-line").length == 0) {
+        $("header").prepend($(`<div class="triple-line">&#8801;</div>`));
+        listenerTo3Line();
+    }
+}
+
+function headerMediaQuery2() {
+    if ($("header .right-div").length > 0) {
+        rightSideHeaderDiv = $("header .right-div");
+        $(rightSideHeaderDiv).addClass(" left-view-header-option2");
+        $(".left-options").append($(rightSideHeaderDiv));
+        // $("header .right-div").remove();
+    }
+}
+
+function resoterHeaderMedia() {
+    if ($("header .triple-line").length > 0) {
+        $("header .triple-line").remove();
+        $(".left-options").remove();
+
+        $("header > div:nth-child(1)").after($(leftSideHeaderDiv));
+    }
+}
+
+function resoterHeaderMedia2() {
+    // console.log("running $$ ");
+    if ($(".left-view-header-option2").length > 0) {
+        $(rightSideHeaderDiv).removeClass(" left-view-header-option2");
+        $("header").append($(rightSideHeaderDiv));
+        // $(".left-view-header-option2").remove();
+        // console.log("running ^^^ ");
+        // handleDarkMode();
+    }
+}
+
+$(window).resize(() => {
+    console.log("m running ######  ");
+    if (window.matchMedia("(max-width: 936px)").matches) {
+        handleMediaQuery();
+        headerMediaQuery();
+    }
+    if (window.matchMedia("(max-width: 658px)").matches) {
+        headerMediaQuery2();
+    }
+    if (!window.matchMedia("(max-width: 658px)").matches) {
+        resoterHeaderMedia2();
+    }
+    if (!window.matchMedia("(max-width: 936px)").matches) {
+        handleIntialState();
+        resoterHeaderMedia();
+    }
+});
+if (window.matchMedia("(max-width: 936px)").matches) {
+    handleMediaQuery();
+    headerMediaQuery();
+}
+if (window.matchMedia("(max-width: 658px)").matches) {
+    headerMediaQuery2();
+}
+
+//handle left option move when click outside
+$(window).click((e) => {
+    e.stopPropagation;
+    let leftBar = $(".left-options")[0];
+    let tripleLine = $(".triple-line")[0];
+    if (
+        leftBar &&
+        !leftBar.contains(e.target) &&
+        !tripleLine.contains(e.target)
+    ) {
+        animateAccording(leftBar, -100);
+    }
+});

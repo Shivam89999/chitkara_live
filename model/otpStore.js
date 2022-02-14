@@ -16,6 +16,8 @@ const otpStoreSchema = mongoose.Schema({
         required: true,
         unique: true,
     },
+}, {
+    timestamps: true,
 });
 
 const otpStore = mongoose.model("otpStore", otpStoreSchema);

@@ -12,6 +12,8 @@ const menuSchema = mongoose.Schema({
         default: null,
     }, ],
 }, {
+    timestamps: true,
+}, {
     strict: false,
 });
 

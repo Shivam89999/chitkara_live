@@ -42,6 +42,15 @@ app.use(express.static("./assets"));
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 app.use(express.urlencoded());
+// var bodyParser = require("body-parser");
+// app.use(bodyParser.json({ limit: "500mb" }));
+// app.use(
+//     bodyParser.urlencoded({
+//         limit: "500mb",
+//         extended: true,
+//         parameterLimit: 500000,
+//     })
+// );
 //add cookie-parser
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());

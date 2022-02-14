@@ -24,6 +24,9 @@ const res = require("express/lib/response");
 const otpMail = require("../mailers/post_mailer");
 // const forgotPasswordVerifiedEmail = require("../model/forgotPasswordVerifiedEmail");
 const forgotPasswordVerifiedEmail = require("../model/forgotPasswordVerifiedEmail");
+const Upcoming = require("../model/upcomingEvents");
+const { events } = require("../model/user");
+
 async function updatePasswordWithSecret(req, res) {
     try {
         let secret = req.body.secret;
@@ -301,98 +304,363 @@ function findOptions(req, res) {
     });
 }
 
-async function homePage(req, res) {
-    // console.log("req.url is ", req.url);
-    // Post.find({})
-    //     // .populate("comments")
-    //     .populate("creator")
-    //     .exec(function(err, post_list) {
-    //         let posts = [];
-    //         if (err) {
-    //             console.log("Err in Finding the posts", err);
-    //             posts = post_list;
-    //         }
-    //         console.log("posts are ", posts);
-    //         return res.render("home", {
-    //             title: "This is Home Page",
-    //             posts: posts,
-    //         });
-    //     });
-    //  console.log("req.user ", req.user);
-
-    let all_posts = [],
-        upcomingOrRunningEvents = [],
-        allAlerts = [];
-
-    await addPost(Post);
-
-    await addPost(TextPost);
-    await FindUpcomingOrRunningEvents();
-    await findAllAlerts();
-
-    async function findAllAlerts() {
-        allAlerts = await Alert.find({}).exec();
-    }
-    async function FindUpcomingOrRunningEvents() {
-        let current = new Date();
-        console.log("current is ", current);
-        upcomingOrRunningEvents = await Post.find({
-                eventStartTime: { $exists: true },
-                eventEndTime: { $exists: true },
-                eventEndTime: { $gte: current },
-            })
-            .populate("creator")
-            .sort({ updatedAt: -1 })
-            .exec();
-    }
-
-    async function addPost(model) {
-        let posts = await model
-            .find({})
-            .populate("creator")
-            .populate([{
-                    path: "comments",
-                    populate: [{
-                            path: "creator",
-                        },
-                        { path: "likes" },
-                    ],
+// async function findPosts(model, time, limit) {
+//     let posts = await model
+//         .find({ createdAt: { $lte: time } })
+//         .sort({ createdAt: -1 })
+//         .limit(limit)
+//         .populate("creator")
+//         .populate({
+//             path: "likes",
+//             populate: { path: "creator" },
+//         })
+//         .exec();
+//     console.log("no of post is ", posts.length);
+//     return posts;
+// }
+async function findComments(model, postId, time, limit) {
+    let post = await model.findById(postId).exec();
+    let noOfComments = post.comments.length;
+    await model.populate(post, [{
+            path: "comments",
+            options: {
+                sort: { createdAt: -1 },
+            },
+            match: { createdAt: { $lt: time } },
+            perDocumentLimit: limit,
+            populate: [{
+                    path: "likes",
                 },
                 {
+                    path: "creator",
+                },
+            ],
+        },
+        {
+            path: "creator",
+        },
+    ]);
+    // console.log("comments  $$$$$$$$$$$ ", post.comments);
+    let postType = post.photos ? "Post" : "TextPost";
+    return {
+        comments: post.comments,
+        postCreatorId: post.creator._id,
+        postType: postType,
+        noOfComments: noOfComments,
+    };
+}
+async function findPostLikes(postId, time, limit) {
+    let post = await Post.findById(postId)
+        .populate({
+            path: "likes",
+            match: { createdAt: { $lte: time } },
+            perDocumentLimit: limit,
+        })
+        .exec();
+    return post.likes;
+}
+async function commentsOfPost(req, res) {
+    try {
+        // let type = req.query.type;
+        console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ");
+        let model = Post;
+        let id = req.query.id;
+        let ret = await findComments(model, id, new Date().getTime(), 6);
+        let lastTime =
+            ret.comments.length == 0 ?
+            new Date(0) :
+            ret.comments[ret.comments.length - 1].createdAt;
+
+        console.log("last time is ^^^^^^^^^^ ", lastTime);
+        return res.status(200).json({
+            message: "comments loaded successfully",
+            data: {
+                comments: ret.comments,
+                noOfComments: ret.noOfComments,
+                postCreatorId: ret.postCreatorId,
+                localUser: req.user && req.user.myUser ? req.user.myUser : null,
+                postType: ret.postType,
+                lastTime: lastTime,
+            },
+        });
+    } catch (err) {
+        console.log("err in finding comments of post ", err);
+        return res.status(500).json({
+            err: "Internal server error in finding comments of post ",
+        });
+    }
+}
+async function loadMoreNotices(req, res) {
+    try {
+        const loadLimit = 1;
+        let model = Notice;
+        let time = req.query.time;
+        let notices = await model
+            .find({ createdAt: { $lt: time } })
+            .sort({ createdAt: -1 })
+            .limit(loadLimit)
+            .populate([{
                     path: "likes",
-                    populate: {
-                        path: "creator",
-                        options: { limit: 15 },
-                    },
+                },
+                {
+                    path: "creator",
                 },
             ])
-            .sort({ updatedAt: -1 })
             .exec();
-        all_posts = all_posts.concat(posts);
+        let lastTime =
+            notices.length == 0 ? new Date(0) : notices[notices.length - 1].createdAt;
+        console.log("lastTime is ", lastTime);
+
+        return res.status(200).json({
+            message: "more notice loaded successfully",
+            data: {
+                notices: notices,
+                lastTime: lastTime,
+                localUser: req.user && req.user.myUser ? req.user.myUser : null,
+            },
+        });
+    } catch (err) {
+        console.log("err in finding  more post ", err);
+        return res.status(500).json({
+            err: "Internal server error in loading more  notice ",
+        });
     }
-    //sort the all post based on time of creatio
-    all_posts.sort((a, b) => {
-        return b.createdAt - a.createdAt;
-    });
-    // console.log("all ******* ", all_posts[0].comments[0].likes);
-    const all_notices_length = await Notice.count();
-    let all_polls = await Poll.find({});
-    var noOfComingRequests = 0;
-    if (req.user && req.user.myUser) {
-        // noOfComingRequests = req.user.myUser.related.comingRequest.length;
-        noOfComingRequests = 0;
+}
+async function loadUpcomingOrRunningEvents(req, res) {
+    try {
+        let time = req.query.time;
+        let limit = 4;
+        let upcoming = await Upcoming.find({
+                createdAt: { $lt: time },
+                expireAt: { $gte: Date.now() },
+            })
+            .sort({ createdAt: -1 })
+            .limit(limit)
+            .populate({
+                path: "postRef",
+                populate: [{
+                    path: "creator",
+                }, ],
+            })
+
+        .exec();
+        // let lastTime =
+        //     upcoming.length == 0 ? null : upcoming[upcoming.length - 1].createdAt;
+        console.log("events are ", upcoming);
+        return res.status(200).json({
+            message: "more event loaded successfully",
+            data: {
+                events: upcoming,
+                //localUser: req.user && req.user.myUser ? req.user.myUser : null,
+            },
+        });
+    } catch (err) {
+        console.log("err in finding  more upcoming-Events ", err);
+        return res.status(500).json({
+            err: "Internal server error in loading more  upcoming events ",
+        });
     }
-    console.log("******************* ", upcomingOrRunningEvents);
-    // req.flash("success", "you are at home page");
-    return res.render("home", {
-        title: "Home ",
-        posts: all_posts,
-        alerts: allAlerts,
-        noOfNotices: all_notices_length,
-        noOfComingRequests: noOfComingRequests,
-        upcomingOrRunningEvents: upcomingOrRunningEvents,
-        polls: all_polls,
-    });
+}
+async function loadMorePost(req, res) {
+    try {
+        const loadLimit = 2;
+        let model = Post;
+        let time = req.query.time;
+        let posts = await model
+            .find({ createdAt: { $lt: time } })
+            .sort({ createdAt: -1 })
+            .limit(loadLimit)
+            .populate({
+                path: "likes",
+                populate: {
+                    path: "creator",
+                },
+            })
+
+        .populate("creator")
+            .exec();
+        let lastTime =
+            posts.length == 0 ? new Date(0) : posts[posts.length - 1].createdAt;
+        // console.log("lastTime is ", lastTime);
+
+        return res.status(200).json({
+            message: "more post loaded successfully",
+            data: {
+                posts: posts,
+                lastTime: lastTime,
+                localUser: req.user && req.user.myUser ? req.user.myUser : null,
+            },
+        });
+    } catch (err) {
+        console.log("err in finding  more post ", err);
+        return res.status(500).json({
+            err: "Internal server error in loading more  post ",
+        });
+    }
+}
+async function loadMoreCommentOfPost(req, res) {
+    try {
+        // let type = req.query.type;
+        console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^ &&&&&&&&&&7");
+        let model = Post;
+        let id = req.query.id;
+        let time = req.query.time;
+        let ret = await findComments(model, id, new Date(time).getTime(), 6);
+        let lastTime =
+            ret.comments.length == 0 ?
+            new Date(0) :
+            ret.comments[ret.comments.length - 1].createdAt;
+
+        console.log("last time is ^^^^^^^^^^ ", lastTime);
+        return res.status(200).json({
+            message: "comments loaded successfully",
+            data: {
+                comments: ret.comments,
+                noOfComments: ret.noOfComments,
+                postCreatorId: ret.postCreatorId,
+                localUser: req.user && req.user.myUser ? req.user.myUser : null,
+                postType: ret.postType,
+                lastTime: lastTime,
+            },
+        });
+    } catch (err) {
+        console.log("err in finding comments of post ", err);
+        return res.status(500).json({
+            err: "Internal server error in loading more comments of post ",
+        });
+    }
+}
+async function HomePage(req, res) {
+    try {
+        //get first 5 photo post or event and first 2 text post
+        //let photoPost = await findPosts(Post, new Date().getTime(), 2);
+
+        // let textPost = await findPosts(TextPost, new Date().getTime(), 1);
+
+        // let posts = photoPost.concat(textPost);
+        let posts = [];
+        let alerts = await Alert.find({}).sort({ createdAt: -1 }).exec();
+        let polls = await Poll.find({}).sort({ createdAt: -1 }).exec();
+        let noOfNotices = await Notice.countDocuments();
+        let noOfComingRequests = 0;
+        if (req.user && req.user.myUser) {
+            // noOfComingRequests = 5;
+            noOfComingRequests = await req.user.myUser.related.comingRequest.length;
+        }
+        //console.log("posts are ^^^^^^^^^^^^ ", posts);
+        return res.render("home", {
+            title: "Home ",
+            posts: posts,
+            alerts: alerts,
+            noOfNotices: noOfNotices,
+            noOfComingRequests: noOfComingRequests,
+            upcomingOrRunningEvents: [],
+            polls: polls,
+            loadMorePost: true,
+        });
+    } catch (err) {
+        console.log("err in loading home page");
+        return res.redirect("back");
+    }
+}
+
+async function homePage(req, res) {
+    return HomePage(req, res);
+    // let ps = await findPosts(new Date("2022-02-08").getTime(), 4);
+    // await findComments(ps[0].id, new Date().getTime(), 14);
+    // // console.log("req.url is ", req.url);
+    // // Post.find({})
+    // //     // .populate("comments")
+    // //     .populate("creator")
+    // //     .exec(function(err, post_list) {
+    // //         let posts = [];
+    // //         if (err) {
+    // //             console.log("Err in Finding the posts", err);
+    // //             posts = post_list;
+    // //         }
+    // //         console.log("posts are ", posts);
+    // //         return res.render("home", {
+    // //             title: "This is Home Page",
+    // //             posts: posts,
+    // //         });
+    // //     });
+    // //  console.log("req.user ", req.user);
+
+    // let all_posts = [],
+    //     upcomingOrRunningEvents = [],
+    //     allAlerts = [];
+
+    // await addPost(Post);
+
+    // // await addPost(TextPost);
+    // await FindUpcomingOrRunningEvents();
+    // await findAllAlerts();
+
+    // async function findAllAlerts() {
+    //     allAlerts = await Alert.find({}).exec();
+    // }
+    // async function FindUpcomingOrRunningEvents() {
+    //     let current = new Date();
+    //     console.log("current is ", current);
+    //     upcomingOrRunningEvents = await Post.find({
+    //             eventStartTime: { $exists: true },
+    //             eventEndTime: { $exists: true },
+    //             eventEndTime: { $gte: current },
+    //         })
+    //         .populate("creator")
+    //         .sort({ updatedAt: -1 })
+    //         .exec();
+    // }
+
+    // async function addPost(model) {
+    //     let posts = await model
+    //         .find({ createdAt: { $lt: Date.now() } })
+    //         .sort({ createdAt: -1 })
+    //         .limit(3)
+    //         .populate("creator")
+    //         .populate([{
+    //                 path: "comments",
+    //                 populate: [{
+    //                         path: "creator",
+    //                     },
+    //                     { path: "likes" },
+    //                 ],
+    //             },
+    //             {
+    //                 path: "likes",
+    //                 populate: {
+    //                     path: "creator",
+    //                     options: { limit: 15 },
+    //                 },
+    //             },
+    //         ])
+    //         .exec();
+    //     console.log("posts are ^^^^^ ", posts);
+    //     all_posts = all_posts.concat(posts);
+    // }
+    // //sort the all post based on time of creatio
+    // all_posts.sort((a, b) => {
+    //     return b.createdAt - a.createdAt;
+    // });
+    // // console.log("all ******* ", all_posts[0].comments[0].likes);
+    // const all_notices_length = await Notice.count();
+    // let all_polls = await Poll.find({});
+    // var noOfComingRequests = 0;
+    // if (req.user && req.user.myUser) {
+    //     noOfComingRequests = req.user.myUser.related.comingRequest.length;
+    //     // noOfComingRequests = 0;
+    // }
+    // console.log("******************* ", upcomingOrRunningEvents);
+    // // req.flash("success", "you are at home page");
+    // return res.render("home", {
+    //     title: "Home ",
+    //     posts: all_posts,
+    //     alerts: allAlerts,
+    //     noOfNotices: all_notices_length,
+    //     noOfComingRequests: noOfComingRequests,
+    //     upcomingOrRunningEvents: upcomingOrRunningEvents,
+    //     polls: all_polls,
+    // });
 }
 
 async function findResults(req, res) {
@@ -442,41 +710,13 @@ async function search(req, res) {
     }
 }
 
-function notices(req, res) {
-    Notice.find({})
-        .sort({ createdAt: -1 })
-        .populate([{
-                path: "creator",
-            },
-            {
-                path: "likes",
-            },
-        ])
-        .exec(function(err, notices) {
-            if (err) {
-                console.log("err in finding notice");
-                return res.redirect("back");
-            }
-            console.log("notices is ", notices);
-            return res.render("notice", {
-                title: "notice page",
-                notices: notices,
-            });
-            // let file = notices[0];
-            // return res.download(file, "some.pdf");
-            // console.log("notices[0] ", notices[0]);
-            // return res.download(
-            //     path.join(__dirname, "..", notices[0].noticeFile),
-            //     "jvjjfnvnf.pdf",
-            //     (err) => {
-            //         if (err) {
-            //             console.log("Err in downloading the file ", err);
-            //             return res.redirect("back");
-            //         }
-            //         console.log("profile photo downloaded successfully");
-            //     }
-            // );
-        });
+async function notices(req, res) {
+    //send intial page
+    // console.log("length is ", await Notice.countDocuments());
+    return res.render("notice", {
+        title: "notice page",
+        noticeLength: await Notice.countDocuments(),
+    });
 }
 
 function homeOptionPage(req, res) {
@@ -903,6 +1143,7 @@ async function resendOtpMailForForgotPassword(req, res) {
         return res.redirect("back");
     }
 }
+
 module.exports = {
     homePage,
     signIn,
@@ -923,4 +1164,9 @@ module.exports = {
     forgotPasswordEmailVerification,
     resendOtpMailForForgotPassword,
     updatePasswordWithSecret,
+    commentsOfPost,
+    loadMoreCommentOfPost,
+    loadMorePost,
+    loadMoreNotices,
+    loadUpcomingOrRunningEvents,
 };

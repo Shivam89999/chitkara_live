@@ -1,87 +1,28 @@
 <link rel="stylesheet" href="/css/notice.css" />
-<%if(notices.length==0){%>
+<%if(noticeLength==0){%>
     <div id="no-notice" style="margin: auto; font-size: 35; width: fit-content; margin-top: 50px">
         No Notice Found
     </div>
     <%}%>
-        <div id="notices">
-            <%for(let notice of notices){%>
-                <div class="notice" id="notice-<%=notice.id%>">
-                    <a href="/user/profile?user_id=<%=notice.creator.id%>" style="text-decoration: none; color: black">
-                        <div class="head">
-                            <div>
-                                <img src="<%=notice.creator.pic%>" alt="" height="30px" width="30px" style="border-radius: 50%" />
-                            </div>
-                            <div style="
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-          ">
-                                <span> <%=notice.creator.name%></span>
-                                <sub> <%=notice.creator.onModel%></sub>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="caption">
-                        <%=notice.caption%>
-                    </div>
-                    <div class="content-area">
-                        <!-- <img src="https://cdn.slidesharecdn.com/ss_thumbnails/sscnoticepdf-130208033612-phpapp01-thumbnail-4.jpg?cb=1360294651" alt="" height="150px" width="100px" /> -->
-                        <img src="<%=notice.image%>" alt="" height="150px" width="120px" />
-                    </div>
+        <div id="notices"></div>
 
-                    <div class="name">
-                        <%=notice.originalFileName%>
-                    </div>
-                    <div class="footer">
-                        <div>
-                            <a id="toggle-notice-like-span-<%=notice.id%>" class="notice-like-link" href="/user/toggle-like?id=<%=notice.id%>&type=Notice">
-                                <%var existLike=false;%>
-                                    <%if(locals.user){%>
-                                        <%for(lik of
-          notice.likes){%>
-                                            <%if(lik.creator==locals.user.id){%>
-                                                <%
-          existLike=true;%>
-                                                    <% break %>
-                                                        <%}%>
-                                                            <%}%>
-                                                                <%}%>
-                                                                    <%if(existLike){%>
-                                                                        <img height="25px" width="25px" class="like" alt="like" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="like" />
-                                                                        <%}else{%>
-                                                                            <img class="like" alt="like" src="https://cdn-icons-png.flaticon.com/512/151/151910.png" height="25px" width="25px" alt="" />
-                                                                            <%}%>
-                            </a>
-                            <span id="notice-like-count-<%=notice.id%>"><%=notice.likes.length%></span
-        >
-      </div>
-      <div>
-        <a
-          class="notice-download-link"
-          href="/user/notice-download?notice=<%=notice.id%>"
-        >
-          <img
-            height="25px"
-            class="download"
-            width="25px"
-            src="https://cdn-icons-png.flaticon.com/512/892/892634.png"
-            alt="download"
-          />
-        </a>
-        <span><%=notice.downloads.length%></span>
-                        </div>
-                        <div style="
-          height: fit-content;
-          width: fit-content;
-          padding: 0px;
-          margin-top: 0px;
-        ">
-                            <span class="notice-edit-link" link="/user/delete-by-type?typeId=<%=notice.id%>&type=notice">&vellip;</span
-        >
-      </div>
-    </div>
-  </div>
-  <%}%>
-</div>
+        <script>
+            function loadMoreNoticeButton(lastTime) {
+                console.log(" time is ", lastTime);
+                return $(
+                    `<button class='load-notice load-on-demand'   time=${lastTime} >Load More Notice</button>`
+                );
+            }
+
+            function intialLoadNoticeButton() {
+                // console.log("type is ####################### ",type," post is ",postId);
+                let loadMoreNoticeBtn = loadMoreNoticeButton(Date.now());
+                // $('.like-container').append(loadMoreNoticeBtn);
+                $("#notices").append(loadMoreNoticeBtn);
+                //no need to
+                // addMoreLikes(loadMoreLikeBtn);
+            }
+            <% if(noticeLength!=0){%>
+            intialLoadNoticeButton();
+            <%}%>
+        </script>

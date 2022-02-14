@@ -4,26 +4,28 @@
   width: 100%;
   min-width: 100%;
   position: relative;
-  margin: 5px 0px 5px 0px;
+  margin: 0px 0px 10px 0px;
   position: relative;
   color: black;
+  overflow: hidden;
 }
 
-#post-container .post {
-  margin: 6px 0px 6px 0px;
+#post-container .post-class {
+  margin: 0px 0px 12px 0px;
   display: flex;
   position: relative;
   flex-direction: column;
   background-color: white;
   box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
   transition: 0.4;
+  padding-bottom: 30px;
 }
 
-#post-container .post:hover {
+#post-container .post-class:hover {
   box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
 }
 
-#post-container .post div {
+#post-container .post-class div {
   margin: 4px 0px 4px 0px;
   padding: 6px;
   display: flex;
@@ -31,7 +33,7 @@
   box-sizing: border-box;
 }
 
-#post-container .post .post-header {
+#post-container .post-class .post-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -41,26 +43,26 @@
   margin-top: 2px;
 }
 
-#post-container .post .post-header div {
+#post-container .post-class .post-header div {
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 4px;
 }
 
-#post-container .post .post-header div a {
+#post-container .post-class .post-header div a {
   text-decoration: none;
   color: white;
 }
 
-#post-container .post .post-header div img {
+#post-container .post-class .post-header div img {
   height: 30px;
   width: 30px;
   border-radius: 50%;
   padding: 5px;
 }
 
-#post-container .post .post-header div div {
+#post-container .post-class .post-header div div {
   color: white;
   display: flex;
   padding: 0px;
@@ -70,68 +72,74 @@
   align-items: start;
 }
 
-#post-container .post .post-header div div span {
+#post-container .post-class .post-header div div span {
   margin: 0px;
   padding: 2.5px;
 }
 
-#post-container .post .event-details {
+#post-container .post-class .event-details {
   position: relative;
   width: 100%;
   max-width: 100%;
   box-shadow: none;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 0px;
   word-wrap: break-word;
-  border-bottom: 1px solid gray;
+  border: none;
   display: flex;
-  display: none;
   flex-direction: column;
+  padding: 0px 15px 0px 15px;
+  box-sizing: border-box;
+  height: 0px;
+  overflow: hidden;
+  margin: 0px;
 }
 
-#post-container .post .event-details .detail-container {
-  padding: 10px;
+#post-container .post-class .event-details .detail-container {
+  padding: 5px;
+  margin: 5px;
   box-sizing: border-box;
   display: flex;
+  border-bottom: 1px;
   flex-direction: row;
 }
 
-#post-container .post .event-details .detail-container .icon-container {
+#post-container .post-class .event-details .detail-container .icon-container {
   padding: 8px 18px 8px 8px;
   box-sizing: border-box;
 }
 
-#post-container .post .event-details .detail-container .detail-values {
+#post-container .post-class .event-details .detail-container .detail-values {
   padding: 2px;
   display: flex;
   flex-direction: column;
 }
 
-#post-container .post .event-details .detail-container .detail-values span {
+#post-container .post-class .event-details .detail-container .detail-values span {
   word-wrap: break-word;
   text-transform: capitalize;
 }
 
-#post-container .post .event-details .detail-container .detail-values .detail-head {
+#post-container .post-class .event-details .detail-container .detail-values .detail-head {
   color: #03faee;
   border-color: hotpink;
   font-size: 21;
 }
 
-#post-container .post .event-details .detail-container .detail-values .detail-value {
+#post-container .post-class .event-details .detail-container .detail-values .detail-value {
   color: black;
   font-size: 15;
   font-weight: 500;
 }
 
-#post-container .post .post-main-section {
+#post-container .post-class .post-main-section {
   margin: auto;
   width: 100%;
   box-shadow: none;
   position: relative;
 }
 
-#post-container .post .post-main-section img {
+#post-container .post-class .post-main-section img {
   max-width: 100%;
   max-height: 60%;
   height: 60%;
@@ -141,7 +149,7 @@
   box-shadow: none;
 }
 
-#post-container .post .post-main-section div {
+#post-container .post-class .post-main-section div {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.719);
   color: white;
@@ -155,7 +163,7 @@
   z-index: 3;
 }
 
-#post-container .post .post-main-section .button {
+#post-container .post-class .post-main-section .button {
   position: absolute;
   padding: 5px;
   background-color: rgba(0, 0, 0, 0.39);
@@ -164,19 +172,19 @@
   z-index: 3;
 }
 
-#post-container .post .post-main-section .button:hover {
+#post-container .post-class .post-main-section .button:hover {
   background-color: black;
 }
 
-#post-container .post .post-main-section .back {
+#post-container .post-class .post-main-section .back {
   left: 0px;
 }
 
-#post-container .post .post-main-section .next {
+#post-container .post-class .post-main-section .next {
   right: 0px;
 }
 
-#post-container .post .main-text-section {
+#post-container .post-class .main-text-section {
   font-size: 25;
   padding: 25px;
   margin: auto;
@@ -189,7 +197,7 @@
   word-wrap: break-word;
 }
 
-#post-container .post .post-footer {
+#post-container .post-class .post-footer {
   display: flex;
   flex-direction: row;
   padding: 5px;
@@ -199,14 +207,18 @@
   border-top: 1px solid gray;
 }
 
-#post-container .post .post-footer span {
+#post-container .post-class .post-footer span {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
 }
 
-#post-container .post .likes-detail {
+#post-container .post-class .post-footer .comment-button:hover {
+  cursor: pointer;
+}
+
+#post-container .post-class .likes-detail {
   display: flex;
   flex-direction: column;
   padding: 0px 25px 0px 25px;
@@ -216,32 +228,32 @@
   overflow: hidden;
 }
 
-#post-container .post .likes-detail .first-div {
+#post-container .post-class .likes-detail .first-div {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-#post-container .post .likes-detail .first-div span {
+#post-container .post-class .likes-detail .first-div span {
   font-size: 19;
   font-weight: 700;
 }
 
-#post-container .post .likes-detail .first-div span a {
+#post-container .post-class .likes-detail .first-div span a {
   text-decoration: none;
   color: #25b9f3;
 }
 
-#post-container .post .likes-detail .first-div span a:hover {
+#post-container .post-class .likes-detail .first-div span a:hover {
   color: #05b8ff;
   text-decoration: underline;
 }
 
-#post-container .post .likes-detail div {
+#post-container .post-class .likes-detail div {
   max-width: 100%;
 }
 
-#post-container .post .new-comment {
+#post-container .post-class .new-comment {
   padding: 5px;
   margin: 10px;
   display: flex;
@@ -249,7 +261,7 @@
   align-items: center;
 }
 
-#post-container .post .new-comment form {
+#post-container .post-class .new-comment form {
   padding: 0px;
   margin: 0px 5px 0px 5px;
   display: flex;
@@ -257,19 +269,19 @@
   width: 100%;
 }
 
-#post-container .post .new-comment form #comment-input {
+#post-container .post-class .new-comment form #comment-input {
   width: 90%;
   line-height: 30px;
   border-radius: 25px;
   border: 2px solid gainsboro;
 }
 
-#post-container .post .new-comment form #comment-input:hover {
+#post-container .post-class .new-comment form #comment-input:hover {
   box-shadow: 0px 0.5px 1.5px 0.5px rgba(0, 0, 0, 0.2);
   transition: 0.4;
 }
 
-#post-container .post .new-comment form button {
+#post-container .post-class .new-comment form button {
   width: 7%;
   background-color: transparent;
   border: none;
@@ -284,6 +296,7 @@
   align-content: center;
   flex-wrap: wrap;
   border-bottom: 1px solid gray;
+  cursor: pointer;
 }
 
 .type-detail div {

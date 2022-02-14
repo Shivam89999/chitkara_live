@@ -4,12 +4,13 @@
     width: 100%;
     min-width: 100%;
     position: relative;
-    margin: 5px 0px 5px 0px;
+    margin: 0px 0px 10px 0px;
     position: relative;
     color: black;
+    overflow: hidden;
     // overflow: auto;
-    .post {
-        margin: 6px 0px 6px 0px;
+    .post-class {
+        margin: 0px 0px 12px 0px;
         // padding: 6px;
         display: flex;
         position: relative;
@@ -17,6 +18,7 @@
         background-color: white;
         box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
         transition: 0.4;
+        padding-bottom: 30px;
         &:hover {
             box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
         }
@@ -72,16 +74,24 @@
             max-width: 100%;
             box-shadow: none;
             box-sizing: border-box;
-            padding: 15px;
+            padding: 0px;
             word-wrap: break-word;
-            border-bottom: 1px solid gray;
+            border: none;
+            // border-bottom: 1px solid gray;
             display: flex;
-            display: none;
+            //display: none;
             flex-direction: column;
+            padding: 0px 15px 0px 15px;
+            box-sizing: border-box;
+            height: 0px;
+            overflow: hidden;
+            margin: 0px;
             .detail-container {
-                padding: 10px;
+                padding: 5px;
+                margin: 5px;
                 box-sizing: border-box;
                 display: flex;
+                border-bottom: 1px;
                 flex-direction: row;
                 .icon-container {
                     padding: 8px 18px 8px 8px;
@@ -250,6 +260,11 @@
                 align-items: center;
                 position: relative;
             }
+            .comment-button {
+                &:hover {
+                    cursor: pointer;
+                }
+            }
         }
         .likes-detail {
             display: flex;
@@ -284,6 +299,7 @@
         .new-comment {
             padding: 5px;
             margin: 10px;
+            // margin-bottom: 30px;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -323,6 +339,7 @@
     align-content: center;
     flex-wrap: wrap;
     border-bottom: 1px solid gray;
+    cursor: pointer;
     div {
         display: flex;
         flex-direction: row;

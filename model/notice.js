@@ -34,6 +34,8 @@ const noticeSchema = mongoose.Schema({
     },
 }, {
     timestamps: true,
+}, {
+    timestamps: true,
 });
 
 const storage = multer.diskStorage({

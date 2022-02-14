@@ -1,22 +1,22 @@
 console.log("Home script running");
 
-function toggleEventsVisibality(id_name) {
-    let obj = document.querySelector("#" + id_name);
-    let currentMaxHeight = getComputedStyle(obj).maxHeight;
-    // console.log("off-set-height is ", obj.offsetHeight);
-    obj.style.maxHeight = currentMaxHeight != "0px" ? "0px" : "600px";
+// function toggleEventsVisibality(id_name) {
+//     let obj = document.querySelector("#" + id_name);
+//     let currentMaxHeight = getComputedStyle(obj).maxHeight;
+//     // console.log("off-set-height is ", obj.offsetHeight);
+//     obj.style.maxHeight = currentMaxHeight != "0px" ? "0px" : "600px";
 
-    // let newStyle = currentStyle === "none" ? "block" : "none";
-    // console.log("newStyle ", newStyle, "  prev Style ", currentStyle);
-    // obj.style.display = newStyle;
-    let arrowUp = document.getElementById("arrow-up");
-    // let arrowDown = document.getElementById("arrow-down");
-    // arrowDown.style.display = obj.style.maxHeight != "0px" ? "inline" : "none";
-    arrowUp.style.transform =
-        obj.style.maxHeight == "0px" ?
-        "rotate3d(1,0,0,0deg)" :
-        "rotate3d(1,0,0,180deg)";
-}
+//     // let newStyle = currentStyle === "none" ? "block" : "none";
+//     // console.log("newStyle ", newStyle, "  prev Style ", currentStyle);
+//     // obj.style.display = newStyle;
+//     let arrowUp = document.getElementById("arrow-up");
+//     // let arrowDown = document.getElementById("arrow-down");
+//     // arrowDown.style.display = obj.style.maxHeight != "0px" ? "inline" : "none";
+//     arrowUp.style.transform =
+//         obj.style.maxHeight == "0px" ?
+//         "rotate3d(1,0,0,0deg)" :
+//         "rotate3d(1,0,0,180deg)";
+// }
 
 // function findDate(dateString) {
 //     var options = {
@@ -61,17 +61,6 @@ function toggleEventsVisibality(id_name) {
 //         }
 //     }
 // }
-var noOfVisibleAlerts = document.querySelectorAll(".alert").length;
-
-function disappearAlert(id) {
-    console.log("id is ", id);
-    document.getElementById(id).style.display = "none";
-    --noOfVisibleAlerts;
-
-    if (noOfVisibleAlerts === 0) {
-        document.getElementById("alerts").style.display = "none";
-    }
-}
 
 // function setPostCreatedTime() {
 //     var eles = document.querySelectorAll(".created-time");
@@ -107,3 +96,36 @@ function disappearAlert(id) {
 // handleEventHeadText();
 // setDate();
 // setPostCreatedTime();
+
+function handleAlertDisplay() {
+    console.log("running ^^^^^^^^^^^ &&&&&&& ");
+    $(".alert").each((i, alert) => {
+        let id = $(alert).attr("id");
+        console.log("id is ", id);
+        if (cookies[id]) {
+            console.log("not display ^^^^^^^^^^^ ");
+            $(alert).remove();
+        }
+    });
+
+    if ($("#alerts").children().length == 0) {
+        $("#alerts").remove();
+    }
+}
+handleAlertDisplay();
+
+var noOfVisibleAlerts = document.querySelectorAll(".alert").length;
+
+function disappearAlert(id) {
+    console.log("id is ", id);
+    document.getElementById(id).style.display = "none";
+    --noOfVisibleAlerts;
+    let expireDate = new Date();
+    expireDate.setTime(expireDate.getTime() + 1000 * 60 * 60 * 24);
+    document.cookie =
+        id + "=" + id + "; expires=" + expireDate.toUTCString() + ";";
+    ("alert-<%=alert.id%>");
+    if (noOfVisibleAlerts === 0) {
+        document.getElementById("alerts").style.display = "none";
+    }
+}

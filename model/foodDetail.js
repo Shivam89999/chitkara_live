@@ -21,6 +21,8 @@ const foodDetail = mongoose.Schema({
         default: null,
     },
 }, {
+    timestamps: true,
+}, {
     strict: false,
 });
 
