@@ -1,19 +1,26 @@
-<div>
-    <%-include('../mail_header');-%>
-        <div>
-            <h2 style="text-transform: capitalize; text-align: center">
-                Don't miss an opportunity or update
-            </h2>
-            <p style="text-align: center">
-                <span style="color: greenyellow; font-size: 20">Monday, dinner</span> menu chnaged by hostel <a>Aaryabhatta</a>
-            </p>
-            <p style="text-align: center; color: aqua">
-                click on below link to see the new menu
-            </p>
+<% var url='http://localhost:8000';%>
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
             <div>
-                <a href="link of hostel profile"> new menu </a>
+                <h4 style="color: rgb(0, 225, 255)">Dear,
+                    <%=obj.targetName%>,</h4>
+                <br />
+                <p style="text-align: center">
+                    <span style="color: greenyellow; font-size: 20"><%=obj.day%>, <%=obj.time%></span style="color:white;"> menu chnaged by hostel
+                    <a href="<%=url%>/user/profile?user_id=<%=obj.by%>">Aaryabhatta</a>
+                </p>
+                <p style="text-align: center; color: aqua">
+                    click on below link to see the new menu
+                </p>
+                <div>
+                    <a href="<%=url%>/user/profile?user_id=<%=obj.by%>"> new menu </a>
+                </div>
             </div>
-        </div>
 
-        <%-include('../mail_footer');-%>
-</div>
+            <%-include('../mail_footer');-%>
+    </div>

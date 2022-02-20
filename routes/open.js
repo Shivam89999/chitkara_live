@@ -2,6 +2,7 @@
 const express = require("express");
 const passport = require("passport");
 const router = express.Router();
+
 console.log("running g                ggggggggggggg    ");
 const open_controller = require("../controller/open_controller");
 
@@ -54,12 +55,22 @@ router.post(
     middleware.emailVerification,
     open_controller.signupEmailVerification
 );
+router.get(
+    "/sign-up-page-using-link/",
+    middleware.checkValidSignUpLink,
+    open_controller.signUpPageForLink
+);
 router.post(
     "/forgot-password-email-verification",
     middleware.emailVerification,
     open_controller.forgotPasswordEmailVerification
 );
 
+router.get(
+    "/set-new-password-using-link/",
+    middleware.checkValidSetNewPasswordUpLink,
+    open_controller.setNewPasswordPageForLink
+);
 router.get("/sign-up", open_controller.signUp);
 router.get("/sign-in", open_controller.signIn);
 router.post("/create", open_controller.create);
@@ -90,5 +101,13 @@ router.get("/load-more-notice/", open_controller.loadMoreNotices);
 router.get(
     "/load-upcoming-or-running-events/",
     open_controller.loadUpcomingOrRunningEvents
+);
+router.get(
+    "/activate-creator-account-page-link/",
+    open_controller.ActivateCreatorAccountUsingSecretPage
+);
+router.post(
+    "/activate-creator-account-using-secret",
+    open_controller.ActivateCreatorAccountUsingSecret
 );
 module.exports = router;

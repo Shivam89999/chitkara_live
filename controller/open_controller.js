@@ -21,15 +21,16 @@ const otpStore = require("../model/otpStore");
 const verifiedEmail = require("../model/verifiedEmail");
 const req = require("express/lib/request");
 const res = require("express/lib/response");
-const otpMail = require("../mailers/post_mailer");
+const otpMail = require("../mailers/otp_mailer");
 // const forgotPasswordVerifiedEmail = require("../model/forgotPasswordVerifiedEmail");
 const forgotPasswordVerifiedEmail = require("../model/forgotPasswordVerifiedEmail");
 const Upcoming = require("../model/upcomingEvents");
 const { events } = require("../model/user");
-
+const Organiser = require("../model/organiser");
+const creatorAccountRequestVerifiedEmail = require("../model/creatorAccountRequestVerifiedMail");
 async function updatePasswordWithSecret(req, res) {
     try {
-        let secret = req.body.secret;
+        let secret = req.body.secret.trim();
         let password = req.body.password;
 
         let confirm_password = req.body.confirm_password;
@@ -43,14 +44,18 @@ async function updatePasswordWithSecret(req, res) {
             console.log("password and confirm password is different");
             return res.redirect("back");
         }
+
         let found = await forgotPasswordVerifiedEmail.findById(secret);
+
         if (!found) {
             if (req.xhr) {
-                return res.status(401).json({
-                    err: "its seems that your email is not verified",
+                return res.status(400).json({
+                    err: "its seems that your email is not verified or you already set password for this",
                 });
             }
-            console.log("its seems that your email is not verified");
+            console.log(
+                "its seems that your email is not verified or you already set password for this"
+            );
             return res.redirect("back");
         }
         let email = found.email;
@@ -74,21 +79,53 @@ async function updatePasswordWithSecret(req, res) {
 
         if (req.xhr) {
             return res.status(200).json({
-                err: "your password chaanged successfully, now sign-in with new password",
+                message: "your password chaanged successfully, now sign-in with new password",
             });
         }
         return res.redirect("/sign-in");
     } catch (err) {
+        console.log("err in new password set  ", err);
         if (req.xhr) {
-            return res.status(401).json({
-                err: "err in new password set  " + err,
+            return res.status(400).json({
+                err: "Internal server err in new password set  ",
             });
         }
-        console.log("err in new password set  ", err);
+
         return res.redirect("back");
     }
 }
-
+async function signUpPageForLink(req, res) {
+    let secret = req.query.secret.trim();
+    let type = req.query.type.trim();
+    let found = await verifiedEmail.findById(secret);
+    if (!found) {
+        //  req.flash("error", "Your link is expired or you already sign-up");
+        return res.end(
+            "<html><body><h2 style='color:red;'>Your link is expired or you already sign-up</h2></body></html>"
+        );
+    }
+    return res.render("signUpUsingLink", {
+        secret: secret,
+        type: type,
+        title: "Sign-UP Using Link",
+    });
+}
+async function setNewPasswordPageForLink(req, res) {
+    let secret = req.query.secret.trim();
+    let type = req.query.type.trim();
+    let found = await forgotPasswordVerifiedEmail.findById(secret);
+    if (!found) {
+        // req.flash("error", "Your link is expired or you already set new Password ");
+        return res.end(
+            "<html><body><h2 style='color:red;'>Your link is expired or you already set new password</h2></body></html>"
+        );
+    }
+    return res.render("setNewPasswordUsingLink", {
+        secret: secret,
+        type: type,
+        title: "set New Password Using Link",
+    });
+}
 async function signUpWithSecret(req, res) {
     try {
         let secret = req.body.secret;
@@ -105,13 +142,17 @@ async function signUpWithSecret(req, res) {
             return res.redirect("back");
         }
         let found = await verifiedEmail.findById(secret);
+        console.log("found is ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ", found);
         if (!found) {
+            console.log(" not found");
+            console.log(
+                "its seems that your email is not verified,or you sign-up already"
+            );
             if (req.xhr) {
-                return res.status(401).json({
-                    err: "its seems that your email is not verified",
+                return res.status(400).json({
+                    err: "its seems that your email is not verified,or you sign-up already",
                 });
             }
-            console.log("its seems that your email is not verified");
             return res.redirect("back");
         }
         let email = found.email;
@@ -153,18 +194,19 @@ async function signUpWithSecret(req, res) {
         return res.redirect("/sign-in");
     } catch (err) {
         if (req.xhr) {
-            return res.status(401).json({
-                message: "err in sign-up " + err,
+            return res.status(500).json({
+                message: "Internal server err in sign-up " + err,
             });
         }
-        console.log("err in sign-in with intial data is ", err);
+        console.log("Internal server err in sign-in with intial data is ", err);
         return res.redirect("back");
     }
 }
 
-function create(req, res) {
+async function create(req, res) {
     //first user email is valid and check via sending otp
     console.log("in create ^^^^^^^^^^^^^^^^^^^^^^^ ", req.body);
+
     //check the user
     if (!req.body.email || !req.body.password) {
         console.log("email or password can't be empty: ", req.body);
@@ -877,6 +919,7 @@ async function forgotPasswordOtp(req, res) {
         console.log("otp send ", otp);
         //send otp to email
         otpMail.otpLogin(otp, email);
+
         if (req.xhr) {
             return res.status(200).json({
                 data: { email: email, type: "forgotPassword" },
@@ -951,6 +994,10 @@ async function signupEmailVerification(req, res) {
         console.log("email verified ^^ successfully");
         //delete otpStore document
         await exist.remove();
+        const linkToSignUp =
+            "/sign-up-page-using-link?secret=" + doc._id + "&type=signUp";
+        //send a link to mail
+        otpMail.signUpLink(linkToSignUp, doc.email);
         //send doc.id back
         if (req.xhr) {
             return res.status(200).json({
@@ -1032,6 +1079,10 @@ async function forgotPasswordEmailVerification(req, res) {
         //delete otpStore document
         await exist.remove();
         //send doc.id back
+        const linkToSetNewPassword =
+            "/set-new-password-using-link?secret=" + doc._id + "&type=forgotPassword";
+        //send a link to mail
+        otpMail.forgotPasswordLinkMail(linkToSetNewPassword, doc.email);
         if (req.xhr) {
             return res.status(200).json({
                 message: "email verified successfully",
@@ -1143,7 +1194,99 @@ async function resendOtpMailForForgotPassword(req, res) {
         return res.redirect("back");
     }
 }
+async function ActivateCreatorAccountUsingSecret(req, res) {
+    if (!req.body.secret) {
+        console.log("invalid request");
+        if (req.xhr) {
+            return res.status(400).json({
+                err: "Invalid request",
+            });
+        }
+        req.flash("error", "invalid request");
+        return res.redirect("back");
+    }
+    let secret = req.body.secret.trim();
+    let requestData = await creatorAccountRequestVerifiedEmail
+        .findById(secret)
+        .populate({
+            path: "by",
+            populate: {
+                path: "related",
+            },
+        })
+        .exec();
+    if (requestData.by.onModel != "Student") {
+        if (req.xhr) {
+            return res.status(400).json({
+                err: "Invalid request, you are  not student, so you can not activate this account",
+            });
+        }
+        req.flash(
+            "error",
+            "Invalid request, you are  not student, so you can not activate this account"
+        );
+        return res.redirect("back");
+    }
+    console.log("requestData.by is ", requestData.by);
+    if (requestData.by.related.head != null) {
+        if (req.xhr) {
+            return res.status(400).json({
+                err: "Invalid request,you are already head of some creator acc.",
+            });
+        }
+        req.flash(
+            "error",
+            "Invalid request,you are already head of some creator acc."
+        );
+        return res.redirect("back");
+    }
+    let u = await User.findOne({ email: requestData.email });
+    if (u != null) {
+        if (req.xhr) {
+            return res.status(400).json({
+                err: "Invalid request," +
+                    " email " +
+                    requestData.email +
+                    " is already registered ",
+            });
+        }
+        req.flash(
+            "error",
+            "Invalid request," +
+            " email " +
+            requestData.email +
+            " is already registered "
+        );
+        return res.redirect("back");
+    }
+    //activate account and send mail
 
+    if (req.xhr) {
+        return res.status(200).json({
+            message: "Your account activated successfully, Now you can access this account from your current account ",
+        });
+    }
+    return res.redirect("back");
+}
+async function ActivateCreatorAccountUsingSecretPage(req, res) {
+    if (!req.query.secret) {
+        console.log("invalid request");
+        return res.end("invalid request");
+    }
+    let secret = req.query.secret.trim();
+    let requestData = await creatorAccountRequestVerifiedEmail
+        .findById(secret)
+        .exec();
+    if (requestData == null) {
+        return res.end(
+            "<html><h2 style='color:red;'>This link is expired or already used </h2></html>"
+        );
+    }
+    console.log("secret is ", requestData);
+    return res.render("activate_creator_acc_page", {
+        secret: requestData,
+    });
+}
 module.exports = {
     homePage,
     signIn,
@@ -1169,4 +1312,8 @@ module.exports = {
     loadMorePost,
     loadMoreNotices,
     loadUpcomingOrRunningEvents,
+    signUpPageForLink,
+    setNewPasswordPageForLink,
+    ActivateCreatorAccountUsingSecret,
+    ActivateCreatorAccountUsingSecretPage,
 };

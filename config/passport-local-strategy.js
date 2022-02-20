@@ -77,7 +77,7 @@ passport.use(
                             console.log("Model not match");
                             return done(null, false);
                         }
-                        req.flash("success", "user authenticated successfully");
+                        req.flash("success", "welcome, " + user.name + " ");
                         console.log("user authenticate successfully");
                         // console.log("user is ---- > ", user);
                         return done(null, {
@@ -136,6 +136,7 @@ passport.deserializeUser(function({ organiser, id }, done) {
                     return done(null, false);
                 }
                 console.log("de-serialize successfully");
+
                 return done(null, {
                     user: user,
                     myUser: user,
@@ -152,7 +153,9 @@ passport.checkAuthentication = function(req, res, next) {
     //render it to login page
     else {
         if (req.xhr) {
-            return res.status(401).json({});
+            return res.status(401).json({
+                err: "bad request",
+            });
         }
         return res.redirect("/sign-in");
     }

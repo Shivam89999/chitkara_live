@@ -1,0 +1,95 @@
+<style>
+    button:hover {
+        background-color: blue !important;
+        /* height: 2.2em;
+        width: 5.2em; */
+        border: none;
+    }
+</style>
+
+<div>
+    <h3 style="text-align: center">This is Request page</h3>
+
+    <div style="
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      margin-bottom: 100px;
+    ">
+        <%if(allRequest.length==0){%>
+            <div style="color: brown; text-align: center">No Request Found</div>
+            <%}%>
+                <%for(let req of allRequest){%>
+                    <div style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: space-evenly;
+        min-width: 400px;
+        width: 50%;
+        border: 2px dashed gray;
+        padding: 10px;
+        margin: 5px;
+      ">
+                        <div style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        ">
+                            <img src="<%=req.by.pic%>" alt="user-pic" height="100px" width="100px" style="border-radius: 50%" />
+
+                            <span><%=req.by.name%></span>
+                        </div>
+                        <div style="
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+          align-items: space-evenly;
+          border: 2px dashed gray;
+          padding: 2px 8px 2px 8px;
+          width: 50%;
+        ">
+                            <span><%=req.email%></span>
+                            <span style="text-transform: capitalize"><%=req.name%></span>
+                            <span style="text-transform: capitalize"><%=req.onModel%></span>
+                        </div>
+                        <div style="
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+        ">
+                            <a href="/organiser/creator-account-request?target=<%=req.id%>&type=Accept">
+                                <button style="
+              background-color: royalblue;
+              color: white;
+              padding: 10px 20px 10px 20px;
+              border-radius: 6px;
+              border-color: royalblue;
+              font-size: 20px;
+              font-weight: 800px;
+              cursor: pointer;
+            ">
+            Accept
+          </button>
+                            </a>
+                            <a href="/organiser/creator-account-request?target=<%=req.id%>&type=Reject">
+                                <button style="
+              background-color: royalblue;
+              color: white;
+              padding: 10px 20px 10px 20px;
+              border-radius: 6px;
+              border-color: royalblue;
+              font-size: 20px;
+              font-weight: 800px;
+              cursor: pointer;
+            ">
+            Reject
+          </button>
+                            </a>
+                        </div>
+                    </div>
+                    <%}%>
+    </div>
+</div>

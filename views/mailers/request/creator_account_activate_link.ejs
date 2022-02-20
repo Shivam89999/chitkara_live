@@ -1,0 +1,83 @@
+<% var url='http://localhost:8000';%>
+
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
+            <h4 style="text-align: center; color: cyan">
+                New
+                <%=obj.data.type%> Account Request Accepted
+            </h4>
+            <div>
+                <span>Hi <%=obj.data.name%>,</span>
+                <div style="padding-top: 5px; text-align: center; color: chartreuse">
+                    your request for new
+                    <span style="color: yellow"><%=obj.data.type%></span> is Accepted by organiser,
+                </div>
+                <div style="text-align: center">Request info is given below</div>
+                <div style="margin: auto">
+                    <table style="
+          padding: 5px;
+          margin: 10px auto 10px auto;
+          color: white !important;
+          border: 2px solid black;
+        ">
+                        <tr style="margin: 5px; padding: 5px">
+                            <td style="padding: 4px">Email :</td>
+                            <td style="padding: 4px">
+                                <%=obj.data.email%>
+                            </td>
+                        </tr>
+                        <tr style="margin: 5px; padding: 5px">
+                            <td style="padding: 4px">Name :</td>
+                            <td style="padding: 4px">
+                                <%=obj.data.name%>
+                            </td>
+                        </tr>
+                        <tr style="margin: 5px; padding: 5px">
+                            <td style="padding: 4px">Type :</td>
+                            <td style="padding: 4px">
+                                <%=obj.data.type%>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <span style="color: yellow">Link Is Given Below To Activate Your new account
+      </span>
+                    <br />
+                    <br />
+                    <a href="<%=url%><%=obj.data.link%>">Link to activate your account</a>
+                </div>
+                <br />
+
+                <span>It will be valid for the next
+      <strong style="color: aqua">48 hours</strong> only so activate your
+      account within 48 hours after that this link will be de-activated and
+      request will be rejected automatically .</span
+    >
+    <br />
+    <span style="display: block; text-align: center; color: red">
+      Please do not share Link with anyone</span
+    >
+    <br />
+    <span style="margin: 10px">
+      if you did not make this request. you can safely ignore this email
+    </span>
+                <br />
+                <br />
+                <span style="color: white !important">For any other query, you can contact us on</span
+    >
+    <br />
+    <span style="color: white !important"
+      >Email:
+      <a href="mailTo:shivammittal00786@gmail.com"
+        >shivammittal00786@gmail.com</a
+      ></span
+    >
+  </div>
+  <%-include('../mail_footer');-%>
+</div>

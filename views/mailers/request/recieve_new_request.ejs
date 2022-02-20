@@ -1,0 +1,53 @@
+<% var url='http://localhost:8000';%>
+
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
+            <h4 style="color: rgb(0, 225, 255)">Dear,
+                <%=obj.targetName%>,</h4>
+            <div style="display: flex; flex-direction: row; align-items: space-evenly">
+                <div style="margin-right: 25px">
+                    <img src="<%=url%><%=obj.user.pic%>" alt="pic" height="40px" width="40px" />
+                    <br />
+                    <span><%=obj.user.name%></span>
+                </div>
+                <div>
+                    <a href="<%=url%>/user/profile?user_id=<%=obj.user._id%>">
+                        <button style="
+            padding: 5px 10px 5px 10px;
+            background-color: royalblue;
+            border-color: royalblue;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+          ">
+          Accept
+        </button>
+                    </a>
+                    <a href="<%=url%>/user/profile?user_id=<%=obj.user._id%>">
+                        <button style="
+            padding: 5px 10px 5px 10px;
+            background-color: royalblue;
+            border-color: royalblue;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+          ">
+          Ignore
+        </button>
+                    </a>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div>
+                "
+                <%=obj.user.name%> (
+                    <%=obj.user.onModel%>) " Send you a request check it out !
+            </div>
+            <%-include('../mail_footer');-%>
+    </div>

@@ -95,6 +95,7 @@
   flex-wrap: wrap;
   padding: 2px;
   word-wrap: break-word;
+  word-break: break-all;
 }
 
 #option-page .link .option img {
@@ -110,6 +111,7 @@
   flex-wrap: wrap;
   overflow: hidden;
   word-wrap: break-word;
+  word-break: break-all;
   padding: 5px;
 }
 

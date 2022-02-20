@@ -15,7 +15,7 @@
                 <%for(let item of saveItems){%>
                     <%if(item.refItem){%>
 
-                        <a href="/user/my-save-items-details">
+                        <a href="/user/my-save-items-details?target=<%=item.refItem.id%>">
                             <div class="save-item">
                                 <%if(item.refItem.photos){%>
                                     <img src="<%=item.refItem.photos[0]%>" height="150px" width="100px" alt="image-pic" />

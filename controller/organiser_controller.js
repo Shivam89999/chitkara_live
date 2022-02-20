@@ -3,9 +3,11 @@ const User = require("../model/user");
 const Club = require("../model/club");
 const Depart = require("../model/depart");
 const Hostel = require("../model/hostel");
-
+const Requests = require("../model/creatorRequest");
 const fs = require("fs");
 const path = require("path");
+const requestMailer = require("../mailers/request_mailer");
+const creatorAccountRequestVerifiedEmail = require("../model/creatorAccountRequestVerifiedMail");
 
 function signIn(req, res) {
     // console.log("right 77777777777777");
@@ -102,8 +104,20 @@ function user_profile(req, res) {
             return res.redirect("back");
         });
 }
-
-function add_admin(req, res) {
+async function setHeadNull(targetId) {
+    User.findById(targetId)
+        .populate("related")
+        .exec(function(err, user) {
+            if (err || !user) {
+                return;
+            }
+            user.related.head = null;
+            user.related.onHeadModel = null;
+            user.related.save();
+            user.save();
+        });
+}
+async function add_admin(req, res) {
     //  console.log("body is ", req.body);
     if (!req.body || !req.body.email || !req.body.of) return res.redirect("back");
     User.findOne({ email: req.body.email, onModel: "Student" })
@@ -113,25 +127,33 @@ function add_admin(req, res) {
                 //check user is already an admin or not
                 // console.log("user.related.head ", user.related);
                 if (user.related.head) {
+                    console.log("head is %%%%%%%%%%%% ", user.related);
                     console.log(
                         "this is already admin of any ",
                         user.related.onHeadModel
                     );
-                    return res.redirect("back");
+                    // return res.redirect("back");
+                    return res.end(
+                        "this is already admin of any " + user.related.onHeadModel
+                    );
                 }
                 //add admin
                 User.findById(req.body.of)
                     .populate("related")
-                    .exec(function(err, creator) {
+                    .exec(async function(err, creator) {
                         if (creator) {
                             console.log("creator ", creator);
                             console.log("creator is ", creator.id);
+                            //find admin user and set head of it as null;
+                            if (creator.related.admin != null) {
+                                await setHeadNull(creator.related.admin);
+                            }
                             creator.related.admin = user.id;
                             creator.related.save();
                             creator.save();
 
                             user.related.head = creator.id;
-                            user.related.onHeadModel = creator.onModel;
+                            //  user.related.onHeadModel = creator.onModel;
                             user.related.save();
                             user.save();
                             console.log("user is ", user);
@@ -339,6 +361,138 @@ function updateMyProfile(req, res) {
         return res.redirect("/organiser/my-profile");
     });
 }
+async function creatorAccountRequests(req, res) {
+    let allRequest = await Requests.find({}).populate("by");
+    return res.render("./organiser/requests_page", {
+        layout: "./layouts/organiser_layout",
+        title: "requests page",
+        allRequest: allRequest,
+    });
+}
+
+async function acceptCreatorAccountRequest(req, res) {
+    try {
+        const targetId = req.body.target.trim();
+        let request = await Requests.findById(targetId).populate("by").exec();
+        if (!request) {
+            console.log("no request found");
+            return res.end("no request found");
+        }
+        let info = {
+            targetEmail: request.by.email,
+            name: request.by.name,
+            email: request.by.email,
+            data: {
+                name: request.name,
+                email: request.email,
+                type: request.onModel,
+            },
+        };
+        //confirm again that requester should be  student
+        if (request.by.onModel != "Student") {
+            return res.end(
+                "request user is not student, so we advise you to reject this request"
+            );
+        }
+        //confirm again that requester should not be head of any other account
+        if (request.by.related.head != null) {
+            return res.end(
+                "request user is already head of some account, so we advise you to reject this request"
+            );
+        }
+        //confirm again that email should not be already registered
+        let u = await User.findOne({ email: request.email });
+        if (u != null) {
+            return res.end(
+                "target email is already registered , so we advise you to reject this request"
+            );
+        }
+        const accVerified = await creatorAccountRequestVerifiedEmail.create({
+            name: info.data.name,
+            email: info.data.email,
+            type: info.data.type,
+            by: request.by.id,
+        });
+        //delete request obj~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$$$$$$$$$$$$$$$$$$
+        console.log("request accepted and link generated");
+        const accountActivateLink =
+            "/activate-creator-account-page-link?secret=" + accVerified.id;
+
+        //send mail to requested user that request acccepted
+        requestMailer.creatorRequestAccept(info);
+        requestMailer.creatorAccountActivateLink({
+            targetEmail: request.email,
+            name: request.by.name,
+            email: request.by.email,
+            data: {
+                name: request.name,
+                email: request.email,
+                type: request.onModel,
+                link: accountActivateLink,
+            },
+        });
+        return res.end("request accepted successfully");
+    } catch (err) {
+        console.log("err in accepting request " + err);
+        return res.end("err in accepting request " + err);
+    }
+}
+
+async function rejectCreatorAccountRequest(req, res) {
+    try {
+        const targetId = req.body.target.trim();
+        let request = await Requests.findById(targetId).populate("by").exec();
+        if (!request) {
+            console.log("no request found");
+            return res.end("no request found");
+        }
+        let info = {
+            targetEmail: request.by.email,
+            name: request.by.name,
+            data: {
+                name: request.name,
+                email: request.email,
+                type: request.onModel,
+                reason: req.body.reject_reason.trim(),
+            },
+        };
+        await request.remove();
+        //send mail to target user
+        requestMailer.creatorRequestReject(info);
+        return res.end("request rejected successfully");
+    } catch (err) {
+        console.log("err in rejecting request ");
+        return res.end("err in rejecting request ");
+    }
+}
+async function handleCreatorAccountRequests(req, res) {
+    try {
+        let type = req.query.type.trim();
+        let targetId = req.query.target.trim();
+        if (type != "Accept" && type != "Reject") {
+            console.log("bad request not correct type ");
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "Bad request not correct type",
+                });
+            }
+
+            return res.end("Bad request not correct type");
+        }
+        let request = await Requests.findById(targetId).populate("by").exec();
+        // if (type == "Reject") {
+        return res.render("./organiser/requests_confirmation_page", {
+            layout: "./layouts/organiser_layout",
+            title: "requests Confirmation page",
+            request: request,
+            type: type,
+        });
+        // }
+    } catch (err) {
+        console.log("err in handle creator account request");
+        return res.end("err in handle creator account request");
+    }
+}
 module.exports = {
     signOut,
     signIn,
@@ -354,4 +508,8 @@ module.exports = {
     myProfile,
     myEditProfilePage,
     updateMyProfile,
+    creatorAccountRequests,
+    handleCreatorAccountRequests,
+    rejectCreatorAccountRequest,
+    acceptCreatorAccountRequest,
 };

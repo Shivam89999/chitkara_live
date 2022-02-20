@@ -12,12 +12,13 @@ const studentSchema = mongoose.Schema({
     },
     head: {
         type: mongoose.Schema.Types.ObjectId,
-        refPath: "onHeadModel",
+        ref: "User",
+        default: null,
     },
-    onHeadModel: {
-        type: "String",
-        enum: ["Depart", "Club", "Hostel", null],
-    },
+    // onHeadModel: {
+    //     type: "String",
+    //     enum: ["Depart", "Club", "Hostel", null],
+    // },
     members: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

@@ -1,0 +1,100 @@
+<div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+    <%-include('../mail_header');-%>
+        <h4 style="text-align: center; color: cyan">
+            New
+            <%=obj.data.type%> Account Request Submitted
+        </h4>
+        <div>
+            <span>Hi <%=obj.name%>,</span>
+            <div style="padding-top: 5px; text-align: center; color: chartreuse">
+                your request for new
+                <%=obj.data.type%> is submitted successfully,
+            </div>
+            <div style="text-align: center">info is given below</div>
+            <div style="margin: auto">
+                <table style="
+          padding: 5px;
+          margin: 10px auto 10px auto;
+          color: white !important;
+          border: 2px solid black;
+        ">
+                    <tr style="margin: 5px; padding: 5px">
+                        <td style="padding: 4px">Email :</td>
+                        <td style="padding: 4px">
+                            <%=obj.data.email%>
+                        </td>
+                    </tr>
+                    <tr style="margin: 5px; padding: 5px">
+                        <td style="padding: 4px">Name :</td>
+                        <td style="padding: 4px">
+                            <%=obj.data.name%>
+                        </td>
+                    </tr>
+                    <tr style="margin: 5px; padding: 5px">
+                        <td style="padding: 4px">Type :</td>
+                        <td style="padding: 4px">
+                            <%=obj.data.type%>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <span style="
+        padding-top: 5px;
+        display: block;
+        text-align: center;
+        margin: auto;
+        color: yellow;
+      ">Now you can not change the type but you can update name at time of
+      sign-up,</span
+    ><span
+      style="
+        margin: auto;
+        display: block;
+        text-align: center;
+        color: chartreuse;
+        padding-top: 5px;
+      "
+      >You will be admin of this account, and can access this new account from
+      your current account using switch account option in header, option will
+      appear if your request accepted</span
+    >
+    <span
+      style="
+        margin: auto;
+        display: block;
+        text-align: center;
+        padding-top: 5px;
+        color: royalblue;
+      "
+      >you will not have any direct access for this new account.</span
+    >
+    <span
+      style="
+        color: rgb(248, 4, 53);
+        display: block;
+        padding-top: 5px;
+        text-align: center;
+      "
+      >Wait,for organiser response, your request is accepted or rejected, we
+      will inform accordingly</span
+    >
+    <br />
+    <br />
+    <span style="color: white !important"
+      >For any other query, you can contact us on</span
+    >
+    <br />
+    <span style="color: white !important"
+      >Email:
+      <a href="mailTo:shivammittal00786@gmail.com"
+        >shivammittal00786@gmail.com</a
+      ></span
+    >
+  </div>
+  <%-include('../mail_footer');-%>
+</div>

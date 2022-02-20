@@ -46,3 +46,14 @@
         }
     }
 }
+
+.tabs {
+    cursor: pointer;
+    &:hover {
+        background-color: gray !important;
+    }
+}
+
+.active-tab {
+    background-color: darksalmon !important;
+}

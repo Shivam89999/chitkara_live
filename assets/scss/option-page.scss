@@ -151,6 +151,7 @@
             flex-wrap: wrap;
             padding: 2px;
             word-wrap: break-word;
+            word-break: break-all;
             // background-color: red;
             img {
                 height: 50px;
@@ -164,6 +165,7 @@
                 flex-wrap: wrap;
                 overflow: hidden;
                 word-wrap: break-word;
+                word-break: break-all;
                 padding: 5px;
                 div {
                     padding: 0px 2px 0px 2px;

@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/css/sign_up_using_link.css" />
+<div id="sign-up-link-container">
+    <h2 style="text-align: center; margin-top: 5px">Sign-Up Form</h2>
+    <form action="/sign-up-with-secret" method="POST" style="margin: auto">
+        <input type="hidden" value="<%=secret%>" name="secret" required />
+        <input required type="text" name="name" placeholder="Name" onfocus="slideup(event)" onfocusout="slidedown(event)" autocomplete="off" />
+        <input required type="password" name="password" id="" placeholder="Password *" onfocus="slideup(event)" onfocusout="slidedown(event)" autocomplete="off" />
+        <input required type="password" name="confirm_password" id="" placeholder="Confirm Password *" onfocus="slideup(event)" onfocusout="slidedown(event)" autocomplete="off" />
+        <button>Sign-Up</button>
+    </form>
+</div>
+
+<!-- <script>
+    let container = $("#sign-up-link-container");
+    console.log("container is ", container);
+    sendIntialData($("form", container));
+</script> -->

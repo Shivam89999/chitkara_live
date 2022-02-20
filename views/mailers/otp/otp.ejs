@@ -1,0 +1,44 @@
+<div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+    <%-include('../mail_header');-%>
+
+        <div style="margin: auto; text-align: center; color: white !important">
+            <span style="margin: auto; color: white !important">Here is the six-digit OTP to continue</span
+    >
+
+    <div
+      style="
+        margin: auto;
+        width: 50%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        color: aqua;
+        border: 1.5px dashed brown;
+        text-align: center;
+        vertical-align: center;
+        padding: 10px;
+        font-size: 18px;
+      "
+    >
+      <%=otp%>
+    </div>
+
+    <span style="color: white"
+      >It will be valid for the next
+      <strong style="color: aqua">ten</strong> minute. Please do not share OTP
+      with anyone</span
+    >
+    <br />
+    <br />
+    <br />
+    <span style="margin: 10px; color: white !important">
+      if you did not make this request. you can safely ignore this email
+    </span>
+        </div>
+
+        <%-include('../mail_footer');-%>
+</div>

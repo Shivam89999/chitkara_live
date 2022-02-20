@@ -62,6 +62,39 @@
     <%-include('../partials/_header');-%>
 
         <div id="page-outline">
+            <div id="request-new-creator-account-container" class="no_display">
+                <div style="margin: auto">
+                    <h2 style="text-align: center">Request For New Creator Account</h2>
+                </div>
+                <div id="form-container">
+                    <form id="new-creator-request-form" action="/user/new-creator-account-request" method="POST">
+                        <input class="main-input" placeholder="Email *" type="email" name="email" required />
+                        <input class="main-input" type="text" name="name" placeholder="Name *" required />
+                        <div id="button-input-div">
+                            <%if(locals.user){%>
+                                <input type="hidden" name="userId" required value="<%=locals.user.id%>" />
+                                <%}%>
+                                    <input type="radio" name="type" value="Club" checked />
+                                    <span>Club</span>
+
+                                    <input type="radio" name="type" value="Hostel" />
+                                    <span>Hostel</span>
+                                    <input type="radio" name="type" value="Depart" />
+                                    <span>Depart</span>
+                        </div>
+                        <button>Submit</button>
+                    </form>
+                </div>
+                <div style="text-align: center; margin-top: 2px">
+                    <img onclick="disappearCreatorRequestPage()" src="https://cdn-icons-png.flaticon.com/512/929/929416.png" style="
+              margin: auto;
+              cursor: pointer;
+              height: 40px;
+              width: 40px;
+              background-color: inherit;
+            " alt="close" />
+                </div>
+            </div>
             <%-body-%>
         </div>
 

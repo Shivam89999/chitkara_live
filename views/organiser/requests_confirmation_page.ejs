@@ -1,0 +1,98 @@
+<style>
+    button:hover {
+        background-color: blue !important;
+        /* height: 2.2em;
+        width: 5.2em; */
+        border: none;
+    }
+</style>
+<div>
+    <div style="
+      width: 50%;
+      margin: 20px auto 20px auto;
+      min-width: 400px;
+      background-color: black;
+      color: white;
+      padding: 15px;
+    ">
+        <div style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      ">
+            <img src="<%=request.by.pic%>" style="border-radius: 50%" alt="pic" height="100px" width="100px" />
+            <span style="padding: 2px"><%=request.by.name%></span>
+        </div>
+        <h4 style="text-align: center">Request Info</h4>
+        <div>
+            <table style="
+          margin: auto;
+          background-color: white;
+          color: black;
+          border: 2px dashed gray;
+          padding: 5px;
+        ">
+                <tr>
+                    <td>Name:</td>
+                    <td>
+                        <%=request.name%>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>
+                        <%=request.email%>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Type:</td>
+                    <td>
+                        <%=request.onModel%>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="text-align: center; margin-top: 10px">
+            <form style="display: block" method="post" action="/organiser/<%=type=='Accept' ? 'accept-creator-account-request' : type=='Reject' ? 'reject-creator-account-request' : 'null'%>">
+                <input type="hidden" name="target" id="" value="<%=request.id%>" />
+                <%if(type=='Reject'){%>
+                    <textarea style="
+            color: black;
+            border: 1px dashed gray;
+            margin: auto;
+            padding: 0px;
+          " name="reject_reason" id="" required cols="50" rows="6" placeholder="Reason of rejection "></textarea>
+                    <%}%>
+                        <br />
+                        <div style="display: block; text-align: right">
+                            <button style="
+              background-color: royalblue;
+              color: white;
+              padding: 10px 20px 10px 20px;
+              border-radius: 6px;
+              border-color: royalblue;
+              font-size: 20px;
+              font-weight: 800px;
+              cursor: pointer;
+            ">
+            <%=type%>
+          </button>
+                        </div>
+            </form>
+
+            <!-- <button style="
+          background-color: royalblue;
+          color: white;
+          padding: 10px 20px 10px 20px;
+          border-radius: 6px;
+          border-color: royalblue;
+          font-size: 20px;
+          font-weight: 800px;
+          cursor: pointer;
+        ">
+        <%=type%>
+      </button> -->
+        </div>
+    </div>
+</div>

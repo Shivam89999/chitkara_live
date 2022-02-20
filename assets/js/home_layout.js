@@ -345,26 +345,26 @@ function resoterHeaderMedia2() {
 
 $(window).resize(() => {
     console.log("m running ######  ");
-    if (window.matchMedia("(max-width: 936px)").matches) {
+    if (window.matchMedia("(max-width: 1075px)").matches) {
         handleMediaQuery();
         headerMediaQuery();
     }
-    if (window.matchMedia("(max-width: 658px)").matches) {
+    if (window.matchMedia("(max-width: 750px)").matches) {
         headerMediaQuery2();
     }
-    if (!window.matchMedia("(max-width: 658px)").matches) {
+    if (!window.matchMedia("(max-width: 750px)").matches) {
         resoterHeaderMedia2();
     }
-    if (!window.matchMedia("(max-width: 936px)").matches) {
+    if (!window.matchMedia("(max-width: 1075px)").matches) {
         handleIntialState();
         resoterHeaderMedia();
     }
 });
-if (window.matchMedia("(max-width: 936px)").matches) {
+if (window.matchMedia("(max-width: 1075px)").matches) {
     handleMediaQuery();
     headerMediaQuery();
 }
-if (window.matchMedia("(max-width: 658px)").matches) {
+if (window.matchMedia("(max-width: 750px)").matches) {
     headerMediaQuery2();
 }
 

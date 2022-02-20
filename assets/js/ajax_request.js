@@ -181,7 +181,12 @@ function addNewComment(itm) {
                 handleToggleCommentLike(
                     $(`#toggle-comment-like-link-${data.data.comment._id}`, domComment)
                 );
-                $(`#comment-${data.data.post._id}`).show();
+                //$(`#comment-${data.data.post._id}`).show();
+
+                if ($(`#comment-${data.data.post._id}`).css("display") == "none") {
+                    //  console.log("%%%%%%%%%% ", data.data.post._id);
+                    toggleComment(data.data.post._id);
+                }
                 handleNotification("success", data.message);
                 // itm.reset();
                 $(itm).trigger("reset");
@@ -229,7 +234,9 @@ function addNewCommentToDOM(comment, post) {
                                 }" style="text-decoration: none; color: rgb(117, 112, 112)">
                                     <span>${comment.creator.name}</span>
                                 </a>
-                                <span>${comment.content}</span>
+                                <span class="comment-content">${
+                                  comment.content
+                                }</span>
                             </div>
                         </div>
                         <div class="upper-div-2">
@@ -865,7 +872,7 @@ function show_Set_Password_Form(secret) {
 }
 
 function sendIntialData(intialDataForm) {
-    console.log("intialdataform is ", intialDataForm);
+    console.log("intialdataform is ~~~~~~~~~~~~~~~~~~~~~~ ", intialDataForm);
     intialDataForm.submit((e) => {
         e.preventDefault();
         $(intialDataForm).toggleClass(" disable_btn_without_back");
@@ -901,6 +908,19 @@ function sendIntialData(intialDataForm) {
         });
     });
 }
+//handle sign-up through link  form of submission
+function handleSignUpThroughLink() {
+    let container = $("#sign-up-link-container");
+    sendIntialData($("form", container));
+}
+handleSignUpThroughLink();
+
+//handle set new password through link  form of submission
+function handleSetNewPasswordThroughLink() {
+    let container = $("#set-new-password-link-container");
+    sendIntialData($("form", container));
+}
+handleSetNewPasswordThroughLink();
 
 function getSetPasswordForm(secret) {
     return $(`<form action="/update-password-with-secret" method="POST">
@@ -1465,14 +1485,14 @@ function makeCommentDom(comment, localUser, post_id, postCreatorId, postType) {
                         <div class="upper-div-1">
                             <a href="/user/profile?user_id=${comment.creator._id}" style="text-decoration: none">
                                 <div>
-                                    <img src="${comment.creator.pic}" alt="img" height="30px" width="30px" style="border-radius: 50%" />
+                                    <img src="${comment.creator.pic}" alt="img" height="30px" width="30px" style="border-radius: 50%;" />
                                 </div>
                             </a>
                             <div>
                                 <a href="/user/profile?user_id=${comment.creator._id}" style="text-decoration: none; color: rgb(117, 112, 112)">
                                     <span>${comment.creator.name}</span>
                                 </a>
-                                <span>${comment.content}</span>
+                                <span class="comment-content">${comment.content}</span>
                             </div>
                         </div>
                         <div class="upper-div-2">
@@ -1683,7 +1703,12 @@ function callpostIntialFunctions(domEle) {
     addNewComment($(".some", domEle));
     handleEvents($(".type-detail", domEle));
     handleEventHeadText($(".event-head", domEle));
+    eventDetailToggle($(".type-detail", domEle));
     setEventDate($(".event-time", domEle));
+    //handleBack(".event-back-btn", item);
+    // handleBack($(".event-back-btn", domEle));
+    handleBack($(".event-back-btn", domEle));
+
     setCreatedTime($(".created-time", domEle));
 }
 
@@ -1712,7 +1737,7 @@ function addPostsEventToEventDomPage(type, localUser, posts) {
 }
 
 function addPostToDom(localUser, post, count) {
-    let res = `            <div class="post-class" id="post-${count}">
+    let res = `            <div class="post-class  post-some-${post._id}" id="post-${count}">
                 <div class="post-header">
                     <a class="post-creator-link" href="/user/profile?user_id=${post.creator._id}" style="text-decoration: none;">
                         <div>
@@ -1739,7 +1764,7 @@ function addPostToDom(localUser, post, count) {
     }
     res += "</div>";
     if (post.eventStartTime) {
-        res += `<div onclick="toggleEventDetails('${post._id}-event')" class="type-detail" start="${post.eventStartTime}" end="${post.eventEndTime}" location="${post.venu}" postId="${post._id}">
+        res += `<div  targetId="${post._id}-event" class="type-detail" start="${post.eventStartTime}" end="${post.eventEndTime}" location="${post.venu}" postId="${post._id}">
         <div>  <img height="25px" width="25px"src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="">
       </div>
                             <abbr title="See/Hide Event Detail" >  <img height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png" alt="detail">
@@ -1794,7 +1819,8 @@ function addPostToDom(localUser, post, count) {
     let existLike = false;
     if (localUser) {
         for (lik of post.likes) {
-            if (lik.creator._id == localUser._id) {
+            console.log("lik is ", lik);
+            if (lik.creator && lik.creator._id == localUser._id) {
                 existLike = true;
                 break;
             }
@@ -2373,6 +2399,7 @@ function eventHomeDom(event) {
 
 function addAllUpcomingHome(container, events) {
     for (let event of events) {
+        console.log("event is ", event);
         let eventDom = eventHomeDom(event.postRef);
         // setCreatedTime($(".event-time", eventDom));
         setEventDate(".event-time", eventDom);
@@ -2477,7 +2504,7 @@ async function handleLoadingEvent(btn) {
     let time = $(btn).attr("time");
     let type = $(btn).attr("type");
     const loadLimit = 2;
-    console.log("callling @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ hhhhhhhhhhhhhhhhhhhhhh ");
+    // console.log("callling @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ hhhhhhhhhhhhhhhhhhhhhh ");
     //       e.preventDefault();
     let dom_loader = domLoader();
     let container = $("#" + type);
@@ -2563,3 +2590,62 @@ async function checkIntoView(btn) {
 //     console.log("scrolling @@@@@@@@@@@@@@@@@ ");
 //     handleAllAutoLoadBtn();
 // });
+
+//handle request for new creator acc.
+function handleNewCreatorRequest(form) {
+    $(form).submit((e) => {
+        e.preventDefault();
+        // console.log("itm is ", itm);
+        let dom_loader = domLoader();
+        dom_loader.insertAfter($(form));
+        let intervalId = addLoader(dom_loader);
+        // console.log("interval is ", intervalId);
+        $(form).toggleClass(" disable_btn_without_back");
+        $("button", form).toggleClass(" disable_btn");
+        $.ajax({
+            type: "POST",
+            url: $(form).prop("action"),
+            data: $(form).serialize(),
+            success: function(data) {
+                console.log("data is ", data.data);
+                // form.reset();
+                $(form).trigger("reset");
+                handleNotification("success", data.message);
+                removeLoader(dom_loader, intervalId);
+                $(form).toggleClass(" disable_btn_without_back");
+                $("button", form).toggleClass(" disable_btn");
+            },
+            error: function(xhr, textStatus, message) {
+                removeLoader(dom_loader, intervalId);
+                $(form).toggleClass(" disable_btn_without_back");
+                $("button", form).toggleClass(" disable_btn");
+                if (xhr.status == 401) {
+                    console.log("redirect to login");
+                    handleNotification("error", "Unauthorized, Sign-In first");
+                    //redirect to login-page
+                    setTimeout(function() {
+                        window.location.href = "/sign-in";
+                    }, 600);
+                    return;
+                }
+                if (textStatus == "timeout") {
+                    handleNotification("error", "Request " + message);
+                } else handleNotification("error", xhr.responseJSON.err);
+                //  $(form).trigger("reset");
+            },
+            timeout: 10000,
+        });
+    });
+}
+
+handleNewCreatorRequest($("#new-creator-request-form"));
+
+//handle creator page handling
+
+function handleActiveCreatorPage() {
+    $("#request-new-creator-account-container").toggleClass(" active_display");
+}
+
+function disappearCreatorRequestPage() {
+    $("#request-new-creator-account-container").removeClass(" active_display");
+}

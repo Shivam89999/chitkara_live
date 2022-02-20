@@ -40,6 +40,10 @@
         <div>
             <img height="40px" width="40px" src="https://www.pngitem.com/pimgs/m/357-3577326_color-ball-logo-hd-png-download.png" alt="logo" />
         </div>
+        <!-- <div style="display: flex; flex-direction: column">
+            <div style="font-size: 18">chitkara_live</div>
+            <div style="font-size: 12">be connected</div>
+        </div> -->
         <div>
             <form action="/search" method="POST" id="search-form">
                 <input id="search-input" type="text" name="name" required placeholder="Search users" style="background-color: rgb(238, 238, 238)" />
@@ -81,31 +85,58 @@
     </div>
     <div class="right-div">
         <%if(locals.user){%>
-            <a href="/user/profile?user_id=<%=locals.user.id%>">
-                <div>
-                    <img src="<%=locals.user.pic%>" alt="profile" height="25px" width="25px" style="border-radius: 50%" />
+            <%if((locals.user.onModel=='Student' &&
+    locals.user.related.head!=null)||(locals.user.onModel!='Student' &&
+    locals.user.related.admin!=null)){%>
 
-                    <span class="header-user-name"><%=locals.user.name%></span>
-                </div>
-            </a>
-            <a href="/user/sign-out">
-                <div style="height: 40px; justify-content: flex-end">
-                    <span style="color: rgb(189, 91, 124)">Log out</span>
-                </div>
-            </a>
-            <%}else{%>
-                <a href="/sign-in">
-                    <div style="height: 40px; justify-content: flex-end">
-                        <span style="color: greenyellow">Log In</span>
+                <a href="/user/toggle-b/w-accounts">
+                    <div>
+                        <abbr title="Toggle B/w admin acc. & user acc.">
+          <img
+            src="https://img.icons8.com/ios-filled/344/user-group-man-man.png"
+            style="height: 30px; width: 30px"
+          />
+        </abbr>
                     </div>
                 </a>
                 <%}%>
-                    <div id="complete-toggle-container" style="display: flex; flex-direction: row">
-                        <div class="header-day-night" style="padding-right: 5px; padding-left: 5px">
-                            <img src="https://cdn-icons-png.flaticon.com/512/702/702471.png" alt="day" height="32px" width="32px" />
+                    <a href="/user/profile?user_id=<%=locals.user.id%>">
+                        <div>
+                            <img src="<%=locals.user.pic%>" alt="profile" height="25px" width="25px" style="border-radius: 50%" />
+
+                            <span class="header-user-name"><%=locals.user.name%></span>
                         </div>
-                    </div>
+                    </a>
+                    <a href="/user/sign-out">
+                        <div style="height: 40px; justify-content: flex-end">
+                            <span style="color: rgb(189, 91, 124)">Log out</span>
+                        </div>
+                    </a>
+                    <%}else{%>
+                        <a href="/sign-in">
+                            <div style="height: 40px; justify-content: flex-end">
+                                <span style="color: greenyellow">Log In</span>
+                            </div>
+                        </a>
+                        <%}%>
+                            <div id="complete-toggle-container" style="display: flex; flex-direction: row">
+                                <div class="header-day-night" style="padding-right: 5px; padding-left: 5px">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/702/702471.png" alt="day" height="32px" width="32px" />
+                                </div>
+                            </div>
     </div>
+
+    <%if(locals.user && locals.user.onModel=='Student'&&
+  locals.user.related.head==null){%>
+        <div>
+            <a onclick="handleActiveCreatorPage()" style="position: fixed; right: 2px; top: 2px; cursor: pointer">
+                <div>
+                    <img height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png" alt="detail" />
+                </div>
+            </a>
+        </div>
+        <%}%>
 </header>
 <script src="/js/header.js"></script>
+
 <!-- <script src="/js/ajax_request.js"></script> -->

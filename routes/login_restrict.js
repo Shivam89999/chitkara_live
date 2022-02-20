@@ -87,7 +87,7 @@ router.get(
 );
 router.get("/my-save-items", login_restrict_controller.mySaveItems);
 router.get(
-    "/my-save-items-details",
+    "/my-save-items-details/",
     login_restrict_controller.mySaveItemsDetails
 );
 router.get(
@@ -117,5 +117,10 @@ router.get(
 router.get(
     "/load-event-for-event-page/",
     login_restrict_controller.loadMoreEvents
+);
+router.get("/toggle-b/w-accounts", login_restrict_controller.toggleAccount);
+router.post(
+    "/new-creator-account-request",
+    login_restrict_controller.newCreatorAccountRequest
 );
 module.exports = router;

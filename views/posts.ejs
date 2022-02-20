@@ -2,7 +2,7 @@
 <div id="post-container">
     <%var count=0;%>
         <%for(let post of posts){%>
-            <div class="post-class" id="post-<%=count%>">
+            <div class="post-class post-some-<%=post.id%>" id="post-<%=count%>">
                 <div class="post-header">
                     <a class="post-creator-link" href="/user/profile?user_id=<%=post.creator.id%>" style="text-decoration: none;">
                         <div>
@@ -27,7 +27,7 @@
       <%}%>
     </div>
        <%if(post.eventStartTime){%>
-    <div class="type-detail"onclick="toggleEventDetails('<%=post.id%>-event')" start="<%=post.eventStartTime%>" end="<%=post.eventEndTime%>" location="<%=post.venu%>" postId="<%=post.id%>">
+    <div class="type-detail" targetId="<%=post.id%>-event" start="<%=post.eventStartTime%>" end="<%=post.eventEndTime%>" location="<%=post.venu%>" postId="<%=post.id%>">
         <div>  <img height="25px" width="25px"src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="">
       </div>
                             <abbr title="See/Hide Event Detail" >  <img height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png" alt="detail">
@@ -44,7 +44,8 @@
                                 <div class="post-main-section">
 
 
-                                    <div id="displayCount-post-<%=post.id%>">1/
+                                    <div id="displayCount-post-<%=post.id%>">
+                                        1/
                                         <%=post.photos.length%>
                                     </div>
 

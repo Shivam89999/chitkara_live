@@ -16,12 +16,16 @@ const Poll = require("../model/poll");
 const Save = require("../model/Save");
 const Member = require("../model/Member");
 const res = require("express/lib/response");
-const commentsMailer = require("../mailers/comment_mailers");
+//const commentsMailer = require("../mailers/comment_mailers");
 const queue = require("../config/kue");
-const commentEmailWorker = require("../workers/comment_email_worker");
+const messEmailWorker = require("../workers/mess_email_worker");
+const postEmailWorker = require("../workers/post_email_worker");
 const Alert = require("../model/alert");
 const Upcoming = require("../model/upcomingEvents");
-
+const creatorRequest = require("../model/creatorRequest");
+const requestEmailWorker = require("../workers/request_email_worker");
+const requestMailer = require("../mailers/request_mailer");
+const organisers = require("../model/organiser");
 async function userProfile(req, res) {
     if (!req.user) {
         console.log("Sign-in first");
@@ -40,7 +44,6 @@ async function userProfile(req, res) {
                 path: "related",
             },
         ])
-        .sort({ createdAt: -1 })
         .exec(async function(err, user_profile) {
             if (err || !user_profile) {
                 console.log(
@@ -85,6 +88,7 @@ async function userProfile(req, res) {
                             { path: "notices" },
                             { path: "alerts" },
                             { path: "textPosts" },
+                            { path: "admin" },
                             {
                                 path: "menu",
                                 populate: {
@@ -103,6 +107,14 @@ async function userProfile(req, res) {
                         ],
                     },
                 ]);
+            } else if (user_profile.onModel == "Student") {
+                let t = await User.populate(user_profile, {
+                    path: "related",
+                    populate: {
+                        path: "head",
+                    },
+                });
+                console.log("t is ", t);
             }
             console.log("user_profile ", user_profile);
             return res.render("user_profile", {
@@ -120,9 +132,9 @@ function myProfile(req, res) {
 }
 
 async function addComment(req, res) {
-    console.log(
-        "reached ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ "
-    );
+    // console.log(
+    //     "reached ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ "
+    // );
     try {
         let type = req.body.type;
         let model = type == "Post" ? Post : TextPost;
@@ -175,7 +187,7 @@ async function addComment(req, res) {
         //             return;
         //         });
         // }
-        req.flash("success", "new comment added successfully ");
+        // req.flash("success", "new comment added successfully ");
         console.log("comment created successfully");
         if (req.xhr) {
             console.log("yes %%%%%%%%%%%%  ajax request ");
@@ -184,7 +196,7 @@ async function addComment(req, res) {
                     comment: comment,
                     post: post,
                 },
-                message: "comment created successfully",
+                message: "new comment added successfully ",
             });
         }
         return res.redirect("back");
@@ -700,6 +712,20 @@ async function sendRequest(req, response) {
         await req.user.myUser.related.save();
         await req.user.myUser.save();
         console.log("request send successfully");
+        let job = queue
+            .create("requests", {
+                user: req.user.myUser,
+                targetEmail: target.email,
+                targetName: target.name,
+            })
+            .save(function(err) {
+                if (err) {
+                    console.log("err in sending to the queue ", err);
+                    return;
+                }
+                console.log("request email en-queued ", job.id);
+                return;
+            });
         if (req.xhr) {
             return response.status(200).json({
                 message: "request send successfully",
@@ -994,6 +1020,7 @@ async function removeMembership(req, response) {
 async function userPosts(req, res) {
     let user = req.query.u;
     let types = req.query.types;
+    let target = req.query.target;
     let model = null;
     if (types == "posts" || types == "events") {
         model = Post;
@@ -1047,6 +1074,7 @@ async function userPosts(req, res) {
                         types: req.query.types,
                         u: success_user,
                         loadMorePost: false,
+                        target,
                     });
                 });
         } else {
@@ -1058,6 +1086,7 @@ async function userPosts(req, res) {
                         creator: success_user.id,
                         eventStartTime: { $eq: null },
                     })
+                    .sort({ createdAt: -1 })
                     .populate("creator")
                     .populate({
                         path: "comments",
@@ -1086,6 +1115,7 @@ async function userPosts(req, res) {
                 types: req.query.types,
                 u: success_user,
                 loadMorePost: false,
+                target,
             });
         }
     });
@@ -1426,6 +1456,28 @@ async function addNewPoll(req, res) {
         await req.user.myUser.polls.push(poll.id);
         await req.user.myUser.save();
         console.log("poll created successfully");
+        User.find({}).exec((err, allUser) => {
+            if (err) {
+                console.log("err in finding user for send memeber mail");
+            }
+            for (let u of allUser) {
+                let job = queue
+                    .create("polls", {
+                        by: req.user.myUser,
+                        targetEmail: u.email,
+                        targetName: u.name,
+                        //targetEmail: "shivamgupta.cse19@chitkarauniversity.edu.in",
+                    })
+                    .save(function(err) {
+                        if (err) {
+                            console.log("err in sending to the queue ", err);
+                            return;
+                        }
+                        console.log("request email en-queued ", job.id);
+                        return;
+                    });
+            }
+        });
         if (req.xhr) {
             return res.status(200).json({
                 message: "poll created successfully",
@@ -1629,6 +1681,8 @@ function mySaveItems(req, res) {
 }
 
 async function mySaveItemsDetails(req, res) {
+    let target = req.query.target;
+    console.log("target is !!!!!!!!!!!  ", req.query);
     let postIds = [],
         textIds = [];
     console.log("nvfjbvnfv ^^^^^^^^^^^^^");
@@ -1653,6 +1707,7 @@ async function mySaveItemsDetails(req, res) {
 
     // console.log("postIds ", postIds, "  textIds ", textIds);
     let posts = await Post.find({ _id: { $in: postIds } })
+        .sort({ createdAt: -1 })
         .populate("creator")
         .populate({
             path: "comments",
@@ -1675,6 +1730,7 @@ async function mySaveItemsDetails(req, res) {
         })
         .exec();
     let texts = await TextPost.find({ _id: { $in: textIds } })
+        .sort({ createdAt: -1 })
         .populate("creator")
         .populate({
             path: "comments",
@@ -1701,6 +1757,7 @@ async function mySaveItemsDetails(req, res) {
         title: "my save items details",
         mySaveItems: posts.concat(texts),
         loadMorePost: false,
+        target: target,
     });
 }
 async function OwnAsMemberUpdateDetails(req, res) {
@@ -1947,6 +2004,215 @@ async function loadMorePostLikes(req, res) {
         return res.redirect("back");
     }
 }
+async function toggleAccount(req, res) {
+    let myProfile = await User.findById(req.user.myUser.id).populate("related");
+    let newUser = null;
+    if (myProfile.onModel == "Student") {
+        if (myProfile.related.head == null) {
+            console.log("no toggle acc. found ");
+            req.flash("error", "no toggle acc. found");
+            return res.redirect("back");
+        }
+        let newUserId = await myProfile.related.head;
+        newUser = await User.findById(newUserId).populate("related");
+        if (newUser.related.admin != myProfile.id) {
+            console.log("toggle invalid req ");
+            req.flash("error", "toggle invalid request");
+            return res.redirect("back");
+        }
+    } else {
+        if (myProfile.related.admin == null) {
+            console.log("no toggle acc. found ");
+            req.flash("error", "no toggle acc. found");
+            return res.redirect("back");
+        }
+        let newUserId = await myProfile.related.admin;
+        newUser = await User.findById(newUserId).populate("related");
+        if (newUser.related.head != myProfile.id) {
+            console.log("toggle invalid req ");
+            req.flash("error", "toggle invalid request ");
+            return res.redirect("back");
+        }
+    }
+    if (newUser == null) {
+        console.log("no toggle acc. found");
+        req.flash("error", "no toggle acc. found");
+        return res.redirect("back");
+    }
+    // await User.findById(req.user.myUser.id){
+
+    // }
+    //console.log("new User is ", newUser);
+    // res.locals.unsub = "vfnjhbvfhvfhbhfvbjhvf";
+    // res.locals.unsub = {
+    //     success: "success",
+    // };
+    // req.user.myUser = "vfnkjvfjvf";
+    // req.session.user = "vjhfvjvfnf";
+    // req.session.save();
+    res.locals.user = newUser;
+    // res.locals.save();
+    console.log("req is ", req.session);
+    req.session.passport.user.id = newUser.id;
+    req.session.save();
+    req.flash("success", "Welcome, " + newUser.name);
+    // return res.send("send successfully ");
+    return res.redirect("back");
+    // console.log("res.locals are @@@@@@@@@@@@@@@ ", res.locals);
+    // console.log("req is ", req.user);
+    // res.end();
+    // req.user.myUser = newUser;
+    //return res.redirect("/");
+    // req.something = "vjnfjnvjfnvfnkjnvfnvfjnfjknjf";
+    // return res.redirect("/");
+}
+
+async function newCreatorAccountRequest(req, res) {
+    try {
+        if (req.user.myUser.onModel != "Student") {
+            console.log("no student account");
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "Your acc. is not student acc. so you can not make this request",
+                });
+            }
+            return res.redirect("back");
+        }
+
+        let usr = await User.populate(req.user.myUser, {
+            path: "related",
+            populate: {
+                path: "head",
+            },
+        });
+        if (usr.related.head != null) {
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "You are already head of " +
+                        usr.related.head.name +
+                        " (" +
+                        usr.related.head.onModel +
+                        ") ",
+                });
+            }
+            console.log("you are already head of ");
+            return res.redirect("back");
+        }
+
+        // console.log("request reached ", req.body);
+        let email = req.body.email.trim();
+        let userId = req.body.userId.trim();
+        let name = req.body.name.trim();
+        //check user is valid
+        let requestBy = await User.findById(userId).exec();
+        if (requestBy == null) {
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "bad request",
+                });
+            }
+            console.log("bad request ");
+            return res.redirect("back");
+        }
+        //check user is already exist or not
+        let u = await User.findOne({ email: email }).exec();
+        console.log("u is ", u);
+        if (u != null) {
+            console.log("this email is already registered ");
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "this email is already registered",
+                });
+            }
+            return res.redirect("back");
+        }
+        //check request is already submit or not
+        let exist = await creatorRequest.findOne({ email: email }).exec();
+        if (exist != null) {
+            console.log("for this email request is already submitted");
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "request is already submitted for this email",
+                });
+            }
+            return res.redirect("back");
+        }
+        let allowedType = ["Club", "Hostel", "Depart"];
+        let type = req.body.type.trim();
+        console.log("type is ", type);
+        if (!allowedType.includes(type)) {
+            console.log("this type is not allowed ");
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "this type is not allowed",
+                });
+            }
+            return res.redirect("back");
+        }
+        let newCreatorReq = creatorRequest.create({
+            email: email,
+            name: name,
+            by: requestBy.id,
+            onModel: type,
+        });
+        //send mail to organisers and sending user
+        console.log("Your request is recoreded ");
+
+        //mail to sending user
+        let job = queue
+            .create("creatorAccountRequests", {
+                name: req.user.myUser.name,
+                targetEmail: req.user.myUser.email,
+                isOrganiser: false,
+                data: { name: name, email: email, type: type },
+            })
+            .save(function(err) {
+                if (err) {
+                    console.log("err in sending to the queue ", err);
+                    return;
+                }
+                console.log("request email en-queued ", job.id);
+                return;
+            });
+        //mail to all organiser
+        let allOrganisers = await organisers.find({}).exec();
+        for (let org of allOrganisers) {
+            let job = queue
+                .create("creatorAccountRequests", {
+                    name: org.name,
+                    targetEmail: org.email,
+                    //targetEmail: "shivamgupta.cse19@chitkarauniversity.edu.in",
+                    isOrganiser: true,
+                    sender: req.user.myUser,
+                    data: { name: name, email: email, type: type },
+                })
+                .save(function(err) {
+                    if (err) {
+                        console.log("err in sending to the queue ", err);
+                        return;
+                    }
+                    console.log("request email en-queued ", job.id);
+                    return;
+                });
+        }
+        if (req.xhr) {
+            return res.status(200).json({
+                message: "your request is recorded",
+                data: { newCreatorReq: "newCreatorReq" },
+            });
+        }
+        return res.redirect("back");
+        // return res.redirect("back");
+    } catch (err) {
+        console.log("err in new creator acc. req." + err);
+        if (req.xhr) {
+            return res.status(500).json({
+                err: "Internal server err ",
+            });
+        }
+        return res.redirect("back");
+    }
+}
 module.exports = {
     userProfile,
     myProfile,
@@ -1982,4 +2248,6 @@ module.exports = {
     deleteTypeObj,
     loadMorePostLikes,
     loadMoreEvents,
+    toggleAccount,
+    newCreatorAccountRequest,
 };

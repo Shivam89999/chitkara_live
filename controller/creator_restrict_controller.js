@@ -17,9 +17,13 @@ const Menu = require("../model/menu");
 const Member = require("../model/Member");
 const login_restrict = require("./login_restrict_controller");
 const queue = require("../config/kue");
+const messEmailWorker = require("../workers/mess_email_worker");
+const messMailer = require("../mailers/mess_mailer");
 const postEmailWorker = require("../workers/post_email_worker");
 const postMailer = require("../mailers/post_mailer");
 const upcomingEvent = require("../model/upcomingEvents");
+const membeEmailWorker = require("../workers/member_email_worker");
+const memberMailer = require("../mailers/member_mailer");
 
 async function newPost(req, res) {
     // if (!req.user || !req.user.myUser) {
@@ -132,17 +136,38 @@ async function newPost(req, res) {
             post = await Post.populate(post, {
                 path: "creator",
             });
-            let job = queue.create("posts", post).save(function(err) {
-                if (err) {
-                    console.log("err in sending to the queue ", err);
-                    return;
-                }
-                console.log("email en-queued ", job.id);
-                return;
-            });
-            // postMailer.newPost(post);
+            // let job = queue.create("posts", post).save(function(err) {
+            //     if (err) {
+            //         console.log("err in sending to the queue ", err);
+            //         return;
+            //     }
+            //     console.log("email en-queued ", job.id);
+            //     return;
+            // });
+            // // postMailer.newPost(post);
             await req.user.myUser.related.posts.push(post.id);
             await req.user.myUser.related.save();
+            if (obj.eventStartTime) {
+                User.find({}).exec(function(err, allUser) {
+                    for (let u of allUser) {
+                        let job = queue
+                            .create("events", {
+                                by: req.user.myUser,
+                                targetEmail: u.email,
+                                targetName: u.name,
+                                //targetEmail: "shivamgupta.cse19@chitkarauniversity.edu.in",
+                            })
+                            .save(function(err) {
+                                if (err) {
+                                    console.log("err in sending to the queue ", err);
+                                    return;
+                                }
+                                console.log("request email en-queued ", job.id);
+                                return;
+                            });
+                    }
+                });
+            }
             if (req.xhr) {
                 return res.status(200).json({
                     message: "post created successfully",
@@ -429,6 +454,25 @@ async function addNewNotice(req, res) {
             //    console.log("req.user is ", req.user.related);
             await req.user.myUser.related.notices.push(notice.id);
             await req.user.myUser.related.save();
+            User.find({}).exec(function(err, allUser) {
+                for (let u of allUser) {
+                    let job = queue
+                        .create("notices", {
+                            by: req.user.myUser,
+                            targetEmail: u.email,
+                            targetName: u.name,
+                            //targetEmail: "shivamgupta.cse19@chitkarauniversity.edu.in",
+                        })
+                        .save(function(err) {
+                            if (err) {
+                                console.log("err in sending to the queue ", err);
+                                return;
+                            }
+                            console.log("request email en-queued ", job.id);
+                            return;
+                        });
+                }
+            });
             if (req.xhr) {
                 return res.status(200).json({
                     message: "new notice created successfully",
@@ -508,6 +552,25 @@ async function newAlert(req, res) {
         await req.user.myUser.related.save();
         await req.user.myUser.save();
         console.log("alert created successfully");
+        User.find({}).exec(function(err, allUser) {
+            for (let u of allUser) {
+                let job = queue
+                    .create("alerts", {
+                        by: req.user.myUser,
+                        targetEmail: u.email,
+                        targetName: u.name,
+                        //targetEmail: "shivamgupta.cse19@chitkarauniversity.edu.in",
+                    })
+                    .save(function(err) {
+                        if (err) {
+                            console.log("err in sending to the queue ", err);
+                            return;
+                        }
+                        console.log("request email en-queued ", job.id);
+                        return;
+                    });
+            }
+        });
         if (req.xhr) {
             return res.status(200).json({
                 message: "alert created successfully",
@@ -631,6 +694,40 @@ async function updateDayTimeMenuContent(req, res) {
                 "new food items updated successfully ",
                 hostel.related.menu.dayWise[day].timeFood[time]
             );
+            let days = [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+            ];
+            let times = ["breakfast", "lunch", "snacks", "dinner"];
+            User.find({}).exec((err, allUser) => {
+                if (err) {
+                    console.log("err in finding user for send memeber mail");
+                }
+                for (let u of allUser) {
+                    let job = queue
+                        .create("mess", {
+                            by: hostel._id,
+                            targetEmail: u.email,
+                            targetName: u.name,
+                            day: days[day],
+                            time: times[time],
+                            //targetEmail: "shivamgupta.cse19@chitkarauniversity.edu.in",
+                        })
+                        .save(function(err) {
+                            if (err) {
+                                console.log("err in sending to the queue ", err);
+                                return;
+                            }
+                            console.log("request email en-queued ", job.id);
+                            return;
+                        });
+                }
+            });
             return res.redirect("/");
         });
     });
@@ -762,6 +859,45 @@ async function addNewTeamMember(req, res) {
             requestUser.related.teamMembers.push(newMember.id);
             requestUser.related.save();
             requestUser.save();
+            let job = queue
+                .create("members", {
+                    by: requestUser,
+                    targetEmail: targetUser.email,
+                    targetName: targetUser.name,
+                    youAreAdded: true,
+                    //targetEmail: "shivamgupta.cse19@chitkarauniversity.edu.in",
+                })
+                .save(function(err) {
+                    if (err) {
+                        console.log("err in sending to the queue ", err);
+                        return;
+                    }
+                    console.log("request email en-queued ", job.id);
+                    return;
+                });
+            User.find({}).exec((err, allUser) => {
+                if (err) {
+                    console.log("err in finding user for send memeber mail");
+                }
+                for (let u of allUser) {
+                    let job = queue
+                        .create("members", {
+                            by: requestUser,
+                            targetEmail: u.email,
+                            targetName: u.name,
+                            //targetEmail: "shivamgupta.cse19@chitkarauniversity.edu.in",
+                        })
+                        .save(function(err) {
+                            if (err) {
+                                console.log("err in sending to the queue ", err);
+                                return;
+                            }
+                            console.log("request email en-queued ", job.id);
+                            return;
+                        });
+                }
+            });
+
             console.log(
                 "in requestUser add it in new team Member successfully ",
                 requestUser
@@ -783,37 +919,57 @@ async function UpdateTeamMember(req, res) {
     }
     let memberId = req.body.memberId;
     //check memberId is correct or not
-    Member.findById(memberId, function(err, member) {
-        if (err || !member) {
-            console.log("err in finding member by id or may not exist: ", err);
-            return res.redirect("back");
-        }
-        //check member is in team of request user or not
-        console.log("req.user.myUser ", req.user.myUser);
-        let teamMembers = req.user.myUser.related.teamMembers;
-        // console.log("teamMembers is ",teamMembers);
-        if (!teamMembers.includes(member.id)) {
-            console.log("you are not authorized to update this member");
-            return res.redirect("back");
-        }
-        //if  already in team member update it in team member
-        let body = req.body;
-        let obj = {
-            heading: body.heading.length != 0 ? body.heading : "Team Member",
-            desc: body.description.length != 0 ?
-                body.description :
-                "Working Criteria or Rights of the member not updated yet",
-        };
+    Member.findById(memberId)
+        .populate("userId")
+        .exec(function(err, member) {
+            if (err || !member) {
+                console.log("err in finding member by id or may not exist: ", err);
+                return res.redirect("back");
+            }
+            //check member is in team of request user or not
+            console.log("req.user.myUser ", req.user.myUser);
+            let teamMembers = req.user.myUser.related.teamMembers;
+            // console.log("teamMembers is ",teamMembers);
+            if (!teamMembers.includes(member.id)) {
+                console.log("you are not authorized to update this member");
+                return res.redirect("back");
+            }
+            //if  already in team member update it in team member
+            let body = req.body;
+            let obj = {
+                heading: body.heading.length != 0 ? body.heading : "Team Member",
+                desc: body.description.length != 0 ?
+                    body.description :
+                    "Working Criteria or Rights of the member not updated yet",
+            };
 
-        // await Member.findByIdAndUpdate(member.id, obj);
-        //or we can update like below
-        member.heading = obj.heading;
-        member.desc = obj.desc;
-        member.save();
-        console.log("updated successfully");
-        let id = req.user.myUser.id;
-        return res.redirect("/user/profile?user_id=" + id);
-    });
+            // await Member.findByIdAndUpdate(member.id, obj);
+            //or we can update like below
+            member.heading = obj.heading;
+            member.desc = obj.desc;
+            let memberEmail = member.userId.email;
+            let memberName = member.userId.name;
+            member.save();
+            let job = queue
+                .create("members", {
+                    by: req.user.myUser,
+                    targetEmail: memberEmail,
+                    targetName: memberName,
+                    youAreUpdated: true,
+                    //targetEmail: "shivamgupta.cse19@chitkarauniversity.edu.in",
+                })
+                .save(function(err) {
+                    if (err) {
+                        console.log("err in sending to the queue ", err);
+                        return;
+                    }
+                    console.log("member email en-queued ~~~~~~~~~~~~~~~~~~~~~~ ", job.id);
+                    return;
+                });
+            console.log("updated successfully");
+            let id = req.user.myUser.id;
+            return res.redirect("/user/profile?user_id=" + id);
+        });
 }
 
 async function delete_Team_Member(req, res) {
@@ -851,25 +1007,44 @@ async function deleteTeamMember(req, res) {
     }
     let memberId = req.body.memberId;
     //check memberId is correct or not
-    Member.findById(memberId, function(err, member) {
-        if (err || !member) {
-            console.log("err in finding member by id or may not exist: ", err);
-            return res.redirect("back");
-        }
-        //check member is in team of request user or not
-        console.log("req.user.myUser ", req.user.myUser);
-        let teamMembers = req.user.myUser.related.teamMembers;
-        // console.log("teamMembers is ",teamMembers);
-        if (!teamMembers.includes(member.id)) {
-            console.log("you are not authorized to delete this member");
-            return res.redirect("back");
-        }
-
-        member.remove();
-        console.log("delete successfully");
-        let id = req.user.myUser.id;
-        return res.redirect("/user/profile?user_id=" + id);
-    });
+    Member.findById(memberId)
+        .populate("userId")
+        .exec(function(err, member) {
+            if (err || !member) {
+                console.log("err in finding member by id or may not exist: ", err);
+                return res.redirect("back");
+            }
+            //check member is in team of request user or not
+            console.log("req.user.myUser ", req.user.myUser);
+            let teamMembers = req.user.myUser.related.teamMembers;
+            // console.log("teamMembers is ",teamMembers);
+            if (!teamMembers.includes(member.id)) {
+                console.log("you are not authorized to delete this member");
+                return res.redirect("back");
+            }
+            let memberName = member.userId.name;
+            let memberEmail = member.userId.email;
+            member.remove();
+            let job = queue
+                .create("members", {
+                    by: req.user.myUser,
+                    targetEmail: memberEmail,
+                    targetName: memberName,
+                    youAreDeleted: true,
+                    //targetEmail: "shivamgupta.cse19@chitkarauniversity.edu.in",
+                })
+                .save(function(err) {
+                    if (err) {
+                        console.log("err in sending to the queue ", err);
+                        return;
+                    }
+                    console.log("request email en-queued ", job.id);
+                    return;
+                });
+            console.log("delete successfully");
+            let id = req.user.myUser.id;
+            return res.redirect("/user/profile?user_id=" + id);
+        });
 }
 
 module.exports = {

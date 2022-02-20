@@ -67,7 +67,7 @@ function handleChangeNextPrev(item) {
 }
 
 function addListenerToChange() {
-    console.log("running %%%%%%%%%%%%%%%%%%%%%%%  ");
+    //   console.log("running %%%%%%%%%%%%%%%%%%%%%%%  ");
     $(".button").each((i, itm) => {
         // let id = $(itm).attr("id");
         // let ele = $("#");
@@ -106,6 +106,34 @@ function animateEventDetail(target, height) {
     );
 }
 
+function eventDetailToggle(itm) {
+    $(itm).hover(
+        function(e) {
+            let target = $("#" + $(itm).attr("targetId"));
+            $(target).stop(true, false);
+            animateEventDetail(target, "255px");
+        },
+        function(e) {
+            // let target = $("#" + $(itm).attr("targetId"));
+            // $(target).stop(true, false);
+            // animateEventDetail(target, "0px");
+            return;
+        }
+    );
+}
+
+function animateBack(targetId) {
+    console.log("fvnjhbvffv is ", targetId);
+    animateEventDetail($(targetId), "0px");
+}
+
+function addListenerToEventDetailToggle() {
+    $(".type-detail").each((i, itm) => {
+        eventDetailToggle(itm);
+    });
+}
+addListenerToEventDetailToggle();
+
 function toggleEventDetails(event_detail_id) {
     console.log("event detail is ", event_detail_id);
     // let target = document.getElementById(event_detail_id);
@@ -117,7 +145,7 @@ function toggleEventDetails(event_detail_id) {
     // console.log(" target is ", target, "  current style ", current_style);
     // target.style.display =
     //     current_style == "none" || !current_style ? "flex" : "none";
-    let new_height = current_height != "0px" ? "0px" : "230px";
+    let new_height = current_height != "0px" ? "0px" : "255px";
     console.log("current is ", current_height, "  new is ", new_height);
     // $(target).css({
     //     display: "" + newStyle,
@@ -199,6 +227,7 @@ function handleEvents(item) {
         " Event</span>"
     );
     console.log("postId is ", postId);
+    let ss = "vfnjvf";
     let node =
         "<div class='event-details' id='" +
         postId +
@@ -210,9 +239,12 @@ function handleEvents(item) {
         postId +
         "' style='text-decoration-color:hotpink;'> <span class = 'detail-head' > Location <span style='color:red; font-size:14;text-transform:none'>(Click to see event location & your distance from event in map)</span> </span></a> <span class = 'detail-value' > " +
         location +
-        " </span> </div> </div></div> ";
+        " </span> </div> </div> <div style='dispay:flex; flex-direction:row-reverse;   margin-top:-20px; margin-bottom:0px; padding:0px;'> <button targetId=" +
+        postId +
+        "-event" +
+        " class='event-back-btn' style='cursor:pointer; font-size:22px; font-weight:850; color:white; background-color:royalblue; transform:rotate(90deg); border-color:royalblue; border-radius:4px;'>&lt;</button></div> </div> ";
     // let ele = document.createElement("div");
-    // ele.className = "event-details";
+    // ele.className = "event-detls";
     // ele.id = "some-event";
     // let elem = "<li>i m here</li>";
 
@@ -309,6 +341,20 @@ function setPostCreatedTimeForAll() {
     });
 }
 
+function handleBack(btn) {
+    $(btn).click((e) => {
+        let targetId = $(btn).attr("targetId");
+        animateEventDetail($("#" + targetId), "0px");
+    });
+}
+
+function AddListenerTohandleBack() {
+    $(".event-back-btn").each((i, btn) => {
+        handleBack($(btn));
+    });
+}
+
+AddListenerTohandleBack();
 handleAllEventHeadText();
 setAllEventDate();
 setPostCreatedTimeForAll();

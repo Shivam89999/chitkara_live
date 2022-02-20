@@ -53,3 +53,15 @@
   height: 100px;
   width: 100px;
 }
+
+.tabs {
+  cursor: pointer;
+}
+
+.tabs:hover {
+  background-color: gray !important;
+}
+
+.active-tab {
+  background-color: darksalmon !important;
+}

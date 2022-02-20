@@ -17,25 +17,22 @@
                 </div>
                 <%}%>
                     <%for(let u of locals.myProfile.related.comingRequest){%>
-                      <a
-          href="/user/profile?user_id=<%=u.id%>"
-          style="text-decoration: none; color: black"
-        >
-                        <div class="coming all">
-                            <div>
+                        <a href="/user/profile?user_id=<%=u.id%>" style="text-decoration: none; color: black">
+                            <div class="coming all">
+                                <div class="add-on-hover">
+                                    <div>
+                                        <img src="<%=u.pic%>" alt="pic" height="50px" width="50px" style="border-radius: 50%" />
+                                    </div>
+                                    <div style="display: flex; flex-direction: column">
+                                        <span><%=u.name%></span>
+                                        <span style="font-size: 13"><%=u.onModel%></span>
+                                    </div>
+                                </div>
                                 <div>
-                                    <img src="<%=u.pic%>" alt="pic" height="50px" width="50px" style="border-radius: 50%" />
-                                </div>
-                                <div style="display: flex; flex-direction: column">
-                                    <span><%=u.name%></span>
-                                    <span style="font-size: 13"><%=u.onModel%></span>
-                                </div>
-                            </div>
-                            <div>
-                            </a>
-                                <a href="/user/accept-request?target=<%=u.id%>"><button>Accept</button></a
+                        </a>
+                        <a class="request-link" href="/user/accept-request?target=<%=u.id%>"><button>Accept</button></a
           >
-          <a href="/user/ignore-request?target=<%=u.id%>"
+          <a href="/user/ignore-request?target=<%=u.id%>" class="request-link"
             ><button>Ignore</button></a
           >
         </div>
@@ -53,7 +50,7 @@
           href="/user/profile?user_id=<%=u.id%>"
           style="text-decoration: none; color: black"
         >
-          <div>
+          <div class="add-on-hover">
             <div>
               <img
                 src="<%=u.pic%>"
@@ -70,8 +67,8 @@
           </div>
         </a>
 
-                                <div>
-                                    <a href="/user/withdraw-request?target=<%=u.id%>"><button>Withdraw</button></a
+                        <div>
+                            <a class="request-link" href="/user/withdraw-request?target=<%=u.id%>"><button>Withdraw</button></a
           >
         </div>
       </div>
@@ -82,18 +79,18 @@
     <div class="request-header">
       <div style="width: 100%" id="member-header">Membership</div>
     </div>
-    <div>
+    <div style="display: flex; flex-direction: column; justify-content: space-evenly; align-items: center;">
       <%if(locals.myProfile.related.members.length==0){%>
       <div style="color: red; text-align: center; padding: 15px">
         No Member found
       </div>
       <%}%> <%for(let u of locals.myProfile.related.members){%>
-      <div>
+      <div style=" width: 100%;  display: flex;  flex-direction: row !important; justify-content: space-between !important; align-items: space-between !important;">
         <a
           href="/user/profile?user_id=<%=u.id%>"
-          style="text-decoration: none; color: black"
+          style="text-decoration: none; color: black;"
         >
-          <div>
+          <div class="add-on-hover">
             <div>
               <img
                 src="<%=u.pic%>"
@@ -110,8 +107,8 @@
           </div>
         </a>
 
-                                    <div>
-                                        <a href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
+                            <div>
+                                <a class="request-link" href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
           >
         </div>
         <%}%>

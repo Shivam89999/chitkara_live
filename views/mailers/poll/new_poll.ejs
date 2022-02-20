@@ -1,17 +1,33 @@
-<div>
-    <%-include('../mail_header');-%>
-        <div>
-            <h2 style="text-transform: capitalize; text-align: center">
-                Don't miss an opportunity or update
-            </h2>
-            <div style="height: 120px">
-                <img src="cdcd" alt="vote sign" height="80px" width="120px" style="margin: auto" />
-            </div>
-            <p style="text-align: center">
-                Recently a new <strong style="color: green">Poll</strong> is added, see and vote before disappearing
-            </p>
-            <p style="color: hotpink">click here to see it</p>
-        </div>
+<% var url='http://localhost:8000';%>
 
-        <%-include('../mail_footer');-%>
-</div>
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
+            <h4 style="color: rgb(0, 225, 255)">Dear,
+                <%=obj.targetName%>,</h4>
+            <div>
+                <!-- <h2 style="text-transform: capitalize; text-align: center">
+                Don't miss an opportunity or update
+            </h2> -->
+
+                <div>
+                    <span style="margin: auto; color: cyan">By</span>
+                    <br />
+                    <img src="bhjbj" height="40px" width="40px" alt="pic" />
+                    <br />
+                    <a href="<%=url%>/user/profile?user_id=<%=obj.by._id%>" style="color: crimson">
+                        <%=obj.by.name%> (
+                            <%=obj.by.onModel%>)</a>
+                </div>
+                <p style="text-align: center; color: white">
+                    Recently a new <strong style="color: green">Poll</strong> is added, see and vote before disappearing
+                </p>
+                <a href="<%=url%>/" style="color: hotpink">click here to see it</a>
+            </div>
+
+            <%-include('../mail_footer');-%>
+    </div>

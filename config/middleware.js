@@ -159,6 +159,9 @@ function setFlash(req, res, next) {
         success: req.flash("success"),
         error: req.flash("error"),
     };
+
+    // console.log("nvfvhfbhbfv @@@@#################### ", req.something);
+    // res.locals.something = { content: req.something };
     next();
 }
 
@@ -285,6 +288,31 @@ function checkNewTextPost(req, res, next) {
     next();
 }
 
+function checkValidSignUpLink(req, res, next) {
+    if (!req.query ||
+        !req.query.secret ||
+        !req.query.type ||
+        !req.query.type == "signUp"
+    ) {
+        console.log("invalid link | page not found ", req.query);
+        req.flash("error", "invalid link | page not found");
+        return res.redirect("back");
+    }
+    next();
+}
+
+function checkValidSetNewPasswordUpLink(req, res, next) {
+    if (!req.query ||
+        !req.query.secret ||
+        !req.query.type ||
+        !req.query.type == "forgotPassword"
+    ) {
+        console.log("invalid link | page not found ", req.query);
+        req.flash("error", "invalid link | page not found");
+        return res.redirect("back");
+    }
+    next();
+}
 //the cookie will be set on client side
 // function checkOrSetDarkModeStatus(req, res, next) {
 //     let darkModeStatus = req.cookies.darkModeStatus;
@@ -318,5 +346,7 @@ module.exports = {
     checkForTextPostOrAlert,
     checkNewPollRequest,
     checkNewTextPost,
+    checkValidSignUpLink,
+    checkValidSetNewPasswordUpLink,
     // checkOrSetDarkModeStatus,
 };

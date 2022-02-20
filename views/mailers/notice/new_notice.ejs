@@ -1,0 +1,34 @@
+<% var url='http://localhost:8000';%>
+
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
+            <h4 style="color: rgb(0, 225, 255)">Dear,
+                <%=obj.targetName%>,</h4>
+            <br />
+            <div>
+                <!-- <h2 style="text-transform: capitalize; text-align: center">
+                Don't miss an opportunity or update
+            </h2> -->
+
+                <div>
+                    <span style="margin: auto; color: cyan">By</span>
+                    <br />
+                    <img src="bhjbj" height="40px" width="40px" alt="pic" />
+                    <br />
+                    <a href="<%=url%>/user/profile?user_id=<%=obj.by._id%>" style="color: crimson">
+                        <%=obj.by.name%> (
+                            <%=obj.by.onModel%>)</a>
+                </div>
+                <p style="text-align: center; color: white">
+                    Recently a new <strong style="color: rgb(231, 22, 22)">Notice</strong> is added, see it before disappearing
+                </p>
+                <a href="<%=url%>/notices" style="color: hotpink">click here to see it</a>
+            </div>
+
+            <%-include('../mail_footer');-%>
+    </div>

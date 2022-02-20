@@ -1,0 +1,26 @@
+<% var url='http://localhost:8000';%>
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
+            <h4 style="color: rgb(0, 225, 255)">Dear,
+                <%=targetName%>,</h4>
+            <br />
+            <h3 style="text-align: center; margin-top: 0px">
+                A new <span style="color: aqua"> Team Member </span> is added by
+            </h3>
+            <br />
+            <div>
+                <img src="<%=url%><%=data.pic%>" alt="pic" height="40px" width="40px" />
+                <span style="color: aqua"><%=data.name%> (<%=data.onModel%>)</span>
+                <br />
+                <br />
+                <sub>Link is given below, check it out !</sub>
+            </div>
+            <a href="<%=url%>/user/profile?user_id=<%=data._id%>">Click to see, who is new member</a
+  >
+  <%-include('../mail_footer');-%>
+</div>

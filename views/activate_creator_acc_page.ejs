@@ -1,0 +1,18 @@
+<style>
+    #type {
+        pointer-events: none;
+        opacity: 0.7;
+    }
+</style>
+<link rel="stylesheet" href="/css/sign_up_using_link.css" />
+<div id="set-new-password-link-container">
+    <h2 style="text-align: center; margin-top: 5px">
+        Activate Creator Account Form
+    </h2>
+    <form action="/activate-creator-account-using-secret" method="POST">
+        <input type="hidden" value="<%=secret.id%>" name="secret" required />
+        <input required type="name" name="name" id="" value="<%=secret.name%>" placeholder="Name * " autocomplete="off" />
+        <input required type="text" name="type" id="type" value="<%=secret.type%>" autocomplete="off" />
+        <button>Activate</button>
+    </form>
+</div>

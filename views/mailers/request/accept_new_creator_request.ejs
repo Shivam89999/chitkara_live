@@ -1,0 +1,67 @@
+<div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+    <%-include('../mail_header');-%>
+        <h4 style="text-align: center; color: cyan">
+            New
+            <%=obj.data.type%> Account Request Accepted
+        </h4>
+        <div>
+            <span>Hi <%=obj.name%>,</span>
+            <div style="padding-top: 5px; text-align: center; color: chartreuse">
+                your request for new
+                <span style="color: yellow"><%=obj.data.type%></span> is Accepted by organiser,
+            </div>
+            <div style="text-align: center">Request info is given below</div>
+            <div style="margin: auto">
+                <table style="
+          padding: 5px;
+          margin: 10px auto 10px auto;
+          color: white !important;
+          border: 2px solid black;
+        ">
+                    <tr style="margin: 5px; padding: 5px">
+                        <td style="padding: 4px">Email :</td>
+                        <td style="padding: 4px">
+                            <%=obj.data.email%>
+                        </td>
+                    </tr>
+                    <tr style="margin: 5px; padding: 5px">
+                        <td style="padding: 4px">Name :</td>
+                        <td style="padding: 4px">
+                            <%=obj.data.name%>
+                        </td>
+                    </tr>
+                    <tr style="margin: 5px; padding: 5px">
+                        <td style="padding: 4px">Type :</td>
+                        <td style="padding: 4px">
+                            <%=obj.data.type%>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <span style="color: yellow"> To Activate Your new account </span>
+                <br /> A link is sended to your creator account email(
+                <span style="color: aqua"><%=obj.data.email%></span>)
+            </div>
+            <br />
+            <br />
+            <span style="color: aqua">If you did not get the link, mail us on below mail address
+    </span>
+            <br />
+            <span style="color: white !important">For any other query, you can contact us on</span
+    >
+    <br />
+    <span style="color: white !important"
+      >Email:
+      <a href="mailTo:shivammittal00786@gmail.com"
+        >shivammittal00786@gmail.com</a
+      ></span
+    >
+  </div>
+  <%-include('../mail_footer');-%>
+</div>

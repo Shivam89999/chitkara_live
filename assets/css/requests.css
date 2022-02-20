@@ -41,9 +41,11 @@
 
 #requests-container div div div button {
   margin: 2px;
-  padding: 8px;
-  font-size: 12;
+  padding: 10px 20px 10px 20px;
+  font-size: 14;
+  font-weight: 850px;
   border: none;
+  border-radius: 4px;
   background-color: royalblue;
   color: white;
   box-shadow: 1px 1px 1px 1px royalblue;
@@ -76,4 +78,9 @@
 
 #requests-container div .request-header #member-header:hover {
   border-bottom: none;
+}
+
+.add-on-hover:hover img {
+  transition: all 0.6s;
+  border: 2.5px solid cyan;
 }

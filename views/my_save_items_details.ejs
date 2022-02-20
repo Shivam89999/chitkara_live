@@ -24,5 +24,14 @@
             My Save Item Details
         </div>
     </div>
-    <%-include('posts',{posts:mySaveItems});%>
+    <%-include('posts',{posts:mySaveItems,target:target});%>
 </div>
+
+<script>
+    //  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    <%if(target){%>
+    //console.log("kjvfhvf %%%%%%% ", '<%=target%>');
+    $('.post-some-<%=target%>')[0].scrollIntoView();
+    <%}%>
+    // console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2222222222222222");
+</script>

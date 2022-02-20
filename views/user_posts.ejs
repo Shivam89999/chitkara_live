@@ -27,3 +27,9 @@
     </div>
     <%-include('posts',{posts:posts,loadMorePost:loadMorePost});%>
 </div>
+<script>
+    <%if(target){%>
+    //console.log("kjvfhvf %%%%%%% ", '<%=target%>');
+    $('.post-some-<%=target%>')[0].scrollIntoView();
+    <%}%>
+</script>

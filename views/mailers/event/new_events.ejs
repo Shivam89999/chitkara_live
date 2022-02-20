@@ -1,29 +1,49 @@
-<div>
-    <%-include('../mail_header');-%>
-        <div>
-            <h2 style="text-transform: capitalize; text-align: center">
-                Don't miss an opportunity or update
-            </h2>
-            <div style="height: 120px">
-                <img src="cdcd" alt="event gif" height="80px" width="120px" style="margin: auto" />
-            </div>
-            <p style="text-align: center">Recently a new event is added</p>
-            <p>To know about the event like</p>
-            <ul>
-                <li>Event status its running,upcoming...</li>
-                <li>Event start and end date....</li>
-                <li style="color: hotpink">
-                    Event location,and your distance from event location...
-                </li>
-                <li>Event image or many more...</li>
-            </ul>
-            <p style="text-align: center; color: aqua">click on below event image</p>
-            <div>
-                <a href="fdfdfd">
-                    <img src="ds" alt="post" height="40px" width="40px" />
-                </a>
-            </div>
-        </div>
+<!-- vfnf -->
 
-        <%-include('../mail_footer');-%>
+<% var url='http://localhost:8000';%>
+
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
+            <h4 style="color: rgb(0, 225, 255)">Dear,
+                <%=obj.targetName%>,</h4>
+            <div>
+                <!-- <h2 style="text-transform: capitalize; text-align: center">
+                Don't miss an opportunity or update
+            </h2> -->
+
+                <div>
+                    <span style="margin: auto; color: cyan">By</span>
+                    <br />
+                    <img src="bhjbj" height="40px" width="40px" alt="pic" />
+                    <br />
+                    <a href="<%=url%>/user/profile?user_id=<%=obj.by._id%>" style="color: crimson">
+                        <%=obj.by.name%> (
+                            <%=obj.by.onModel%>)</a>
+                </div>
+                <p style="text-align: center; color: white">
+                    Recently a new <strong style="color: rgb(22, 231, 39)">Event</strong> is added,
+                </p>
+                <p>To know about the event like</p>
+                <ul>
+                    <li>Event status its running,upcoming...</li>
+                    <li>Event start, end date,time....</li>
+                    <li style="color: hotpink">
+                        Event <span style="color: greenyellow">LOCATION</span>,and
+                        <span style="color: forestgreen">your distance from event location...</span
+        >
+      </li>
+      <li>Event image or many more...</li>
+    </ul>
+
+    <a href="<%=url%>/user/events/" style="color: hotpink"
+      >click here to see it</a
+    >
+  </div>
+
+  <%-include('../mail_footer');-%>
 </div>

@@ -1,0 +1,73 @@
+#sign-up-link-container,
+#set-new-password-link-container {
+  background-color: white;
+  color: black;
+  margin: auto;
+  padding: 20px;
+  height: auto;
+  width: 350px;
+}
+
+#sign-up-link-container form,
+#set-new-password-link-container form {
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  display: flex;
+  width: 70%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#sign-up-link-container form span,
+#set-new-password-link-container form span {
+  margin: auto;
+}
+
+#sign-up-link-container form input,
+#set-new-password-link-container form input {
+  width: 100%;
+  height: 40px;
+  border: none;
+  margin: auto;
+  padding: 4px;
+  box-sizing: border-box;
+  border: 2px solid green;
+  border: none;
+  margin-bottom: 4px;
+  font-size: 18;
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
+}
+
+#sign-up-link-container form input:focus,
+#set-new-password-link-container form input:focus {
+  outline-color: royalblue;
+}
+
+#sign-up-link-container form button,
+#set-new-password-link-container form button {
+  margin: auto;
+  height: 40px;
+  width: 150px;
+  color: white;
+  background: royalblue;
+  border-radius: 25px;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  box-shadow: 0px 3px 6px 3px rgba(0, 0, 0, 0.2);
+  font-size: 17;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+#sign-up-link-container form button:hover,
+#set-new-password-link-container form button:hover {
+  background-color: #2255ee;
+}
+
+#sign-up-link-container form:hover,
+#set-new-password-link-container form:hover {
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,42 @@
+<% var url='http://localhost:8000';%>
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
+
+            <div style="margin: auto; text-align: center">
+                <span style="margin: auto">You tried to sign-up in our portal. Here is the link to set your
+      <span style="color: deepskyblue">Name, password and continue</span></span>
+
+                <div style="
+        margin: auto;
+        width: 50%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        color: aqua;
+        border: 1.5px dashed brown;
+        text-align: center;
+        vertical-align: center;
+        padding: 10px;
+        font-size: 18px;
+      ">
+                    <a href="<%=url%><%=signUpLink%>">Link to continue</a>
+                </div>
+
+                <span>It will be valid for the next
+      <strong style="color: aqua">24</strong> hours. Please do not share Link
+      with anyone</span
+    >
+    <br />
+    <br />
+    <br />
+    <span style="margin: 10px">
+      if you did not make this request. you can safely ignore this email
+    </span>
+            </div>
+
+            <%-include('../mail_footer');-%>
+    </div>

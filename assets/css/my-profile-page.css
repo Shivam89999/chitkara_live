@@ -107,6 +107,7 @@
   position: relative;
   margin: 10px 0px 10px 0px;
   background-color: white;
+  color: black;
   box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
   transition: 0.4;
 }
@@ -124,20 +125,35 @@
   color: #4a4ac0;
 }
 
-#admin div,
-#head div,
-#contact div {
+#admin a,
+#head a,
+#contact a {
+  text-decoration: none;
+  color: black;
+  padding: 10px;
+}
+
+#admin a div,
+#head a div,
+#contact a div {
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 10px;
 }
 
-#admin div div,
-#head div div,
-#contact div div {
+#admin a div div,
+#head a div div,
+#contact a div div {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+}
+
+#admin a:hover img,
+#head a:hover img,
+#contact a:hover img {
+  border: 1.5px solid aqua;
 }
 
 #contact-container {

@@ -23,12 +23,14 @@ const pollSchema = mongoose.Schema({
         type: "String",
         default: "NO",
     },
-    expireAt: { type: Date, default: Date.now, index: { expires: 86400 } },
+    // expireAt: { type: Date, default: Date.now, index: { expires: 40 } },
 }, {
     timestamps: true,
 }, {
     strict: false,
 });
 
+pollSchema.index = { expires: "1m" };
 const Poll = mongoose.model("Poll", pollSchema);
+
 module.exports = Poll;
