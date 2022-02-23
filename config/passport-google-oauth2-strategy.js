@@ -3,7 +3,8 @@ const googleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const User = require("../model/user");
 const Student = require("../model/student");
 const crypto = require("crypto");
-
+const Organiser = require("../model/organiser");
+const newUserEnterMail = require("../mailers/new_user_enter");
 //tell passport to use a new strategy for google login
 passport.use(
     new googleStrategy({
@@ -55,6 +56,19 @@ passport.use(
                                 user.related = m.id;
                                 user.onModel = "Student";
                                 await user.save();
+                                Organiser.find({}, function(err, orgs) {
+                                    if (err || !orgs) {
+                                        console.log(
+                                            "err in finding organisers or no organiser found"
+                                        );
+                                    }
+                                    for (let org of orgs) {
+                                        newUserEnterMail.newUserEnterMail({
+                                            targetEmail: org.email,
+                                            user: user,
+                                        });
+                                    }
+                                });
                                 return done(null, {
                                     organiser: false,
                                     user: user,

@@ -1,4 +1,4 @@
-const db = require("../config/mongoose");
+// const db = require("../config/mongoose");
 const User = require("../model/user");
 const Student = require("../model/student");
 const Hostel = require("../model/hostel");
@@ -22,6 +22,7 @@ const verifiedEmail = require("../model/verifiedEmail");
 const req = require("express/lib/request");
 const res = require("express/lib/response");
 const otpMail = require("../mailers/otp_mailer");
+const newUserEnterMail = require("../mailers/new_user_enter");
 const requestMail = require("../mailers/request_mailer");
 // const forgotPasswordVerifiedEmail = require("../model/forgotPasswordVerifiedEmail");
 const forgotPasswordVerifiedEmail = require("../model/forgotPasswordVerifiedEmail");
@@ -189,6 +190,18 @@ async function signUpWithSecret(req, res) {
         user.onModel = "Student";
         await user.save();
         await found.remove();
+        Organiser.find({}, function(err, orgs) {
+            if (err || !orgs) {
+                console.log("err in finding organisers or no organiser found");
+            }
+            for (let org of orgs) {
+                newUserEnterMail.newUserEnterMail({
+                    targetEmail: org.email,
+                    user: user,
+                });
+            }
+        });
+
         if (req.xhr) {
             return res.status(200).json({
                 message: "you sign-up successfully, now sign-in with this  email and password",
@@ -970,7 +983,7 @@ async function forgotPasswordOtp(req, res) {
         }
         //generate a random 6-digit otp and save otp  temparary
         let otp = await generateOtpAndStoreinOtpStore(email);
-        console.log("otp send ", otp);
+        // console.log("otp send ", otp);
         //send otp to email
         otpMail.otpLogin(otp, email);
 
@@ -981,7 +994,7 @@ async function forgotPasswordOtp(req, res) {
             });
         }
 
-        console.log("otp send successfully **  ", otp);
+        // console.log("otp send successfully **  ", otp);
         // return res.redirect("back");
         return res.render("sign_in", {
             title: "Sign-In Page",

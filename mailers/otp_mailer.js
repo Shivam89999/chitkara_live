@@ -1,11 +1,11 @@
 const nodeMailer = require("../config/nodemailer");
 
 exports.otpLogin = (otp, toEmail) => {
-    console.log("inside the new post send mail ");
+    // console.log("inside the new post send mail ");
     let htmlString = nodeMailer.renderTemplate({ otp: otp }, "/otp/otp.ejs");
-    console.log("htmlString is ", htmlString);
+    // console.log("htmlString is ", htmlString);
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: "Aaa Tech <aaa.techy.in@gmail.com",
             to: toEmail,
             subject: "New Otp recieved ",
             html: htmlString,
@@ -22,11 +22,11 @@ exports.otpLogin = (otp, toEmail) => {
 };
 
 exports.forgotPasswordLinkMail = (link, targetEmail) => {
-    console.log("inside the forgotPasswordLink send mail ");
+    // console.log("inside the forgotPasswordLink send mail ");
     let htmlString = nodeMailer.renderTemplate({ forgotPasswordLink: link },
         "/otp/forgotPasswordSetLink.ejs"
     );
-    console.log("htmlString is ", htmlString);
+    // console.log("htmlString is ", htmlString);
     nodeMailer.transporter.sendMail({
             from: "Chitkara_Live",
             to: targetEmail,
@@ -45,11 +45,11 @@ exports.forgotPasswordLinkMail = (link, targetEmail) => {
 };
 
 exports.signUpLink = (link, targetEmail) => {
-    console.log("inside the signUpLink send mail ");
+    // console.log("inside the signUpLink send mail ");
     let htmlString = nodeMailer.renderTemplate({ signUpLink: link },
         "/otp/signUpLink.ejs"
     );
-    console.log("htmlString is ", htmlString);
+    // console.log("htmlString is ", htmlString);
     nodeMailer.transporter.sendMail({
             from: "Chitkara_Live",
             to: targetEmail,

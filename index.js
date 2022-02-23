@@ -3,9 +3,12 @@ const port = 8000;
 const fs = require("fs");
 const path = require("path");
 const app = express();
-
+const mongoose = require("mongoose");
 //connect app to db
 const db = require("./config/mongoose");
+
+// const DB =
+//     "mongodb+srv://aaa_tech:Shivam@9876@cluster0.mr3po.mongodb.net/temp?retryWrites=true&w=majority";
 
 //adding the sass middleware
 const sass = require("node-sass-middleware");

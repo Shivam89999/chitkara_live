@@ -453,7 +453,6 @@ function handleToggleSave(saveToggle) {
                 $(saveToggle).toggleClass(" disable_btn_without_back");
             },
             error: function(xhr, err) {
-                $(saveToggle).toggleClass(" disable_btn_without_back");
                 if (xhr.status == 401) {
                     console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
@@ -467,6 +466,7 @@ function handleToggleSave(saveToggle) {
                 }
                 handleNotification("error", xhr.responseJSON.err);
                 console.log("err is ", err.responseText);
+                $(saveToggle).toggleClass(" disable_btn_without_back");
             },
         });
     });
@@ -623,7 +623,6 @@ function deletePost(deletePostLink) {
                 handleNotification("success", data.message);
             },
             error: function(xhr, err) {
-                $(deletePostLink).toggleClass(" disable_btn_without_back");
                 if (xhr.status == 401) {
                     console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
@@ -636,6 +635,7 @@ function deletePost(deletePostLink) {
                     return;
                 }
                 handleNotification("error", xhr.responseJSON.err);
+                $(deletePostLink).toggleClass(" disable_btn_without_back");
                 console.log("err is ", xhr.responseJSON.err);
             },
         });
@@ -735,8 +735,6 @@ function getOtp(form) {
                 handleNotification("success", data.message);
             },
             error: function(xhr, err) {
-                $(form).toggleClass(" disable_btn_without_back");
-                $("button", form).toggleClass(" disable_btn");
                 if (xhr.status == 401) {
                     console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
@@ -749,7 +747,8 @@ function getOtp(form) {
                     return;
                 }
                 handleNotification("error", xhr.responseJSON.err);
-
+                $(form).toggleClass(" disable_btn_without_back");
+                $("button", form).toggleClass(" disable_btn");
                 console.log("err is ", xhr.responseJSON.err);
             },
         });
@@ -877,15 +876,13 @@ function sendIntialData(intialDataForm) {
             url: intialDataForm.prop("action"),
             data: intialDataForm.serialize(),
             success: function(data) {
-                $(intialDataForm).toggleClass(" disable_btn_without_back");
-                $("button", intialDataForm).toggleClass(" disable_btn");
                 console.log("data is ", data.message);
                 showSignInPage();
                 handleNotification("success", data.message);
-            },
-            error: function(xhr, err) {
                 $(intialDataForm).toggleClass(" disable_btn_without_back");
                 $("button", intialDataForm).toggleClass(" disable_btn");
+            },
+            error: function(xhr, err) {
                 if (xhr.status == 401) {
                     console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
@@ -899,6 +896,8 @@ function sendIntialData(intialDataForm) {
                 }
                 handleNotification("error", xhr.responseJSON.err);
                 console.log("err is ", xhr.responseJSON.err);
+                $(intialDataForm).toggleClass(" disable_btn_without_back");
+                $("button", intialDataForm).toggleClass(" disable_btn");
             },
         });
     });
@@ -996,8 +995,6 @@ function verifyEmail(emailVerificationForm) {
             url: emailVerificationForm.prop("action"),
             data: emailVerificationForm.serialize(),
             success: function(data) {
-                $(emailVerificationForm).toggleClass(" disable_btn_without_back");
-                $("button", emailVerificationForm).toggleClass(" disable_btn");
                 console.log("data is ", data.message);
                 let secret = data.data.secret;
                 if (data.data.type == "signUp") {
@@ -1006,10 +1003,10 @@ function verifyEmail(emailVerificationForm) {
                     show_Set_Password_Form(secret);
                 }
                 handleNotification("success", data.message);
-            },
-            error: function(xhr, err) {
                 $(emailVerificationForm).toggleClass(" disable_btn_without_back");
                 $("button", emailVerificationForm).toggleClass(" disable_btn");
+            },
+            error: function(xhr, err) {
                 if (xhr.status == 401) {
                     console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
@@ -1023,6 +1020,8 @@ function verifyEmail(emailVerificationForm) {
                 }
                 handleNotification("error", xhr.responseJSON.err);
                 console.log("error is ", err.responseText);
+                $(emailVerificationForm).toggleClass(" disable_btn_without_back");
+                $("button", emailVerificationForm).toggleClass(" disable_btn");
             },
         });
     });
@@ -1038,15 +1037,13 @@ function getOtpForSignUp(form) {
             url: form.prop("action"),
             data: form.serialize(),
             success: function(data) {
-                $(form).toggleClass(" disable_btn_without_back");
-                $("button", form).toggleClass(" disable_btn");
                 console.log("message is ", data.message);
                 show_sign_up_email_verification_page(data.data.email);
                 handleNotification("success", data.message);
-            },
-            error: function(xhr, err) {
                 $(form).toggleClass(" disable_btn_without_back");
                 $("button", form).toggleClass(" disable_btn");
+            },
+            error: function(xhr, err) {
                 if (xhr.status == 401) {
                     console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
@@ -1060,6 +1057,8 @@ function getOtpForSignUp(form) {
                 }
                 handleNotification("error", xhr.responseJSON.err);
                 console.log("err is ", xhr.responseJSON.err);
+                $(form).toggleClass(" disable_btn_without_back");
+                $("button", form).toggleClass(" disable_btn");
             },
         });
     });
@@ -1073,12 +1072,11 @@ function otp_resend_option(link) {
             method: "GET",
             url: link.prop("href"),
             success: function(data) {
-                $(link).toggleClass(" disable_btn_without_back");
                 console.log("message is ", data.message);
                 handleNotification("success", data.message);
+                $(link).toggleClass(" disable_btn_without_back");
             },
             error: function(xhr, err) {
-                $(link).toggleClass(" disable_btn_without_back");
                 if (xhr.status == 401) {
                     console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
@@ -1092,6 +1090,7 @@ function otp_resend_option(link) {
                 }
                 handleNotification("error", xhr.responseJSON.err);
                 console.log("err is ", xhr.responseJSON.err);
+                $(link).toggleClass(" disable_btn_without_back");
             },
         });
     });

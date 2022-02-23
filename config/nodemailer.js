@@ -6,12 +6,14 @@ let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
     secure: false,
+
     auth: {
         // user: "shivammittal00786@gmail.com",
         // pass: "Shivam@2515875",
         user: "aaa.techy.in@gmail.com",
         pass: "Shivam@9876",
     },
+    // name: "AAA Tech",
 });
 
 let renderTemplate = (data, relativePath) => {
