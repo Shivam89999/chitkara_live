@@ -1,9 +1,11 @@
 const express = require("express");
-const port = process.env.PORT;
+
 // const port = 8000;
 const fs = require("fs");
+
 const path = require("path");
 const app = express();
+const port = process.env.PORT;
 const mongoose = require("mongoose");
 //connect app to db
 const db = require("./config/mongoose");
