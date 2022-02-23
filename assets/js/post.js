@@ -231,11 +231,11 @@ function handleEvents(item) {
     let node =
         "<div class='event-details' id='" +
         postId +
-        "-event'><div class = 'detail-container' > <div class = 'icon-container' > <img height = '20px'width = '20px'src = 'https://cdn-icons.flaticon.com/png/512/3239/premium/3239945.png?token=exp=1641371763~hmac=a8c493b4ac98b3a20602304774f5e433' alt = '' > </div> <div class = 'detail-values' > <span class = 'detail-head' > Start Date & Time </span> <span class = 'detail-value' > " +
+        "-event'><div class = 'detail-container' > <div class = 'icon-container' > <img height = '20px'width = '20px'src = '/uploads/icons/1.event_start_time.png' alt = '' > </div> <div class = 'detail-values' > <span class = 'detail-head' > Start Date & Time </span> <span class = 'detail-value' > " +
         startDateString +
-        " </span> </div> </div> <div class = 'detail-container' > <div class = 'icon-container' > <img height = '20px'width = '20px' src = 'https://cdn-icons.flaticon.com/png/512/3239/premium/3239945.png?token=exp=1641371763~hmac=a8c493b4ac98b3a20602304774f5e433' alt = '' > </div> <div class = 'detail-values' > <span class = 'detail-head' > End Date & Time </span> <span class = 'detail-value' > " +
+        " </span> </div> </div> <div class = 'detail-container' > <div class = 'icon-container' > <img height = '20px'width = '20px' src = '/uploads/icons/2.event_end_time.png' alt = '' > </div> <div class = 'detail-values' > <span class = 'detail-head' > End Date & Time </span> <span class = 'detail-value' > " +
         endDateString +
-        " </span> </div> </div> <div class = 'detail-container' > <div class = 'icon-container' > <img height = '20px'width = '20px'src = 'https://cdn-icons.flaticon.com/png/512/2838/premium/2838912.png?token=exp=1641372039~hmac=4393bd139984d88263fb11cf012d489b' alt = 'location' > </div> <div class = 'detail-values' ><a href='/post-for-location?post=" +
+        " </span> </div> </div> <div class = 'detail-container' > <div class = 'icon-container' > <img height = '25px'width = '20px' src = '/uploads/icons/40.venu.png' alt = 'location' > </div> <div class = 'detail-values' ><a href='/post-for-location?post=" +
         postId +
         "' style='text-decoration-color:hotpink;'> <span class = 'detail-head' > Location <span style='color:red; font-size:14;text-transform:none'>(Click to see event location & your distance from event in map)</span> </span></a> <span class = 'detail-value' > " +
         location +

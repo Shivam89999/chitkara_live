@@ -1,0 +1,21 @@
+<% var url='http://localhost:8000';%>
+
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
+            <h4 style="color: rgb(0, 225, 255)">
+                Dear,
+                <%=data.user.name%> (
+                    <%=data.user.onModel%> ),
+            </h4>
+            <div>
+                <span style="padding-left: 30px; word-wrap: break-word; word-break: break-all"><%=data.content%></span
+    >
+  </div>
+
+  <%-include('../mail_footer');-%>
+</div>

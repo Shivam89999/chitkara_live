@@ -8,6 +8,8 @@ const fs = require("fs");
 const path = require("path");
 const requestMailer = require("../mailers/request_mailer");
 const creatorAccountRequestVerifiedEmail = require("../model/creatorAccountRequestVerifiedMail");
+const queue = require("../config/kue");
+const communicationEmailWorker = require("../workers/communication_mail_worker");
 
 function signIn(req, res) {
     // console.log("right 77777777777777");
@@ -414,6 +416,7 @@ async function acceptCreatorAccountRequest(req, res) {
             by: request.by.id,
         });
         //delete request obj~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$$$$$$$$$$$$$$$$$$
+        request.remove();
         console.log("request accepted and link generated");
         const accountActivateLink =
             "/activate-creator-account-page-link?secret=" + accVerified.id;
@@ -493,6 +496,40 @@ async function handleCreatorAccountRequests(req, res) {
         return res.end("err in handle creator account request");
     }
 }
+async function allMailPage(req, res) {
+    return res.render("./organiser/comunication_mail_to_all", {
+        layout: "./layouts/organiser_layout",
+        title: "Communication Mail",
+    });
+}
+async function sendCommunicationMail(req, res) {
+    User.find({}).exec(function(err, users) {
+        if (err || !users) {
+            console.log("err in finding users or no user found " + err);
+            return res.end("err in finding users or no user found " + err);
+        }
+        for (let user of users) {
+            let job = queue
+                .create("communication", {
+                    targetEmail: user.email,
+                    data: {
+                        user: user,
+                        heading: req.body.mail_heading,
+                        content: req.body.mail_content,
+                    },
+                })
+                .save(function(err) {
+                    if (err) {
+                        console.log("err in sending to the queue ", err);
+                        return;
+                    }
+                    console.log("request email en-queued ", job.id);
+                    return;
+                });
+        }
+        return res.end("worker will process the job");
+    });
+}
 module.exports = {
     signOut,
     signIn,
@@ -512,4 +549,6 @@ module.exports = {
     handleCreatorAccountRequests,
     rejectCreatorAccountRequest,
     acceptCreatorAccountRequest,
+    allMailPage,
+    sendCommunicationMail,
 };

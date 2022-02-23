@@ -19,7 +19,11 @@ const creatorAccountRequestVerifiedEmailSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
-    expireAt: { type: Date, default: Date.now(), index: { expires: 20 } },
+    expireAt: {
+        type: Date,
+        default: Date.now(),
+        index: { expires: 2 * 86400 },
+    },
 }, {
     timestamps: true,
 });

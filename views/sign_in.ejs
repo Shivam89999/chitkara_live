@@ -1,26 +1,62 @@
 <link rel="stylesheet" href="/css/login_page.css" />
 <div id="outer">
-    <div id="option-container">
-        <div id="options">
-            <div id="option-page">
-                <div class="heading main-heading"></div>
-                <div class="heading support-heading"></div>
+    <div style="
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    ">
+        <div style="
+        display: flex;
+        width: 95%;
+        box-sizing: border-box;
+        flex-direction: row;
+        align-items: center;
+
+        margin-bottom: 0px;
+      ">
+            <div>
+                <img src="/uploads/icons/18.logo.png" alt="logo" style="height: 50px; width: 50px" />
             </div>
-            <div id="content">
-                <div class="actual-option left-div-active">
-                    <h2 class="option-head left-head">
-                        <span onclick="handleTabChange('left',event)">SIGN</span>
-                        <sub style="display: block" onclick="handleTabChange('left',event)">IN</sub
-            >
-          </h2>
+
+            <div style="
+          width: fit-content;
+          padding-left: 5px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        ">
+                <span style="font-size: 20px; font-weight: 900px; color: rgb(47, 0, 255)">Chitkara_Live</span
+        >
+
+        <span style="color: rgb(30, 255, 0) !important">be connected</span>
+            </div>
         </div>
-        <div class="actual-option">
-          <h2 class="option-head right-head">
-            <span onclick="handleTabChange('right',event)">SIGN</span>
-            <sub style="display: block" onclick="handleTabChange('right',event)"
-              >UP</sub
-            >
-          </h2>
+        <div id="option-container">
+            <div id="options">
+                <div id="option-page">
+                    <div class="heading main-heading"></div>
+                    <div class="heading support-heading"></div>
+                </div>
+                <div id="content">
+                    <div class="actual-option left-div-active">
+                        <h2 class="option-head left-head">
+                            <span onclick="handleTabChange('left',event)">SIGN</span>
+                            <sub style="display: block" onclick="handleTabChange('left',event)">IN</sub
+              >
+            </h2>
+          </div>
+          <div class="actual-option">
+            <h2 class="option-head right-head">
+              <span onclick="handleTabChange('right',event)">SIGN</span>
+              <sub
+                style="display: block"
+                onclick="handleTabChange('right',event)"
+                >UP</sub
+              >
+            </h2>
+          </div>
         </div>
       </div>
     </div>
@@ -93,7 +129,7 @@
           "
         >
           <img
-            src="https://www.transparentpng.com/thumb/google-logo/google-logo-png-icon-free-download-SUF63j.png"
+            src="/uploads/icons/8.google-logo-png-icon-free-download.png"
             alt="logo"
             height="40px"
             width="40px"

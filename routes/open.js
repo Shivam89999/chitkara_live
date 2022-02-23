@@ -71,9 +71,9 @@ router.get(
     middleware.checkValidSetNewPasswordUpLink,
     open_controller.setNewPasswordPageForLink
 );
-router.get("/sign-up", open_controller.signUp);
+// router.get("/sign-up", open_controller.signUp);
 router.get("/sign-in", open_controller.signIn);
-router.post("/create", open_controller.create);
+// router.post("/create", open_controller.create);
 router.post(
     "/create-session",
     passport.authenticate("local", { failureRedirect: "/sign-in" }),
@@ -110,4 +110,8 @@ router.post(
     "/activate-creator-account-using-secret",
     open_controller.ActivateCreatorAccountUsingSecret
 );
+router.use("", function(req, res) {
+    //console.log("reache d!!!!!!!!!!!!!!! ");
+    return res.render("404_page_not_found");
+});
 module.exports = router;

@@ -271,6 +271,10 @@ async function deletePost(req, res) {
             }
         }
         let postId = post.id;
+        if (post.eventEndTime && post.eventEndTime >= Date.now()) {
+            upcomingEvent.findOneAndDelete({ postRef: postId });
+        }
+
         //delete the post
         await post.remove();
         if (req.xhr) {

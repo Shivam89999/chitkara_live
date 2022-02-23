@@ -55,4 +55,9 @@ router.get(
 //     passport.checkAuthentication,
 //     user_controller.toggleLike
 // );
+console.log("reached @@@@@@ %%%%% ");
+router.use("", function(req, res) {
+    console.log("running !!!!! $$$$ %%%%% & ****** ");
+    return res.render("404_page_not_found");
+});
 module.exports = router;

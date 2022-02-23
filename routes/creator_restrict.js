@@ -77,4 +77,9 @@ router.get(
     creator_restrict_controller.delete_Team_Member
 );
 
+router.use("", function(req, res) {
+    //console.log("reache d!!!!!!!!!!!!!!! ");
+    return res.render("404_page_not_found");
+});
+
 module.exports = router;

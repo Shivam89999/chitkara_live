@@ -11,7 +11,7 @@
             </div>
             <div onclick="toggleEventsVisibality('all_event')">
                 <!-- <img height="20px" width="20px" id="arrow-down" src="https://cdn-icons-png.flaticon.com/512/32/32195.png" alt="toggle" style="display: inline" /> -->
-                <img style="transition: all 1s linear" height="20px" width="20px" id="arrow-up" src="https://cdn-icons-png.flaticon.com/512/271/271239.png" alt="toggle" />
+                <img style="transition: all 1s linear" height="20px" width="20px" id="arrow-up" src="\uploads\icons/10.slide.png" alt="toggle" />
 
             </div>
         </div>
@@ -35,14 +35,14 @@
                                 </div>
                                 <div style="display: flex; flex-direction: column;align-items: flex-start;">
                                     <span><%=event.creator.name%></span>
-                                    <span style="color:rgb(26, 25, 25); font-size: 12;padding-left: 5px;"><%=event.creator.onModel%></span>
+                                    <span style="color:rgb(26, 25, 25); font-size: 12;padding-left: 0px;"><%=event.creator.onModel%></span>
 
                                 </div>
                             </div>
                             <a href="/user/events">
                                 <div class="event-type">
                                     <div>
-                                        <img height="25px" width="25px" src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="" />
+                                        <img height="25px" width="25px" src="\uploads\icons/31.upcoming-event.png" alt="up" />
                                         <span style="color: hsl(93, 100%, 49%)" class="event-head" startTime="<%=event.eventStartTime%>">Upcoming Event</span
             >
           </div>
@@ -50,7 +50,7 @@
             <img
               height="25px"
               width="25px"
-              src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png"
+              src="\uploads\icons/13.detail.png"
               alt="detail"
             />
           </abbr>
@@ -127,27 +127,27 @@
             <div class="div-2">
                 <a href="/creator/create-post-page">
                     <div>
-                        <img src="https://cdn-icons-png.flaticon.com/512/2659/2659360.png" alt="photo" height="15px" width="20px" style="padding: 4px" />Photo
+                        <img src="/uploads/icons/26.photo-post-home.png" alt="photo" height="15px" width="20px" style="padding: 4px" />Photo
                     </div>
                 </a>
                 <a href="/creator/new-event-post-page">
                     <div>
-                        <img src="https://cdn-icons.flaticon.com/png/512/3277/premium/3277487.png?token=exp=1640003688~hmac=9da6c4068762446a36e62cfd07d6fc61" alt="event" height="15px" width="20px" style="padding: 4px" />Event
+                        <img src="/uploads/icons/15.my_profile_event_post.png" alt="event" height="15px" width="20px" style="padding: 4px" />Event
                     </div>
                 </a>
                 <a href="/creator/new-text-post-page">
                     <div>
-                        <img src="https://cdn-icons-png.flaticon.com/512/4305/4305524.png" alt="text" height="15px" width="20px" style="padding: 4px" />Text
+                        <img src="/uploads/icons/27.home-text.png" alt="text" height="15px" width="20px" style="padding: 4px" />Text
                     </div>
                 </a>
                 <a href="/creator/new-notice-page">
                     <div>
-                        <img src="https://cdn-icons-png.flaticon.com/512/4807/4807731.png" alt="notice" height="15px" width="20px" style="padding: 4px" />Notice
+                        <img src="/uploads/icons/16.my_profile_notice_post.png" alt="notice" height="15px" width="20px" style="padding: 4px" />Notice
                     </div>
                 </a>
                 <a href="/creator/new-alert-page">
                     <div>
-                        <img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" alt="notice" height="15px" width="20px" style="padding: 4px" />Alert
+                        <img src="/uploads/icons/17.my_profile_alert_post.png" alt="notice" height="15px" width="20px" style="padding: 4px" />Alert
                     </div>
                 </a>
             </div>
@@ -162,7 +162,7 @@
                                 <div class="alert-cut" onclick="disappearAlert('alert-<%=alert.id%>')">X</div>
 
                                 <div class="alert-logo">
-                                    <img height="35px" width="35px" style="background-color: inherit; color: white" src="https://cdn-icons-png.flaticon.com/512/4539/4539472.png" alt="alert" />
+                                    <img height="35px" width="35px" style="background-color: inherit; color: white" src="/uploads/icons/28.slert-logo-on-alert.png" alt="alert" />
                                 </div>
                                 <div class="alert-content">
                                     <%=alert.content%>
@@ -191,7 +191,7 @@
             <img
               height="25px"
               width="25px"
-              src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png"
+              src="/uploads/icons/13.detail.png"
               alt="detail"
             />
           </a>
@@ -247,7 +247,7 @@
 
 <div id="profile-view">
     <div style="padding: 0px; margin: 0px">
-        <img width="250px" height="80px" src="https://career-lunch-storage.s3.eu-central-1.amazonaws.com/v2/blog/articles/linkedin-title-picture.jpg " alt=" " />
+        <img width="250px" height="80px" src="/uploads/icons/9.profile_back.png" alt=" " />
     </div>
     <div id="profile-info">
         <%if(locals.user){%>
@@ -259,7 +259,7 @@
                             <%if(locals.user){%>
                                 <img height="80px" width="80px" style="border-radius: 50%; border: 4px solid white" src="<%=locals.user.pic%>" alt="pic" />
                                 <%}else{%>
-                                    <img height="80px" width="80px" style="border-radius: 50%; border: 4px solid white" src="https://as1.ftcdn.net/v2/jpg/02/42/82/76/1000_F_242827652_Gj3IL5w6gdufgSOESH7qVaYXN8ocQ6sX.jpg" alt="pic" />
+                                    <img height="80px" width="80px" style="border-radius: 50%; border: 4px solid white" src="/uploads/icons/29.login.png" alt="pic" />
                                     <%}%>
                                         <span style="
           font-size: 18;
@@ -294,12 +294,12 @@
                                             </a>
                                             <a href="/user/my-save-items">
                                                 <div style="justify-content: flex-start">
-                                                    <img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/5667/premium/5667029.png?token=exp=1640970876~hmac=caca3b24d6da0ad02fc608a4349ccc42" alt=" " /><span style="padding-left: 10px"> Save Items</span>
+                                                    <img height="20px" width="20px" src="/uploads/icons/32.save-home.png" alt=" " /><span style="padding-left: 10px"> Save Items</span>
                                                 </div>
                                             </a>
                                             <a href="/user/new-poll-page">
                                                 <div style="justify-content: flex-start">
-                                                    <img height="20px" width="20px" src="https://cdn-icons.flaticon.com/png/512/2668/premium/2668746.png?token=exp=1641104813~hmac=0d2a507917d58c9a35887e1ede73e8c6" alt="" /><span style="padding-left: 10px">Create Poll</span>
+                                                    <img height="20px" width="20px" src="/uploads/icons/35.poll.png" alt="" /><span style="padding-left: 10px">Create Poll</span>
                                                 </div>
                                             </a>
                                         </div>

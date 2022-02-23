@@ -139,9 +139,9 @@
                         <%if(post.likes.length>0){%>
                             <div class="first-div"><span style="color: black;"><%=post.likes.length%> people are liked this post</span> <span><a href="/user/likes?post=<%=post.id%>&type=<%=post.photos ? 'Post' : 'TextPost'%>">View All</a></span></div>
                             <div>
-                                <%for(let i=0; i< 8 &&  i< post.likes.length; i++ ){%>
+                                <%for(let i=0; i< 7 &&  i< post.likes.length; i++ ){%>
                                     <%if(post.likes[i].creator){%>
-                                        <img src="<%=post.likes[i].creator.pic%>" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px 7px 0px 7px;">
+                                        <img src="<%=post.likes[i].creator.pic%>" alt="pic" height="40px" width="40px" style="border-radius: 50%; min-width: 40px; min-height: 40px; padding:0px 7px 0px 7px;">
                                         <%}%>
                                             <%}%>
                             </div>
@@ -180,14 +180,14 @@
                 <script>
                     // add button to load more post
 
-                    function loadMorePostButton(lastTime) {
-                        console.log(" time is ", lastTime);
+                    function loadMorePostButton(lastPhotoTime, lastTextTime, photo, text) {
+                        // console.log(" time is ", lastTime);
                         return $(
-                            `<button class='load-post load-on-demand'  time=${lastTime} >Load More Post</button>`
+                            `<button class='load-post load-on-demand' photo=${photo} text=${text} photoTime=${lastPhotoTime} textTime=${lastTextTime} >Load More Post</button>`
                         );
                     }
                     async function intialPostLoadButton() {
-                        let loadMorePostbtn = loadMorePostButton(Date.now());
+                        let loadMorePostbtn = loadMorePostButton(Date.now(), Date.now(), true, true);
                         await $("#post-container").append(loadMorePostbtn);
                         // loadMorePost(loadMorePostbtn);
                         // handleLoadingPostVisiblity(loadMorePostbtn);

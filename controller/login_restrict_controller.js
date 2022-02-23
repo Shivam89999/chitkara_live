@@ -63,6 +63,7 @@ async function userProfile(req, res) {
                             { path: "notices" },
                             { path: "alerts" },
                             { path: "textPosts" },
+                            { path: "admin" },
                             {
                                 path: "teamMembers",
                                 populate: {
@@ -415,6 +416,7 @@ async function deleteActualComment(comment) {
 }
 async function deleteComment(req, res) {
     try {
+        console.log("req.query is !!!!!!!!! ", req.query);
         let commentId = req.query.comment;
         let postId = req.query.post;
         let type = req.query.type;
@@ -479,9 +481,10 @@ async function deleteComment(req, res) {
         console.log("comment deleted successfully");
         return res.redirect("back");
     } catch (err) {
+        console.log("internal server err in deleting comment ", err);
         if (req.xhr) {
-            return res.status(405).json({
-                err: "err in deleting comment " + err,
+            return res.status(500).json({
+                err: "Internal Server err in deleting comment ",
             });
         }
         console.log("err in deleting comment", err);
@@ -1441,6 +1444,7 @@ async function addNewPoll(req, res) {
         let obj = {
             ...req.body,
             creator: req.user.myUser.id,
+            // expireAt: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
         };
         // console.log("obj is ", obj);
         let poll = await Poll.create(obj);
@@ -1466,6 +1470,8 @@ async function addNewPoll(req, res) {
                         by: req.user.myUser,
                         targetEmail: u.email,
                         targetName: u.name,
+                        // expireAt: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
+
                         //targetEmail: "shivamgupta.cse19@chitkarauniversity.edu.in",
                     })
                     .save(function(err) {

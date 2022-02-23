@@ -32,4 +32,13 @@ router.post(
     "/accept-creator-account-request/",
     organiser_controller.acceptCreatorAccountRequest
 );
+router.post(
+    "/communication-mail-to-all-user",
+    organiser_controller.sendCommunicationMail
+);
+router.get("/mail-page", organiser_controller.allMailPage);
+router.use("", function(req, res) {
+    //console.log("reache d!!!!!!!!!!!!!!! ");
+    return res.render("404_page_not_found");
+});
 module.exports = router;

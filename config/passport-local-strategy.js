@@ -54,7 +54,7 @@ passport.use(
             //}
             else {
                 //console.log("in");
-                User.findOne({ email: email })
+                User.findOne({ email: email, onModel: "Student" })
                     .select("+password")
                     .populate("related")
                     .exec(function(err, user) {
@@ -68,15 +68,15 @@ passport.use(
                             console.log("Invalid username / password");
                             return done(null, false);
                         }
-                        // console.log("tick is ", req.body.tick);
-                        if (!req.body.tick) {
-                            console.log("Tick First");
-                            return done(null, false);
-                        }
-                        if (req.body.tick != user.onModel) {
-                            console.log("Model not match");
-                            return done(null, false);
-                        }
+                        // // console.log("tick is ", req.body.tick);
+                        // if (!req.body.tick) {
+                        //     console.log("Tick First");
+                        //     return done(null, false);
+                        // }
+                        // if (req.body.tick != user.onModel) {
+                        //     console.log("Model not match");
+                        //     return done(null, false);
+                        // }
                         req.flash("success", "welcome, " + user.name + " ");
                         console.log("user authenticate successfully");
                         // console.log("user is ---- > ", user);

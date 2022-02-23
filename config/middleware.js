@@ -41,8 +41,14 @@ function deleteComment(req, res, next) {
         !req.query.post ||
         !req.query.comment ||
         !req.query.type ||
-        (req.query.type != "Post" && req.query.type != "TextPost")
+        (req.query.type != "Post" && req.query.type != "Text")
     ) {
+        console.log("req.query is ", req.query);
+        if (req.xhr) {
+            return res.status(400).json({
+                err: "bad request,Internal Server in Deleting Comment ",
+            });
+        }
         return res.redirect("back");
     }
     next();

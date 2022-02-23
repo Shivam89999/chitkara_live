@@ -13,6 +13,7 @@ router.post(
     }),
     organiser_controller.createSession
 );
+
 router.use("/", passport.checkOrganiser, require("./organiser_login_restrict"));
 
 module.exports = router;

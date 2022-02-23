@@ -13,6 +13,8 @@
   align-items: center;
   background-color: #ff0055;
   flex-wrap: wrap;
+  background-color: brown;
+  border-color: brown;
 }
 
 #option-container,

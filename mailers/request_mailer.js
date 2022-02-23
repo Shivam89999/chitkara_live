@@ -142,3 +142,28 @@ exports.creatorAccountActivateLink = (obj) => {
         }
     );
 };
+
+exports.creatorAccountActivatedSuccessfully = (obj) => {
+    console.log("inside the  creator account activated successfully mail ");
+    let htmlString = nodeMailer.renderTemplate({ obj },
+        "/request/creator_account_activated_successfully.ejs"
+    );
+    nodeMailer.transporter.sendMail({
+            from: "Chitkara_Live",
+            to: obj.targetEmail,
+            subject: "Creator Account Activated Successfully",
+            html: htmlString,
+        },
+        function(err, info) {
+            if (err) {
+                console.log(
+                    "err in sending  creator account activated successfully mail : ",
+                    err
+                );
+                return;
+            }
+            console.log("creator account activated successfully mail send ");
+            return;
+        }
+    );
+};

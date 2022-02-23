@@ -5,12 +5,6 @@ const router = express.Router();
 const middleware = require("../config/middleware");
 
 router.use(
-    "/",
-    // middleware.checkOrSetDarkModeStatus,
-    middleware.parseEmail,
-    require("./open")
-);
-router.use(
     "/organiser",
     // middleware.checkOrSetDarkModeStatus,
     middleware.parseEmail,
@@ -33,4 +27,12 @@ router.use(
     require("./creator_restrict")
 );
 router.use("/api", require("./api"));
+
+router.use(
+    "/",
+    // middleware.checkOrSetDarkModeStatus,
+    middleware.parseEmail,
+    require("./open")
+);
+
 module.exports = router;

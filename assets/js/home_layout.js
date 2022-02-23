@@ -147,7 +147,7 @@ function checkInternetConnected() {
         // window.alert("jvbfjhbvfb");
         if ($("#no-internet").length <= 0) {
             $("html").append(`<div id="no-internet">
-            <img src="https://cdn-icons-png.flaticon.com/512/254/254613.png" alt="wi-fi" height="20px" width="25px" />
+            <img src="/uploads/icons/39.wifi-off.png" alt="wi-fi" height="20px" width="25px" />
             <span style="font-size: 20; padding: 5px; padding-right: 0px">Low Internet.</span
       >
       <span style="font-size: 15; padding: 5px; padding-left: 0px"

@@ -6,7 +6,7 @@
 //     console.log("dff && ", $(".some"));
 //     document.querySelectorAll(".some_spex").forEach((form) => {
 //         console.log("form is ", form);
-
+// loadMorePostbtn;
 // let localUser = <%= localUser %>;
 
 //         form.submit(function(e) {
@@ -185,7 +185,10 @@ function addNewComment(itm) {
 
                 if ($(`#comment-${data.data.post._id}`).css("display") == "none") {
                     //  console.log("%%%%%%%%%% ", data.data.post._id);
-                    toggleComment(data.data.post._id);
+                    toggleComment(
+                        data.data.post._id,
+                        data.data.post.photos ? "Post" : "Text"
+                    );
                 }
                 handleNotification("success", data.message);
                 // itm.reset();
@@ -281,7 +284,7 @@ function handleLikeIconAndCount(target, liked, name) {
     likeCount.html("");
     if (liked) {
         toggle.html(`<img
-                  src="https://cdn-icons-png.flaticon.com/512/833/833472.png"
+                  src="/uploads/icons/3.liked.png"
                   alt="yes likes"
                   height="25px"
                   width="25px"
@@ -289,7 +292,7 @@ function handleLikeIconAndCount(target, liked, name) {
                 />`);
     } else {
         toggle.html(`<img
-                  src="https://cdn-icons-png.flaticon.com/512/151/151910.png"
+                  src="/uploads/icons/4.not_liked.png"
                   alt="no"
                   height="25px"
                   width="25px"
@@ -346,7 +349,7 @@ function addLikesUserBar(post) {
     post._id
   }&type=${post.photos ? "Post" : "TextPost"}">View All</a></span></div>
                             <div>`;
-    for (let i = 0; i < 8 && i < post.likes.length; i++) {
+    for (let i = 0; i < 7 && i < post.likes.length; i++) {
         string += `<img src="${post.likes[i].creator.pic}" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px 7px 0px 7px;">`;
     }
 
@@ -419,14 +422,14 @@ togglePostLike();
 function handleSaveImgDisplay(type) {
     if (type) {
         return $(`<img
-          src="https://cdn-icons.flaticon.com/png/512/5668/premium/5668020.png?token=exp=1643138956~hmac=7d0502f20d08da1260c26cf955f23cc2"
+          src="/uploads/icons/33.saved.png"
           height="25px"
           width="20px"
           alt=""
       />`);
     } else {
         return $(`<img
-          src="https://cdn-icons-png.flaticon.com/512/84/84510.png"
+          src="/uploads/icons/34.not-saved.png"
           height="25px"
           width="20px"
           alt=""
@@ -548,7 +551,7 @@ function handleEditCommentOption(event) {
     let addr = ele.getAttribute("link");
     var link = document.createElement("a");
     link.innerHTML =
-        "<img src='https://cdn-icons.flaticon.com/png/512/2907/premium/2907762.png?token=exp=1643364990~hmac=eb42056d272d1ecab1288e1eb07e9bbe' alt='delete' height='30px' width='22px' />";
+        "<img src='/uploads/icons/41.delete.png' alt='delete' height='30px' width='22px' />";
     link.href = addr;
     // link.id = id;
     link.className = "delete-comment-link";
@@ -579,7 +582,7 @@ function handleEditPostOption(event) {
     var link = document.createElement("a");
 
     link.innerHTML =
-        "<img src='https://cdn-icons.flaticon.com/png/512/2907/premium/2907762.png?token=exp=1643364990~hmac=eb42056d272d1ecab1288e1eb07e9bbe' alt='delete' style='padding-left:5px;padding-top:4px;' height='30px' width='22px' />";
+        "<img src='/uploads/icons/41.delete.png' alt='delete' style='padding-left:5px;padding-top:4px;' height='30px' width='22px' />";
     link.href = addr;
     link.id = id;
     link.className = "delete-post-link";
@@ -665,14 +668,6 @@ function getLoginForm() {
           
          <span class='forgot-link' >forgot password</span>
          
-          <input type="radio" name="tick" value="Student" checked />
-          <span>Student</span>
-          <input type="radio" name="tick" value="Staff" />
-          <span>Staff</span>
-          <input type="radio" name="tick" value="Club" />
-          <span>Club</span>
-          <input type="radio" name="tick" value="Hostel" />
-          <span>Hostel</span>
 
           <button style="margin-left: 45px">Sign in</button>
         </form>
@@ -1216,7 +1211,7 @@ function handleEditOptionByType(link, type) {
         let addr = ele.getAttribute("link");
         var link = document.createElement("a");
         link.innerHTML =
-            "<img src='https://cdn-icons.flaticon.com/png/512/2907/premium/2907762.png?token=exp=1643364990~hmac=eb42056d272d1ecab1288e1eb07e9bbe' alt='delete' height='39px' width='31px' />";
+            "<img src='/uploads/icons/41.delete.png' alt='delete' height='39px' width='31px' />";
         link.href = addr;
         // link.id = id;
         // link.className = "delete-comment-link";
@@ -1581,10 +1576,10 @@ function addCommentdToDom(
     }
 }
 
-function loadMoreButton(post_id, lastTime) {
-    console.log("post_id ", post_id, " time is ", lastTime);
+function loadMoreButton(post_id, lastTime, type) {
+    console.log("post_id ", post_id, " time is ", lastTime, "Type is ", type);
     return $(
-        `<button class='load-comment' id='load-comment-${post_id}' time=${lastTime} postId=${post_id}>Load More</button>`
+        `<button class='load-comment load-on-demand' id='load-comment-${post_id}' time=${lastTime} type=${type} postId=${post_id}>Load More</button>`
     );
 }
 
@@ -1595,9 +1590,10 @@ function loadMoreButton(post_id, lastTime) {
 //     );
 // }
 
-function toggleComment(post_id) {
+function toggleComment(post_id, type) {
     console.log("post_id ^^^^^^^^^^^^^^ ", post_id);
     let loadLimit = 6;
+    console.log("type is ############ %%%%%%%%% ", type);
     let comment = $("#comment-" + post_id);
     let styyle = $(comment).css("display");
     let newStyle = styyle === "none" ? "block" : "none";
@@ -1612,7 +1608,7 @@ function toggleComment(post_id) {
 
     $.ajax({
         type: "GET",
-        url: `/get-comments-of-post?type=Post&id=${post_id}`,
+        url: `/get-comments-of-post?id=${post_id}&type=${type}`,
         success: async function(data) {
             console.log("data is ", data.data);
             removeLoader(dom_loader, intervalId);
@@ -1629,8 +1625,12 @@ function toggleComment(post_id) {
             $(`#comment-length-${post_id}`).text(
                 data.data.noOfComments + " comments"
             );
-            if (data.data.comments.length == loadLimit) {
-                let loadMore = loadMoreButton(post_id, data.data.lastTime);
+            if (data.data.comments.length >= loadLimit) {
+                let loadMore = loadMoreButton(
+                    post_id,
+                    data.data.lastTime,
+                    data.data.postType
+                );
                 await $("#all-comment-" + post_id, comment).append(loadMore);
                 handleLoadingCommentVisiblity(loadMore);
             }
@@ -1655,6 +1655,8 @@ function loadMoreComment(itm) {
     // $(itm).click((e) => {
     //     e.preventDefault();
     let time = $(itm).attr("time");
+    let type = $(itm).attr("type");
+    console.log("type is 1667 @@@@@@@@ $$$$$$$$$$$$  ", type);
     let post_id = $(itm).attr("postId");
     $(itm).css("backgroundColor", "red");
     console.log("time is ", time, " postId is ", post_id);
@@ -1668,7 +1670,7 @@ function loadMoreComment(itm) {
 
     $.ajax({
         type: "GET",
-        url: `/load-more-comments-of-post?type=Post&id=${post_id}&time=${time}`,
+        url: `/load-more-comments-of-post?id=${post_id}&time=${time}&type=${type}`,
         success: async function(data) {
             removeLoader(dom_loader, intervalId);
             console.log("data is ", data);
@@ -1680,8 +1682,13 @@ function loadMoreComment(itm) {
                 data.data.localUser,
                 data.data.postType
             );
-            if (data.data.comments.length == loadLimit) {
-                let loadMore = loadMoreButton(post_id, data.data.lastTime);
+            if (data.data.comments.length >= loadLimit) {
+                console.log("data.data.postType is @@@@@@@@@ ", data.data.postType);
+                let loadMore = loadMoreButton(
+                    post_id,
+                    data.data.lastTime,
+                    data.data.postType
+                );
                 await $("#all-comment-" + post_id).append(loadMore);
                 handleLoadingCommentVisiblity(loadMore);
             }
@@ -1765,9 +1772,9 @@ function addPostToDom(localUser, post, count) {
     res += "</div>";
     if (post.eventStartTime) {
         res += `<div  targetId="${post._id}-event" class="type-detail" start="${post.eventStartTime}" end="${post.eventEndTime}" location="${post.venu}" postId="${post._id}">
-        <div>  <img height="25px" width="25px"src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="">
+        <div>  <img height="25px" width="25px" src="/uploads/icons/31.upcoming-event.png" alt="">
       </div>
-                            <abbr title="See/Hide Event Detail" >  <img height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png" alt="detail">
+                            <abbr title="See/Hide Event Detail" >  <img height="25px" width="25px" src="/uploads/icons/13.detail.png" alt="detail">
 </abbr>
 
                             </div>`;
@@ -1827,30 +1834,38 @@ function addPostToDom(localUser, post, count) {
         }
     }
     if (existLike) {
-        res += `                                     <img height="20px" width="20px" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="like" />
+        res += `                                     <img height="20px" width="20px" src="/uploads/icons/3.liked.png" alt="like" />
 `;
     } else {
-        res += `        <img src="https://cdn-icons-png.flaticon.com/512/151/151910.png" height="25px" width="25px" alt="">
+        res += `        <img src="/uploads/icons/4.not_liked.png" height="25px" width="25px" alt="">
 `;
     }
     res += ` 
                                     </span>
                     </a>
 
-                    <span id="post-like-count-${post._id}">${post.likes.length} likes</span>
+                    <span id="post-like-count-${post._id}">${
+    post.likes.length
+  } likes</span>
 
 
                     </span>
-                    <span class="comment-button" style="text-align: center"><span onclick="toggleComment('${post._id}')" >
+                    <span class="comment-button" style="text-align: center"><span onclick="toggleComment('${
+                      post._id
+                    }','${post.photos ? "Photo" : "Text"}')" >
           <img
-            src="https://cdn-icons-png.flaticon.com/512/13/13673.png"
+            src="/uploads/icons/5.comment_toggle.png"
             alt="comment"
             height="25px"
             width="25px"
           /> </span
-        ><span id="comment-length-${post._id}">${post.comments.length} comments</span></span>
+        ><span id="comment-length-${post._id}">${
+    post.comments.length
+  } comments</span></span>
 
-                    <span class="save-toggle-span" id="save-toggle-${post._id}">`;
+                    <span class="save-toggle-span" id="save-toggle-${
+                      post._id
+                    }">`;
     let isSave = false;
     if (localUser) {
         for (itm of localUser.saveItems) {
@@ -1869,14 +1884,14 @@ function addPostToDom(localUser, post, count) {
                             `;
     if (isSave) {
         res += `                        <img
-          src="https://cdn-icons.flaticon.com/png/512/5668/premium/5668020.png?token=exp=1643138956~hmac=7d0502f20d08da1260c26cf955f23cc2"
+          src="/uploads/icons/33.saved.png"
           height="25px"
           width="20px"
           alt=""
       /> `;
     } else {
         res += `<img
-          src="https://cdn-icons-png.flaticon.com/512/84/84510.png"
+          src="/uploads/icons/34.not-saved.png"
           height="25px"
           width="20px"
           alt=""
@@ -1893,7 +1908,7 @@ function addPostToDom(localUser, post, count) {
       post._id
     }&type=${post.photos ? "Post" : "TextPost"}">View All</a></span></div>
                             <div>`;
-        for (let i = 0; i < 8 && i < post.likes.length; i++) {
+        for (let i = 0; i < 7 && i < post.likes.length; i++) {
             if (post.likes[i].creator) {
                 res += `                                        <img src="${post.likes[i].creator.pic}" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px 7px 0px 7px;">
 `;
@@ -1925,7 +1940,7 @@ function addPostToDom(localUser, post, count) {
           <img
             height="20px"
             width="35px"
-            src="https://cdn.iconscout.com/icon/premium/png-256-thumb/send-message-6-663814.png"
+            src="/uploads/icons/7.send-message.webp"
             alt=""
           />
         </button>
@@ -1952,7 +1967,10 @@ function loadMorePost(itm) {
     // $(itm).click((e) => {
     //     e.preventDefault();
     $(itm).css("backgroundColor", "red");
-    let time = $(itm).attr("time");
+    let photoTime = $(itm).attr("photoTime");
+    let textTime = $(itm).attr("textTime");
+    let photo = $(itm).attr("photo");
+    let text = $(itm).attr("text");
     //add loader
     let dom_loader = domLoader();
     $(dom_loader).insertAfter(itm);
@@ -1962,14 +1980,19 @@ function loadMorePost(itm) {
     $(itm).remove();
     $.ajax({
         type: "GET",
-        url: `/load-more-post?time=${time}`,
+        url: `/load-more-post?photoTime=${photoTime}&textTime=${textTime}&photo=${photo}&text=${text}`,
         success: function(data) {
             console.log("data is ", data);
             addPostsToDom(data.data.localUser, data.data.posts);
             removeLoader(dom_loader, intervalId);
             console.log("length of loading ", data.data.posts.length);
-            if (data.data.posts.length == loadLimit) {
-                let loadMorePostbtn = loadMorePostButton(data.data.lastTime);
+            if (data.data.posts.length >= loadLimit) {
+                let loadMorePostbtn = loadMorePostButton(
+                    data.data.lastPhotoTime,
+                    data.data.lastTextTime,
+                    data.data.loadMorePhotoPost,
+                    data.data.loadMoreTextPost
+                );
                 $("#post-container").append(loadMorePostbtn);
                 handleLoadingPostVisiblity(loadMorePostbtn);
             }
@@ -2339,14 +2362,14 @@ function eventHomeDom(event) {
                                 </div>
                                 <div style="display: flex; flex-direction: column;align-items: flex-start;">
                                     <span>${event.creator.name}</span>
-                                    <span style="color:rgb(26, 25, 25); font-size: 12;padding-left: 5px;">${event.creator.onModel}</span>
+                                    <span style="color:rgb(26, 25, 25); font-size: 12;padding-left: 0px;">${event.creator.onModel}</span>
 
                                 </div>
                             </div>
                             <a href="/user/events">
                                 <div class="event-type">
                                     <div>
-                                        <img height="25px" width="25px" src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="" />
+                                        <img height="25px" width="25px"  src="/uploads/icons/31.upcoming-event.png"  alt="" />
                                         <span style="color: hsl(93, 100%, 49%)" class="event-head" startTime="<%=event.eventStartTime%>">Upcoming Event</span
             >
           </div>
@@ -2354,7 +2377,7 @@ function eventHomeDom(event) {
             <img
               height="25px"
               width="25px"
-              src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png"
+              src="/uploads/icons/13.detail.png"
               alt="detail"
             />
           </abbr>
@@ -2367,8 +2390,8 @@ function eventHomeDom(event) {
             height="25px"
             width="25px"
             style="position: absolute; right: 3px; top: 3px"
-            src="https://cdn-icons-png.flaticon.com/512/1060/1060367.png"
-            alt=""
+            src="/uploads/icons/25.more-images.png"
+            alt="more-photo"
         /></abbr>
       </div>
         <div style="font-size: 14; color: black; margin-top: 5px;">

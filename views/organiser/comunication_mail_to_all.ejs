@@ -1,0 +1,61 @@
+<style>
+    input,
+    textarea {
+        outline-color: royalblue;
+        border-radius: 4px;
+        width: 80%;
+        margin: 10px auto 10px auto;
+        padding: 5px;
+        font-size: 18;
+    }
+    
+    input {
+        height: 30px;
+    }
+    
+    .mail-div {
+        text-align: center;
+        margin: auto;
+    }
+    
+    button {
+        background-color: royalblue;
+        border-color: royalblue;
+        cursor: pointer;
+        padding: 10px 20px 10px 20px;
+        color: white;
+        font-size: 20;
+        margin: 20px;
+    }
+    
+    button:hover {
+        border: none;
+        background-color: blue;
+    }
+    
+    form {
+        width: 50%;
+        min-width: 400px;
+        box-sizing: border-box;
+        background-color: black;
+        color: white;
+        margin: auto;
+        padding: 15px;
+    }
+</style>
+<div style="margin-top: 10px" class="mail-div">
+    <form action="/organiser/communication-mail-to-all-user" method="POST">
+        <div class="mail-div">
+            <h1>Communication Mail To All User</h1>
+        </div>
+        <div class="mail-div">
+            <input required type="text" name="mail_heading" placeholder="mail heading" />
+        </div>
+        <div class="mail-div">
+            <textarea required name="mail_content" id="" cols="20" rows="7" placeholder="Write down here"></textarea>
+        </div>
+        <div class="mail-div" style="text-align: right">
+            <button>Send</button>
+        </div>
+    </form>
+</div>

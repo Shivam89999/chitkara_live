@@ -1,0 +1,56 @@
+<% var url='http://localhost:8000';%>
+
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
+            <h4 style="text-align: center; color: cyan">
+                New
+                <%=obj.data.type%> Account Activated Successfully
+            </h4>
+            <div>
+                <span>Hi <%=obj.data.name%>,</span>
+                <div style="padding-top: 5px; text-align: center; color: chartreuse">
+                    your new account of
+                    <span style="color: yellow"><%=obj.data.type%></span> is
+                    <span style="color: goldenrod">Activated </span>successfully,
+                </div>
+                <div style="text-align: center">Account info is given below</div>
+                <div style="margin: auto">
+                    <table style="
+          padding: 5px;
+          margin: 10px auto 10px auto;
+          color: white !important;
+          border: 2px solid black;
+        ">
+                        <tr style="margin: 5px; padding: 5px">
+                            <td style="padding: 4px">Email :</td>
+                            <td style="padding: 4px">
+                                <%=obj.data.email%>
+                            </td>
+                        </tr>
+                        <tr style="margin: 5px; padding: 5px">
+                            <td style="padding: 4px">Name :</td>
+                            <td style="padding: 4px">
+                                <%=obj.data.name%>
+                            </td>
+                        </tr>
+                        <tr style="margin: 5px; padding: 5px">
+                            <td style="padding: 4px">Type :</td>
+                            <td style="padding: 4px">
+                                <%=obj.data.type%>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <span style="color: yellow">Now sign-in with your prevoius account and can toggle to this new
+        account
+      </span>
+                </div>
+            </div>
+            <%-include('../mail_footer');-%>
+    </div>

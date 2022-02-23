@@ -22,12 +22,15 @@ const verifiedEmail = require("../model/verifiedEmail");
 const req = require("express/lib/request");
 const res = require("express/lib/response");
 const otpMail = require("../mailers/otp_mailer");
+const requestMail = require("../mailers/request_mailer");
 // const forgotPasswordVerifiedEmail = require("../model/forgotPasswordVerifiedEmail");
 const forgotPasswordVerifiedEmail = require("../model/forgotPasswordVerifiedEmail");
 const Upcoming = require("../model/upcomingEvents");
 const { events } = require("../model/user");
 const Organiser = require("../model/organiser");
 const creatorAccountRequestVerifiedEmail = require("../model/creatorAccountRequestVerifiedMail");
+const crypto = require("crypto");
+
 async function updatePasswordWithSecret(req, res) {
     try {
         let secret = req.body.secret.trim();
@@ -203,115 +206,115 @@ async function signUpWithSecret(req, res) {
     }
 }
 
-async function create(req, res) {
-    //first user email is valid and check via sending otp
-    console.log("in create ^^^^^^^^^^^^^^^^^^^^^^^ ", req.body);
+// async function create(req, res) {
+//     //first user email is valid and check via sending otp
+//     console.log("in create ^^^^^^^^^^^^^^^^^^^^^^^ ", req.body);
 
-    //check the user
-    if (!req.body.email || !req.body.password) {
-        console.log("email or password can't be empty: ", req.body);
-        return res.redirect("back");
-    }
-    if (req.body.password != req.body.confirm_password) {
-        console.log("password or confirm password not matched ");
-        return res.redirect("back");
-    }
-    if (!req.body.tick) {
-        console.log("tick first");
-        return res.redirect("back");
-    }
-    if (!req.body.name) {
-        console.log("name can not be empty");
-        return res.redirect("back");
-    }
-    let findModel =
-        req.body.tick === "Student" ?
-        Student :
-        req.body.tick === "Hostel" ?
-        Hostel :
-        req.body.tick === "Club" ?
-        Club :
-        req.body.tick == "Depart" ?
-        Depart :
-        null;
-    if (!findModel) {
-        console.log("Tick Right Option First");
-        return res.redirect("back");
-    }
-    //first check email already exist or not
-    User.findOne({ email: req.body.email }, function(err, user) {
-        if (err) {
-            console.log("Err in finding the user for given email", err);
-            return res.redirect("back");
-        }
-        if (user) {
-            console.log("This Email is Already Exist ", user);
-            return res.redirect("back");
-        }
+//     //check the user
+//     if (!req.body.email || !req.body.password) {
+//         console.log("email or password can't be empty: ", req.body);
+//         return res.redirect("back");
+//     }
+//     if (req.body.password != req.body.confirm_password) {
+//         console.log("password or confirm password not matched ");
+//         return res.redirect("back");
+//     }
+//     if (!req.body.tick) {
+//         console.log("tick first");
+//         return res.redirect("back");
+//     }
+//     if (!req.body.name) {
+//         console.log("name can not be empty");
+//         return res.redirect("back");
+//     }
+//     let findModel =
+//         req.body.tick === "Student" ?
+//         Student :
+//         req.body.tick === "Hostel" ?
+//         Hostel :
+//         req.body.tick === "Club" ?
+//         Club :
+//         req.body.tick == "Depart" ?
+//         Depart :
+//         null;
+//     if (!findModel) {
+//         console.log("Tick Right Option First");
+//         return res.redirect("back");
+//     }
+//     //first check email already exist or not
+//     User.findOne({ email: req.body.email }, function(err, user) {
+//         if (err) {
+//             console.log("Err in finding the user for given email", err);
+//             return res.redirect("back");
+//         }
+//         if (user) {
+//             console.log("This Email is Already Exist ", user);
+//             return res.redirect("back");
+//         }
 
-        //create user in db
-        User.create(req.body, async function(err, user) {
-            if (err) {
-                console.log("Err in creating the user ", err);
-                return res.redirect("back");
-            }
-            console.log("user created successfully: ");
-            var menuId = null;
-            if (req.body.tick == "Hostel") {
-                //sign up user type is hostel so add default menu for hostel
-                var dayMenuArray = [];
-                for (var k = 0; k < 8; k++) {
-                    var timeFood = [];
-                    for (let i = 0; i < 4; i++) {
-                        var foodDetail = await FoodDetail.create({});
-                        timeFood.push(foodDetail.id);
-                    }
-                    var dayMenu = await DayMenuDetail.create({
-                        timeFood: timeFood,
-                    });
-                    // dayMenu.push(timeFood);
-                    dayMenuArray.push(dayMenu.id);
-                }
-                var menu = await Menu.create({
-                    dayWise: dayMenuArray,
-                    heading: req.body.name + " Hostel chitkara university himachal pradesh",
-                });
-                menuId = menu.id;
-            }
-            console.log("menuId is ", menuId);
-            findModel.create({ info: user.id, menu: menuId },
-                async function(err, m) {
-                    if (err) {
-                        console.log("Err in link user to respected model");
-                        return res.redirect("back");
-                    }
-                    user.related = m.id;
-                    user.onModel = req.body.tick;
-                    user.save();
+//         //create user in db
+//         User.create(req.body, async function(err, user) {
+//             if (err) {
+//                 console.log("Err in creating the user ", err);
+//                 return res.redirect("back");
+//             }
+//             console.log("user created successfully: ");
+//             var menuId = null;
+//             if (req.body.tick == "Hostel") {
+//                 //sign up user type is hostel so add default menu for hostel
+//                 var dayMenuArray = [];
+//                 for (var k = 0; k < 8; k++) {
+//                     var timeFood = [];
+//                     for (let i = 0; i < 4; i++) {
+//                         var foodDetail = await FoodDetail.create({});
+//                         timeFood.push(foodDetail.id);
+//                     }
+//                     var dayMenu = await DayMenuDetail.create({
+//                         timeFood: timeFood,
+//                     });
+//                     // dayMenu.push(timeFood);
+//                     dayMenuArray.push(dayMenu.id);
+//                 }
+//                 var menu = await Menu.create({
+//                     dayWise: dayMenuArray,
+//                     heading: req.body.name + " Hostel chitkara university himachal pradesh",
+//                 });
+//                 menuId = menu.id;
+//             }
+//             console.log("menuId is ", menuId);
+//             findModel.create({ info: user.id, menu: menuId },
+//                 async function(err, m) {
+//                     if (err) {
+//                         console.log("Err in link user to respected model");
+//                         return res.redirect("back");
+//                     }
+//                     user.related = m.id;
+//                     user.onModel = req.body.tick;
+//                     user.save();
 
-                    console.log("user is ", user);
-                }
-            );
-            return res.redirect("/sign-in");
-        });
-    });
-}
+//                     console.log("user is ", user);
+//                 }
+//             );
+//             return res.redirect("/sign-in");
+//         });
+//     });
+// }
 
 function createSession(req, res) {
     console.log("req.user is ", req.user);
     return res.redirect("/");
 }
 
-function signUp(req, res) {
-    if (req.user) {
-        console.log("you already sign-in");
-        return res.redirect("back");
-    }
-    return res.render("sign_up", {
-        title: "Sign-Up Page",
-        layout: "./layouts/some_layout",
-    });
-}
+// function signUp(req, res) {
+//     if (req.user) {
+//         console.log("you already sign-in");
+//         return res.redirect("back");
+//     }
+//     return res.render("sign_up", {
+//         title: "Sign-Up Page",
+//         layout: "./layouts/some_layout",
+//     });
+// }
 
 function signIn(req, res) {
     if (req.user) {
@@ -383,7 +386,7 @@ async function findComments(model, postId, time, limit) {
         },
     ]);
     // console.log("comments  $$$$$$$$$$$ ", post.comments);
-    let postType = post.photos ? "Post" : "TextPost";
+    let postType = post.photos ? "Post" : "Text";
     return {
         comments: post.comments,
         postCreatorId: post.creator._id,
@@ -404,8 +407,11 @@ async function findPostLikes(postId, time, limit) {
 async function commentsOfPost(req, res) {
     try {
         // let type = req.query.type;
-        console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ");
-        let model = Post;
+
+        console.log("req.query is ~~~~~~~~~~~~~ ^^^^^^^^^^^^^^^ ", req.query);
+        let queryType = req.query.type;
+        let model = queryType == "Text" ? TextPost : Post;
+
         let id = req.query.id;
         let ret = await findComments(model, id, new Date().getTime(), 6);
         let lastTime =
@@ -503,34 +509,73 @@ async function loadUpcomingOrRunningEvents(req, res) {
         });
     }
 }
+async function loadPostModelWise(model, time, loadLimit) {
+    let posts = await model
+        .find({ createdAt: { $lt: time } })
+        .sort({ createdAt: -1 })
+        .limit(loadLimit)
+        .populate({
+            path: "likes",
+            populate: {
+                path: "creator",
+            },
+        })
+
+    .populate("creator")
+        .exec();
+    return posts;
+}
 async function loadMorePost(req, res) {
     try {
         const loadLimit = 2;
-        let model = Post;
-        let time = req.query.time;
-        let posts = await model
-            .find({ createdAt: { $lt: time } })
-            .sort({ createdAt: -1 })
-            .limit(loadLimit)
-            .populate({
-                path: "likes",
-                populate: {
-                    path: "creator",
-                },
-            })
+        let loadMorePhoto = req.query.photo;
+        let loadMoreText = req.query.text;
+        let photoTime = req.query.photoTime;
+        let textTime = req.query.textTime;
+        let posts = [];
+        let lastPhotoTime = new Date(0);
+        let lastTextTime = new Date(0);
+        let loadMorePhotoPost = true;
+        let loadMoreTextPost = true;
+        if (loadMorePhoto) {
+            let temp = await loadPostModelWise(Post, photoTime, loadLimit);
+            posts = posts.concat(temp);
+            lastPhotoTime =
+                temp.length == 0 ? new Date(0) : temp[temp.length - 1].createdAt;
+            loadMorePhotoPost = temp.length >= loadLimit ? true : false;
+        }
+        if (loadMoreText) {
+            let temp = await loadPostModelWise(TextPost, textTime, loadLimit);
+            posts = posts.concat(temp);
+            lastTextTime =
+                temp.length == 0 ? new Date(0) : temp[temp.length - 1].createdAt;
+            loadMoreTextPost = temp.length >= loadLimit ? true : false;
+        }
+        // let posts = await model
+        //     .find({ createdAt: { $lt: photoTime } })
+        //     .sort({ createdAt: -1 })
+        //     .limit(loadLimit)
+        //     .populate({
+        //         path: "likes",
+        //         populate: {
+        //             path: "creator",
+        //         },
+        //     })
 
-        .populate("creator")
-            .exec();
-        let lastTime =
-            posts.length == 0 ? new Date(0) : posts[posts.length - 1].createdAt;
+        // .populate("creator")
+        //     .exec();
+
         // console.log("lastTime is ", lastTime);
 
         return res.status(200).json({
             message: "more post loaded successfully",
             data: {
                 posts: posts,
-                lastTime: lastTime,
+                lastPhotoTime: lastPhotoTime,
+                lastTextTime: lastTextTime,
                 localUser: req.user && req.user.myUser ? req.user.myUser : null,
+                loadMorePhotoPost: loadMorePhotoPost,
+                loadMoreTextPost: loadMoreTextPost,
             },
         });
     } catch (err) {
@@ -544,8 +589,11 @@ async function loadMoreCommentOfPost(req, res) {
     try {
         // let type = req.query.type;
         console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^ &&&&&&&&&&7");
-        let model = Post;
+        let queryType = req.query.type;
+        let model = queryType == "Text" ? TextPost : Post;
+
         let id = req.query.id;
+        console.log("req.query is ~~~~~~~~~~~~~ ", req.query);
         let time = req.query.time;
         let ret = await findComments(model, id, new Date(time).getTime(), 6);
         let lastTime =
@@ -599,6 +647,8 @@ async function HomePage(req, res) {
             upcomingOrRunningEvents: [],
             polls: polls,
             loadMorePost: true,
+            loadMorePhotoPost: true,
+            loadMoreTextPost: true,
         });
     } catch (err) {
         console.log("err in loading home page");
@@ -903,15 +953,19 @@ async function signUpOtp(req, res) {
 async function forgotPasswordOtp(req, res) {
     try {
         let email = req.body.email;
-        let user = await User.findOne({ email: email });
+        let user = await User.findOne({ email: email, onModel: "Student" });
         if (!user) {
-            console.log("this email is not registered found");
+            console.log(
+                "this email is not registered found or may not registered as Student"
+            );
             if (req.xhr) {
                 return res.status(404).json({
-                    err: "this email is not  registered",
+                    err: "this email is not registered found or may not registered as Student",
                 });
             }
-            console.log("this email is not registered");
+            console.log(
+                "this email is not registered found or may not registered as Student"
+            );
             return res.redirect("back");
         }
         //generate a random 6-digit otp and save otp  temparary
@@ -1195,78 +1249,166 @@ async function resendOtpMailForForgotPassword(req, res) {
     }
 }
 async function ActivateCreatorAccountUsingSecret(req, res) {
-    if (!req.body.secret) {
-        console.log("invalid request");
-        if (req.xhr) {
-            return res.status(400).json({
-                err: "Invalid request",
-            });
+    try {
+        if (!req.body.secret) {
+            console.log("invalid request");
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "Invalid request",
+                });
+            }
+            req.flash("error", "invalid request");
+            return res.redirect("back");
         }
-        req.flash("error", "invalid request");
-        return res.redirect("back");
-    }
-    let secret = req.body.secret.trim();
-    let requestData = await creatorAccountRequestVerifiedEmail
-        .findById(secret)
-        .populate({
-            path: "by",
-            populate: {
-                path: "related",
-            },
-        })
-        .exec();
-    if (requestData.by.onModel != "Student") {
-        if (req.xhr) {
-            return res.status(400).json({
-                err: "Invalid request, you are  not student, so you can not activate this account",
-            });
+        let secret = req.body.secret.trim();
+        let requestData = await creatorAccountRequestVerifiedEmail
+            .findById(secret)
+            .populate({
+                path: "by",
+                populate: {
+                    path: "related",
+                },
+            })
+            .exec();
+        if (!requestData) {
+            if (req.xhr) {
+                return res.status(500).json({
+                    err: "this link is expired or already used ",
+                });
+            }
+            console.log("this link is expired or already used ");
+            req.flash("error", "this link is expired or already used ");
+            return res.redirect("back");
         }
-        req.flash(
-            "error",
-            "Invalid request, you are  not student, so you can not activate this account"
-        );
-        return res.redirect("back");
-    }
-    console.log("requestData.by is ", requestData.by);
-    if (requestData.by.related.head != null) {
-        if (req.xhr) {
-            return res.status(400).json({
-                err: "Invalid request,you are already head of some creator acc.",
-            });
+        //console.log("Reached !!!!!!!!!!  1 ", requestData.by);
+        if (requestData.by.onModel != "Student") {
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "Invalid request, you are  not student, so you can not activate this account",
+                });
+            }
+            req.flash(
+                "error",
+                "Invalid request, you are  not student, so you can not activate this account"
+            );
+            return res.redirect("back");
         }
-        req.flash(
-            "error",
-            "Invalid request,you are already head of some creator acc."
-        );
-        return res.redirect("back");
-    }
-    let u = await User.findOne({ email: requestData.email });
-    if (u != null) {
-        if (req.xhr) {
-            return res.status(400).json({
-                err: "Invalid request," +
-                    " email " +
-                    requestData.email +
-                    " is already registered ",
-            });
+        //console.log("reached ########## 1 ");
+        //console.log("requestData.by is ", requestData.by);
+        if (requestData.by.related.head != null) {
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "Invalid request,you are already head of some creator acc.",
+                });
+            }
+            req.flash(
+                "error",
+                "Invalid request,you are already head of some creator acc."
+            );
+            return res.redirect("back");
         }
-        req.flash(
-            "error",
-            "Invalid request," +
-            " email " +
-            requestData.email +
-            " is already registered "
-        );
-        return res.redirect("back");
-    }
-    //activate account and send mail
-
-    if (req.xhr) {
-        return res.status(200).json({
-            message: "Your account activated successfully, Now you can access this account from your current account ",
+        //console.log("Reached !!!!!!!!!!  2");
+        let u = await User.findOne({ email: requestData.email });
+        if (u != null) {
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "Invalid request," +
+                        " email " +
+                        requestData.email +
+                        " is already registered ",
+                });
+            }
+            req.flash(
+                "error",
+                "Invalid request," +
+                " email " +
+                requestData.email +
+                " is already registered "
+            );
+            return res.redirect("back");
+        }
+        const allowedType = ["Club", "Hostel", "Depart"];
+        if (!allowedType.includes(requestData.type)) {
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "Invalid request,creator acc. type is not allowed",
+                });
+            }
+            req.flash("error", "Invalid request,,creator acc. type is not allowed");
+            return res.redirect("back");
+        }
+        //activate account and send mail
+        let tpe = requestData.type;
+        const model =
+            tpe == "Club" ?
+            Club :
+            tpe == "Hostel" ?
+            Hostel :
+            tpe == "Depart" ?
+            Depart :
+            null;
+        if (model == null) {
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "Invalid request,not correct model type ",
+                });
+            }
+            req.flash("error", "Invalid request,not correct model type ");
+            return res.redirect("back");
+        }
+        const newUser = await User.create({
+            email: requestData.email,
+            password: crypto.randomBytes(20).toString("hex"),
+            name: requestData.name,
         });
+        let m = await model.create({ info: newUser.id, admin: requestData.by.id });
+        if (!m) {
+            if (req.xhr) {
+                return res.status(500).json({
+                    err: "Internal server Err, can not link the user",
+                });
+            }
+            console.log("Err in link user to respected model");
+            return res.redirect("back");
+        }
+        newUser.related = m.id;
+        newUser.onModel = requestData.type;
+        await newUser.save();
+        requestData.by.related.head = newUser.id;
+        await requestData.by.related.save();
+        await requestData.by.save();
+
+        await requestData.remove();
+        //send account activated mail
+        let info = {
+            targetEmail: newUser.email,
+            // targetEmail: "shivammittal00786@gmail.com",
+            name: newUser.name,
+            email: newUser.email,
+            data: {
+                name: newUser.name,
+                email: newUser.email,
+                type: newUser.onModel,
+            },
+        };
+        requestMail.creatorAccountActivatedSuccessfully(info);
+        //  ;
+        if (req.xhr) {
+            return res.status(200).json({
+                message: "Your account activated successfully, Now you can access this account from your current account ",
+            });
+        }
+        return res.redirect("back");
+    } catch (err) {
+        if (req.xhr) {
+            return res.status(500).json({
+                err: "Internal server err in  activate creator account using secret ",
+            });
+        }
+        console.log("err in activate creator account using secret " + err);
+        req.flash("error", "err in activate creator account using secret ");
+        return res.redirect("back");
     }
-    return res.redirect("back");
 }
 async function ActivateCreatorAccountUsingSecretPage(req, res) {
     if (!req.query.secret) {
@@ -1290,9 +1432,9 @@ async function ActivateCreatorAccountUsingSecretPage(req, res) {
 module.exports = {
     homePage,
     signIn,
-    signUp,
+    // signUp,
     createSession,
-    create,
+    // create,
     findOptions,
     search,
     notices,
