@@ -1,5 +1,6 @@
 const express = require("express");
-const port = process.env.PORT;
+const port = "https://chitkara-live.herokuapp.com/";
+// const port = 8000;
 const fs = require("fs");
 const path = require("path");
 const app = express();
