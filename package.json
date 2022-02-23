@@ -3,9 +3,10 @@
     "version": "1.0.0",
     "description": "this is a AaA product",
     "main": "index.js",
+    "node": "14.17.5",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon index.js"
+        "start": "node index.js"
     },
     "author": "AaA",
     "license": "ISC",
