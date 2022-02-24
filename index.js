@@ -68,42 +68,40 @@ const session = require("express-session");
 
 //add mongoStore to store session at server permanantly
 const MongoStore = require("connect-mongo");
-// const flash = require("connect-flash");
-// const customMWare = require("./config/middleware");
-// app.use(
-//     session({
-//         name: "chitkara_live",
-//         secret: "something",
-//         saveUninitialized: false,
-//         resave: false,
-//         cookie: {
-//             //1 min = 60000
-//             maxAge: 1000 * 1000 * 10000,
-//         },
-//         store: MongoStore.create({
-//                 // mongoUrl: "mongodb://localhost/chitkara_live",
-//                 mongoUrl: db,
-//                 autoRemove: "disabled",
-//             },
-//             function(err) {
-//                 console.log(err || "connect-mongo successfully");
-//             }
-//         ),
-//     })
-// );
+const flash = require("connect-flash");
+const customMWare = require("./config/middleware");
+app.use(
+    session({
+        name: "chitkara_live",
+        secret: "something",
+        saveUninitialized: false,
+        resave: false,
+        cookie: {
+            //1 min = 60000
+            maxAge: 1000 * 1000 * 10000,
+        },
+        store: MongoStore.create({
+                // mongoUrl: "mongodb://localhost/chitkara_live",
+                mongoUrl: "mongodb+srv://aaa_tech:Shivam%409876@cluster0.mr3po.mongodb.net/temp?retryWrites=true&w=majority",
+                autoRemove: "disabled",
+            },
+            function(err) {
+                console.log(err || "connect-mongo successfully");
+            }
+        ),
+    })
+);
 
-// //intialize the passport
-// app.use(passport.initialize());
-// app.use(passport.session());
+//intialize the passport
+app.use(passport.initialize());
+app.use(passport.session());
 
-// app.use(passport.setAuthenticatedUser);
-app.get("/", function(req, res, next) {
-    return res.end("This is sending from index.js");
-});
+app.use(passport.setAuthenticatedUser);
+
 //add flash
-// app.use(flash());
-// app.use(customMWare.setFlash);
-// app.use("/", require("./routes"));
+app.use(flash());
+app.use(customMWare.setFlash);
+app.use("/", require("./routes"));
 
 app.listen(port, function(err) {
     if (err) {
