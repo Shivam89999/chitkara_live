@@ -80,13 +80,7 @@ router.post(
     open_controller.createSession
 );
 
-router.get(
-    "/",
-    function(req, res, next) {
-        return res.end("page loaded successfully");
-    },
-    open_controller.homePage
-);
+router.get("/", open_controller.homePage);
 router.get("/options/", open_controller.findOptions);
 router.post("/search", middleware.checkValidSearchReq, open_controller.search);
 router.post(

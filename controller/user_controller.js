@@ -413,5 +413,4 @@ module.exports = {
     deletePost,
     deleteComment,
     editProfilePage,
-
 };
