@@ -3,7 +3,9 @@ const passport = require("passport");
 
 const router = express.Router();
 const middleware = require("../config/middleware");
-
+router.get("/", function(req, res, next) {
+    return res.end("This is sending");
+});
 router.use(
     "/organiser",
     // middleware.checkOrSetDarkModeStatus,

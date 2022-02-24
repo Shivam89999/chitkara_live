@@ -81,7 +81,8 @@ app.use(
             maxAge: 1000 * 1000 * 10000,
         },
         store: MongoStore.create({
-                mongoUrl: "mongodb://localhost/chitkara_live",
+                // mongoUrl: "mongodb://localhost/chitkara_live",
+                mongoUrl: "mongodb+srv://aaa_tech:Shivam%409876@cluster0.mr3po.mongodb.net/temp?retryWrites=true&w=majority",
                 autoRemove: "disabled",
             },
             function(err) {
@@ -96,7 +97,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
-
+app.get("/", function(req, res, next) {
+    return res.end("This is sending from index.js");
+});
 //add flash
 app.use(flash());
 app.use(customMWare.setFlash);
