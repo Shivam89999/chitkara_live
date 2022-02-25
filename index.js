@@ -55,7 +55,7 @@ app.use(express.static(env.asset_path));
 //make uplods path available to browser
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: false }));
 var bodyParser = require("body-parser");
 app.use(bodyParser.json({ limit: "500mb" }));
 app.use(
