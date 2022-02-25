@@ -35,6 +35,7 @@ async function home(req, res) {
         console.log("login first");
         return res.redirect("/organiser/sign-in");
     }
+    return res.end("vfbbvfhb " + req.user);
     let clubs = [],
         hostels = [],
         departs = [];
