@@ -8,9 +8,9 @@ router.get("/sign-out", organiser_controller.signOut);
 // router.post("/create", organiser_controller.create);
 router.post(
     "/create-session",
-    // passport.authenticate("local", {
-    //     failureRedirect: "/organiser/sign-in",
-    // }),
+    passport.authenticate("local", {
+        failureRedirect: "/organiser/sign-in",
+    }),
     organiser_controller.createSession
 );
 

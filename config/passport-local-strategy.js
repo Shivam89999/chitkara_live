@@ -23,7 +23,6 @@ passport.use(
                 Organiser.findOne({ email: email })
                     .select("+password")
                     .exec(function(err, organiser) {
-                        console.log("org is @@@ ", organiser);
                         if (err) {
                             console.log("err in finding organiser");
                             return done(err);

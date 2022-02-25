@@ -51,14 +51,8 @@ async function home(req, res) {
     });
 }
 
-async function createSession(req, res) {
-    await Organiser.create({
-        name: "AAA",
-        password: "Password@21",
-        email: "aaa.techy.in@gmail.com",
-    });
-    // return res.redirect("/organiser/");
-    return res.end("successfully entered");
+function createSession(req, res) {
+    return res.redirect("/organiser/");
 }
 
 //delete this fn brfore live
