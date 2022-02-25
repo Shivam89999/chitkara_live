@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <%- style %>
-        <link rel="stylesheet" href="/css/notifications.css" />
+        <link rel="stylesheet" href="<%=assetPath('css/notifications.css')%>" />
 </head>
 
 <body>
@@ -40,7 +40,7 @@
                 }).show();
                 <%}%>
             </script>
-            <script src="/js/ajax_request.js"></script>
+            <script src="<%=assetPath('js/ajax_request.js')%>"></script>
 </body>
 
 </html>

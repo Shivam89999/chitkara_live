@@ -5,12 +5,13 @@ const Student = require("../model/student");
 const crypto = require("crypto");
 const Organiser = require("../model/organiser");
 const newUserEnterMail = require("../mailers/new_user_enter");
+const env = require("./environment");
 //tell passport to use a new strategy for google login
 passport.use(
     new googleStrategy({
-            clientID: "120170884583-fgn2q0um1p6svnt006jisb1ivtnfb2s2.apps.googleusercontent.com",
-            clientSecret: "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",
-            callbackURL: "http://localhost:8000/auth/google/callback",
+            clientID: env.google_client_id,
+            clientSecret: env.google_client_secret,
+            callbackURL: env.google_callback_url,
         },
         function(accessToken, refreshToken, profile, done) {
             //find a user

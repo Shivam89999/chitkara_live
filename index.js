@@ -1,10 +1,13 @@
 const express = require("express");
-
+const env = require("./config/environment");
+const logger = require("morgan");
+console.log("env mode is ", env.name, " asset path is ", env.asset_path);
 // const port = 8000;
 const fs = require("fs");
 
 const path = require("path");
 const app = express();
+require("./config/view-helpers")(app);
 const port = process.env.PORT || 8000;
 const mongoose = require("mongoose");
 //connect app to db
@@ -15,15 +18,20 @@ const db = require("./config/mongoose");
 
 //adding the sass middleware
 const sass = require("node-sass-middleware");
-app.use(
-    sass({
-        src: "./assets/scss",
-        dest: "./assets/css",
-        debug: true,
-        outputStyle: "expanded",
-        prefix: "/css",
-    })
-);
+if (env.name == "development") {
+    app.use(
+        sass({
+            src: path.join(__dirname, env.asset_path, "scss"),
+            dest: path.join(__dirname, env.asset_path, "css"),
+            debug: true,
+            outputStyle: "extended",
+            prefix: "/css",
+        })
+    );
+}
+
+//set up logger
+app.use(logger(env.morgan.mode, env.morgan.options));
 
 //set up the layouts
 const expressLayouts = require("express-ejs-layouts");
@@ -42,21 +50,21 @@ app.set("layout", "./layouts/home_layout");
 // });
 
 //set the assets
-app.use(express.static("./assets"));
+app.use(express.static(env.asset_path));
 
 //make uplods path available to browser
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 app.use(express.urlencoded());
-// var bodyParser = require("body-parser");
-// app.use(bodyParser.json({ limit: "500mb" }));
-// app.use(
-//     bodyParser.urlencoded({
-//         limit: "500mb",
-//         extended: true,
-//         parameterLimit: 500000,
-//     })
-// );
+var bodyParser = require("body-parser");
+app.use(bodyParser.json({ limit: "500mb" }));
+app.use(
+    bodyParser.urlencoded({
+        limit: "500mb",
+        extended: true,
+        parameterLimit: 500000,
+    })
+);
 //add cookie-parser
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
@@ -73,16 +81,16 @@ const customMWare = require("./config/middleware");
 app.use(
     session({
         name: "chitkara_live",
-        secret: "something",
+        secret: env.session_cookie_key,
         saveUninitialized: false,
         resave: false,
         cookie: {
             //1 min = 60000
-            maxAge: 1000 * 1000 * 10000,
+            maxAge: 100000 * 1000 * 10000,
         },
         store: MongoStore.create({
-                // mongoUrl: "mongodb://localhost/chitkara_live",
-                mongoUrl: "mongodb+srv://aaa_tech:Shivam%409876@cluster0.mr3po.mongodb.net/temp?retryWrites=true&w=majority",
+                mongoUrl: "mongodb://localhost/chitkara_live",
+                // mongoUrl: "mongodb+srv://aaa_tech:Shivam%409876@cluster0.mr3po.mongodb.net/temp?retryWrites=true&w=majority",
                 autoRemove: "disabled",
             },
             function(err) {

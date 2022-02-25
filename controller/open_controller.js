@@ -935,7 +935,7 @@ async function signUpOtp(req, res) {
         }
         //generate a random 6-digit otp and save otp  temparary
         let otp = await generateOtpAndStoreinOtpStore(email);
-        console.log("otp send ", otp);
+        //console.log("otp send ", otp);
         //send otp to email
         otpMail.otpLogin(otp, email);
         if (req.xhr) {
@@ -945,7 +945,7 @@ async function signUpOtp(req, res) {
             });
         }
 
-        console.log("otp send successfully **  ", otp);
+        // console.log("otp send successfully **  ", otp);
         // return res.redirect("back");
         return res.render("sign_in", {
             title: "Sign-In Page",
@@ -1188,7 +1188,7 @@ async function resenOtpdMail(req, res, email) {
         let otp = await generateOtpAndStoreinOtpStore(email);
         //send otp to email
         otpMail.otpLogin(otp, email);
-        console.log("otp send successfully **  ", otp);
+        //console.log("otp send successfully **  ", otp);
         if (req.xhr) {
             return res.status(200).json({
                 message: "otp re-send successfully",

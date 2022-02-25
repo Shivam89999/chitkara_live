@@ -52,9 +52,9 @@
         .error_notification {} */
     </style>
     <%- style %>
-        <link rel="stylesheet" href="/css/notifications.css" />
-        <link rel="stylesheet" href="/css/option-page.css" />
-        <link rel="stylesheet" href="/css/home_layout.css" />
+        <link rel="stylesheet" href="<%=assetPath('css/notifications.css')%>" />
+        <link rel="stylesheet" href="<%=assetPath('css/option-page.css')%>" />
+        <link rel="stylesheet" href="<%=assetPath('css/home_layout.css')%>" />
 </head>
 
 <body>
@@ -100,14 +100,14 @@
 
         <%- script %>
 
-            <script src="/js/login.js"></script>
-            <script src="/js/option_page.js"></script>
+            <script src="<%=assetPath('js/login.js')%>"></script>
+            <script src="<%=assetPath('js/option_page.js')%>"></script>
 </body>
 
 </html>
 
-<script src="/js/home_layout.js"></script>
-<script src="/js/ajax_request.js"></script>
+<script src="<%=assetPath('js/home_layout.js')%>"></script>
+<script src="<%=assetPath('js/ajax_request.js')%>"></script>
 
 <script>
     // let cookies = {};
