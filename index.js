@@ -8,7 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const app = express();
 require("./config/view-helpers")(app);
-const port = process.env.PORT || 8000;
+const port = 8000;
 const mongoose = require("mongoose");
 //connect app to db
 const db = require("./config/mongoose");
