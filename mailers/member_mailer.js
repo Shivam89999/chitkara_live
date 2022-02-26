@@ -1,12 +1,12 @@
 const nodeMailer = require("../config/nodemailer");
-
+const from = "Aaa Tech <aaa.techy.in@gmail.com";
 exports.meMember = (obj) => {
     console.log("inside the me member send mail ");
     let htmlString = nodeMailer.renderTemplate({ data: obj.by, targetName: obj.targetName },
         "/member/me_member.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Aaa Tech <aaa.techy.in@gmail.com",
+            from: from,
             to: obj.targetEmail,
             subject: "You Are Added As Member",
             html: htmlString,
@@ -28,7 +28,7 @@ exports.meMemberDelete = (obj) => {
         "/member/me_member_delete.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "You Are Deleted From Member",
             html: htmlString,
@@ -50,7 +50,7 @@ exports.meMemberUpdate = (obj) => {
         "/member/me_member_update.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "You Are Updated In Team Member",
             html: htmlString,
@@ -72,7 +72,7 @@ exports.newMember = (obj) => {
         "/member/member.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "new Member Added",
             html: htmlString,

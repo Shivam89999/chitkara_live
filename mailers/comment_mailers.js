@@ -1,5 +1,5 @@
 const nodeMailer = require("../config/nodemailer");
-
+const from = "Aaa Tech <aaa.techy.in@gmail.com";
 //another way of rendering a module
 exports.newComment = (comment) => {
     console.log("inside the new comment send mail ");
@@ -7,7 +7,7 @@ exports.newComment = (comment) => {
         "/comments/new_comment.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Aaa Tech <aaa.techy.in@gmail.com",
+            from: from,
             to: comment.to + "",
             subject: "new Comment published",
             html: htmlString,

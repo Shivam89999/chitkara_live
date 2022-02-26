@@ -1,5 +1,5 @@
 const nodeMailer = require("../config/nodemailer");
-
+const from = "Aaa Tech <aaa.techy.in@gmail.com";
 exports.newUserEnterMail = (obj) => {
     console.log("inside the new user enter send mail ");
     //  console.log("obj.data is ", obj.data);
@@ -8,7 +8,7 @@ exports.newUserEnterMail = (obj) => {
     );
     // console.log("htmlString is ", htmlString);
     nodeMailer.transporter.sendMail({
-            from: "Aaa Tech <aaa.techy.in@gmail.com",
+            from: from,
             to: obj.targetEmail,
             subject: "New User Enter",
             html: htmlString,

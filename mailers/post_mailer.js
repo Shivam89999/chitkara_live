@@ -1,12 +1,12 @@
 const nodeMailer = require("../config/nodemailer");
-
+const from = "Aaa Tech <aaa.techy.in@gmail.com";
 exports.newPost = (post) => {
     console.log("inside the new post send mail ");
     let htmlString = nodeMailer.renderTemplate({ post: post },
         "/posts/new_post.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Aaa Tech <aaa.techy.in@gmail.com",
+            from: from,
             to: "shivamgupta.cse19@chitkarauniversity.edu.in",
             subject: "new Post published",
             html: htmlString,
@@ -28,7 +28,7 @@ exports.newPoll = (obj) => {
         "/poll/new_poll.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "new Poll Added",
             html: htmlString,
@@ -50,7 +50,7 @@ exports.newAlert = (obj) => {
         "/alert/new_alert.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "New Alert Added",
             html: htmlString,
@@ -72,7 +72,7 @@ exports.newNotice = (obj) => {
         "/notice/new_notice.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "New Notice Added",
             html: htmlString,
@@ -94,7 +94,7 @@ exports.newEvent = (obj) => {
         "/event/new_events.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "New Event Added",
             html: htmlString,

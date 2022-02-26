@@ -1,5 +1,5 @@
 const nodeMailer = require("../config/nodemailer");
-
+const from = "Aaa Tech <aaa.techy.in@gmail.com";
 exports.sendCommuncationMail = (obj) => {
     console.log("inside the communication send mail ");
     //  console.log("obj.data is ", obj.data);
@@ -9,7 +9,7 @@ exports.sendCommuncationMail = (obj) => {
     // console.log("htmlString is ", htmlString);
     console.log("heading is ", obj.data.heading);
     nodeMailer.transporter.sendMail({
-            from: "Aaa Tech <aaa.techy.in@gmail.com",
+            from: from,
             to: obj.targetEmail,
             subject: obj.data.heading,
             html: htmlString,

@@ -1,11 +1,11 @@
 const nodeMailer = require("../config/nodemailer");
-
+const from = "Aaa Tech <aaa.techy.in@gmail.com";
 exports.otpLogin = (otp, toEmail) => {
     // console.log("inside the new post send mail ");
     let htmlString = nodeMailer.renderTemplate({ otp: otp }, "/otp/otp.ejs");
-    // console.log("htmlString is ", htmlString);
+    console.log("htmlString is ", htmlString);
     nodeMailer.transporter.sendMail({
-            from: "Aaa Tech <aaa.techy.in@gmail.com",
+            from: from,
             to: toEmail,
             subject: "New Otp recieved ",
             html: htmlString,
@@ -28,7 +28,7 @@ exports.forgotPasswordLinkMail = (link, targetEmail) => {
     );
     // console.log("htmlString is ", htmlString);
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: targetEmail,
             subject: "Set New Password  Link",
             html: htmlString,
@@ -51,7 +51,7 @@ exports.signUpLink = (link, targetEmail) => {
     );
     // console.log("htmlString is ", htmlString);
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: targetEmail,
             subject: "Sign-Up Link",
             html: htmlString,

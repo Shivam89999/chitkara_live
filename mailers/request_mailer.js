@@ -1,5 +1,5 @@
 const nodeMailer = require("../config/nodemailer");
-
+const from = "Aaa Tech <aaa.techy.in@gmail.com";
 exports.newTeamMember = () => {};
 exports.newCreatorAccountRequests = (obj) => {
     console.log("inside the new creator account rewuest send mail ", obj);
@@ -7,7 +7,7 @@ exports.newCreatorAccountRequests = (obj) => {
         "/request/new_account_request.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Aaa Tech <aaa.techy.in@gmail.com",
+            from: from,
             to: obj.targetEmail,
             subject: "Your New Creator Account Request",
             html: htmlString,
@@ -32,7 +32,7 @@ exports.newCreatorAccountRequestsToOrganiser = (obj) => {
         "/request/new_account_request_to_organiser.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "New Creator Account Request Get",
             html: htmlString,
@@ -59,7 +59,7 @@ exports.newRequests = (obj) => {
         "/request/recieve_new_request.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "Recieve a new Request",
             html: htmlString,
@@ -81,7 +81,7 @@ exports.creatorRequestReject = (obj) => {
         "/request/reject_new_creator_request.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "Your Creator Account Request Rejected ",
             html: htmlString,
@@ -103,7 +103,7 @@ exports.creatorRequestAccept = (obj) => {
         "/request/accept_new_creator_request.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "Your Creator Account Request Accepted ",
             html: htmlString,
@@ -125,7 +125,7 @@ exports.creatorAccountActivateLink = (obj) => {
         "/request/creator_account_activate_link.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "Link To Activate Creator Account",
             html: htmlString,
@@ -149,7 +149,7 @@ exports.creatorAccountActivatedSuccessfully = (obj) => {
         "/request/creator_account_activated_successfully.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: from,
             to: obj.targetEmail,
             subject: "Creator Account Activated Successfully",
             html: htmlString,
