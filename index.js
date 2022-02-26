@@ -12,7 +12,7 @@ const port = 8000;
 const mongoose = require("mongoose");
 //connect app to db
 const db = require("./config/mongoose");
-
+console.log("db is ############ ", db);
 // const DB =
 //     "mongodb+srv://aaa_tech:Shivam@9876@cluster0.mr3po.mongodb.net/temp?retryWrites=true&w=majority";
 
