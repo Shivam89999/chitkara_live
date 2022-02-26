@@ -5,15 +5,7 @@ const router = express.Router();
 
 router.get("/sign-in", organiser_controller.signIn);
 router.get("/sign-out", organiser_controller.signOut);
-router.post(
-    "/create-us",
-    function(req, res, next) {
-        console.log("comming $$$$$$$$ ");
-        next();
-    },
-    organiser_controller.create
-);
-// router.post("/create", organiser_controller.create);
+
 router.post(
     "/create-session",
     passport.authenticate("local", {

@@ -89,8 +89,8 @@ app.use(
             maxAge: 100000 * 1000 * 10000,
         },
         store: MongoStore.create({
-                mongoUrl: `mongodb://localhost/${env.db}`,
-                // mongoUrl: "mongodb+srv://aaa_tech:Shivam%409876@cluster0.mr3po.mongodb.net/temp?retryWrites=true&w=majority",
+                // mongoUrl: `mongodb://localhost/${env.db}`,
+                mongoUrl: db,
                 autoRemove: "disabled",
             },
             function(err) {
