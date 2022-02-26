@@ -30,7 +30,7 @@ const development = {
     },
     google_client_id: "120170884583-fgn2q0um1p6svnt006jisb1ivtnfb2s2.apps.googleusercontent.com",
     google_client_secret: "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",
-    google_callback_url: "http://localhost:8000/auth/google/callback",
+    google_callback_url: "http://chitkaralive.com/auth/google/callback",
     morgan: {
         mode: "dev",
         options: {
@@ -60,7 +60,8 @@ const production = {
     },
     google_client_id: process.env.LIVE_GOOGLE_CLIENT_ID,
     google_client_secret: process.env.LIVE_GOOGLE_CLIENT_SECRET,
-    google_callback_url: process.env.LIVE_GOOGLE_CALLBACK_URL,
+    // google_callback_url: process.env.LIVE_GOOGLE_CALLBACK_URL,
+    google_callback_url: "http://chitkaralive.com/auth/google/callback",
     morgan: {
         mode: "combined",
         options: {
