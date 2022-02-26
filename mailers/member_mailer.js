@@ -6,7 +6,7 @@ exports.meMember = (obj) => {
         "/member/me_member.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: "Aaa Tech <aaa.techy.in@gmail.com",
             to: obj.targetEmail,
             subject: "You Are Added As Member",
             html: htmlString,

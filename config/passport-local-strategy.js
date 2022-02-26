@@ -27,19 +27,15 @@ passport.use(
                             console.log("err in finding organiser");
                             return done(err);
                         }
-                        // if (organiser && organiser.password === password) {
-                        //     console.log("user authenticated successfully");
-                        //     return done(null, {
-                        //         organiser: true,
-                        //         user: organiser,
-                        //     });
-                        // }
-                        // console.log("Invalid username | password");
-                        // return done(null, false);
-                        return done(null, {
-                            organiser: true,
-                            user: organiser,
-                        });
+                        if (organiser && organiser.password === password) {
+                            console.log("user authenticated successfully");
+                            return done(null, {
+                                organiser: true,
+                                user: organiser,
+                            });
+                        }
+                        console.log("Invalid username | password");
+                        return done(null, false);
                     });
             }
             //else if (req.user) {

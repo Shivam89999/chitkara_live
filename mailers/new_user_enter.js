@@ -8,7 +8,7 @@ exports.newUserEnterMail = (obj) => {
     );
     // console.log("htmlString is ", htmlString);
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: "Aaa Tech <aaa.techy.in@gmail.com",
             to: obj.targetEmail,
             subject: "New User Enter",
             html: htmlString,

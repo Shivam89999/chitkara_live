@@ -6,7 +6,7 @@ exports.newPost = (post) => {
         "/posts/new_post.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: "Aaa Tech <aaa.techy.in@gmail.com",
             to: "shivamgupta.cse19@chitkarauniversity.edu.in",
             subject: "new Post published",
             html: htmlString,

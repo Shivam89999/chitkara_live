@@ -526,17 +526,28 @@ function update(req, res) {
             console.log("name can not be empty");
             return res.redirect("back");
         }
-        req.user.myUser.name = req.body.name;
-        req.user.myUser.bio = req.body.bio;
-        req.user.myUser.whatsapp = req.body.whatsapp;
-        req.user.myUser.mobile = req.body.mobile;
+        let prev = req.user.myUser;
+        let newdData = req.body;
+        if (
+            prev.name.trim() != newdData.name.trim() ||
+            prev.bio.trim() != newdData.bio.trim() ||
+            prev.whatsapp.trim() ||
+            (prev.name.trim() != newdData.name.trim()) != newdData.whatsapp.trim() ||
+            prev.mobile.trim() != newdData.mobile.trim() ||
+            req.file
+        ) {
+            req.flash("success", "Profile Updated successfully");
+        }
+        prev.name = newdData.name;
+        prev.bio = newdData.bio;
+        prev.whatsapp = newdData.whatsapp;
+        prev.mobile = newdData.mobile;
         if (req.file) {
             if (req.user.myUser.pic && req.user.myUser.pic != User.defaultAvatarPath)
                 fs.unlinkSync(path.join(__dirname, "..", req.user.myUser.pic));
             req.user.myUser.pic = User.avatarPath + "/" + req.file.filename;
         }
         req.user.myUser.save();
-        req.flash("success", "Profile Updated successfully");
         return res.redirect("back");
     });
 }

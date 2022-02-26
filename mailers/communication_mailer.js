@@ -9,7 +9,7 @@ exports.sendCommuncationMail = (obj) => {
     // console.log("htmlString is ", htmlString);
     console.log("heading is ", obj.data.heading);
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: "Aaa Tech <aaa.techy.in@gmail.com",
             to: obj.targetEmail,
             subject: obj.data.heading,
             html: htmlString,

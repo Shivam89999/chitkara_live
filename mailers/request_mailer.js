@@ -7,7 +7,7 @@ exports.newCreatorAccountRequests = (obj) => {
         "/request/new_account_request.ejs"
     );
     nodeMailer.transporter.sendMail({
-            from: "Chitkara_Live",
+            from: "Aaa Tech <aaa.techy.in@gmail.com",
             to: obj.targetEmail,
             subject: "Your New Creator Account Request",
             html: htmlString,
