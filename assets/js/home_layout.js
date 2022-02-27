@@ -230,24 +230,36 @@ function handleMediaQuery() {
     if ($("#wrapper").length > 0) {
         return;
     }
+    let wrapper = wrapperDom();
 
+    $(wrapper).css({
+        width: "100%",
+        maxWidth: "100%",
+    });
+    $("#home-content-container").prepend($(wrapper));
     intialProfileView = $("#profile-view");
     intialEventInfo = $("#upcoming-events");
     let profileViewClone = $("#profile-view").clone(true);
     let eventInfoClone = $("#upcoming-events").clone(true);
 
     $(profileViewClone).css({
-        width: "195px",
-        minWidth: "195px",
+        width: "50%",
+        maxWidth: "50%",
+        minWidth: "180px",
+        position: "relative",
+        boxSizing: "border-box",
+        // minWidth: "195px",
     });
-    let wrapper = wrapperDom();
-    $(wrapper).append(profileViewClone);
+
     console.log("kjvjbf $$$$$$$$$ ", $("#profile-view", wrapper).css("height"));
     $(eventInfoClone).css({
         height: $("#profile-view").css("height"),
-        width: "195px",
-        minWidth: "195px",
-        maxWidth: "195px",
+        position: "relative",
+        width: "50%",
+        minWidth: "180px",
+        maxWidth: "50%",
+        // minWidth: "195px",
+        // maxWidth: "195px",
         flexDirection: "column",
         // overflowX: "hidden",
         overflowY: "auto",
@@ -266,9 +278,8 @@ function handleMediaQuery() {
             $(this).css("fontSize", "13px");
         }
     );
+    $(wrapper).append(profileViewClone);
     $(wrapper).append(eventInfoClone);
-
-    $("#home-content-container").prepend($(wrapper));
 }
 
 function makeLeftOptions() {

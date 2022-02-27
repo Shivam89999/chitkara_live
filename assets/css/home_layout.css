@@ -330,7 +330,8 @@
   position: fixed;
   top: 60px;
   right: 10px;
-  height: 320px;
+  height: auto;
+  min-width: 360px;
   width: 400px;
   box-sizing: border-box;
   overflow: hidden;
@@ -369,6 +370,12 @@
         letter-spacing: 1.5; }
         #request-new-creator-account-container #form-container form button:hover {
           background-color: #1952fc; }
+
+@media only screen and (max-width: 420px) {
+  /* For mobile phones: */
+  #request-new-creator-account-container {
+    width: 95%;
+    margin: auto; } }
 
 .no_display {
   display: none; }

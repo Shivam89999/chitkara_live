@@ -294,6 +294,13 @@
         border-top-left-radius: 0px;
         border-bottom-left-radius: 0px; }
 
+@media screen and (max-width: 800px) {
+  #profile-page {
+    width: 95%;
+    min-width: none;
+    margin: auto;
+    left: 0px; } }
+
 .alert-display {
   width: 90%;
   margin: auto;

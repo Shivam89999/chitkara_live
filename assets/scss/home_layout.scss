@@ -405,7 +405,8 @@
     position: fixed;
     top: 60px;
     right: 10px;
-    height: 320px;
+    height: auto;
+    min-width: 360px;
     width: 400px;
     box-sizing: border-box;
     overflow: hidden;
@@ -449,6 +450,14 @@
                 }
             }
         }
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    /* For mobile phones: */
+    #request-new-creator-account-container {
+        width: 95%;
+        margin: auto;
     }
 }
 
