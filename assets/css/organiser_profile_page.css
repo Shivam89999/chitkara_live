@@ -1,1 +1,45 @@
-#profile-page{display:flex;flex-direction:column;width:50%;margin:auto;background-color:#000;color:#fff}#profile-page div,#profile-page div div{display:flex;flex-direction:column;padding:10px}#profile-page div div{text-align:center}#profile-page div div img{height:100px;width:100px;padding:10px;margin:auto}#profile-page div #add-admin form{display:flex;flex-direction:column}#profile-page div #add-admin form input{width:70%;margin:auto}#profile-page div #add-admin form button{color:#fff;background-color:gray;width:100%;margin:6px}#profile-page #admin-detail div{display:flex;flex-direction:row;color:#fff}#profile-page #admin-detail div div{display:flex;flex-direction:column;justify-content:center;margin:2px}#profile-page #admin-detail div div img{height:50px;width:50px;border-radius:50%}
+#profile-page {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: auto;
+  background-color: black;
+  color: white; }
+  #profile-page div {
+    display: flex;
+    flex-direction: column;
+    padding: 10px; }
+    #profile-page div div {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      padding: 10px; }
+      #profile-page div div img {
+        height: 100px;
+        width: 100px;
+        padding: 10px;
+        margin: auto; }
+    #profile-page div #add-admin form {
+      display: flex;
+      flex-direction: column; }
+      #profile-page div #add-admin form input {
+        width: 70%;
+        margin: auto; }
+      #profile-page div #add-admin form button {
+        color: white;
+        background-color: gray;
+        width: 100%;
+        margin: 6px; }
+  #profile-page #admin-detail div {
+    display: flex;
+    flex-direction: row;
+    color: white; }
+    #profile-page #admin-detail div div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 2px; }
+      #profile-page #admin-detail div div img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%; }

@@ -1273,6 +1273,16 @@ async function ActivateCreatorAccountUsingSecret(req, res) {
             req.flash("error", "invalid request");
             return res.redirect("back");
         }
+        if (!req.body.name.trim()) {
+            console.log("Name is Required");
+            if (req.xhr) {
+                return res.status(400).json({
+                    err: "Name is Required",
+                });
+            }
+            req.flash("error", "Name is Required");
+            return res.redirect("back");
+        }
         let secret = req.body.secret.trim();
         let requestData = await creatorAccountRequestVerifiedEmail
             .findById(secret)
@@ -1372,9 +1382,36 @@ async function ActivateCreatorAccountUsingSecret(req, res) {
         const newUser = await User.create({
             email: requestData.email,
             password: crypto.randomBytes(20).toString("hex"),
-            name: requestData.name,
+            name: req.body.name.trim(),
         });
-        let m = await model.create({ info: newUser.id, admin: requestData.by.id });
+        var menuId = null;
+        if (tpe == "Hostel") {
+            //sign up user type is hostel so add default menu for hostel
+            var dayMenuArray = [];
+            for (var k = 0; k < 8; k++) {
+                var timeFood = [];
+                for (let i = 0; i < 4; i++) {
+                    var foodDetail = await FoodDetail.create({});
+                    timeFood.push(foodDetail.id);
+                }
+                var dayMenu = await DayMenuDetail.create({
+                    timeFood: timeFood,
+                });
+                // dayMenu.push(timeFood);
+                dayMenuArray.push(dayMenu.id);
+            }
+            var menu = await Menu.create({
+                dayWise: dayMenuArray,
+                heading: req.body.name + " Hostel chitkara university himachal pradesh",
+            });
+            menuId = menu.id;
+        }
+        console.log("menuId is ", menuId);
+        let m = await model.create({
+            info: newUser.id,
+            admin: requestData.by.id,
+            menu: menuId,
+        });
         if (!m) {
             if (req.xhr) {
                 return res.status(500).json({

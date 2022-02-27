@@ -56,22 +56,23 @@ function createSession(req, res) {
     return res.redirect("/organiser/");
 }
 
-// //delete this fn brfore live
-// function create(req, res) {
-//     if (!req.body) {
-//         return res.redirect("back");
-//     }
-//     const info = req.body;
-//     Organiser.create({ name: info.name, email: info.email, password: info.password },
-//         function(err, organiser) {
-//             if (err) {
-//                 console.log("err in creating organiser ", err);
-//             }
-//             console.log("organiser created successfully");
-//             return res.redirect("/organiser/sign-in");
-//         }
-//     );
-// }
+//delete this fn brfore live
+function create(req, res) {
+    console.log("reached ", req.body);
+    if (!req.body) {
+        return res.redirect("back");
+    }
+    const info = req.body;
+    Organiser.create({ name: info.name, email: info.email, password: info.password },
+        function(err, organiser) {
+            if (err) {
+                console.log("err in creating organiser ", err);
+            }
+            console.log("organiser created successfully");
+            return res.redirect("/organiser/sign-in");
+        }
+    );
+}
 
 function profile(req, res) {
     const id = req.query.profile;
@@ -554,4 +555,5 @@ module.exports = {
     acceptCreatorAccountRequest,
     allMailPage,
     sendCommunicationMail,
+    create,
 };

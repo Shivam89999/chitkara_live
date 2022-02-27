@@ -1,4 +1,4 @@
-// console.log("ajax script loaded &&&&&&&&&&&&&& ******************* ");
+console.log("ajax script loaded &&&&&&&&&&&&&& ******************* ");
 // //add new comment using ajax
 // let handleAddnewComment = function() {
 //     console.log("add comment running");

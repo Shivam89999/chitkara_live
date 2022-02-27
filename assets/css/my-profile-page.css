@@ -1,1 +1,308 @@
-#profile-page{width:45%;min-width:700px;left:8%}#my-profile,#profile-page{position:relative;display:flex;flex-direction:column}#my-profile{background-color:#fff;color:#242222;min-width:100%;margin:10px 0;box-shadow:0 1px 2px 1px rgba(0,0,0,.2);transition:.4}#my-profile:hover{box-shadow:0 2px 4px 2px rgba(0,0,0,.2)}#my-profile #first-div{height:180px;width:100%}#my-profile #first-div img{width:100%;height:100%}#my-profile #profile{display:flex;flex-direction:column}#my-profile #profile #profile-container{padding:30px;margin-top:-110px;display:flex;flex-direction:row;justify-content:space-between;align-items:center}#my-profile #profile #profile-container #profile-pic{height:150px;width:150px;border-radius:50%;border:5px solid #fff}#my-profile #profile #bio{padding:25px}#my-profile #profile #buttons{display:flex;flex-direction:row;flex-wrap:wrap;padding:0 10px 10px;max-width:70%}#my-profile #profile #buttons a{background-color:#4169e1;color:#fff;margin:0 10px 10px}#my-profile #profile #buttons a button{background-color:inherit;border-color:#4169e1;padding:12px 24px;color:#fff;font-weight:700;font-size:18}#my-profile #profile #buttons a:hover{background-color:blue}#my-profile #posts{display:flex;flex-direction:row}#my-profile #posts div{margin:5px}#my-profile #posts div img{height:150px;width:100px}#admin,#contact,#head{min-width:100%;position:relative;margin:10px 0;background-color:#fff;color:#000;box-shadow:0 1px 2px 1px rgba(0,0,0,.2);transition:.4}#admin:hover,#contact:hover,#head:hover{box-shadow:0 2px 4px 2px rgba(0,0,0,.2)}#admin h1,#contact h1,#head h1{padding:10px 10px 0;color:#4a4ac0}#admin a,#contact a,#head a{text-decoration:none;color:#000;padding:10px}#admin a div,#contact a div,#head a div{display:flex;flex-direction:row;align-items:center;padding:10px}#admin a div div,#contact a div div,#head a div div{display:flex;flex-direction:column;align-items:flex-start}#admin a:hover img,#contact a:hover img,#head a:hover img{border:1.5px solid aqua}#contact-container{background-color:#fff;height:auto;max-height:0;transition:max-height .9s linear;transition-delay:0;overflow:hidden;margin:0;padding:0;border:0}#contact-container:hover{box-shadow:0 2px 4px 2px rgba(0,0,0,.2)!important}#contact-container #contact{height:inherit;display:inline-block;box-shadow:none}#contact-container #contact #details{display:flex;flex-wrap:wrap;max-width:100%;flex-direction:column;justify-content:flex-start;align-items:flex-start}#contact-container #contact #details div{display:flex;flex-direction:row;justify-content:center;flex-wrap:wrap;max-width:95%}#contact-container #contact #details div a{text-decoration:none;color:#000}#contact-container #contact #details div #span-link-email,#contact-container #contact #details div #span-link-mobile,#contact-container #contact #details div #span-link-whatsapp{max-width:90%;overflow-wrap:break-word;font-size:21;padding:10px}#contact-container #contact #details div #span-link-email:hover,#contact-container #contact #details div #span-link-mobile:hover,#contact-container #contact #details div #span-link-whatsapp:hover{color:#4169e1;border-bottom:1px solid #4169e1}#contact-container #contact #details div abbr{padding:5px}#all-posts{min-width:100%;position:relative;margin:10px 0;background-color:#fff;box-shadow:0 1px 2px 1px rgba(0,0,0,.2);transition:.4;margin-bottom:50px}#all-posts:hover{box-shadow:0 2px 4px 2px rgba(0,0,0,.2)}#all-posts h1{padding:10px 10px 0;color:#000;display:flex;flex-direction:row;justify-content:space-evenly;flex-wrap:wrap;box-shadow:0 1px 1px 1px rgba(0,0,0,.212);background-color:hsla(0,0%,75%,.082)}#all-posts h1 span{padding:5px;width:22%;max-width:22%;display:flex;flex-direction:column;justify-content:center;align-items:center;opacity:.4}#all-posts h1 span img{height:50px;width:50px}#all-posts h1 .active,#all-posts h1 span:hover{opacity:1;border-bottom:2px solid #000}#all-posts div{display:flex;flex-direction:row;margin:10px;flex-wrap:wrap}#all-posts div div{margin:10px;border:1px solid gray;box-shadow:0 3px 6px 3px rgba(0,0,0,.2);transition:.4}#all-posts div div:hover{box-shadow:0 6px 12px 6px rgba(0,0,0,.2)}#polls{width:100%;min-width:100%;margin:5px 0;position:relative;border-radius:12px;background-color:#fff;height:auto;box-shadow:0 1px 2px 1px rgba(0,0,0,.2);transition:.4;padding:10px 0}#polls:hover{box-shadow:0 2px 4px 2px rgba(0,0,0,.2)}#polls .poll{max-width:100%;background-color:rgba(255,217,2,.699);padding:15px 0 25px;margin:5px;border-radius:22px;position:relative;color:#fff;height:auto;overflow-wrap:break-word;display:flex;flex-wrap:nowrap;flex-direction:column;font-size:18;font-weight:600}#polls .poll:hover{box-shadow:0 1px 2px 1px rgba(0,0,0,.2)}#polls .poll .poll-question{text-align:center;color:#2f4f4f;margin-bottom:10px;width:100%;text-transform:uppercase}#polls .poll .poll-options{background-color:transparent;margin:auto;display:flex;flex-direction:row;width:80%;max-width:100%;height:auto;background-color:#f5f5f5;align-items:center;box-shadow:0 2px 4px 1px rgba(0,0,0,.2);border-radius:15px}#polls .poll .poll-options a{background-color:inherit;width:50%;max-width:50%;min-width:50%;overflow-wrap:break-word;text-align:center;color:#000;text-decoration:none;text-transform:uppercase;box-sizing:border-box;font-size:18;border:none;margin:0;border-radius:15px;height:inherit}#polls .poll .poll-options a:hover{font-size:21;background-color:rgba(102,51,153,.425)}#polls .poll .poll-options a div{padding:10px;margin:0;width:100%;box-sizing:border-box;background-color:transparent}#polls .poll .poll-options a .yes-option{color:#6afd08}#polls .poll .poll-options a .no-option{color:#e77204}#polls .poll .poll-options .left_poll{border-top-right-radius:0;border-bottom-right-radius:0}#polls .poll .poll-options .right_poll{border-top-left-radius:0;border-bottom-left-radius:0}.alert-display{width:90%;margin:auto;height:auto;padding:15px;word-wrap:break-word;background-color:#d46565;border-bottom-right-radius:22px;color:#fff;margin-bottom:50px}.alert-display:hover{box-shadow:0 1px 2px 1px rgba(0,0,0,.2)}
+#profile-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  min-width: 700px;
+  left: 8%; }
+
+#my-profile {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: #242222;
+  min-width: 100%;
+  position: relative;
+  margin: 10px 0px 10px 0px;
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+  transition: 0.4; }
+  #my-profile:hover {
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2); }
+  #my-profile #first-div {
+    height: 180px;
+    width: 100%; }
+    #my-profile #first-div img {
+      width: 100%;
+      height: 100%; }
+  #my-profile #profile {
+    display: flex;
+    flex-direction: column; }
+    #my-profile #profile #profile-container {
+      padding: 30px;
+      margin-top: -110px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center; }
+      #my-profile #profile #profile-container #profile-pic {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        border: 5px solid white; }
+    #my-profile #profile #bio {
+      padding: 25px; }
+    #my-profile #profile #buttons {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 0px 10px 10px 10px;
+      max-width: 70%; }
+      #my-profile #profile #buttons a {
+        background-color: royalblue;
+        color: white;
+        margin: 0px 10px 10px 10px; }
+        #my-profile #profile #buttons a button {
+          background-color: inherit;
+          color: white;
+          border-color: royalblue;
+          padding: 12px 24px 12px 24px;
+          color: white;
+          font-weight: 700;
+          font-size: 18; }
+        #my-profile #profile #buttons a:hover {
+          background-color: blue; }
+  #my-profile #posts {
+    display: flex;
+    flex-direction: row; }
+    #my-profile #posts div {
+      margin: 5px; }
+      #my-profile #posts div img {
+        height: 150px;
+        width: 100px; }
+
+#admin,
+#head,
+#contact {
+  min-width: 100%;
+  position: relative;
+  margin: 10px 0px 10px 0px;
+  background-color: white;
+  color: black;
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+  transition: 0.4; }
+  #admin:hover,
+  #head:hover,
+  #contact:hover {
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2); }
+  #admin h1,
+  #head h1,
+  #contact h1 {
+    padding: 10px 10px 0px 10px;
+    color: #4a4ac0; }
+  #admin a,
+  #head a,
+  #contact a {
+    text-decoration: none;
+    color: black;
+    padding: 10px; }
+    #admin a div,
+    #head a div,
+    #contact a div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px; }
+      #admin a div div,
+      #head a div div,
+      #contact a div div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; }
+    #admin a:hover img,
+    #head a:hover img,
+    #contact a:hover img {
+      border: 1.5px solid aqua; }
+
+#contact-container {
+  background-color: white;
+  height: auto;
+  max-height: 0px;
+  transition: max-height 0.9s linear;
+  transition-delay: 0;
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+  border: 0px; }
+  #contact-container:hover {
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2) !important; }
+  #contact-container #contact {
+    height: inherit;
+    display: inline-block;
+    box-shadow: none; }
+    #contact-container #contact #details {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 100%;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start; }
+      #contact-container #contact #details div {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        max-width: 95%; }
+        #contact-container #contact #details div a {
+          text-decoration: none;
+          color: black; }
+        #contact-container #contact #details div #span-link-whatsapp,
+        #contact-container #contact #details div #span-link-mobile,
+        #contact-container #contact #details div #span-link-email {
+          max-width: 90%;
+          overflow-wrap: break-word;
+          font-size: 21;
+          padding: 10px; }
+          #contact-container #contact #details div #span-link-whatsapp:hover,
+          #contact-container #contact #details div #span-link-mobile:hover,
+          #contact-container #contact #details div #span-link-email:hover {
+            color: royalblue;
+            border-bottom: 1px solid royalblue; }
+        #contact-container #contact #details div abbr {
+          padding: 5px; }
+
+#all-posts {
+  min-width: 100%;
+  position: relative;
+  margin: 10px 0px 10px 0px;
+  background-color: white;
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+  transition: 0.4;
+  margin-bottom: 50px; }
+  #all-posts:hover {
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2); }
+  #all-posts h1 {
+    padding: 10px 10px 0px 10px;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.212);
+    background-color: rgba(190, 190, 190, 0.082); }
+    #all-posts h1 span {
+      padding: 5px;
+      width: 22%;
+      max-width: 22%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.4; }
+      #all-posts h1 span img {
+        height: 50px;
+        width: 50px; }
+      #all-posts h1 span:hover {
+        opacity: 1;
+        border-bottom: 2px solid black; }
+    #all-posts h1 .active {
+      opacity: 1;
+      border-bottom: 2px solid black; }
+  #all-posts div {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    flex-wrap: wrap; }
+    #all-posts div div {
+      margin: 10px;
+      border: 1px solid gray;
+      box-shadow: 0px 3px 6px 3px rgba(0, 0, 0, 0.2);
+      transition: 0.4; }
+      #all-posts div div:hover {
+        box-shadow: 0px 6px 12px 6px rgba(0, 0, 0, 0.2); }
+
+#polls {
+  width: 100%;
+  min-width: 100%;
+  margin: 5px 0px 5px 0px;
+  position: relative;
+  border-radius: 12px;
+  background-color: white;
+  height: auto;
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
+  transition: 0.4;
+  padding: 10px 0px 10px 0px; }
+  #polls:hover {
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2); }
+  #polls .poll {
+    max-width: 100%;
+    background-color: rgba(255, 217, 2, 0.699);
+    padding: 15px 0px 25px 0px;
+    margin: 5px;
+    border-radius: 22px;
+    position: relative;
+    color: white;
+    height: auto;
+    overflow-wrap: break-word;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    font-size: 18;
+    font-weight: 600; }
+    #polls .poll:hover {
+      box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2); }
+    #polls .poll .poll-question {
+      text-align: center;
+      color: darkslategrey;
+      margin-bottom: 10px;
+      width: 100%;
+      text-transform: uppercase; }
+    #polls .poll .poll-options {
+      background-color: transparent;
+      margin: auto;
+      display: flex;
+      flex-direction: row;
+      width: 80%;
+      max-width: 100%;
+      height: auto;
+      background-color: whitesmoke;
+      align-items: center;
+      box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.2);
+      border-radius: 15px; }
+      #polls .poll .poll-options a {
+        background-color: inherit;
+        width: 50%;
+        max-width: 50%;
+        min-width: 50%;
+        overflow-wrap: break-word;
+        text-align: center;
+        color: black;
+        text-decoration: none;
+        text-transform: uppercase;
+        box-sizing: border-box;
+        font-size: 18;
+        border: none;
+        margin: 0px;
+        border-radius: 15px;
+        height: inherit; }
+        #polls .poll .poll-options a:hover {
+          font-size: 21;
+          background-color: rgba(102, 51, 153, 0.425); }
+        #polls .poll .poll-options a div {
+          padding: 10px;
+          margin: 0px;
+          width: 100%;
+          box-sizing: border-box;
+          background-color: transparent; }
+        #polls .poll .poll-options a .yes-option {
+          color: #6afd08; }
+        #polls .poll .poll-options a .no-option {
+          color: #e77204; }
+      #polls .poll .poll-options .left_poll {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px; }
+      #polls .poll .poll-options .right_poll {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px; }
+
+.alert-display {
+  width: 90%;
+  margin: auto;
+  height: auto;
+  padding: 15px;
+  word-wrap: break-word;
+  background-color: #d46565;
+  border-bottom-right-radius: 22px;
+  color: white;
+  margin-bottom: 50px; }
+  .alert-display:hover {
+    box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2); }
