@@ -12,7 +12,9 @@
 
 #home-content-container {
   width: 38%;
-  min-width: 400px;
+  min-width: 360px;
+  background-color: red;
+  overflow: hidden;
   margin: 0;
   position: relative;
   display: flex;

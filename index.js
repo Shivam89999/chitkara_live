@@ -1,7 +1,7 @@
 const express = require("express");
 const env = require("./config/environment");
 const logger = require("morgan");
-console.log("env mode is ", env.name, " asset path is ", env.asset_path);
+
 // const port = 8000;
 const fs = require("fs");
 
