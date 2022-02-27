@@ -111,7 +111,7 @@ function eventDetailToggle(itm) {
         function(e) {
             let target = $("#" + $(itm).attr("targetId"));
             $(target).stop(true, false);
-            animateEventDetail(target, "265px");
+            animateEventDetail(target, "270px");
         },
         function(e) {
             // let target = $("#" + $(itm).attr("targetId"));
@@ -145,7 +145,7 @@ function toggleEventDetails(event_detail_id) {
     // console.log(" target is ", target, "  current style ", current_style);
     // target.style.display =
     //     current_style == "none" || !current_style ? "flex" : "none";
-    let new_height = current_height != "0px" ? "0px" : "265px";
+    let new_height = current_height != "0px" ? "0px" : "270px";
     console.log("current is ", current_height, "  new is ", new_height);
     // $(target).css({
     //     display: "" + newStyle,
