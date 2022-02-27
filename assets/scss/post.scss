@@ -127,10 +127,11 @@
             box-shadow: none;
             // overflow: hidden;
             position: relative;
+            min-height: 100px;
             img {
                 max-width: 100%;
-                max-height: 60%;
-                height: 60%;
+                // max-height: 60%;
+                // height: 60%;
                 margin: auto;
                 display: none;
                 padding: 0px;
