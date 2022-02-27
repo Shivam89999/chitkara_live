@@ -111,7 +111,7 @@ function eventDetailToggle(itm) {
         function(e) {
             let target = $("#" + $(itm).attr("targetId"));
             $(target).stop(true, false);
-            animateEventDetail(target, "255px");
+            animateEventDetail(target, "265px");
         },
         function(e) {
             // let target = $("#" + $(itm).attr("targetId"));
@@ -145,7 +145,7 @@ function toggleEventDetails(event_detail_id) {
     // console.log(" target is ", target, "  current style ", current_style);
     // target.style.display =
     //     current_style == "none" || !current_style ? "flex" : "none";
-    let new_height = current_height != "0px" ? "0px" : "255px";
+    let new_height = current_height != "0px" ? "0px" : "265px";
     console.log("current is ", current_height, "  new is ", new_height);
     // $(target).css({
     //     display: "" + newStyle,
@@ -242,7 +242,7 @@ function handleEvents(item) {
         " </span> </div> </div> <div style='dispay:flex; flex-direction:row-reverse;   margin-top:-20px; margin-bottom:0px; padding:0px;'> <button targetId=" +
         postId +
         "-event" +
-        " class='event-back-btn' style='cursor:pointer; font-size:22px; font-weight:850; color:white; background-color:royalblue; transform:rotate(90deg); border-color:royalblue; border-radius:4px; margin-bottom:2px;'>&lt;</button></div> </div> ";
+        " class='event-back-btn' style='cursor:pointer; font-size:22px; font-weight:850; color:white; background-color:royalblue; transform:rotate(90deg); border-color:royalblue; border-radius:4px;'>&lt;</button></div> </div> ";
     // let ele = document.createElement("div");
     // ele.className = "event-detls";
     // ele.id = "some-event";
