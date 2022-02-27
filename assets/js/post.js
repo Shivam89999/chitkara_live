@@ -242,7 +242,7 @@ function handleEvents(item) {
         " </span> </div> </div> <div style='dispay:flex; flex-direction:row-reverse;   margin-top:-20px; margin-bottom:0px; padding:0px;'> <button targetId=" +
         postId +
         "-event" +
-        " class='event-back-btn' style='cursor:pointer; font-size:22px; font-weight:850; color:white; background-color:royalblue; transform:rotate(90deg); border-color:royalblue; border-radius:4px;'>&lt;</button></div> </div> ";
+        " class='event-back-btn' style='cursor:pointer; font-size:22px; font-weight:850; color:white; background-color:royalblue; transform:rotate(90deg); border-color:royalblue; border-radius:4px; margin-bottom:2px;'>&lt;</button></div> </div> ";
     // let ele = document.createElement("div");
     // ele.className = "event-detls";
     // ele.id = "some-event";
