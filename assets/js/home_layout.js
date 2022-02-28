@@ -243,11 +243,12 @@ function handleMediaQuery() {
     let eventInfoClone = $("#upcoming-events").clone(true);
 
     $(profileViewClone).css({
-        width: "50%",
-        maxWidth: "50%",
-        minWidth: "180px",
+        width: "49.5%",
+        maxWidth: "49.5%",
+        minWidth: "160px",
         position: "relative",
         boxSizing: "border-box",
+
         // minWidth: "195px",
     });
 
@@ -255,9 +256,9 @@ function handleMediaQuery() {
     $(eventInfoClone).css({
         height: $("#profile-view").css("height"),
         position: "relative",
-        width: "50%",
-        minWidth: "180px",
-        maxWidth: "50%",
+        width: "49.5%",
+        minWidth: "160px",
+        maxWidth: "49.5%",
         // minWidth: "195px",
         // maxWidth: "195px",
         flexDirection: "column",
@@ -280,6 +281,9 @@ function handleMediaQuery() {
     );
     $(wrapper).append(profileViewClone);
     $(wrapper).append(eventInfoClone);
+    $(eventInfoClone).css({
+        height: $("#profile-view").css("height"),
+    });
 }
 
 function makeLeftOptions() {

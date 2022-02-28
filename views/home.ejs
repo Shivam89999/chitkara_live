@@ -261,14 +261,15 @@
                                 <%}else{%>
                                     <img height="80px" width="80px" style="border-radius: 50%; border: 4px solid white" src="/uploads/icons/29.login.png" alt="pic" />
                                     <%}%>
-                                        <span style="
+                                        <div style="
           font-size: 18;
           font-weight: 750;
           word-spacing: 3px;
           letter-spacing: 1.2px;
           font-family: sans-serif;
           text-transform: uppercase;
-        " id="profile_user_name"><%if(locals.user){%><%=locals.user.name%><%}else{%> Login<%}%></span
+          text-align:center;
+        " id="profile_user_name"><%if(locals.user){%><%=locals.user.name%><%}else{%> Login<%}%></div
       >
     </a>
         <%if(locals.user){%>
