@@ -358,9 +358,15 @@ function resoterHeaderMedia2() {
     }
 }
 
-function setHeaderTop() {
+function setNotificationTop() {
     $("#notifications").css({
         top: $("header").css("height"),
+    });
+}
+
+function setNotificationRight() {
+    $("#notifications").css({
+        right: "2px",
     });
 }
 $(window).resize(() => {
@@ -379,16 +385,16 @@ $(window).resize(() => {
         handleIntialState();
         resoterHeaderMedia();
     }
-    setHeaderTop();
 });
 if (window.matchMedia("(max-width: 1075px)").matches) {
     handleMediaQuery();
     headerMediaQuery();
-    setHeaderTop();
+    setNotificationTop();
 }
 if (window.matchMedia("(max-width: 750px)").matches) {
     headerMediaQuery2();
-    setHeaderTop();
+    setNotificationTop();
+    setNotificationRight();
 }
 
 //handle left option move when click outside
