@@ -358,6 +358,11 @@ function resoterHeaderMedia2() {
     }
 }
 
+function setHeaderTop() {
+    $("#notifications").css({
+        top: $("header").css("height"),
+    });
+}
 $(window).resize(() => {
     //console.log("m running ######  ");
     if (window.matchMedia("(max-width: 1075px)").matches) {
@@ -374,13 +379,16 @@ $(window).resize(() => {
         handleIntialState();
         resoterHeaderMedia();
     }
+    setHeaderTop();
 });
 if (window.matchMedia("(max-width: 1075px)").matches) {
     handleMediaQuery();
     headerMediaQuery();
+    setHeaderTop();
 }
 if (window.matchMedia("(max-width: 750px)").matches) {
     headerMediaQuery2();
+    setHeaderTop();
 }
 
 //handle left option move when click outside

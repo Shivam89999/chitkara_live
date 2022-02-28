@@ -150,4 +150,9 @@
     // }).show();
     handleNotification('error', '<%=flash.error%>');
     <%}%>
+
+    //set notification top value bcz at time of reached here header is created already
+    $('#notifications').css({
+        top: $('header').css('height'),
+    });
 </script>
