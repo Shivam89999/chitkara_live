@@ -1,13 +1,13 @@
-console.log("Home script running");
+//console.log("Home script running");
 
 // function toggleEventsVisibality(id_name) {
 //     let obj = document.querySelector("#" + id_name);
 //     let currentMaxHeight = getComputedStyle(obj).maxHeight;
-//     // console.log("off-set-height is ", obj.offsetHeight);
+//     // //console.log("off-set-height is ", obj.offsetHeight);
 //     obj.style.maxHeight = currentMaxHeight != "0px" ? "0px" : "600px";
 
 //     // let newStyle = currentStyle === "none" ? "block" : "none";
-//     // console.log("newStyle ", newStyle, "  prev Style ", currentStyle);
+//     // //console.log("newStyle ", newStyle, "  prev Style ", currentStyle);
 //     // obj.style.display = newStyle;
 //     let arrowUp = document.getElementById("arrow-up");
 //     // let arrowDown = document.getElementById("arrow-down");
@@ -27,7 +27,7 @@ console.log("Home script running");
 //     };
 
 //     // return dateString.toLocaleDateString("en-US", options); // 9/17/2016
-//     console.log(dateString.toLocaleDateString("en-US", options));
+//     //console.log(dateString.toLocaleDateString("en-US", options));
 //     return "";
 // }
 
@@ -54,7 +54,7 @@ console.log("Home script running");
 //         let startTime = ele.getAttribute("startTime");
 //         startTime = new Date(startTime);
 //         //converting time in miliseconds and comparing
-//         console.log("current ", current.getTime(), "  event ", startTime.getTime());
+//         //console.log("current ", current.getTime(), "  event ", startTime.getTime());
 //         if (startTime.getTime() <= current.getTime()) {
 //             ele.innerText = "Running Event";
 //             ele.style.color = "royalblue";
@@ -66,7 +66,7 @@ console.log("Home script running");
 //     var eles = document.querySelectorAll(".created-time");
 //     for (let ele of eles) {
 //         let dateString = ele.getAttribute("createdTime");
-//         console.log("dateString is ", dateString);
+//         //console.log("dateString is ", dateString);
 //         ele.innerText =
 //             new Date(dateString).toDateString() +
 //             " | " +
@@ -79,15 +79,15 @@ console.log("Home script running");
 // }
 
 // function calculate() {
-//     console.log("yes is &&&&&&&&&& ", document.querySelectorAll(".to_calculate"));
+//     //console.log("yes is &&&&&&&&&& ", document.querySelectorAll(".to_calculate"));
 //     document.querySelectorAll(".to_calculate").forEach((item) => {
-//         console.log("item ", item);
+//         //console.log("item ", item);
 //         let yes = parseInt(item.getAttribute("yes_votes_length"));
 //         let no = parseInt(item.getAttribute("no_votes_length"));
 //         let type = parseInt(item.getAttribute("type"));
 //         yes += 1;
 //         no += 1;
-//         console.log("yes is ", yes, " no is ", no);
+//         //console.log("yes is ", yes, " no is ", no);
 //         let ratio = ((type == "yes" ? yes : no) * 100) / (yes + no);
 //         item.innerText = ratio + " % ";
 //     });
@@ -98,12 +98,12 @@ console.log("Home script running");
 // setPostCreatedTime();
 
 function handleAlertDisplay() {
-    console.log("running ^^^^^^^^^^^ &&&&&&& ");
+    //console.log("running ^^^^^^^^^^^ &&&&&&& ");
     $(".alert").each((i, alert) => {
         let id = $(alert).attr("id");
-        console.log("id is ", id);
+        //console.log("id is ", id);
         if (cookies[id]) {
-            console.log("not display ^^^^^^^^^^^ ");
+            //console.log("not display ^^^^^^^^^^^ ");
             $(alert).remove();
         }
     });
@@ -117,7 +117,7 @@ handleAlertDisplay();
 var noOfVisibleAlerts = document.querySelectorAll(".alert").length;
 
 function disappearAlert(id) {
-    console.log("id is ", id);
+    //console.log("id is ", id);
     document.getElementById(id).style.display = "none";
     --noOfVisibleAlerts;
     let expireDate = new Date();

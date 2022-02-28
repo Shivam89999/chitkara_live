@@ -104,7 +104,7 @@
         // const venuError = document.getElementById("venu-error");
         // venuError.style.display = "none";
         // document.getElementById("show-location").style.display = "inline-block";
-        // // console.log("position is ", position);
+        // // //console.log("position is ", position);
         // const venu = document.getElementById("venu");
         // const venuSpan = document.getElementById("venu-span");
         // venuSpan.innerText = "Clear";
@@ -112,10 +112,10 @@
         coordinates = coordinates.split(",");
         let lett = position.coords.latitude;
         var longi = position.coords.longitude;
-        console.log("lett is ", lett, " longi is ", longi);
+        //console.log("lett is ", lett, " longi is ", longi);
         // venu.value = lett + "," + longi;
         var lattlong = new google.maps.LatLng(lett, longi);
-        console.log("let long is ****** ", lattlong);
+        //console.log("let long is ****** ", lattlong);
         var myOptions = {
             center: lattlong,
             zoom: 5,
@@ -149,7 +149,7 @@
                 markers.getPosition(),
             position: lattlong,
         });
-        console.log("coordinates &&&&&&&&& ", coordinates);
+        //console.log("coordinates &&&&&&&&& ", coordinates);
         let loctionWindow = new google.maps.InfoWindow({
             content: "Event is here",
             position: new google.maps.LatLng(
@@ -178,7 +178,7 @@
             infoWindow = new google.maps.InfoWindow({
                 position: mapsMouseEvent.latLng,
             });
-            console.log("vfhhvf ", mapsMouseEvent.latLng.toString());
+            //console.log("vfhhvf ", mapsMouseEvent.latLng.toString());
             let latlngObj = {
                 lat: mapsMouseEvent.latLng.lat(),
                 lng: mapsMouseEvent.latLng.lng(),
@@ -190,7 +190,7 @@
                 parseFloat(coordinates[1])
             );
             markers.setPosition(new google.maps.LatLng(latlngObj.lat, latlngObj.lng));
-            // console.log("jvdjbvjbdvbd ", latlngObj);
+            // //console.log("jvdjbvjbdvbd ", latlngObj);
             infoWindow.setContent(
                 // JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
                 "your new location here, lat: " +

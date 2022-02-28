@@ -10,7 +10,7 @@ getCookieValueByName();
 let darkModeStatus = cookies["darkModeStatus"] == "true" ? true : false;
 //handle the dark mode status
 let completeToggleContainer = $("#complete-toggle-container");
-console.log("some ^^^^^^^^^^^^^^^^^6666 ", completeToggleContainer);
+//console.log("some ^^^^^^^^^^^^^^^^^6666 ", completeToggleContainer);
 if (darkModeStatus == true) {
     $(completeToggleContainer).append(
         $(`

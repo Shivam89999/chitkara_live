@@ -227,11 +227,11 @@
   }
   function handleEditMenuOption(event) {
     let classs = "toUpdate";
-    console.log("event.target is ");
+    //console.log("event.target is ");
     let ele = event.target;
 
     let id = eval(ele.getAttribute("id"));
-    console.log("id is *************** ", id);
+    //console.log("id is *************** ", id);
 
     let D = document.createElement("div");
     D.id = classs + "-" + id;
@@ -244,8 +244,8 @@
     link.href = addr;
     D.appendChild(link);
 
-    // // console.log("D is &&&&&&&&&&&&&&&&&&&&&&& ", D);
-    // console.log("mrfn  ", document.getElementsByClassName("day-menu"));
+    // // //console.log("D is &&&&&&&&&&&&&&&&&&&&&&& ", D);
+    // //console.log("mrfn  ", document.getElementsByClassName("day-menu"));
     document.getElementsByClassName("day-menu")[id].appendChild(D);
   }
   //click on t=other place disappear logic is

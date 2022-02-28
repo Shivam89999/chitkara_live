@@ -8,14 +8,14 @@
 
         <script>
             function loadMoreNoticeButton(lastTime) {
-                console.log(" time is ", lastTime);
+                //console.log(" time is ", lastTime);
                 return $(
                     `<button class='load-notice load-on-demand'   time=${lastTime} >Load More Notice</button>`
                 );
             }
 
             function intialLoadNoticeButton() {
-                // console.log("type is ####################### ",type," post is ",postId);
+                // //console.log("type is ####################### ",type," post is ",postId);
                 let loadMoreNoticeBtn = loadMoreNoticeButton(Date.now());
                 // $('.like-container').append(loadMoreNoticeBtn);
                 $("#notices").append(loadMoreNoticeBtn);

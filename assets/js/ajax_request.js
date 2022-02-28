@@ -1,37 +1,37 @@
-console.log("ajax script loaded &&&&&&&&&&&&&& ******************* ");
+//console.log("ajax script loaded &&&&&&&&&&&&&& ******************* ");
 // //add new comment using ajax
 // let handleAddnewComment = function() {
-//     console.log("add comment running");
+//     //console.log("add comment running");
 //     // e.preventDefault();
-//     console.log("dff && ", $(".some"));
+//     //console.log("dff && ", $(".some"));
 //     document.querySelectorAll(".some_spex").forEach((form) => {
-//         console.log("form is ", form);
+//         //console.log("form is ", form);
 // loadMorePostbtn;
 // let localUser = <%= localUser %>;
 
 //         form.submit(function(e) {
 //             e.preventDefault();
-//             console.log("serialize %% ", form[0].serialize());
+//             //console.log("serialize %% ", form[0].serialize());
 //         });
 //     });
 
-//     // console.log("e is ", e.target.serialize());
+//     // //console.log("e is ", e.target.serialize());
 //     // $.ajax({
 //     //     type: "POST",
 //     //     url: e.target.getAttribute("action"),
 //     //     data: form.serialize(),
 //     //     success: function(data) {
-//     //         console.log("data is ", data.data);
+//     //         //console.log("data is ", data.data);
 //     //     },
 //     //     error: function(err) {
-//     //         console.log("err is ", err.responseText());
+//     //         //console.log("err is ", err.responseText());
 //     //     },
 //     // });
 // };
 
 // handleAddnewComment();
 
-// console.log("hhjv ", $('.some'));
+// //console.log("hhjv ", $('.some'));
 var allowedNotificationType = ["success", "error", "normal"];
 
 function getNotification(type, message) {
@@ -67,11 +67,11 @@ function setRemoveTime(notification) {
 
 function handleNotification(type, message) {
     if (message.length == 0) {
-        console.log("empty notification not allowed");
+        //console.log("empty notification not allowed");
         return;
     }
     if (!allowedNotificationType.includes(type)) {
-        console.log("given type is not allowed ", type);
+        //console.log("given type is not allowed ", type);
         return;
     }
     let notificationOutline = $("#notifications");
@@ -126,8 +126,8 @@ function addLoader(Domloader) {
     let loading = $(".loading", Domloader);
     let box = $(".loading-box", loading);
 
-    console.log("loader is ", loading);
-    console.log("box is ", box);
+    //console.log("loader is ", loading);
+    //console.log("box is ", box);
     let i = 0;
     let intervalId = setInterval(() => {
         $(box[i]).toggleClass("active-loading");
@@ -150,14 +150,14 @@ function listenerToAddNewComment() {
 listenerToAddNewComment();
 
 function addNewComment(itm) {
-    // console.log("itm is ***** ", itm);
+    // //console.log("itm is ***** ", itm);
     $(itm).submit(function(e) {
         e.preventDefault();
-        // console.log("itm is ", itm);
+        // //console.log("itm is ", itm);
         let dom_loader = domLoader();
         dom_loader.insertAfter($(itm).parent());
         let intervalId = addLoader(dom_loader);
-        // console.log("interval is ", intervalId);
+        // //console.log("interval is ", intervalId);
         $(itm).toggleClass(" disable_btn_without_back");
         $(itm).toggleClass(" lock_form_without_background");
         $.ajax({
@@ -165,7 +165,7 @@ function addNewComment(itm) {
             url: $(itm).prop("action"),
             data: $(itm).serialize(),
             success: function(data) {
-                console.log("data is ", data.data);
+                //console.log("data is ", data.data);
                 let domComment = addNewCommentToDOM(data.data.comment, data.data.post);
 
                 $(`#all-comment-${data.data.post._id}`).prepend(domComment);
@@ -184,7 +184,7 @@ function addNewComment(itm) {
                 //$(`#comment-${data.data.post._id}`).show();
 
                 if ($(`#comment-${data.data.post._id}`).css("display") == "none") {
-                    //  console.log("%%%%%%%%%% ", data.data.post._id);
+                    //  //console.log("%%%%%%%%%% ", data.data.post._id);
                     toggleComment(
                         data.data.post._id,
                         data.data.post.photos ? "Post" : "Text"
@@ -202,7 +202,7 @@ function addNewComment(itm) {
                 $(itm).toggleClass(" disable_btn_without_back");
                 $(itm).toggleClass(" lock_form_without_background");
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -213,7 +213,7 @@ function addNewComment(itm) {
                     return;
                 }
                 // handleNotification("error", xhr.responseJSON.err);
-                console.log("err is ^^^^^^^^^ ", xhr.responseJSON.err);
+                //console.log("err is ^^^^^^^^^ ", xhr.responseJSON.err);
                 $(itm).trigger("reset");
             },
         });
@@ -309,7 +309,7 @@ function handleLikeIconAndCount(target, liked, name) {
 }
 
 function handleToggleCommentLike(toggleLikeOfComment) {
-    //  console.log("toggle comment like &&&&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&");
+    //  //console.log("toggle comment like &&&&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&");
     $(toggleLikeOfComment).click(function(e) {
         e.preventDefault();
         $(toggleLikeOfComment).toggleClass(" disable_btn_without_back");
@@ -317,7 +317,7 @@ function handleToggleCommentLike(toggleLikeOfComment) {
             type: "GET",
             url: $(toggleLikeOfComment).prop("href"),
             success: function(data) {
-                console.log("data is ", data);
+                //console.log("data is ", data);
                 let comment = data.data.comment;
                 handleLikeIconAndCount(
                     comment,
@@ -330,7 +330,7 @@ function handleToggleCommentLike(toggleLikeOfComment) {
             error: function(xhr, err) {
                 $(toggleLikeOfComment).toggleClass(" disable_btn_without_back");
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -340,7 +340,7 @@ function handleToggleCommentLike(toggleLikeOfComment) {
 
                     return;
                 }
-                console.log("err is ", err.responseText);
+                //console.log("err is ", err.responseText);
                 handleNotification("error", xhr.responseJSON.err);
             },
         });
@@ -396,7 +396,7 @@ function handleTogglePostLike(toggleLikeOfPost) {
             error: function(xhr, err) {
                 $(toggleLikeOfPost).toggleClass(" disable_btn_without_back");
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -406,13 +406,13 @@ function handleTogglePostLike(toggleLikeOfPost) {
 
                     return;
                 }
-                console.log("err is ", err.responseText);
+                //console.log("err is ", err.responseText);
                 handleNotification("error", xhr.responseJSON.err);
             },
             // statusCode: {
             //     401: function(res, textStatus, xhr) {
-            //         console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            //         console.log(
+            //         //console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            //         //console.log(
             //             "res is ",
             //             res.status,
             //             " text status is ",
@@ -453,7 +453,7 @@ function handleToggleSave(saveToggle) {
             type: "GET",
             url: $(saveToggle).prop("href"),
             success: function(data) {
-                console.log("data is ", data);
+                //console.log("data is ", data);
                 let parent = $(`#save-toggle-link-${data.data.target._id}`);
                 parent.html("");
                 parent.append(handleSaveImgDisplay(data.data.state ? true : false));
@@ -462,7 +462,7 @@ function handleToggleSave(saveToggle) {
             },
             error: function(xhr, err) {
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -473,7 +473,7 @@ function handleToggleSave(saveToggle) {
                     return;
                 }
                 handleNotification("error", xhr.responseJSON.err);
-                console.log("err is ", err.responseText);
+                //console.log("err is ", err.responseText);
                 $(saveToggle).toggleClass(" disable_btn_without_back");
             },
         });
@@ -496,7 +496,7 @@ function deleteComment(deleteCommentLink) {
             type: "GET",
             url: $(deleteCommentLink).prop("href"),
             success: function(data) {
-                console.log("data is ^^ ", data);
+                //console.log("data is ^^ ", data);
                 $(`#comment-id-${data.data.commentId}`).remove();
                 $(`#comment-head-${data.data.postId}`).text(
                     data.data.commentLength + "  Comments"
@@ -518,7 +518,7 @@ function deleteComment(deleteCommentLink) {
             error: function(xhr, err) {
                 $(deleteCommentLink).toggleClass(" disable_btn_without_back");
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -528,7 +528,7 @@ function deleteComment(deleteCommentLink) {
 
                     return;
                 }
-                console.log("err is", err);
+                //console.log("err is", err);
                 handleNotification("error", xhr.responseJSON.err);
             },
         });
@@ -546,10 +546,10 @@ function handleEditCommentOption(event) {
     let classs = "toUpdateComment";
 
     let ele = event.target;
-    console.log("targte ele is ", ele);
+    //console.log("targte ele is ", ele);
     // let id = ele.getAttribute("id");
-    // console.log("event.target is ", ele);
-    // console.log("comment id is *************** ", id);
+    // //console.log("event.target is ", ele);
+    // //console.log("comment id is *************** ", id);
 
     let D = document.createElement("div");
     // D.id = classs + "-" + id;
@@ -564,8 +564,8 @@ function handleEditCommentOption(event) {
     // link.id = id;
     link.className = "delete-comment-link";
     D.appendChild(link);
-    console.log("D is ", D);
-    console.log("paren t ************** ", ele.parentNode.parentNode);
+    //console.log("D is ", D);
+    //console.log("paren t ************** ", ele.parentNode.parentNode);
     ele.parentNode.parentNode.parentNode.appendChild(D);
     deleteComment($(link));
 }
@@ -578,8 +578,8 @@ function handleEditPostOption(event) {
     // let id = parseInt($(ele).attr("id"));
     let id = parseInt(ele.getAttribute("id"));
 
-    // console.log("event.target is ", ele);
-    // console.log("id is *************** ", id);
+    // //console.log("event.target is ", ele);
+    // //console.log("id is *************** ", id);
 
     let D = document.createElement("div");
     D.id = classs + "-" + id;
@@ -595,26 +595,26 @@ function handleEditPostOption(event) {
     link.id = id;
     link.className = "delete-post-link";
     D.appendChild(link);
-    console.log("D is ", D);
-    console.log("to add is ");
-    // // console.log("D is &&&&&&&&&&&&&&&&&&&&&&& ", D);
-    // console.log("mrfn  ", document.getElementsByClassName("day-menu"));
+    //console.log("D is ", D);
+    //console.log("to add is ");
+    // // //console.log("D is &&&&&&&&&&&&&&&&&&&&&&& ", D);
+    // //console.log("mrfn  ", document.getElementsByClassName("day-menu"));
     document.getElementById("post-" + id).appendChild(D);
     deletePost($(link));
 }
 
 function handleDeletePost() {
     $(".delete-post-link").each((deletePostLink) => {
-        console.log("delete post links are ", deletePostLink);
+        //console.log("delete post links are ", deletePostLink);
         deletePost(deletePostLink);
     });
 }
 handleDeletePost();
 
 function deletePost(deletePostLink) {
-    console.log("%%%%%%%%%%%%%%5 66  : ", $(deletePostLink));
+    //console.log("%%%%%%%%%%%%%%5 66  : ", $(deletePostLink));
     $(deletePostLink).click((e) => {
-        console.log("$$$$$$$$$$$$$$$$$$$$$$  ^^^^^^ ");
+        //console.log("$$$$$$$$$$$$$$$$$$$$$$  ^^^^^^ ");
         e.preventDefault();
         $(deletePostLink).toggleClass(" disable_btn_without_back");
         let id = $(deletePostLink).prop("id");
@@ -623,16 +623,16 @@ function deletePost(deletePostLink) {
             type: "GET",
             url: $(deletePostLink).prop("href"),
             success: function(data) {
-                console.log("data is ", data);
+                //console.log("data is ", data);
                 $(`#post-${id}`).remove();
-                console.log("data postId ", data.data.postId);
+                //console.log("data postId ", data.data.postId);
                 $(`#comment-${data.data.postId}`).remove();
                 $(deletePostLink).toggleClass(" disable_btn_without_back");
                 handleNotification("success", data.message);
             },
             error: function(xhr, err) {
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -644,7 +644,7 @@ function deletePost(deletePostLink) {
                 }
                 handleNotification("error", xhr.responseJSON.err);
                 $(deletePostLink).toggleClass(" disable_btn_without_back");
-                console.log("err is ", xhr.responseJSON.err);
+                //console.log("err is ", xhr.responseJSON.err);
             },
         });
     });
@@ -704,7 +704,7 @@ showSignInPage();
 function forgotPasswordListener(forgotLink) {
     forgotLink.click(function(e) {
         e.preventDefault();
-        console.log("some %%%%%%%%%%%%%%%%%%% 00");
+        //console.log("some %%%%%%%%%%%%%%%%%%% 00");
         slidedown("jhcdh");
         let loginOutline = $("#login-form");
         loginOutline.html("");
@@ -724,7 +724,7 @@ function getOtp(form) {
             url: form.prop("action"),
             data: form.serialize(),
             success: function(data) {
-                console.log("message is ", data);
+                //console.log("message is ", data);
                 if (data.data.type == "signUp") {
                     show_email_verification_page(
                         data.data.email,
@@ -744,7 +744,7 @@ function getOtp(form) {
             },
             error: function(xhr, err) {
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -757,7 +757,7 @@ function getOtp(form) {
                 handleNotification("error", xhr.responseJSON.err);
                 $(form).toggleClass(" disable_btn_without_back");
                 $("button", form).toggleClass(" disable_btn");
-                console.log("err is ", xhr.responseJSON.err);
+                //console.log("err is ", xhr.responseJSON.err);
             },
         });
     });
@@ -874,7 +874,7 @@ function show_Set_Password_Form(secret) {
 }
 
 function sendIntialData(intialDataForm) {
-    console.log("intialdataform is ~~~~~~~~~~~~~~~~~~~~~~ ", intialDataForm);
+    //console.log("intialdataform is ~~~~~~~~~~~~~~~~~~~~~~ ", intialDataForm);
     intialDataForm.submit((e) => {
         e.preventDefault();
         $(intialDataForm).toggleClass(" disable_btn_without_back");
@@ -884,7 +884,7 @@ function sendIntialData(intialDataForm) {
             url: intialDataForm.prop("action"),
             data: intialDataForm.serialize(),
             success: function(data) {
-                console.log("data is ", data.message);
+                //console.log("data is ", data.message);
                 showSignInPage();
                 handleNotification("success", data.message);
                 $(intialDataForm).toggleClass(" disable_btn_without_back");
@@ -892,7 +892,7 @@ function sendIntialData(intialDataForm) {
             },
             error: function(xhr, err) {
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -903,7 +903,7 @@ function sendIntialData(intialDataForm) {
                     return;
                 }
                 handleNotification("error", xhr.responseJSON.err);
-                console.log("err is ", xhr.responseJSON.err);
+                //console.log("err is ", xhr.responseJSON.err);
                 $(intialDataForm).toggleClass(" disable_btn_without_back");
                 $("button", intialDataForm).toggleClass(" disable_btn");
             },
@@ -1003,7 +1003,7 @@ function verifyEmail(emailVerificationForm) {
             url: emailVerificationForm.prop("action"),
             data: emailVerificationForm.serialize(),
             success: function(data) {
-                console.log("data is ", data.message);
+                //console.log("data is ", data.message);
                 let secret = data.data.secret;
                 if (data.data.type == "signUp") {
                     show_SignUp_intial_dataForm(secret);
@@ -1016,7 +1016,7 @@ function verifyEmail(emailVerificationForm) {
             },
             error: function(xhr, err) {
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -1027,7 +1027,7 @@ function verifyEmail(emailVerificationForm) {
                     return;
                 }
                 handleNotification("error", xhr.responseJSON.err);
-                console.log("error is ", err.responseText);
+                //console.log("error is ", err.responseText);
                 $(emailVerificationForm).toggleClass(" disable_btn_without_back");
                 $("button", emailVerificationForm).toggleClass(" disable_btn");
             },
@@ -1045,7 +1045,7 @@ function getOtpForSignUp(form) {
             url: form.prop("action"),
             data: form.serialize(),
             success: function(data) {
-                console.log("message is ", data.message);
+                //console.log("message is ", data.message);
                 show_sign_up_email_verification_page(data.data.email);
                 handleNotification("success", data.message);
                 $(form).toggleClass(" disable_btn_without_back");
@@ -1053,7 +1053,7 @@ function getOtpForSignUp(form) {
             },
             error: function(xhr, err) {
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -1064,7 +1064,7 @@ function getOtpForSignUp(form) {
                     return;
                 }
                 handleNotification("error", xhr.responseJSON.err);
-                console.log("err is ", xhr.responseJSON.err);
+                //console.log("err is ", xhr.responseJSON.err);
                 $(form).toggleClass(" disable_btn_without_back");
                 $("button", form).toggleClass(" disable_btn");
             },
@@ -1080,13 +1080,13 @@ function otp_resend_option(link) {
             method: "GET",
             url: link.prop("href"),
             success: function(data) {
-                console.log("message is ", data.message);
+                //console.log("message is ", data.message);
                 handleNotification("success", data.message);
                 $(link).toggleClass(" disable_btn_without_back");
             },
             error: function(xhr, err) {
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -1097,7 +1097,7 @@ function otp_resend_option(link) {
                     return;
                 }
                 handleNotification("error", xhr.responseJSON.err);
-                console.log("err is ", xhr.responseJSON.err);
+                //console.log("err is ", xhr.responseJSON.err);
                 $(link).toggleClass(" disable_btn_without_back");
             },
         });
@@ -1110,13 +1110,13 @@ function handleNoticeLike(link) {
     $(link).click((e) => {
         e.preventDefault();
         $(link).toggleClass(" disable_btn_without_back");
-        console.log("href is ^^^^^^^ ", $(link).prop("href"));
+        //console.log("href is ^^^^^^^ ", $(link).prop("href"));
         $.ajax({
             type: "GET",
             url: $(link).prop("href"),
             success: function(data) {
                 $(link).toggleClass(" disable_btn_without_back");
-                console.log("data is ", data.data.notice._id);
+                //console.log("data is ", data.data.notice._id);
                 let notice = data.data.notice;
                 handleLikeIconAndCount(notice, data.data.like ? true : false, "notice");
                 handleNotification("success", data.message);
@@ -1124,7 +1124,7 @@ function handleNoticeLike(link) {
             error: function(xhr, err) {
                 $(link).toggleClass(" disable_btn_without_back");
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -1134,7 +1134,7 @@ function handleNoticeLike(link) {
 
                     return;
                 }
-                console.log("err is ", xhr.responseText);
+                //console.log("err is ", xhr.responseText);
                 handleNotification("error", xhr.responseJSON.err);
             },
         });
@@ -1142,7 +1142,7 @@ function handleNoticeLike(link) {
 }
 
 function handleNotices() {
-    console.log("handle notices running ");
+    //console.log("handle notices running ");
     $(".notice").each((i, itm) => {
         handleNoticeLike($(".notice-like-link", itm));
     });
@@ -1155,20 +1155,20 @@ function deleteByType(typeDeleteLink) {
         e.preventDefault();
 
         $(typeDeleteLink).toggleClass(" disable_btn_without_back");
-        console.log("prevent by me ^^^^^^^^^^ ");
+        //console.log("prevent by me ^^^^^^^^^^ ");
         $.ajax({
             type: "GET",
             url: $(typeDeleteLink).prop("href"),
             success: function(data) {
-                console.log("req successfull, message is ", data.message);
+                //console.log("req successfull, message is ", data.message);
                 $(typeDeleteLink).toggleClass(" disable_btn_without_back");
-                console.log("data is ", data.data);
+                //console.log("data is ", data.data);
                 const typeId = data.data.typeId;
                 const type = data.data.type;
-                console.log("^^^^^^^^^^^^^^ ", $(`#${type}-${typeId}`));
+                //console.log("^^^^^^^^^^^^^^ ", $(`#${type}-${typeId}`));
                 $(`#${type}-${typeId}`).remove();
                 let Container = $(`#${type}s`);
-                console.log("dc ^^^ ", $(Container).children().length);
+                //console.log("dc ^^^ ", $(Container).children().length);
                 if ($(Container).children().length == 0) {
                     if (type == "notice")
                         $(Container)
@@ -1182,7 +1182,7 @@ function deleteByType(typeDeleteLink) {
             error: function(xhr, err) {
                 $(typeDeleteLink).toggleClass(" disable_btn_without_back");
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -1192,7 +1192,7 @@ function deleteByType(typeDeleteLink) {
 
                     return;
                 }
-                console.log("err is ", xhr.responseJSON.err);
+                //console.log("err is ", xhr.responseJSON.err);
                 handleNotification("error", xhr.responseJSON.err);
             },
         });
@@ -1205,10 +1205,10 @@ function handleEditOptionByType(link, type) {
         let classs = "toUpdate" + type;
 
         let ele = event.target;
-        console.log("targte ele is ", ele);
+        //console.log("targte ele is ", ele);
         // let id = ele.getAttribute("id");
-        // console.log("event.target is ", ele);
-        // console.log("comment id is *************** ", id);
+        // //console.log("event.target is ", ele);
+        // //console.log("comment id is *************** ", id);
 
         let D = document.createElement("div");
         // D.id = classs + "-" + id;
@@ -1223,8 +1223,8 @@ function handleEditOptionByType(link, type) {
         // link.id = id;
         // link.className = "delete-comment-link";
         D.appendChild(link);
-        console.log("D is ", D);
-        console.log("paren t ************** ", ele.parentNode.parentNode);
+        //console.log("D is ", D);
+        //console.log("paren t ************** ", ele.parentNode.parentNode);
         if (type == "alert") {
             ele.parentNode.appendChild(D);
         } else if (type == "poll" || type == "notice") {
@@ -1247,16 +1247,16 @@ function handleEditOptionByType(link, type) {
 
 function addListenerToEdit() {
     $(".poll-edit-link").each((i, itm) => {
-        console.log("handle poll deletion: ", itm);
+        //console.log("handle poll deletion: ", itm);
         handleEditOptionByType(itm, "poll");
     });
 
     $(".alert-edit-link").each((i, itm) => {
-        console.log("handle alert deletion: ", itm);
+        //console.log("handle alert deletion: ", itm);
         handleEditOptionByType(itm, "alert");
     });
     $(".notice-edit-link").each((i, itm) => {
-        console.log("handle notice deletion");
+        //console.log("handle notice deletion");
         handleEditOptionByType(itm, "notice");
     });
 }
@@ -1271,18 +1271,18 @@ function handlePollVoting(itm) {
             url: $(itm).prop("href"),
             success: function(data) {
                 let pollId = data.data.pollId;
-                // console.log("pollId is ", pollId);
+                // //console.log("pollId is ", pollId);
                 let yes_voting = $(`#yes-voting-${pollId}`);
                 let no_voting = $(`#no-voting-${pollId}`);
                 let pollVoteLength = $(`#poll-votes-length-${pollId}`);
                 $(yes_voting).css("pointer-events", "none");
                 $(no_voting).css("pointer-events", "none");
-                // console.log("cddd^^^^^ ", $(".yes-option", yes_voting));
+                // //console.log("cddd^^^^^ ", $(".yes-option", yes_voting));
                 $(".yes-option", yes_voting).text(data.data.yesPercent + "%");
                 $(".no-option", no_voting).text(data.data.noPercent + "%");
 
                 if (pollVoteLength.length > 0) {
-                    console.log("running ^^^^^^^^^^^^^^^^^^ ");
+                    //console.log("running ^^^^^^^^^^^^^^^^^^ ");
                     $(pollVoteLength).text(data.data.totalVotes + " votes");
                 }
                 $(itm).parent().toggleClass(" disable_btn");
@@ -1291,7 +1291,7 @@ function handlePollVoting(itm) {
             error: function(xhr, err) {
                 $(itm).parent().toggleClass(" disable_btn");
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
@@ -1301,7 +1301,7 @@ function handlePollVoting(itm) {
 
                     return;
                 }
-                console.log("err is ", xhr.responseJSON.err);
+                //console.log("err is ", xhr.responseJSON.err);
                 handleNotification("error", xhr.responseJSON.err);
             },
         });
@@ -1354,7 +1354,7 @@ function handleRequests(itm) {
             type: "GET",
             url: $(itm).prop("href"),
             success: function(data) {
-                console.log("data is ", data.message);
+                //console.log("data is ", data.message);
                 handleNotification("success", data.message);
                 let type = data.data.type;
                 let profileId = data.data.profileId;
@@ -1370,7 +1370,7 @@ function handleRequests(itm) {
             error: function(xhr, err) {
                 $(itm).toggleClass(" disable_btn");
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
                     setTimeout(function() {
@@ -1379,7 +1379,7 @@ function handleRequests(itm) {
 
                     return;
                 }
-                console.log("err is ", xhr.responseJSON.err);
+                //console.log("err is ", xhr.responseJSON.err);
 
                 handleNotification("error", xhr.responseJSON.err);
             },
@@ -1414,7 +1414,7 @@ function handleNewCreateContent(form) {
             success: function(data) {
                 $(form).toggleClass(" disable_btn_without_back");
                 $("button", form).toggleClass(" disable_btn");
-                console.log("data is ", data);
+                //console.log("data is ", data);
 
                 removeLoader(dom_loader, intervalId);
                 handleNotification("success", data.message);
@@ -1425,7 +1425,7 @@ function handleNewCreateContent(form) {
                 $(form).toggleClass(" disable_btn_without_back");
                 $("button", form).toggleClass(" disable_btn");
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
                     setTimeout(function() {
@@ -1434,13 +1434,13 @@ function handleNewCreateContent(form) {
 
                     return;
                 }
-                console.log(
-                    "err textStatus is ^^ ",
-                    textStatus,
-                    " err message is ",
-                    message
-                );
-                // console.log("res is ", xhr.responseJSON.err);
+                // //console.log(
+                //     "err textStatus is ^^ ",
+                //     textStatus,
+                //     " err message is ",
+                //     message
+                // );
+                // //console.log("res is ", xhr.responseJSON.err);
                 if (textStatus == "timeout") {
                     handleNotification("error", "Request " + message);
                 } else handleNotification("error", xhr.responseJSON.err);
@@ -1460,19 +1460,19 @@ addListenerToNewCreateContent();
 //k
 
 document.addEventListener("mouseup", function(e) {
-    // console.log("yes detected *************");
+    // //console.log("yes detected *************");
     let classs = "clickDisappear";
     // let not = document.getElementsByClassName("tem-member-edit-option");
     // let no = document.getElementsByClassName(classs);
     let no = $("." + classs)[0];
     // if (!no[0].contains(e.target)) {
-    //     // console.log("yes mfvnjvjfv ****** ");
+    //     // //console.log("yes mfvnjvjfv ****** ");
     //     document.querySelectorAll("." + classs).forEach((item) => {
     //         item.remove();
     //     });
     // }
     if (no && !no.contains(e.target)) {
-        // console.log("yes mfvnjvjfv ****** ");
+        // //console.log("yes mfvnjvjfv ****** ");
         // document.querySelectorAll("." + classs).forEach((item) => {
         //     item.remove();
         // });
@@ -1584,27 +1584,27 @@ function addCommentdToDom(
 }
 
 function loadMoreButton(post_id, lastTime, type) {
-    console.log("post_id ", post_id, " time is ", lastTime, "Type is ", type);
+    //console.log("post_id ", post_id, " time is ", lastTime, "Type is ", type);
     return $(
         `<button class='load-comment load-on-demand' id='load-comment-${post_id}' time=${lastTime} type=${type} postId=${post_id}>Load More</button>`
     );
 }
 
 // function loadMorePostButton(lastTime) {
-//     console.log(" time is ", lastTime);
+//     //console.log(" time is ", lastTime);
 //     return $(
 //         `<button class='load-post'  time=${lastTime} >Load More Post</button>`
 //     );
 // }
 
 function toggleComment(post_id, type) {
-    console.log("post_id ^^^^^^^^^^^^^^ ", post_id);
+    //console.log("post_id ^^^^^^^^^^^^^^ ", post_id);
     let loadLimit = 6;
-    console.log("type is ############ %%%%%%%%% ", type);
+    //console.log("type is ############ %%%%%%%%% ", type);
     let comment = $("#comment-" + post_id);
     let styyle = $(comment).css("display");
     let newStyle = styyle === "none" ? "block" : "none";
-    console.log("newStyle ", newStyle, "  prev Style ", styyle);
+    //console.log("newStyle ", newStyle, "  prev Style ", styyle);
     // comment.style.display = newStyle;
     $(comment).css("display", newStyle);
     if (newStyle == "none") return;
@@ -1617,7 +1617,7 @@ function toggleComment(post_id, type) {
         type: "GET",
         url: `/get-comments-of-post?id=${post_id}&type=${type}`,
         success: async function(data) {
-            console.log("data is ", data.data);
+            //console.log("data is ", data.data);
             removeLoader(dom_loader, intervalId);
             addCommentdToDom(
                 $("#all-comment-" + post_id, comment),
@@ -1649,7 +1649,7 @@ function toggleComment(post_id, type) {
             }
         },
         error: function(xhr, err) {
-            console.log("err in loading comments plzz refresh the page");
+            //console.log("err in loading comments plzz refresh the page");
             handleNotification("error", xhr.responseJSON.err);
             removeLoader(dom_loader, intervalId);
         },
@@ -1663,10 +1663,10 @@ function loadMoreComment(itm) {
     //     e.preventDefault();
     let time = $(itm).attr("time");
     let type = $(itm).attr("type");
-    console.log("type is 1667 @@@@@@@@ $$$$$$$$$$$$  ", type);
+    //console.log("type is 1667 @@@@@@@@ $$$$$$$$$$$$  ", type);
     let post_id = $(itm).attr("postId");
     $(itm).css("backgroundColor", "red");
-    console.log("time is ", time, " postId is ", post_id);
+    //console.log("time is ", time, " postId is ", post_id);
     //load more comment
     //add loader
     let dom_loader = domLoader();
@@ -1680,7 +1680,7 @@ function loadMoreComment(itm) {
         url: `/load-more-comments-of-post?id=${post_id}&time=${time}&type=${type}`,
         success: async function(data) {
             removeLoader(dom_loader, intervalId);
-            console.log("data is ", data);
+            //console.log("data is ", data);
             addCommentdToDom(
                 $("#all-comment-" + post_id),
                 data.data.comments,
@@ -1690,7 +1690,7 @@ function loadMoreComment(itm) {
                 data.data.postType
             );
             if (data.data.comments.length >= loadLimit) {
-                console.log("data.data.postType is @@@@@@@@@ ", data.data.postType);
+                //console.log("data.data.postType is @@@@@@@@@ ", data.data.postType);
                 let loadMore = loadMoreButton(
                     post_id,
                     data.data.lastTime,
@@ -1702,7 +1702,7 @@ function loadMoreComment(itm) {
         },
         error: function(xhr, err) {
             removeLoader(dom_loader, intervalId);
-            console.log("err in loading more comment is ", xhr.responseJSON.err);
+            //console.log("err in loading more comment is ", xhr.responseJSON.err);
             handleNotification("error", xhr.responseJSON.err);
         },
     });
@@ -1728,7 +1728,7 @@ function callpostIntialFunctions(domEle) {
 
 function addPostsToDom(localUser, posts) {
     let count = $(".post-class").length;
-    console.log("count is ^^^^^^^^^^^^^^^ ", count);
+    //console.log("count is ^^^^^^^^^^^^^^^ ", count);
     for (let post of posts) {
         let domEle = addPostToDom(localUser, post, count);
         $("#post-container").append(domEle);
@@ -1740,7 +1740,7 @@ function addPostsToDom(localUser, posts) {
 
 function addPostsEventToEventDomPage(type, localUser, posts) {
     let count = $(".post-class").length;
-    console.log("count is ^^^^^^^^^^^^^^^ ", count);
+    //console.log("count is ^^^^^^^^^^^^^^^ ", count);
     for (let post of posts) {
         let domEle = addPostToDom(localUser, post, count);
         $("." + type + "-post-container").append(domEle);
@@ -1801,12 +1801,12 @@ function addPostToDom(localUser, post, count) {
 `;
         let i = 0;
         for (let photo of post.photos) {
-            console.log(
-                "phot o ################### ",
-                i,
-                " jrhjvf ######### ",
-                photo
-            );
+            //     //console.log(
+            //     "phot o ################### ",
+            //     i,
+            //     " jrhjvf ######### ",
+            //     photo
+            // );
             res += `<img src="${photo}"  alt="post-pic" class="post-${post._id} post" current_no="${i}" max_no="${post.photos.length}" />
                                             `;
 
@@ -1833,7 +1833,7 @@ function addPostToDom(localUser, post, count) {
     let existLike = false;
     if (localUser) {
         for (lik of post.likes) {
-            console.log("lik is ", lik);
+            //console.log("lik is ", lik);
             if (lik.creator && lik.creator._id == localUser._id) {
                 existLike = true;
                 break;
@@ -1969,7 +1969,7 @@ function addPostToDom(localUser, post, count) {
 }
 
 function loadMorePost(itm) {
-    console.log("running @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ");
+    //console.log("running @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ");
     let loadLimit = 2;
     // $(itm).click((e) => {
     //     e.preventDefault();
@@ -1989,10 +1989,10 @@ function loadMorePost(itm) {
         type: "GET",
         url: `/load-more-post?photoTime=${photoTime}&textTime=${textTime}&photo=${photo}&text=${text}`,
         success: function(data) {
-            console.log("data is ", data);
+            //console.log("data is ", data);
             addPostsToDom(data.data.localUser, data.data.posts);
             removeLoader(dom_loader, intervalId);
-            console.log("length of loading ", data.data.posts.length);
+            //console.log("length of loading ", data.data.posts.length);
             if (data.data.posts.length >= loadLimit) {
                 let loadMorePostbtn = loadMorePostButton(
                     data.data.lastPhotoTime,
@@ -2006,7 +2006,7 @@ function loadMorePost(itm) {
         },
         error: function(xhr, err) {
             removeLoader(dom_loader, intervalId);
-            console.log("err in loading more post is ", xhr.responseJSON.err);
+            //console.log("err in loading more post is ", xhr.responseJSON.err);
             handleNotification("error", xhr.responseJSON.err);
         },
     });
@@ -2014,7 +2014,7 @@ function loadMorePost(itm) {
 }
 async function handleLoadingPostVisiblity(btn) {
     // $(btn).css("border", "2px solid yellow");
-    console.log("running ########################## ");
+    //console.log("running ########################## ");
     let inView = await checkIntoView(btn);
     if (inView) loadMorePost(btn);
     $(window).scroll(async() => {
@@ -2036,7 +2036,7 @@ function listenerToAddMorePost() {
 listenerToAddMorePost();
 async function handleLoadingCommentVisiblity(btn) {
     // $(btn).css("border", "2px solid yellow");
-    //console.log("running ########################## ");
+    ////console.log("running ########################## ");
     let inView = await checkIntoView(btn);
     if (inView) loadMoreComment(btn);
     $(window).scroll(async() => {
@@ -2057,7 +2057,7 @@ function listenerToLoadMoreComment() {
 }
 
 // function loadMorePostButton(lastTime) {
-//   console.log(" time is ", lastTime);
+//   //console.log(" time is ", lastTime);
 //   return $(
 //     `<button class='load-post'  time=${lastTime} >Load More Post</button>`
 //   );
@@ -2138,13 +2138,13 @@ function addLikesToPage(likes, localUser) {
 }
 
 function addMoreLikes(btn) {
-    //console.log("fn running @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22 ");
+    ////console.log("fn running @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22 ");
     const likeLoadingLimit = 4;
     // $(btn).click((e) => {
     //     e.preventDefault();
     let postId = $(btn).attr("postId");
     let time = $(btn).attr("time");
-    //console.log("postId is ", postId, " time is ", time);
+    ////console.log("postId is ", postId, " time is ", time);
     let type = $(btn).attr("type");
     //add loader
     let dom_loader = domLoader();
@@ -2157,9 +2157,9 @@ function addMoreLikes(btn) {
         type: "GET",
         url: `/user/load-more-post-likes?type=${type}&time=${time}&postId=${postId}`,
         success: function(data) {
-            console.log("like added successfully ", data);
+            //console.log("like added successfully ", data);
             addLikesToPage(data.data.likes, data.data.localUser);
-            // console.log("localuser is ########## ", localUser);
+            // //console.log("localuser is ########## ", localUser);
             removeLoader(dom_loader, intervalId);
             if (data.data.likes.length >= likeLoadingLimit) {
                 let loadMoreLikeBtn = loadMoreLikeButton(
@@ -2172,7 +2172,7 @@ function addMoreLikes(btn) {
             }
         },
         error: function(xhr, err) {
-            console.log("err in loading likes of post is : ", xhr.responseJSON.err);
+            //console.log("err in loading likes of post is : ", xhr.responseJSON.err);
             removeLoader(dom_loader, intervalId);
             handleNotification("error", xhr.responseJSON.err);
         },
@@ -2181,7 +2181,7 @@ function addMoreLikes(btn) {
 }
 async function handleLoadingLikeVisiblity(btn) {
     // $(btn).css("border", "2px solid yellow");
-    console.log("running ########################## ");
+    //console.log("running ########################## ");
     let inView = await checkIntoView(btn);
     if (inView) addMoreLikes(btn);
     $(window).scroll(async() => {
@@ -2196,7 +2196,7 @@ async function handleLoadingLikeVisiblity(btn) {
 
 function addListenerToMoreLike() {
     $(".load-like").each((i, btn) => {
-        // console.log("itm added ########## ");
+        // //console.log("itm added ########## ");
         handleLoadingLikeVisiblity(btn);
         // addMoreLikes(btn);
     });
@@ -2295,7 +2295,7 @@ function noticeDom(notice, localUser) {
 function addAllNoticesToPage(notices, localUser) {
     for (let notice of notices) {
         let notice_dom = noticeDom(notice, localUser);
-        // console.log("notice_dom is ", notice_dom);
+        // //console.log("notice_dom is ", notice_dom);
         handleNoticeLike($(".notice-like-link", notice_dom));
         handleEditOptionByType($(".notice-edit-link", notice_dom), "notice");
         $("#notices").append(notice_dom);
@@ -2303,12 +2303,12 @@ function addAllNoticesToPage(notices, localUser) {
 }
 
 function addMoreNotices(btn) {
-    //console.log("fn running @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22 ");
+    ////console.log("fn running @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22 ");
     const noticeLoadingLimit = 1;
     // $(btn).click((e) => {
     //     e.preventDefault();
     let time = $(btn).attr("time");
-    // console.log("noticeId is ", noticeId, " time is ", time);
+    // //console.log("noticeId is ", noticeId, " time is ", time);
 
     //add loader
     let dom_loader = domLoader();
@@ -2321,9 +2321,9 @@ function addMoreNotices(btn) {
         type: "GET",
         url: `/load-more-notice?time=${time}`,
         success: function(data) {
-            console.log("notice  loaded successfully ", data);
+            //console.log("notice  loaded successfully ", data);
             addAllNoticesToPage(data.data.notices, data.data.localUser);
-            // console.log("localuser is ########## ", localUser);
+            // //console.log("localuser is ########## ", localUser);
             removeLoader(dom_loader, intervalId);
             if (data.data.notices.length >= noticeLoadingLimit) {
                 let loadMoreNoticeBtn = loadMoreNoticeButton(data.data.lastTime);
@@ -2332,7 +2332,7 @@ function addMoreNotices(btn) {
             }
         },
         error: function(xhr, err) {
-            console.log("err in loading notices of post is : ", xhr.responseJSON.err);
+            //console.log("err in loading notices of post is : ", xhr.responseJSON.err);
             removeLoader(dom_loader, intervalId);
             handleNotification("error", xhr.responseJSON.err);
         },
@@ -2341,7 +2341,7 @@ function addMoreNotices(btn) {
 }
 async function handleLoadingNoticeVisiblity(btn) {
     // $(btn).css("border", "2px solid yellow");
-    console.log("running ########################## ");
+    //console.log("running ########################## ");
     let inView = await checkIntoView(btn);
     if (inView) addMoreNotices(btn);
     $(window).scroll(async() => {
@@ -2430,7 +2430,7 @@ function eventHomeDom(event) {
 
 function addAllUpcomingHome(container, events) {
     for (let event of events) {
-        console.log("event is ", event);
+        //console.log("event is ", event);
         let eventDom = eventHomeDom(event.postRef);
         // setCreatedTime($(".event-time", eventDom));
         setEventDate(".event-time", eventDom);
@@ -2441,11 +2441,11 @@ function addAllUpcomingHome(container, events) {
 function toggleEventsVisibality(id_name) {
     let obj = document.querySelector("#" + id_name);
     let currentMaxHeight = getComputedStyle(obj).maxHeight;
-    // console.log("off-set-height is ", obj.offsetHeight);
+    // //console.log("off-set-height is ", obj.offsetHeight);
     obj.style.maxHeight = currentMaxHeight != "0px" ? "0px" : "600px";
 
     // let newStyle = currentStyle === "none" ? "block" : "none";
-    // console.log("newStyle ", newStyle, "  prev Style ", currentStyle);
+    // //console.log("newStyle ", newStyle, "  prev Style ", currentStyle);
     // obj.style.display = newStyle;
     let arrowUp = document.getElementById("arrow-up");
     // let arrowDown = document.getElementById("arrow-down");
@@ -2480,13 +2480,13 @@ function toggleEventsVisibality(id_name) {
       ">
                     No Upcoming or Runnning Event
                 </div>`);
-            console.log("data is ", data);
+            //console.log("data is ", data);
         },
         error: function(xhr, err) {
-            console.log(
-                "err in loading current or upcoming events  is : ",
-                xhr.responseJSON.err
-            );
+            //     //console.log(
+            //     "err in loading current or upcoming events  is : ",
+            //     xhr.responseJSON.err
+            // );
             removeLoader(dom_loader, intervalId);
             handleNotification("error", xhr.responseJSON.err);
         },
@@ -2511,7 +2511,7 @@ function noEventFind(type) {
 }
 async function handleLoadingEventVisiblity(btn) {
     // $(btn).css("border", "2px solid yellow");
-    console.log("running ########################## ");
+    //console.log("running ########################## ");
     let inView = await checkIntoView(btn);
     if (inView) {
         handleLoadingEvent(btn);
@@ -2528,14 +2528,14 @@ async function handleLoadingEventVisiblity(btn) {
             handleLoadingEvent(btn);
         }
     });
-    //  console.log("btn is ");
+    //  //console.log("btn is ");
 }
 
 async function handleLoadingEvent(btn) {
     let time = $(btn).attr("time");
     let type = $(btn).attr("type");
     const loadLimit = 2;
-    // console.log("callling @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ hhhhhhhhhhhhhhhhhhhhhh ");
+    // //console.log("callling @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ hhhhhhhhhhhhhhhhhhhhhh ");
     //       e.preventDefault();
     let dom_loader = domLoader();
     let container = $("#" + type);
@@ -2550,7 +2550,7 @@ async function handleLoadingEvent(btn) {
         success: async function(data) {
             // await $(btn).remove();
             removeLoader(dom_loader, intervalId);
-            console.log("data is ", data);
+            //console.log("data is ", data);
             // addPostsToDom(localUser, data.data.events);
             addPostsEventToEventDomPage(type, data.data.localUser, data.data.events);
 
@@ -2561,7 +2561,7 @@ async function handleLoadingEvent(btn) {
                 handleLoadingEventVisiblity(newBtn);
             } else {
                 let noOfChildren = $(targetContainer).children().length;
-                // console.log("no of childrens are @@@@@@@@@@@@@22 ", noOfChildren);
+                // //console.log("no of childrens are @@@@@@@@@@@@@22 ", noOfChildren);
                 if (noOfChildren == 0) {
                     $(targetContainer).append(noEventFind(type));
                 }
@@ -2569,7 +2569,7 @@ async function handleLoadingEvent(btn) {
             // handleNotification("success", data.message);
         },
         error: function(xhr, err) {
-            console.log("err in loading  events  is : ", xhr.responseJSON.err);
+            //console.log("err in loading  events  is : ", xhr.responseJSON.err);
             removeLoader(dom_loader, intervalId);
             handleNotification("error", xhr.responseJSON.err);
         },
@@ -2577,7 +2577,7 @@ async function handleLoadingEvent(btn) {
 }
 
 function handleFullEventLoading() {
-    console.log("length is ######### ", $(".load-event").length);
+    //console.log("length is ######### ", $(".load-event").length);
     $(".load-event").each((i, itm) => {
         handleLoadingEventVisiblity(itm);
     });
@@ -2587,11 +2587,11 @@ handleFullEventLoading();
 
 //toggleComment
 async function checkIntoView(btn) {
-    //  console.log("btn type @@@@@@@@@@@@@@@@@ ^^^^^^ ", $(btn).attr("type"));
+    //  //console.log("btn type @@@@@@@@@@@@@@@@@ ^^^^^^ ", $(btn).attr("type"));
     let rect = $(btn).get(0).getBoundingClientRect();
-    //console.log("rect is ", rect);
+    ////console.log("rect is ", rect);
     //$($(".auto-load")[0]).css("border", "5px solid yellow");
-    // console.log("inner height is ", document.documentElement.clientHeight);
+    // //console.log("inner height is ", document.documentElement.clientHeight);
     //window.innerHeight is viewport height without scrollbar including
     if (rect.bottom > 0 && rect.top < window.innerHeight) return true;
     return false;
@@ -2600,25 +2600,25 @@ async function checkIntoView(btn) {
 // function handleAllAutoLoadBtn() {
 //     // $(".auto-load").each((i, itm) => {
 //     let rect = $(".auto-load")[0].getBoundingClientRect();
-//     console.log("rect is ", rect);
+//     //console.log("rect is ", rect);
 //     $($(".auto-load")[0]).css("border", "5px solid yellow");
-//     console.log("inner height is ", document.documentElement.clientHeight);
+//     //console.log("inner height is ", document.documentElement.clientHeight);
 
 //     if (
 //         rect.bottom > 0 &&
 //         rect.top < $(window).innerHeight() &&
 //         rect.top > -rect.height
 //     ) {
-//         console.log("yes in view ############## ");
+//         //console.log("yes in view ############## ");
 //     }
 //     // });
 // }
 // $(window).resize((e) => {
-//     console.log("resizing @@@@@@@@@@@@@@@@@ ");
+//     //console.log("resizing @@@@@@@@@@@@@@@@@ ");
 //     handleAllAutoLoadBtn();
 // });
 // $(window).scroll((e) => {
-//     console.log("scrolling @@@@@@@@@@@@@@@@@ ");
+//     //console.log("scrolling @@@@@@@@@@@@@@@@@ ");
 //     handleAllAutoLoadBtn();
 // });
 
@@ -2626,11 +2626,11 @@ async function checkIntoView(btn) {
 function handleNewCreatorRequest(form) {
     $(form).submit((e) => {
         e.preventDefault();
-        // console.log("itm is ", itm);
+        // //console.log("itm is ", itm);
         let dom_loader = domLoader();
         dom_loader.insertAfter($(form));
         let intervalId = addLoader(dom_loader);
-        // console.log("interval is ", intervalId);
+        // //console.log("interval is ", intervalId);
         $(form).toggleClass(" disable_btn_without_back");
         $("button", form).toggleClass(" disable_btn");
         $.ajax({
@@ -2638,7 +2638,7 @@ function handleNewCreatorRequest(form) {
             url: $(form).prop("action"),
             data: $(form).serialize(),
             success: function(data) {
-                console.log("data is ", data.data);
+                //console.log("data is ", data.data);
                 // form.reset();
                 $(form).trigger("reset");
                 handleNotification("success", data.message);
@@ -2651,7 +2651,7 @@ function handleNewCreatorRequest(form) {
                 $(form).toggleClass(" disable_btn_without_back");
                 $("button", form).toggleClass(" disable_btn");
                 if (xhr.status == 401) {
-                    console.log("redirect to login");
+                    //console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
                     setTimeout(function() {

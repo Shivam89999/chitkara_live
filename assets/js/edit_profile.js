@@ -24,10 +24,10 @@ function changeImage() {
             image.style.borderRadius = "50%";
             image.style.border = "2.5px solid rgb(128 120 102 / 33%)";
             preview.appendChild(image);
-            console.log("Y ");
+            //console.log("Y ");
         });
         reader.readAsDataURL(file);
-        console.log("yes ");
+        //console.log("yes ");
     }
 }
 document.querySelector("#file-input").addEventListener("change", changeImage);

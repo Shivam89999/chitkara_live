@@ -181,7 +181,7 @@
                     // add button to load more post
 
                     function loadMorePostButton(lastPhotoTime, lastTextTime, photo, text) {
-                        // console.log(" time is ", lastTime);
+                        // //console.log(" time is ", lastTime);
                         return $(
                             `<button class='load-post load-on-demand' photo=${photo} text=${text} photoTime=${lastPhotoTime} textTime=${lastTextTime} >Load More Post</button>`
                         );
@@ -193,7 +193,7 @@
                         // handleLoadingPostVisiblity(loadMorePostbtn);
                     }
                     <%if(loadMorePost==true){%>
-                    console.log("fjbbdc$$$$$$$$$$  $$$$$$$$$$$$ ", '<%=loadMorePost%>')
+                    //console.log("fjbbdc$$$$$$$$$$  $$$$$$$$$$$$ ", '<%=loadMorePost%>')
                     intialPostLoadButton();
                     <%}%>
                 </script>

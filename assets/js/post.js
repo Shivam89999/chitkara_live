@@ -1,7 +1,7 @@
-console.log("post script running");
+//console.log("post script running");
 //handleChangeNextPrev
 function addListenerToallNextPrevBtn(items) {
-    //console.log("items are ", items.length);
+    ////console.log("items are ", items.length);
     for (let itm of items) {
         handleChangeNextPrev(itm);
     }
@@ -14,29 +14,29 @@ function handleChangeNextPrev(item) {
         var eles = $("." + id);
         let indexOfDisplay = 0;
         $(eles).each((i, img) => {
-            console.log("img is ", img);
-            //  console.log("img is ", img);
+            //console.log("img is ", img);
+            //  //console.log("img is ", img);
             // let display = getComputedStyle(img).display;
             let display = $(img).css("display");
-            // console.log("display is ", display);
+            // //console.log("display is ", display);
             if (display != "none") {
                 let current = parseInt($(img).attr("current_no"));
                 let max = parseInt($(img).attr("max_no"));
                 let buttonType = $(item).attr("type");
                 let buttonEffect = buttonType == "back" ? -1 : +1;
                 let toNext = current + buttonEffect;
-                console.log(
-                    "buttonType= ",
-                    buttonType,
-                    " current= ",
-                    current,
-                    " max= ",
-                    max,
-                    "  toNext ",
-                    toNext,
-                    " buttonEffect= ",
-                    buttonEffect
-                );
+                //     //console.log(
+                //     "buttonType= ",
+                //     buttonType,
+                //     " current= ",
+                //     current,
+                //     " max= ",
+                //     max,
+                //     "  toNext ",
+                //     toNext,
+                //     " buttonEffect= ",
+                //     buttonEffect
+                // );
                 indexOfDisplay = toNext >= max ? 0 : toNext < 0 ? max - 1 : toNext;
                 // img.style.display = "none";
 
@@ -45,7 +45,7 @@ function handleChangeNextPrev(item) {
                 return;
             }
         });
-        console.log("indexOfDisplay  is ", indexOfDisplay);
+        //console.log("indexOfDisplay  is ", indexOfDisplay);
         $(eles).each((i, img) => {
             let current = parseInt($(img).attr("current_no"));
             if (current == indexOfDisplay) {
@@ -67,7 +67,7 @@ function handleChangeNextPrev(item) {
 }
 
 function addListenerToChange() {
-    //   console.log("running %%%%%%%%%%%%%%%%%%%%%%%  ");
+    //   //console.log("running %%%%%%%%%%%%%%%%%%%%%%%  ");
     $(".button").each((i, itm) => {
         // let id = $(itm).attr("id");
         // let ele = $("#");
@@ -76,7 +76,7 @@ function addListenerToChange() {
     // document.querySelectorAll(".button").forEach((item) => {
     //     item.addEventListener("click", function(e) {
     //         let id = this.getAttribute("id");
-    //         console.log("id is ", id);
+    //         //console.log("id is ", id);
     //     });
     // });
 }
@@ -123,7 +123,7 @@ function eventDetailToggle(itm) {
 }
 
 function animateBack(targetId) {
-    console.log("fvnjhbvffv is ", targetId);
+    //console.log("fvnjhbvffv is ", targetId);
     animateEventDetail($(targetId), "0px");
 }
 
@@ -135,18 +135,18 @@ function addListenerToEventDetailToggle() {
 addListenerToEventDetailToggle();
 
 function toggleEventDetails(event_detail_id) {
-    console.log("event detail is ", event_detail_id);
+    //console.log("event detail is ", event_detail_id);
     // let target = document.getElementById(event_detail_id);
     let target = $("#" + event_detail_id);
-    //console.log("target is ", target);
+    ////console.log("target is ", target);
     // let current_style = getComputedStyle(target).display;
     // let current_style = $(target).css("display");
     let current_height = $(target).css("height");
-    // console.log(" target is ", target, "  current style ", current_style);
+    // //console.log(" target is ", target, "  current style ", current_style);
     // target.style.display =
     //     current_style == "none" || !current_style ? "flex" : "none";
     let new_height = current_height != "0px" ? "0px" : "270px";
-    console.log("current is ", current_height, "  new is ", new_height);
+    //console.log("current is ", current_height, "  new is ", new_height);
     // $(target).css({
     //     display: "" + newStyle,
     // });
@@ -155,19 +155,19 @@ function toggleEventDetails(event_detail_id) {
 }
 
 // document.addEventListener("mouseup", function(e) {
-//     // console.log("yes detected *************");
+//     // //console.log("yes detected *************");
 //     let classs = "toUpdate";
 //     // let not = document.getElementsByClassName("tem-member-edit-option");
 //     // let no = document.getElementsByClassName(classs);
 //     let no = $("." + classs)[0];
 //     // if (!no[0].contains(e.target)) {
-//     //     // console.log("yes mfvnjvjfv ****** ");
+//     //     // //console.log("yes mfvnjvjfv ****** ");
 //     //     document.querySelectorAll("." + classs).forEach((item) => {
 //     //         item.remove();
 //     //     });
 //     // }
 //     if (!$(no).is(e.target)) {
-//         // console.log("yes mfvnjvjfv ****** ");
+//         // //console.log("yes mfvnjvjfv ****** ");
 //         // document.querySelectorAll("." + classs).forEach((item) => {
 //         //     item.remove();
 //         // });
@@ -181,7 +181,7 @@ function handleAllEvents() {
 }
 
 function handleEvents(item) {
-    // console.log("postDetails are ", postDetails);
+    // //console.log("postDetails are ", postDetails);
     let postId = $(item).attr("postId");
     let startTime = parseInt(new Date($(item).attr("start")).valueOf());
     let location = $(item).attr("location");
@@ -211,14 +211,14 @@ function handleEvents(item) {
     if (startTime > currentTime) type = "upcoming";
     // let typeSpanParent = item.firstElementChild;
     let typeSpanParent = $(item).children().first();
-    // console.log("vffvbjf $$$$$$$$$$$ ", $(item));
+    // //console.log("vffvbjf $$$$$$$$$$$ ", $(item));
     // typeSpanParent.innerHTML =
     //     "<span style='text-transform:capitalize;' class='" +
     //     type +
     //     "'>" +
     //     type +
     //     " Event</span>";
-    // console.log("postId is ", postId);
+    // //console.log("postId is ", postId);
     typeSpanParent.html(
         "<span style='text-transform:capitalize;' class='" +
         type +
@@ -226,7 +226,7 @@ function handleEvents(item) {
         type +
         " Event</span>"
     );
-    console.log("postId is ", postId);
+    //console.log("postId is ", postId);
     let ss = "vfnjvf";
     let node =
         "<div class='event-details' id='" +
@@ -253,7 +253,7 @@ function handleEvents(item) {
     // let l = "<div class='some' let= 'let' id= 'id'>  </div>";
     // e.innerHTML = l;
     // // let node = document.createAttribute(l.trim());
-    // console.log("node is ", e);
+    // //console.log("node is ", e);
     // item.appendChild(e);
 }
 handleAllEvents();
@@ -296,7 +296,7 @@ function handleEventHeadText(ele) {
     let startTime = $(ele).attr("startTime");
     startTime = new Date(startTime);
     //converting time in miliseconds and comparing
-    console.log("current ", current.getTime(), "  event ", startTime.getTime());
+    //console.log("current ", current.getTime(), "  event ", startTime.getTime());
     if (startTime.getTime() <= current.getTime()) {
         // ele.innerText = "Running Event";
         // ele.style.color = "royalblue";
@@ -315,7 +315,7 @@ function handleAllEventHeadText() {
 function setCreatedTime(ele) {
     // let dateString = ele.getAttribute("createdTime");
     let dateString = $(ele).attr("createdTime");
-    console.log("dateString is ", dateString);
+    //console.log("dateString is ", dateString);
     // ele.innerText =
     //     new Date(dateString).toDateString() +
     //     " | " +

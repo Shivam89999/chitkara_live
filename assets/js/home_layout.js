@@ -44,7 +44,7 @@ function handleSearch() {
     // });
     $("#search-input").on("input", (e) => {
         let value = $(e.target).val();
-        // console.log("value is &&&&&&&&&&&&&&&&&&& ", value);
+        // //console.log("value is &&&&&&&&&&&&&&&&&&& ", value);
         if (value.length <= 0) return;
         $.ajax({
             type: "POST",
@@ -57,11 +57,11 @@ function handleSearch() {
                 //     "",
                 //     searchForm.prop("action")
                 // );
-                console.log("data is ", data);
+                //console.log("data is ", data);
                 let page = $("#page-outline");
-                console.log("page is ", page);
+                //console.log("page is ", page);
 
-                // console.log("page is ", page);
+                // //console.log("page is ", page);
                 // page.html(findOptionPage(data.data.results));
                 // intialSetUp();
                 let searchOutline = $("#option-page");
@@ -72,7 +72,7 @@ function handleSearch() {
                     displayAccordingActiveTab();
                     return;
                 }
-                // console.log("search outline is ", searchOutline.length);
+                // //console.log("search outline is ", searchOutline.length);
                 let searchResultMain = $("#search-user-result-main", searchOutline);
                 $(searchResultMain).html(findOptionPage(data.data.results));
                 $(page).append(searchOutline);
@@ -81,7 +81,7 @@ function handleSearch() {
                 return;
             },
             error: function(err) {
-                console.log("err is ", err.responseJSON.err);
+                //console.log("err is ", err.responseJSON.err);
             },
         });
     });
@@ -119,7 +119,7 @@ function findOptionPage(options) {
 //     // let not = document.getElementsByClassName("tem-member-edit-option");
 //     // let no = document.getElementsByClassName(classs);
 //     // if (!no[0].contains(e.target)) {
-//     //     console.log("yes mfvnjvjfv ****** ");
+//     //     //console.log("yes mfvnjvjfv ****** ");
 //     //     document.querySelectorAll("." + classs).forEach((item) => {
 //     //         item.remove();
 //     //     });
@@ -173,10 +173,10 @@ setInterval(function() {
 function handleDarkMode() {
     let toggle = $(".toggle-container");
     let toggleBtn = $(".toggle-btn");
-    // console.log("toggle ^^^^^^^^6666 ", toggle.length);
-    // console.log("btn is ^^^^&&&&&& ", toggleBtn.length);
+    // //console.log("toggle ^^^^^^^^6666 ", toggle.length);
+    // //console.log("btn is ^^^^&&&&&& ", toggleBtn.length);
     $(toggle).click((e) => {
-        console.log("yes click ", e.target);
+        //console.log("yes click ", e.target);
         // let type = $(toggle).prop("type");
 
         if ($("body").hasClass("darkMode")) {
@@ -251,7 +251,7 @@ function handleMediaQuery() {
         // minWidth: "195px",
     });
 
-    console.log("kjvjbf $$$$$$$$$ ", $("#profile-view", wrapper).css("height"));
+    //console.log("kjvjbf $$$$$$$$$ ", $("#profile-view", wrapper).css("height"));
     $(eventInfoClone).css({
         height: $("#profile-view").css("height"),
         position: "relative",
@@ -298,7 +298,7 @@ function listenerTo3Line() {
     $(".triple-line").click((e) => {
         let leftOption = $(" .left-options")[0];
         let left = $(leftOption).position().left;
-        console.log("left is ", left);
+        //console.log("left is ", left);
         if (left < -50) animateAccording(leftOption, 0);
         else animateAccording(leftOption, -100);
     });
@@ -344,18 +344,18 @@ function resoterHeaderMedia() {
 }
 
 function resoterHeaderMedia2() {
-    // console.log("running $$ ");
+    // //console.log("running $$ ");
     if ($(".left-view-header-option2").length > 0) {
         $(rightSideHeaderDiv).removeClass(" left-view-header-option2");
         $("header").append($(rightSideHeaderDiv));
         // $(".left-view-header-option2").remove();
-        // console.log("running ^^^ ");
+        // //console.log("running ^^^ ");
         // handleDarkMode();
     }
 }
 
 $(window).resize(() => {
-    console.log("m running ######  ");
+    //console.log("m running ######  ");
     if (window.matchMedia("(max-width: 1075px)").matches) {
         handleMediaQuery();
         headerMediaQuery();

@@ -12,7 +12,7 @@ const port = 8000;
 const mongoose = require("mongoose");
 //connect app to db
 const db = require("./config/mongoose");
-console.log("db is ############ ", db);
+//console.log("db is ############ ", db);
 // const DB =
 //     "mongodb+srv://aaa_tech:Shivam@9876@cluster0.mr3po.mongodb.net/temp?retryWrites=true&w=majority";
 
@@ -45,7 +45,7 @@ app.set("views", "./views");
 app.set("layout", "./layouts/home_layout");
 //this is a middleware
 // app.use(function(req, res, next) {
-//     console.log("This is middleware ", req.url);
+//     //console.log("This is middleware ", req.url);
 //     next();
 // });
 
@@ -94,7 +94,7 @@ app.use(
                 autoRemove: "disabled",
             },
             function(err) {
-                console.log(err || "connect-mongo successfully");
+                //console.log(err || "connect-mongo successfully");
             }
         ),
     })
@@ -113,9 +113,9 @@ app.use("/", require("./routes"));
 
 app.listen(port, function(err) {
     if (err) {
-        console.log("Err in Running the Server");
+        //console.log("Err in Running the Server");
         return;
     }
-    console.log("Server is up and running on port: ", port);
+    //console.log("Server is up and running on port: ", port);
     return;
 });

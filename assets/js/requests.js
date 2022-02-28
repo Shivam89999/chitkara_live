@@ -1,13 +1,13 @@
-console.log("nvfjbv &&&&&&&&&&");
+//console.log("nvfjbv &&&&&&&&&&");
 
 function toggleHead(headerId) {
     let ele = document.querySelector("#" + headerId);
-    console.log("ele is ", ele);
+    //console.log("ele is ", ele);
     let allHeaderEle = document.querySelectorAll("." + ele.getAttribute("class"));
-    console.log("all ", allHeaderEle);
+    //console.log("all ", allHeaderEle);
     for (let e of allHeaderEle) {
         // e.setAttribute("backgroundColor", );
-        console.log("e is ", e, " end");
+        //console.log("e is ", e, " end");
         e.style.backgroundColor = "#77d6cd";
     }
     ele.style.backgroundColor = "blue";

@@ -1,4 +1,4 @@
-console.log("event script running");
+//console.log("event script running");
 
 function changeTab(id) {
     var eles = document.querySelectorAll(".active-tab");

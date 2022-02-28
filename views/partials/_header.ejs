@@ -146,51 +146,51 @@
 <script>
     function makeAccountToggleContainer() {
         $("body").append(`<div id="toggle-account-option" class="no_display">
-             <a >
-                 <div style="
-             display: flex;
-             flex-direction: row;
-             align-items: center;
-             height: auto;
-             width: auto;
-             padding: 10px;
-             padding-right:15px;
-             margin: 3px;
-               width: 100%;
-             justify-content: space-between;
-           ">
-                     <div style="display: flex; flex-direction: row; align-items: center; ">
-                         <img id="account-toggle-image" src="" alt="some" height="50px" width="50px" style="border-radius: 50%" />
-                         <span style="
-                 padding-left: 5px;
-                 display: flex;
-                 flex-direction: column;
-                 align-items: center;
-               ">
-               <span> <%=locals.user ? locals.user.name : 'not define'%> </span>
-                         <span style="color: lightcoral; font-size: 12.5"> <%=locals.user ? locals.user.onModel : 'Not define'%> </span>
-                         </span>
-                     </div>
-                     <div style="visibility: hidden; width: 140px"></div>
-                     <div style="
-               background-color: royalblue;
-               height: 20px;
-               width: 20px;
-               border-radius: 50%;
-               display: flex;
-               justify-content: center;
-               align-items: center;
-             ">
-                         <span style="
-                 height: 7px;
-                 width: 7px;
-                 background-color: black !important;
-                 border-radius: 50%;
-               "></span>
-                     </div>
-                 </div>
-             </a>
-         </div>`);
+            <a >
+                <div style="
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            height: auto;
+            width: auto;
+            padding: 10px;
+            padding-right:15px;
+            margin: 3px;
+              width: 100%;
+            justify-content: space-between;
+          ">
+                    <div style="display: flex; flex-direction: row; align-items: center; ">
+                        <img id="account-toggle-image" src="" alt="some" height="50px" width="50px" style="border-radius: 50%" />
+                        <span style="
+                padding-left: 5px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+              ">
+              <span> <%=locals.user ? locals.user.name : 'not define'%> </span>
+                        <span style="color: lightcoral; font-size: 12.5"> <%=locals.user ? locals.user.onModel : 'Not define'%> </span>
+                        </span>
+                    </div>
+                    <div style="visibility: hidden; width: 140px"></div>
+                    <div style="
+              background-color: royalblue;
+              height: 20px;
+              width: 20px;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            ">
+                        <span style="
+                height: 7px;
+                width: 7px;
+                background-color: black !important;
+                border-radius: 50%;
+              "></span>
+                    </div>
+                </div>
+            </a>
+        </div>`);
         //fetch toggle user details
         $.ajax({
             type: "GET",
@@ -201,55 +201,55 @@
                 console.log("data is %%%%%%%%%%%% ", data);
                 $("#account-toggle-image").attr("src", data.user.pic);
                 $("#toggle-account-option").append(`<a href="/user/toggle-b/w-accounts">
-                 <div style="
-             display: flex;
-             flex-direction: row;
-             align-items: center;
-             height: auto;
-             width: auto;
-             padding: 10px;
-             padding-right:15px;
-             margin: 3px;
-               width: 100%;
-             justify-content: space-between;
-           ">
-                     <div style="display: flex; flex-direction: row; align-items: center">
-                         <img src="${data.currentImg}" alt="some" height="50px" width="50px" style="border-radius: 50%" />
-                           <span style="
-                 padding-left: 5px;
-                 display: flex;
-                 flex-direction: column;
-                 align-items: center;
-               ">
-               <span> ${data.user.name} </span>
-                         <span style="color: lightcoral; font-size: 12.5"> ${data.user.onModel} </span>
-                         </span>
-                     </div>
-                     <div style="visibility: hidden; width: 140px"></div>
-                     <div style="
-               background-color: transparent;
-               height: 17px;
-               width: 17px;
-               border-radius: 50%;
-               display: flex;
-               justify-content: center;
-               align-items: center;
-               border: 1.5px solid white;
-               box-sizing: border-box;
-             "></div>
-                 </div>
-             </a>`);
+                <div style="
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            height: auto;
+            width: auto;
+            padding: 10px;
+            padding-right:15px;
+            margin: 3px;
+              width: 100%;
+            justify-content: space-between;
+          ">
+                    <div style="display: flex; flex-direction: row; align-items: center">
+                        <img src="${data.currentImg}" alt="some" height="50px" width="50px" style="border-radius: 50%" />
+                          <span style="
+                padding-left: 5px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+              ">
+              <span> ${data.user.name} </span>
+                        <span style="color: lightcoral; font-size: 12.5"> ${data.user.onModel} </span>
+                        </span>
+                    </div>
+                    <div style="visibility: hidden; width: 140px"></div>
+                    <div style="
+              background-color: transparent;
+              height: 17px;
+              width: 17px;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: 1.5px solid white;
+              box-sizing: border-box;
+            "></div>
+                </div>
+            </a>`);
             },
             error: function(xhr, err) {
-                console.log("err in loading details of toggle account");
+                //  console.log("err in loading details of toggle account");
             },
         });
     }
     <%if(locals.user){%>
     <%if((locals.user.onModel=='Student' &&
-   locals.user.related.head!=null)||(locals.user.onModel!='Student' &&
-   locals.user.related.admin!=null)){%>
-    console.log("######## $$$$$$$$$ &&&&&&&&&&&&");
+  locals.user.related.head!=null)||(locals.user.onModel!='Student' &&
+  locals.user.related.admin!=null)){%>
+    //console.log("######## $$$$$$$$$ &&&&&&&&&&&&");
     makeAccountToggleContainer();
     <%}%>
     <%}%>

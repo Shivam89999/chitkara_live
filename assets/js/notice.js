@@ -1,14 +1,14 @@
-console.log("notice script running");
+//console.log("notice script running");
 
 function previewNotice() {
-    console.log("some ");
+    //console.log("some ");
     var preview = document.getElementById("preview");
     var errorDiv = document.querySelector("#error-div");
     preview.innerText = "";
     errorDiv.innerHTML = "";
-    console.log("this.files ", this.files);
+    //console.log("this.files ", this.files);
     if (!this.files) return;
-    console.log("this.files.name ", this.files[0].name);
+    //console.log("this.files.name ", this.files[0].name);
     if (!/\.(pdf)$/i.test(this.files[0].name)) {
         let ele = document.createElement("span");
         ele.innerHTML = "only pdf allowed";
@@ -32,10 +32,10 @@ function previewNotice() {
             preview.appendChild(image);
             preview.style.flexDirection = "column";
             preview.appendChild(p);
-            console.log("Y ");
+            //console.log("Y ");
         });
         reader.readAsDataURL(file);
-        console.log("yes ");
+        //console.log("yes ");
     }
 }
 document

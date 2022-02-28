@@ -1,7 +1,7 @@
-console.log("running");
+//console.log("running");
 
 function previewImage(ele) {
-    console.log("running ******* ", ele);
+    //console.log("running ******* ", ele);
     var preview = document.querySelector("#preview");
     preview.innerHTML = "";
     var image = new Image();
@@ -45,10 +45,10 @@ async function add_all_images() {
 
     if (this.files) {
         // [].forEach.call(this.files, readAndall_images);
-        // console.log("vnfv");
+        // //console.log("vnfv");
         // readAndall_images(this.files[0]);
         // setTimeout(function() {
-        //     console.log("jnvjfnvjfnvnf");
+        //     //console.log("jnvjfnvjfnvnf");
         //     previewImage(all_images.firstElementChild);
         // }, 400);
         for (let i = 0; i < this.files.length; i++) {
@@ -70,10 +70,10 @@ async function add_all_images() {
             if (i == 0) {
                 previewImage(all_images.firstElementChild);
             }
-            console.log("Y ");
+            //console.log("Y ");
         });
         reader.readAsDataURL(file);
-        console.log("yes ");
+        //console.log("yes ");
     }
 }
 

@@ -119,7 +119,7 @@
 
 <script>
   function handleFocus(id) {
-    console.log("runnning ", id);
+    //console.log("runnning ", id);
     document.querySelectorAll(".member-desc").forEach((item) => {
       item.style.height = "0px";
       item.style.opacity = "0";
@@ -151,15 +151,15 @@
   document.querySelectorAll(".container").forEach((item) => {
     let rgb = generateDarkColorRgb();
     let backImage = item.getAttribute("backImage");
-    console.log("backImage is !!!!!!!!!!!!!! ", backImage);
+    //console.log("backImage is !!!!!!!!!!!!!! ", backImage);
     backImage = backImage.replace(/\\/g, "/");
 
-    console.log("backImage is ~~~~~~~~~~~~~~~~~~ %%%%%%%%%%%% ", backImage);
+    //console.log("backImage is ~~~~~~~~~~~~~~~~~~ %%%%%%%%%%%% ", backImage);
     let image =
       "url('http://chitkaralive.com" +
       backImage +
       "')right bottom / 150px 200px no-repeat";
-    console.log("image is ", image);
+    //console.log("image is ", image);
     item.style.background =
       image +
       ", linear-gradient(150deg, " +
@@ -189,10 +189,10 @@
 
   function handleEditOption(event) {
     let classs = "toDelete";
-    console.log("event.target is ");
+    //console.log("event.target is ");
     let ele = event.target;
     let addr2 = ele.getAttribute("link2");
-    console.log("addr2 ***************** ", addr2);
+    //console.log("addr2 ***************** ", addr2);
 
     let id = parseInt(ele.getAttribute("id"));
     let D = document.createElement("div");
@@ -208,7 +208,7 @@
       link.href = addr;
       D.appendChild(link);
     }
-    // console.log("D is &&&&&&&&&&&&&&&&&&&&&&& ", D);
+    // //console.log("D is &&&&&&&&&&&&&&&&&&&&&&& ", D);
     document.getElementsByClassName("container")[id].appendChild(D);
   }
 </script>

@@ -111,3 +111,15 @@
   border-radius: 5px; }
   .select-button:hover {
     background-color: #224fd6; }
+
+@media screen and (max-width: 420px) {
+  #option-page {
+    width: 90%;
+    margin: auto;
+    left: 0px; } }
+
+@media screen and (max-width: 720px) {
+  #option-page {
+    width: 75%;
+    margin: auto;
+    left: 0px; } }

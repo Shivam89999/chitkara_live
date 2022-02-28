@@ -50,7 +50,7 @@
 
 <script>
     function loadMoreLikeButton(lastTime, postId, type) {
-        console.log(" time is ", lastTime);
+        //console.log(" time is ", lastTime);
         return $(
             `<button class='load-like load-on-demand' type=${type} postId=${postId}  time=${lastTime} >Load More Likes</button>`
         );
@@ -64,7 +64,7 @@
         let postId = '<%-post.id%>';
 
 
-        // console.log("type is ####################### ",type," post is ",postId);
+        // //console.log("type is ####################### ",type," post is ",postId);
         let loadMoreLikeBtn = loadMoreLikeButton(Date.now(), postId, type);
         // $('.like-container').append(loadMoreLikeBtn);
         $('#likes-page').append(loadMoreLikeBtn);

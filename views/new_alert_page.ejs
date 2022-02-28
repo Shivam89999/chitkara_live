@@ -31,8 +31,8 @@
 </div>
 <script>
     function handleFocus(e) {
-        console.log("ncdjnv ");
-        console.log("e.target ", e.target);
+        //console.log("ncdjnv ");
+        //console.log("e.target ", e.target);
         e.target.style.borderColor = "red";
         e.target.style.outline = "none";
     }
@@ -43,30 +43,30 @@
         if (!date) {
             messageDiv.innerText = "alert will disappear after 24 hr";
             messageDiv.style.color = "blue";
-            console.log("no date selected");
+            //console.log("no date selected");
             return;
         }
-        console.log("date is ", date);
+        //console.log("date is ", date);
 
         if (new Date().getTime() >= new Date(date).getTime()) {
             messageDiv.innerText =
                 "selected date & time is invalid, select the future date & time";
             messageDiv.style.color = "tomato";
-            console.log("invalid date selected");
+            //console.log("invalid date selected");
             return;
         } else {
             messageDiv.innerText = "selected date & time is valid";
             messageDiv.style.color = "green";
-            console.log("valid date selected");
+            //console.log("valid date selected");
             return;
         }
         return;
     }
 
     function handleChange(e) {
-        console.log("value ", e.target.value.length);
+        //console.log("value ", e.target.value.length);
         if (e.target.value.length > 80) {
-            console.log("max length 80 allowed");
+            //console.log("max length 80 allowed");
         }
     }
 </script>
