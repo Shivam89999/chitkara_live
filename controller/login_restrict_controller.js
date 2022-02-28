@@ -26,6 +26,7 @@ const creatorRequest = require("../model/creatorRequest");
 const requestEmailWorker = require("../workers/request_email_worker");
 const requestMailer = require("../mailers/request_mailer");
 const organisers = require("../model/organiser");
+
 async function userProfile(req, res) {
     if (!req.user) {
         console.log("Sign-in first");

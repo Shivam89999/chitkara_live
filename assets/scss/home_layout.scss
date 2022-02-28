@@ -122,6 +122,11 @@
     pointer-events: none !important;
 }
 
+.lock_form_without_background {
+    opacity: 0.8;
+    pointer-events: none !important;
+}
+
 .loader {
     display: flex !important;
     flex-direction: column !important;

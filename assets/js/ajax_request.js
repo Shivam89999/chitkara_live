@@ -159,7 +159,7 @@ function addNewComment(itm) {
         let intervalId = addLoader(dom_loader);
         // console.log("interval is ", intervalId);
         $(itm).toggleClass(" disable_btn_without_back");
-
+        $(itm).toggleClass(" lock_form_without_background");
         $.ajax({
             type: "POST",
             url: $(itm).prop("action"),
@@ -195,10 +195,12 @@ function addNewComment(itm) {
                 $(itm).trigger("reset");
                 removeLoader(dom_loader, intervalId);
                 $(itm).toggleClass(" disable_btn_without_back");
+                $(itm).toggleClass(" lock_form_without_background");
             },
             error: function(xhr, err) {
                 removeLoader(dom_loader, intervalId);
                 $(itm).toggleClass(" disable_btn_without_back");
+                $(itm).toggleClass(" lock_form_without_background");
                 if (xhr.status == 401) {
                     console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
@@ -310,6 +312,7 @@ function handleToggleCommentLike(toggleLikeOfComment) {
     //  console.log("toggle comment like &&&&&&&&&&&&&&&&&&&&&&&&& &&&&&&&&&&&&&&");
     $(toggleLikeOfComment).click(function(e) {
         e.preventDefault();
+        $(toggleLikeOfComment).toggleClass(" disable_btn_without_back");
         $.ajax({
             type: "GET",
             url: $(toggleLikeOfComment).prop("href"),
@@ -321,9 +324,11 @@ function handleToggleCommentLike(toggleLikeOfComment) {
                     data.data.like ? true : false,
                     "comment"
                 );
+                $(toggleLikeOfComment).toggleClass(" disable_btn_without_back");
                 handleNotification("success", data.message);
             },
             error: function(xhr, err) {
+                $(toggleLikeOfComment).toggleClass(" disable_btn_without_back");
                 if (xhr.status == 401) {
                     console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
@@ -373,6 +378,7 @@ function togglePostLike() {
 function handleTogglePostLike(toggleLikeOfPost) {
     $(toggleLikeOfPost).click((e) => {
         e.preventDefault();
+        $(toggleLikeOfPost).toggleClass(" disable_btn_without_back");
         $.ajax({
             type: "GET",
             url: $(toggleLikeOfPost).prop("href"),
@@ -384,9 +390,11 @@ function handleTogglePostLike(toggleLikeOfPost) {
                 if (post.likes.length > 0) {
                     bar.append(addLikesUserBar(post));
                 }
+                $(toggleLikeOfPost).toggleClass(" disable_btn_without_back");
                 handleNotification("success", data.message);
             },
             error: function(xhr, err) {
+                $(toggleLikeOfPost).toggleClass(" disable_btn_without_back");
                 if (xhr.status == 401) {
                     console.log("redirect to login");
                     handleNotification("error", "Unauthorized, Sign-In first");
