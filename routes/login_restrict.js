@@ -123,7 +123,10 @@ router.post(
     "/new-creator-account-request",
     login_restrict_controller.newCreatorAccountRequest
 );
-
+router.get(
+    "/fetch-toggle-account-details/:userId",
+    login_restrict_controller.toggleAccountDetail
+);
 router.use("", function(req, res) {
     //console.log("reache d!!!!!!!!!!!!!!! ");
     return res.render("404_page_not_found");

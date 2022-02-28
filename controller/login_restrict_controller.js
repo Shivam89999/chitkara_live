@@ -2220,7 +2220,9 @@ async function newCreatorAccountRequest(req, res) {
         if (req.xhr) {
             return res.status(200).json({
                 message: "your request is recorded",
-                data: { newCreatorReq: "newCreatorReq" },
+                data: {
+                    newCreatorReq: "newCreatorReq",
+                },
             });
         }
         return res.redirect("back");
@@ -2233,6 +2235,22 @@ async function newCreatorAccountRequest(req, res) {
             });
         }
         return res.redirect("back");
+    }
+}
+
+async function toggleAccountDetail(req, res) {
+    try {
+        console.log("req params are ", req.params);
+        let userId = req.params.userId;
+        let user = await User.findById(userId);
+        return res.status(200).json({
+            user: user,
+            currentImg: "" + req.user.myUser.pic,
+        });
+    } catch (err) {
+        return res.status(500).json({
+            err: "err in toggle account info",
+        });
     }
 }
 module.exports = {
@@ -2272,4 +2290,5 @@ module.exports = {
     loadMoreEvents,
     toggleAccount,
     newCreatorAccountRequest,
+    toggleAccountDetail,
 };

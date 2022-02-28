@@ -126,7 +126,7 @@ passport.deserializeUser(function({ organiser, id }, done) {
                     path: "saveItems",
                 },
             ])
-            .exec(function(err, user) {
+            .exec(async function(err, user) {
                 if (err) {
                     console.log("err in de-serialize the user");
                     return done(err);
@@ -136,7 +136,13 @@ passport.deserializeUser(function({ organiser, id }, done) {
                     return done(null, false);
                 }
                 console.log("de-serialize successfully");
+                if (user.head) {
+                    user = await User.populate(user, {
+                        path: "head",
+                    });
+                }
 
+                console.log("user in local is ~~~~~~ $$$$$$$$$$ &&&&& ", user);
                 return done(null, {
                     user: user,
                     myUser: user,

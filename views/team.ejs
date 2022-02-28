@@ -151,7 +151,9 @@
   document.querySelectorAll(".container").forEach((item) => {
     let rgb = generateDarkColorRgb();
     let backImage = item.getAttribute("backImage");
+    console.log("backImage is !!!!!!!!!!!!!! ", backImage);
     backImage = backImage.replace(/\\/g, "/");
+
     console.log("backImage is ~~~~~~~~~~~~~~~~~~ %%%%%%%%%%%% ", backImage);
     let image =
       "url('http://chitkaralive.com" +
