@@ -1,0 +1,66 @@
+<% var url='http://chitkaralive.com';%>
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
+            <h3 style="text-align: center; color: greenyellow">WELCOME</h3>
+            <h4 style="color: rgb(0, 225, 255)">Dear,
+                <%=user.name%>,</h4>
+            <br />
+            <br />
+            <div>
+                <span style="padding-left: 25px">You sign-up successfully on our portal</span
+    >
+    <br />
+
+    <span style="color: aqua"
+      ><a href="<%=url%>/sign-in">Login</a> Now and Update your profile, your
+      current profile info is given below</span
+    >
+    <br />
+    <div style="margin: auto">
+      <table
+        style="
+          padding: 5px;
+          margin: 10px auto 10px auto;
+          color: white !important;
+          border: 2px solid black;
+        "
+      >
+        <tr style="text-align: center">
+          <img
+            src="<%=url%><%=user.pic%>"
+            alt="pic"
+            height="50px"
+            width="50px"
+          />
+        </tr>
+        <tr style="margin: 5px; padding: 5px">
+          <td style="padding: 4px">Name :</td>
+          <td style="padding: 4px"><%=user.name%></td>
+        </tr>
+        <tr style="margin: 5px; padding: 5px">
+          <td style="padding: 4px">Bio :</td>
+          <td style="padding: 4px"><%=user.bio%></td>
+        </tr>
+        <tr style="margin: 5px; padding: 5px">
+          <td style="padding: 4px">Email :</td>
+          <td style="padding: 4px"><%=user.email%></td>
+        </tr>
+        <tr style="margin: 5px; padding: 5px">
+          <td style="padding: 4px">Whatsapp :</td>
+          <td style="padding: 4px"><%=user.whatsapp%></td>
+        </tr>
+        <tr style="margin: 5px; padding: 5px">
+          <td style="padding: 4px">Mobile :</td>
+          <td style="padding: 4px"><%=user.mobile%></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <%-include('../mail_footer');-%>
+</div>

@@ -201,7 +201,8 @@ async function signUpWithSecret(req, res) {
                 });
             }
         });
-
+        //send sign-up success mail
+        otpMail.signupSuccess({ user: user });
         if (req.xhr) {
             return res.status(200).json({
                 message: "you sign-up successfully, now sign-in with this  email and password",

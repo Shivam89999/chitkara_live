@@ -66,3 +66,26 @@ exports.signUpLink = (link, targetEmail) => {
         }
     );
 };
+
+exports.signupSuccess = (user) => {
+    // console.log("inside the signupSuccess send mail ");
+    let htmlString = nodeMailer.renderTemplate({ user: user },
+        "/signup/signup_success.ejs"
+    );
+    // console.log("htmlString is ", htmlString);
+    nodeMailer.transporter.sendMail({
+            from: from,
+            to: user.email,
+            subject: "Sign-Up Successfully",
+            html: htmlString,
+        },
+        function(err, info) {
+            if (err) {
+                console.log("err in sending mail for signup success : ", err);
+                return;
+            }
+            console.log("mail send for signUp success successfully");
+            return;
+        }
+    );
+};

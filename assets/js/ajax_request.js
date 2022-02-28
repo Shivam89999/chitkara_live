@@ -2131,13 +2131,13 @@ function addLikesToPage(likes, localUser) {
 
 function addMoreLikes(btn) {
     //console.log("fn running @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22 ");
-    const likeLoadingLimit = 1;
+    const likeLoadingLimit = 4;
     // $(btn).click((e) => {
     //     e.preventDefault();
     let postId = $(btn).attr("postId");
     let time = $(btn).attr("time");
     //console.log("postId is ", postId, " time is ", time);
-
+    let type = $(btn).attr("type");
     //add loader
     let dom_loader = domLoader();
     $(dom_loader).insertAfter(btn);
@@ -2147,7 +2147,7 @@ function addMoreLikes(btn) {
 
     $.ajax({
         type: "GET",
-        url: `/user/load-more-post-likes?type=Post&time=${time}&postId=${postId}`,
+        url: `/user/load-more-post-likes?type=${type}&time=${time}&postId=${postId}`,
         success: function(data) {
             console.log("like added successfully ", data);
             addLikesToPage(data.data.likes, data.data.localUser);
@@ -2156,7 +2156,8 @@ function addMoreLikes(btn) {
             if (data.data.likes.length >= likeLoadingLimit) {
                 let loadMoreLikeBtn = loadMoreLikeButton(
                     data.data.lastTime,
-                    data.data.postId
+                    data.data.postId,
+                    data.data.type
                 );
                 $("#likes-page").append(loadMoreLikeBtn);
                 handleLoadingLikeVisiblity(loadMoreLikeBtn);

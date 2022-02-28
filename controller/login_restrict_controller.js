@@ -10,7 +10,7 @@ const path = require("path");
 const fs = require("fs");
 const Like = require("../model/like");
 const passport = require("passport");
-const { redirect } = require("express/lib/response");
+const { redirect, type } = require("express/lib/response");
 const Notice = require("../model/notice");
 const Poll = require("../model/poll");
 const Save = require("../model/Save");
@@ -1978,12 +1978,15 @@ async function deleteTypeObj(req, res) {
 // }
 
 async function loadMorePostLikes(req, res) {
-    console.log("reached #########33 ");
+    //console.log("reached #########33 ", req.query);
     try {
         let postId = req.query.postId;
-        let time = req.query.time;
-        let limit = 1;
-        let post = await Post.findById(postId).populate({
+        const time = req.query.time;
+        const type = req.query.type;
+        const model = type == "Post" ? Post : type == "TextPost" ? TextPost : Post;
+
+        let limit = 4;
+        let post = await model.findById(postId).populate({
             path: "likes",
             options: {
                 sort: { createdAt: -1 },
@@ -2007,6 +2010,7 @@ async function loadMorePostLikes(req, res) {
                     lastTime: lastTime,
                     localUser: req.user && req.user.myUser ? req.user.myUser : null,
                     postId: postId,
+                    type: type,
                 },
             });
         }
