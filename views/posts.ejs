@@ -28,9 +28,9 @@
     </div>
        <%if(post.eventStartTime){%>
     <div class="type-detail" targetId="<%=post.id%>-event" start="<%=post.eventStartTime%>" end="<%=post.eventEndTime%>" location="<%=post.venu%>" postId="<%=post.id%>">
-        <div>  <img height="25px" width="25px"src="https://cdn-icons.flaticon.com/png/512/2520/premium/2520994.png?token=exp=1640585448~hmac=462a4fb10282658cfb62a94a50071ac9" alt="">
+        <div>  <img height="25px" width="25px"src="/uploads/icons/31.upcoming-event.png" alt="">
       </div>
-                            <abbr title="See/Hide Event Detail" >  <img height="25px" width="25px" src="https://cdn-icons-png.flaticon.com/512/6388/6388826.png" alt="detail">
+                            <abbr title="See/Hide Event Detail" >  <img height="25px" width="25px" src="/uploads/icons/13.detail.png" alt="detail">
 </abbr>
 
                             </div>
@@ -41,8 +41,7 @@
                                     <span style="font-size: 15;"><%=post.caption%></span>
                             </div>
                             <%if(post.photos){%>
-                                <div class="post-main-section">
-
+                                <div class="post-main-section" postId="<%=post.id%>">
 
                                     <div id="displayCount-post-<%=post.id%>">
                                         1/
@@ -63,7 +62,7 @@
                                 </div>
                                 <%}%>
                                     <% if(!post.photos){%>
-                                        <div class="main-text-section">
+                                        <div class="main-text-section" postId="<%=post.id%>">
                                             <%=post.content%>
                                         </div>
                                         <%}%>
@@ -84,9 +83,9 @@
                               <%}%>
                                    
                                     <%if(existLike){%>
-                                     <img height="20px" width="20px" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="like" />
+                                     <img height="20px" width="20px" src="/uploads/icons/3.liked.png" alt="like" />
      <%}else{%>
-        <img src="https://cdn-icons-png.flaticon.com/512/151/151910.png" height="25px" width="25px" alt="">
+        <img src="/uploads/icons/4.not_liked.png" height="25px" width="25px" alt="">
         <%}%>
                                     </span>
                     </a>
@@ -97,7 +96,7 @@
                     </span>
                     <span class="comment-button" style="text-align: center"><span onclick="toggleComment('<%= post.id %>')" >
           <img
-            src="https://cdn-icons-png.flaticon.com/512/13/13673.png"
+            src="/uploads/icons/5.comment_toggle.png"
             alt="comment"
             height="25px"
             width="25px"
@@ -120,12 +119,12 @@
                               <a class="save-toggle-link" id="save-toggle-link-<%=post.id%>" href="/user/toggle-to-save?refId=<%=post.id%>&type=<%=post.photos ? 'Post' : 'TextPost'%>"> 
                             <%if(isSave){%> 
                                  <img
-          src="https://cdn-icons.flaticon.com/png/512/5668/premium/5668020.png?token=exp=1643138956~hmac=7d0502f20d08da1260c26cf955f23cc2"
+          src="/uploads/icons/33.saved.png"
           height="25px"
           width="20px"
           alt=""
       />  <%}else{%> <img
-          src="https://cdn-icons-png.flaticon.com/512/84/84510.png"
+          src="/uploads/icons/34.not-saved.png"
           height="25px"
           width="20px"
           alt=""
@@ -161,7 +160,7 @@
           <img
             height="20px"
             width="35px"
-            src="https://cdn.iconscout.com/icon/premium/png-256-thumb/send-message-6-663814.png"
+            src="/uploads/icons/7.send-message.webp"
             alt=""
           />
         </button>

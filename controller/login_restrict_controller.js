@@ -2253,6 +2253,43 @@ async function toggleAccountDetail(req, res) {
         });
     }
 }
+async function addPostLike(req, res) {
+    let postId = req.params.postId;
+    let post = await Post.findById(postId).populate("likes");
+    console.log(
+        "reached ###########33333333 #3333 ############33 33333333333333"
+    );
+    let already = false;
+    for (let lk of post.likes) {
+        if (lk.creator == req.user.myUser.id) {
+            already = true;
+            break;
+        }
+    }
+    if (already) {
+        return res.status(200).json({
+            data: { prevLike: true },
+            message: "user is already liked this post",
+        });
+    }
+    let newLike = await Like.create({
+        creator: req.user.myUser.id,
+        onModel: "Post",
+        obj: post.id,
+    });
+    await post.likes.unshift(newLike.id);
+    await post.save();
+    await Post.populate(post, {
+        path: "likes",
+        populate: {
+            path: "creator",
+        },
+    });
+    return res.status(200).json({
+        data: { post: post, like: true, prevLike: false },
+        message: "like added to post successfully",
+    });
+}
 module.exports = {
     userProfile,
     myProfile,
@@ -2291,4 +2328,5 @@ module.exports = {
     toggleAccount,
     newCreatorAccountRequest,
     toggleAccountDetail,
+    addPostLike,
 };

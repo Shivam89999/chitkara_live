@@ -1710,6 +1710,7 @@ function loadMoreComment(itm) {
 }
 
 function callpostIntialFunctions(domEle) {
+    addListenerToDoubleClickLike();
     intialImageDisplay();
     handleTogglePostLike($(".post-like-toggle", domEle));
     addListenerToallNextPrevBtn($(".button", domEle));
@@ -1790,7 +1791,7 @@ function addPostToDom(localUser, post, count) {
                                     <span style="font-size: 15">${post.caption}</span>
                             </div>`;
     if (post.photos) {
-        res += ` <div class="post-main-section">
+        res += ` <div class="post-main-section" postId="${post._id}">
 
 
                                     <div id="displayCount-post-${post._id}">1/${post.photos.length}
@@ -1816,7 +1817,7 @@ function addPostToDom(localUser, post, count) {
                                 </div>`;
     }
     if (!post.photos) {
-        res += `<div class="main-text-section">
+        res += `<div class="main-text-section" postId="<%=post.id%>">
                                             ${post.content}
                                         </div>`;
     }
@@ -2680,3 +2681,75 @@ function handleActiveCreatorPage() {
 function disappearCreatorRequestPage() {
     $("#request-new-creator-account-container").removeClass(" active_display");
 }
+
+//handle post like using double click
+function likeImg() {
+    return $(`
+<span style="z-index: 45454; background-color: transparent; margin: auto;position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); height:50px; width:50px; overflow:hidden; transition:0.2s linear;">
+                                       <img src="/uploads/icons/3.liked.png" height="inherit" style="display:block" width="inherit" alt="like">
+                                    </span>`);
+}
+
+function displayLikeImg(post) {
+    let image = likeImg();
+    $(post).append(image);
+
+    setTimeout(() => {
+        $(image).css("height", "60px");
+        $(image).css("width", "60px");
+    }, 300);
+    setTimeout(() => {
+        $(image).css("height", "50px");
+        $(image).css("width", "50px");
+    }, 600);
+    setTimeout(() => {
+        $(image).remove();
+    }, 1100);
+}
+
+function handlePostLikeUsingDoubleClick(post, type) {
+    $(post).dblclick((e) => {
+        let postId = $(post).attr("postId");
+        displayLikeImg(post);
+        console.log("double click @@@@2222 %%%%% ");
+        let toggle = $(`#toggle-post-like-span-${postId}`);
+        toggle.html("");
+        toggle.html(`<img
+                  src="/uploads/icons/3.liked.png"
+                  alt="yes likes"
+                  height="25px"
+                  width="25px"
+                 style='color:red;'
+                />`);
+        $.ajax({
+            type: "Get",
+            url: "/user/add-post-like/" + postId,
+            success: function(data) {
+                console.log("double click success response !!!!!!!!! ", data);
+                if (data.data.prevLike) return;
+                let post = data.data.post;
+                handleLikeIconAndCount(post, true, "post");
+                let bar = $(`#likes-detail-${post._id}`);
+                bar.html("");
+                if (post.likes.length > 0) {
+                    bar.append(addLikesUserBar(post));
+                }
+
+                handleNotification("success", data.message);
+            },
+            error: function(err) {
+                console.log("err is ", err);
+            },
+        });
+    });
+}
+
+function addListenerToDoubleClickLike() {
+    $(".post-main-section").each((i, itm) => {
+        handlePostLikeUsingDoubleClick(itm, "Post");
+    });
+    // $(".main-text-section").each((i, itm) => {
+    //     handlePostLikeUsingDoubleClick(itm, "TextPost");
+    // });
+}
+addListenerToDoubleClickLike();

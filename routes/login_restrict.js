@@ -127,6 +127,11 @@ router.get(
     "/fetch-toggle-account-details/:userId",
     login_restrict_controller.toggleAccountDetail
 );
+router.get(
+    "/add-post-like/:postId",
+
+    login_restrict_controller.addPostLike
+);
 router.use("", function(req, res) {
     //console.log("reache d!!!!!!!!!!!!!!! ");
     return res.render("404_page_not_found");
