@@ -2737,8 +2737,21 @@ function handlePostLikeUsingDoubleClick(post, type) {
 
                 handleNotification("success", data.message);
             },
-            error: function(err) {
-                console.log("err is ", err);
+            error: function(xhr, err) {
+                if (xhr.status == 401) {
+                    console.log("in !!!!!!!!!!!!!!!!!!!!!!!!!!!!11 ");
+                    //console.log("redirect to login");
+                    handleNotification("error", "Unauthorized, Sign-In first");
+                    //redirect to login-page
+
+                    // setTimeout(function() {
+                    //     window.location.href = "/sign-in";
+                    // }, 600);
+
+                    return;
+                }
+                //console.log("err is ", err.responseText);
+                handleNotification("error", xhr.responseJSON.err);
             },
         });
     });
