@@ -359,16 +359,28 @@ function resoterHeaderMedia2() {
 }
 
 function setNotificationTop() {
+    let headerHeight = $("header").css("height");
+    headerHeight = headerHeight.substring(0, headerHeight.length - 2);
     $("#notifications").css({
-        top: $("header").css("height"),
+        top: eval(headerHeight + "+8"),
     });
 }
+setNotificationTop();
 
 function setNotificationRight() {
     $("#notifications").css({
         right: "2px",
     });
 }
+
+function setEventHeaderTopAndSearchHeaderTop() {
+    let headerHeight = $("header").css("height");
+    headerHeight = headerHeight.substring(0, headerHeight.length - 2);
+    console.log("header $$$$$$$$$$$$$$$$$4444444444 ", eval(headerHeight + "+8"));
+    $("#events-container").css("top", eval(headerHeight + "+8"));
+    $("#option-header").css("top", eval(headerHeight + "+8"));
+}
+setEventHeaderTopAndSearchHeaderTop();
 $(window).resize(() => {
     //console.log("m running ######  ");
     if (window.matchMedia("(max-width: 1075px)").matches) {
@@ -385,16 +397,19 @@ $(window).resize(() => {
         handleIntialState();
         resoterHeaderMedia();
     }
+    setEventHeaderTopAndSearchHeaderTop();
 });
 if (window.matchMedia("(max-width: 1075px)").matches) {
     handleMediaQuery();
     headerMediaQuery();
     setNotificationTop();
+    setEventHeaderTopAndSearchHeaderTop();
 }
 if (window.matchMedia("(max-width: 750px)").matches) {
     headerMediaQuery2();
     setNotificationTop();
     setNotificationRight();
+    setEventHeaderTopAndSearchHeaderTop();
 }
 
 //handle left option move when click outside
