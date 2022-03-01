@@ -2685,7 +2685,7 @@ function disappearCreatorRequestPage() {
 //handle post like using double click
 function likeImg() {
     return $(`
-<span style="z-index: 45454; background-color: transparent; margin: auto;position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); height:50px; width:50px; overflow:hidden; transition:0.2s linear;">
+<span style="z-index: 45454; background-color: transparent; margin: auto;position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); height:50px; width:50px; overflow:hidden; transition:0.1s linear;">
                                        <img src="/uploads/icons/3.liked.png" height="inherit" style="display:block" width="inherit" alt="like">
                                     </span>`);
 }
@@ -2695,8 +2695,8 @@ function displayLikeImg(post) {
     $(post).append(image);
 
     setTimeout(() => {
-        $(image).css("height", "60px");
-        $(image).css("width", "60px");
+        $(image).css("height", "70px");
+        $(image).css("width", "70px");
     }, 300);
     setTimeout(() => {
         $(image).css("height", "50px");
