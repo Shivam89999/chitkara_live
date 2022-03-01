@@ -1710,7 +1710,7 @@ function loadMoreComment(itm) {
 }
 
 function callpostIntialFunctions(domEle) {
-    addListenerToDoubleClickLike();
+    handlePostLikeUsingDoubleClick($(".post-main-section", domEle), "Post");
     intialImageDisplay();
     handleTogglePostLike($(".post-like-toggle", domEle));
     addListenerToallNextPrevBtn($(".button", domEle));
@@ -2744,9 +2744,9 @@ function handlePostLikeUsingDoubleClick(post, type) {
                     handleNotification("error", "Unauthorized, Sign-In first");
                     //redirect to login-page
 
-                    // setTimeout(function() {
-                    //     window.location.href = "/sign-in";
-                    // }, 600);
+                    setTimeout(function() {
+                        window.location.href = "/sign-in";
+                    }, 600);
 
                     return;
                 }
