@@ -1842,7 +1842,7 @@ function addPostToDom(localUser, post, count) {
         }
     }
     if (existLike) {
-        res += `                                     <img height="20px" width="20px" src="/uploads/icons/3.liked.png" alt="like" />
+        res += `                                     <img height="25px" width="25px" src="/uploads/icons/3.liked.png" alt="like" />
 `;
     } else {
         res += `        <img src="/uploads/icons/4.not_liked.png" height="25px" width="25px" alt="">
@@ -2685,7 +2685,7 @@ function disappearCreatorRequestPage() {
 //handle post like using double click
 function likeImg() {
     return $(`
-<span style="z-index: 45454; background-color: transparent; margin: auto;position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); height:50px; width:50px; overflow:hidden; transition:0.1s linear;">
+<span style="z-index: 45454; background-color: transparent; margin: auto;position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); height:50px; width:50px; overflow:hidden; transition:0.2s linear;">
                                        <img src="/uploads/icons/3.liked.png" height="inherit" style="display:block" width="inherit" alt="like">
                                     </span>`);
 }
@@ -2693,18 +2693,17 @@ function likeImg() {
 function displayLikeImg(post) {
     let image = likeImg();
     $(post).append(image);
-
     setTimeout(() => {
-        $(image).css("height", "70px");
-        $(image).css("width", "70px");
-    }, 300);
+        $(image).css("height", "110px");
+        $(image).css("width", "110px");
+    }, 30);
     setTimeout(() => {
-        $(image).css("height", "50px");
-        $(image).css("width", "50px");
-    }, 600);
+        $(image).css("height", "45px");
+        $(image).css("width", "45px");
+    }, 60);
     setTimeout(() => {
         $(image).remove();
-    }, 1100);
+    }, 1000);
 }
 
 function handlePostLikeUsingDoubleClick(post, type) {
@@ -2721,6 +2720,7 @@ function handlePostLikeUsingDoubleClick(post, type) {
                   width="25px"
                  style='color:red;'
                 />`);
+
         $.ajax({
             type: "Get",
             url: "/user/add-post-like/" + postId,
