@@ -324,7 +324,11 @@ function headerMediaQuery() {
     }
 
     if ($("header .triple-line").length == 0) {
-        $("header").prepend($(`<div class="triple-line">&#8801;</div>`));
+        $("header").prepend(
+            $(
+                `<div class="triple-line" style='text-align:center; vertical-align:center;'>&#8801;</div>`
+            )
+        );
         listenerTo3Line();
     }
 }
