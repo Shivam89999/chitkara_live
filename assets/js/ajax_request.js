@@ -2689,7 +2689,7 @@ function disappearCreatorRequestPage() {
 function likeImg() {
     return $(`
 <span style=" background-color: transparent; margin: auto;position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); height:50px; width:50px; overflow:hidden; transition:0.05s linear;">
-                                       <img src="https://png.pngitem.com/pimgs/s/6-63822_pngs-white-heart-png-transparent-png.png" height="inherit" style="display:block" width="inherit" alt="like">
+                                       <img src="/uploads/icons/3.liked.png" height="inherit" style="display:block" width="inherit" alt="like">
                                     </span>`);
 }
 
