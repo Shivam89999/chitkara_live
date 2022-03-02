@@ -1156,7 +1156,7 @@ function likes(req, res) {
             console.log("post is ", post);
             if (post)
                 return res.render("likes", {
-                    title: "likes page",
+                    title: "Chitkara Live Likes Page",
                     post: post,
                     currentTime: Date.now(),
                 });
