@@ -2469,6 +2469,7 @@ function toggleEventsVisibality(id_name) {
         url: `/load-upcoming-or-running-events?time=${Date.now()}`,
         success: function(data) {
             removeLoader(dom_loader, intervalId);
+            $(container).html("");
             if (data.data.events.length > 0)
                 addAllUpcomingHome(container, data.data.events);
             else
@@ -2766,5 +2767,3 @@ function addListenerToDoubleClickLike() {
     // });
 }
 addListenerToDoubleClickLike();
-
-("toggleEventsVisibality");
