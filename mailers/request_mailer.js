@@ -75,8 +75,13 @@ exports.newRequests = (obj) => {
     );
 };
 
+function htmlContent(content) {
+    return $(`${content}`);
+}
 exports.creatorRequestReject = (obj) => {
     console.log("inside the reject creator request mail ");
+    obj.reason = htmlContent(obj.reason);
+    console.log("obj is ", obj);
     let htmlString = nodeMailer.renderTemplate({ obj },
         "/request/reject_new_creator_request.ejs"
     );
