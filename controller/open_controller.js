@@ -72,7 +72,7 @@ async function updatePasswordWithSecret(req, res) {
             }
             console.log("this email is not registered");
             return res.render("sign_in", {
-                title: "Sign-In Page",
+                title: "Chitkara Live Sign-In Page",
                 layout: "./layouts/some_layout",
                 type: null,
             });
@@ -111,7 +111,7 @@ async function signUpPageForLink(req, res) {
     return res.render("signUpUsingLink", {
         secret: secret,
         type: type,
-        title: "Sign-UP Using Link",
+        title: "Chitkara Live Sign-UP Using Link",
     });
 }
 async function setNewPasswordPageForLink(req, res) {
@@ -127,7 +127,7 @@ async function setNewPasswordPageForLink(req, res) {
     return res.render("setNewPasswordUsingLink", {
         secret: secret,
         type: type,
-        title: "set New Password Using Link",
+        title: "Chitkara Live set New Password Using Link",
     });
 }
 async function signUpWithSecret(req, res) {
@@ -170,7 +170,7 @@ async function signUpWithSecret(req, res) {
             console.log("this email is already registered");
             console.log("try using different email");
             return res.render("sign_in", {
-                title: "Sign-In Page",
+                title: "Chitkara Live Sign-In Page",
                 layout: "./layouts/some_layout",
                 type: null,
             });
@@ -325,7 +325,7 @@ function createSession(req, res) {
 //         return res.redirect("back");
 //     }
 //     return res.render("sign_up", {
-//         title: "Sign-Up Page",
+//         title: "Chitkara Live Sign-Up Page",
 //         layout: "./layouts/some_layout",
 //     });
 // }
@@ -336,7 +336,7 @@ function signIn(req, res) {
         return res.redirect("back");
     }
     return res.render("sign_in", {
-        title: "Sign-In Page",
+        title: "Chitkara Live Sign-In Page",
         layout: "./layouts/some_layout",
         type: "sign-up-send-otp",
     });
@@ -356,7 +356,7 @@ function findOptions(req, res) {
             return res.redirect("back");
         }
         return res.render("option_page", {
-            title: type + " Page",
+            title: "Chitkara Live option  Page",
             options: options,
             type: type,
         });
@@ -653,7 +653,7 @@ async function HomePage(req, res) {
         }
         //console.log("posts are ^^^^^^^^^^^^ ", posts);
         return res.render("home", {
-            title: "Home ",
+            title: "Chitkara Live Home ",
             posts: posts,
             alerts: alerts,
             noOfNotices: noOfNotices,
@@ -686,7 +686,7 @@ async function homePage(req, res) {
     // //         }
     // //         console.log("posts are ", posts);
     // //         return res.render("home", {
-    // //             title: "This is Home Page",
+    // //             title: "Chitkara Live This is Home Page",
     // //             posts: posts,
     // //         });
     // //     });
@@ -759,7 +759,7 @@ async function homePage(req, res) {
     // console.log("******************* ", upcomingOrRunningEvents);
     // // req.flash("success", "you are at home page");
     // return res.render("home", {
-    //     title: "Home ",
+    //     title: "Chitkara Live Home ",
     //     posts: all_posts,
     //     alerts: allAlerts,
     //     noOfNotices: all_notices_length,
@@ -788,7 +788,7 @@ async function search(req, res) {
         //         }
         //         console.log("results ", results);
         //         return res.render("option_page", {
-        //             title: "Search Result Page",
+        //             title: "Chitkara Live Search Result Page",
         //             options: results,
         //             type: "Search Result",
         //         });
@@ -801,7 +801,7 @@ async function search(req, res) {
             });
         }
         return res.render("option_page", {
-            title: "Search Result Page",
+            title: "Chitkara Live Search Result Page",
             options: results,
             type: "Search Result",
         });
@@ -820,7 +820,7 @@ async function notices(req, res) {
     //send intial page
     // console.log("length is ", await Notice.countDocuments());
     return res.render("notice", {
-        title: "notice page",
+        title: "Chitkara Live notice page",
         noticeLength: await Notice.countDocuments(),
     });
 }
@@ -839,7 +839,7 @@ function homeOptionPage(req, res) {
             return res.redirect("back");
         }
         return res.render("home_option_page", {
-            title: "Home Option Page",
+            title: "Chitkara Live Home Option Page",
             users: users,
             type: type,
         });
@@ -861,7 +861,7 @@ async function searchStudents(req, res) {
             });
         }
         return res.render("select_user_page", {
-            title: "Select User To add new Team Member Page",
+            title: "Chitkara Live Select User To add new Team Member Page",
             results: results,
         });
     } catch (err) {
@@ -890,7 +890,7 @@ function postForLocation(req, res) {
                 return res.redirect("back");
             }
             return res.render("event_location", {
-                title: "Location Of Event ",
+                title: "Chitkara Live Location Of Event ",
                 post: post,
             });
         });
@@ -949,7 +949,7 @@ async function signUpOtp(req, res) {
         // console.log("otp send successfully **  ", otp);
         // return res.redirect("back");
         return res.render("sign_in", {
-            title: "Sign-In Page",
+            title: "Chitkara Live Sign-In Page",
             layout: "./layouts/some_layout",
             type: "sign-up-verify-email",
         });
@@ -998,7 +998,7 @@ async function forgotPasswordOtp(req, res) {
         // console.log("otp send successfully **  ", otp);
         // return res.redirect("back");
         return res.render("sign_in", {
-            title: "Sign-In Page",
+            title: "Chitkara Live Sign-In Page",
             layout: "./layouts/some_layout",
             type: "sign-in-verify-email",
         });
@@ -1076,7 +1076,7 @@ async function signupEmailVerification(req, res) {
         // return res.redirect("back");
         return res.render("sign_in", {
             type: "sign-up-after-email-verified",
-            title: "Sign-In Page",
+            title: "Chitkara Live Sign-In Page",
             layout: "./layouts/some_layout",
             secret: doc.id + "",
         });
@@ -1160,7 +1160,7 @@ async function forgotPasswordEmailVerification(req, res) {
         // return res.redirect("back");
         return res.render("sign_in", {
             type: "sign-up-after-email-verified",
-            title: "Sign-In Page",
+            title: "Chitkara Live Sign-In Page",
             layout: "./layouts/some_layout",
             secret: doc.id + "",
         });
@@ -1196,7 +1196,7 @@ async function resenOtpdMail(req, res, email) {
             });
         }
         return res.render("sign_in", {
-            title: "Sign-In Page",
+            title: "Chitkara Live Sign-In Page",
             layout: "./layouts/some_layout",
             type: "sign-up-verify-email",
         });
