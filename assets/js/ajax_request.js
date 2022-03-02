@@ -2697,8 +2697,8 @@ function displayLikeImg(post) {
     let image = likeImg();
     $(post).append(image);
     setTimeout(() => {
-        $(image).css("height", "220px");
-        $(image).css("width", "220px");
+        $(image).css("height", "150px");
+        $(image).css("width", "150px");
     }, 30);
     setTimeout(() => {
         $(image).css("height", "90px");
