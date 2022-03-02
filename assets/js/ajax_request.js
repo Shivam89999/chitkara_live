@@ -2676,12 +2676,13 @@ handleNewCreatorRequest($("#new-creator-request-form"));
 
 //handle creator page handling
 
-function handleActiveCreatorPage() {
-    $("#request-new-creator-account-container").toggleClass(" active_display");
+function handleActiveCreatorPage(event) {
+    // console.log("yes evhvebjhvfe running");
+    $("#request-new-creator-account-container").toggleClass(" no_display");
 }
 
 function disappearCreatorRequestPage() {
-    $("#request-new-creator-account-container").removeClass(" active_display");
+    $("#request-new-creator-account-container").addClass(" no_display");
 }
 
 //handle post like using double click
@@ -2768,3 +2769,5 @@ function addListenerToDoubleClickLike() {
     // });
 }
 addListenerToDoubleClickLike();
+
+("handleActiveCreatorPage");

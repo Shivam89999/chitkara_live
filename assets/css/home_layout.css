@@ -297,7 +297,9 @@
           max-width: 80%;
           overflow: hidden;
           box-sizing: border-box; }
-          .comment-container .comments .comment .upper-div-1 div .comment-content {
+          .comment-container .comments .comment .upper-div-1 div .comment-content,
+          .comment-container .comments .comment .upper-div-1 div a,
+          .comment-container .comments .comment .upper-div-1 div span {
             overflow-wrap: break-word;
             min-width: 100% !important; }
       .comment-container .comments .comment .upper-div-2 {
