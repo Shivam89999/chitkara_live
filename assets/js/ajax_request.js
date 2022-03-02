@@ -2430,7 +2430,6 @@ function eventHomeDom(event) {
 }
 
 function addAllUpcomingHome(container, events) {
-    let container = $("#all_event");
     $(container).html("");
     for (let event of events) {
         //console.log("event is ", event);
