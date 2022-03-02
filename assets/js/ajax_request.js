@@ -2689,7 +2689,7 @@ function disappearCreatorRequestPage() {
 function likeImg() {
     return $(`
 <span style=" background-color: transparent; margin: auto;position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); height:50px; width:50px; overflow:hidden; transition:0.05s linear;">
-                                       <img src="https://icon-library.com/images/white-heart-icon-png/white-heart-icon-png-1.jpg" height="inherit" style="display:block" width="inherit" alt="like">
+                                       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9R19JxnuwMrb74Mb2Xm-4l6ZcL7N-UdsJq1NrVpLbFbs8L_yjSRnfYGzC_UV_fa5Z5dA&usqp=CAU" height="inherit" style="display:block" width="inherit" alt="like">
                                     </span>`);
 }
 
