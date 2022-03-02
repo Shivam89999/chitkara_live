@@ -2689,21 +2689,26 @@ function disappearCreatorRequestPage() {
 function likeImg() {
     return $(`
 <span style=" background-color: transparent; margin: auto;position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); height:50px; width:50px; overflow:hidden; transition:0.05s linear;">
-                                       <img src="/uploads/icons/3.liked.png" height="inherit" style="display:block" width="inherit" alt="like">
+                                       <img src="https://icon-library.com/images/white-heart-icon-png/white-heart-icon-png-1.jpg" height="inherit" style="display:block" width="inherit" alt="like">
                                     </span>`);
+}
+
+function animationOnLikeHeart(img, height, time) {
+    $(img).animate({
+            height: height,
+            width: height,
+        },
+        time,
+        "linear"
+    );
 }
 
 function displayLikeImg(post) {
     let image = likeImg();
     $(post).append(image);
-    setTimeout(() => {
-        $(image).css("height", "150px");
-        $(image).css("width", "150px");
-    }, 30);
-    setTimeout(() => {
-        $(image).css("height", "90px");
-        $(image).css("width", "90px");
-    }, 170);
+    animationOnLikeHeart(image, "110px", 300);
+    animationOnLikeHeart(image, "70px", 250);
+
     setTimeout(() => {
         $(image).remove();
     }, 1000);
