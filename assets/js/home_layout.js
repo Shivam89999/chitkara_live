@@ -366,7 +366,7 @@ function setNotificationTop() {
     let headerHeight = $("header").css("height");
     headerHeight = headerHeight.substring(0, headerHeight.length - 2);
     $("#notifications").css({
-        top: eval(headerHeight + "+8"),
+        top: eval(headerHeight + "+6"),
     });
 }
 setNotificationTop();
@@ -429,19 +429,19 @@ $(window).click((e) => {
 function setEventHeaderTopAndSearchHeaderTop() {
     let headerHeight = $("header").css("height");
     headerHeight = headerHeight.substring(0, headerHeight.length - 2);
-    console.log("header $$$$$$$$$$$$$$$$$4444444444 ", eval(headerHeight + "+8"));
-    $("#events-container").css("top", eval(headerHeight + "+8"));
-    $("#option-header").css("top", eval(headerHeight + "+8"));
+    console.log("header $$$$$$$$$$$$$$$$$4444444444 ", eval(headerHeight + "+6"));
+    $("#events-container").css("top", eval(headerHeight + "+6"));
+    $("#option-header").css("top", eval(headerHeight + "+6"));
 }
 setEventHeaderTopAndSearchHeaderTop();
 
 function setRequestPageContainerTop() {
     let headerHeight = $("header").css("height");
     headerHeight = headerHeight.substring(0, headerHeight.length - 2);
-    console.log("after resize header height is ", eval(headerHeight + "+8"));
+    console.log("after resize header height is ", eval(headerHeight + "+6"));
     $("#request-new-creator-account-container").css(
         "top",
-        eval(headerHeight + "+8")
+        eval(headerHeight + "+6")
     );
 }
 setRequestPageContainerTop();
