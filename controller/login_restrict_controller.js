@@ -1318,7 +1318,7 @@ function eventsPage(req, res) {
     //     });
     // });
     return res.render("events_page", {
-        title: "Events Page",
+        title: "Chitkara Live Events Page",
         upcomingOrrunning: [],
         passed: [],
     });
