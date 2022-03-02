@@ -6,7 +6,7 @@ module.exports.menuChanged = (obj) => {
     nodeMailer.transporter.sendMail({
             from: from,
             to: obj.targetEmail,
-            subject: "Aryabhatta Hostel Menu Changed",
+            subject: obj.byName + " Hostel Menu Changed",
             html: htmlString,
         },
         function(err, info) {

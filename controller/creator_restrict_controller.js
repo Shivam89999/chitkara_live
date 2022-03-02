@@ -716,6 +716,7 @@ async function updateDayTimeMenuContent(req, res) {
                     let job = queue
                         .create("mess", {
                             by: hostel._id,
+                            byName: hostel.name,
                             targetEmail: u.email,
                             targetName: u.name,
                             day: days[day],
