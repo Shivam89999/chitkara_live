@@ -2364,7 +2364,7 @@ function addListenerToNoticesLoading() {
 addListenerToNoticesLoading();
 //handle home event toggle
 function eventHomeDom(event) {
-    return `<div class="event-detail">
+    return $(`<div class="event-detail">
                             <div style="background-color: rgb(238, 237, 235)">
                                 <div>
                                     <img src="${event.creator.pic}" alt="" height="25px" width="25px" style="border-radius: 50%" />
@@ -2379,7 +2379,7 @@ function eventHomeDom(event) {
                                 <div class="event-type">
                                     <div>
                                         <img height="25px" width="25px"  src="/uploads/icons/31.upcoming-event.png"  alt="" />
-                                        <span style="color: hsl(93, 100%, 49%)" class="event-head" startTime="<%=event.eventStartTime%>">Upcoming Event</span
+                                        <span style="color: hsl(93, 100%, 49%)" class="event-head" startTime="${event.eventStartTime}">Upcoming Event</span
             >
           </div>
           <abbr title="See Event Detail">
@@ -2426,15 +2426,15 @@ function eventHomeDom(event) {
                                 </div>
                             </div>
                           
-                    </div>`;
+                    </div>`);
 }
 
 function addAllUpcomingHome(container, events) {
     for (let event of events) {
         //console.log("event is ", event);
         let eventDom = eventHomeDom(event.postRef);
-        // setCreatedTime($(".event-time", eventDom));
-        setEventDate(".event-time", eventDom);
+        handleEventHeadText($(".event-head", eventDom));
+        setEventDate($(".event-time", eventDom));
         $(container).append(eventDom);
     }
 }
@@ -2766,3 +2766,5 @@ function addListenerToDoubleClickLike() {
     // });
 }
 addListenerToDoubleClickLike();
+
+("toggleEventsVisibality");

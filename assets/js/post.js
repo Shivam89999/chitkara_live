@@ -295,6 +295,7 @@ function handleEventHeadText(ele) {
     // let startTime = ele.getAttribute("startTime");
     let startTime = $(ele).attr("startTime");
     startTime = new Date(startTime);
+    console.log("i m running $$$$$$ @#######3########");
     //converting time in miliseconds and comparing
     //console.log("current ", current.getTime(), "  event ", startTime.getTime());
     if (startTime.getTime() <= current.getTime()) {
