@@ -2688,7 +2688,7 @@ function disappearCreatorRequestPage() {
 //handle post like using double click
 function likeImg() {
     return $(`
-<span style=" background-color: transparent; margin: auto;position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); height:50px; width:50px; overflow:hidden; transition:0.2s linear;">
+<span style=" background-color: transparent; margin: auto;position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); height:50px; width:50px; overflow:hidden; transition:0.1s linear;">
                                        <img src="/uploads/icons/3.liked.png" height="inherit" style="display:block" width="inherit" alt="like">
                                     </span>`);
 }
