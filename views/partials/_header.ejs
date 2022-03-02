@@ -152,7 +152,7 @@
 </header>
 <script>
     function makeAccountToggleContainer() {
-        $("body").append(`<div id="toggle-account-option" class="no_display">
+        $("body").append(`<div style="min-width:350px;" id="toggle-account-option" class="no_display">
             <a >
                 <div style="
             display: flex;
@@ -178,7 +178,7 @@
                         <span style="color: lightcoral; font-size: 12.5"> <%=locals.user ? locals.user.onModel : 'Not define'%> </span>
                         </span>
                     </div>
-                    <div style="visibility: hidden; width: 140px"></div>
+
                     <div style="
               background-color: royalblue;
               height: 20px;
@@ -232,7 +232,7 @@
                         <span style="color: lightcoral; font-size: 12.5"> ${data.user.onModel} </span>
                         </span>
                     </div>
-                    <div style="visibility: hidden; width: 140px"></div>
+
                     <div style="
               background-color: transparent;
               height: 17px;
