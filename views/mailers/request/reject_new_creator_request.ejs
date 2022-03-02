@@ -45,10 +45,19 @@
             </div>
 
             <div>
-                <h3 style="color: rgb(247, 109, 10)">Reason of rejection is,</h3>
+                <h3 style="
+          color: rgb(247, 109, 10);
+          margin-bottom: 0px;
+          padding-bottom: 2px;
+          border-bottom: 0px;
+        ">
+                    Reason of rejection is,
+                </h3>
                 <span style="padding-left: 25px"><%=obj.data.reason%></span>
             </div>
         </div>
-        <div>Thanks for your patience</div>
+        <div style="padding-bottom: 0px; margin-bottom: 0px">
+            Thanks for your patience
+        </div>
         <%-include('../mail_footer');-%>
 </div>
