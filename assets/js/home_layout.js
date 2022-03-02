@@ -377,14 +377,6 @@ function setNotificationRight() {
     });
 }
 
-function setEventHeaderTopAndSearchHeaderTop() {
-    let headerHeight = $("header").css("height");
-    headerHeight = headerHeight.substring(0, headerHeight.length - 2);
-    console.log("header $$$$$$$$$$$$$$$$$4444444444 ", eval(headerHeight + "+8"));
-    $("#events-container").css("top", eval(headerHeight + "+8"));
-    $("#option-header").css("top", eval(headerHeight + "+8"));
-}
-setEventHeaderTopAndSearchHeaderTop();
 $(window).resize(() => {
     //console.log("m running ######  ");
     if (window.matchMedia("(max-width: 1075px)").matches) {
@@ -401,6 +393,8 @@ $(window).resize(() => {
         handleIntialState();
         resoterHeaderMedia();
     }
+    setRequestPageContainerTop();
+    console.log("resize header height is ", $("header").css("height"));
     setEventHeaderTopAndSearchHeaderTop();
 });
 if (window.matchMedia("(max-width: 1075px)").matches) {
@@ -408,12 +402,14 @@ if (window.matchMedia("(max-width: 1075px)").matches) {
     headerMediaQuery();
     setNotificationTop();
     setEventHeaderTopAndSearchHeaderTop();
+    setRequestPageContainerTop();
 }
 if (window.matchMedia("(max-width: 750px)").matches) {
     headerMediaQuery2();
     setNotificationTop();
     setNotificationRight();
     setEventHeaderTopAndSearchHeaderTop();
+    setRequestPageContainerTop();
 }
 
 //handle left option move when click outside
@@ -429,3 +425,23 @@ $(window).click((e) => {
         animateAccording(leftBar, -100);
     }
 });
+
+function setEventHeaderTopAndSearchHeaderTop() {
+    let headerHeight = $("header").css("height");
+    headerHeight = headerHeight.substring(0, headerHeight.length - 2);
+    console.log("header $$$$$$$$$$$$$$$$$4444444444 ", eval(headerHeight + "+8"));
+    $("#events-container").css("top", eval(headerHeight + "+8"));
+    $("#option-header").css("top", eval(headerHeight + "+8"));
+}
+setEventHeaderTopAndSearchHeaderTop();
+
+function setRequestPageContainerTop() {
+    let headerHeight = $("header").css("height");
+    headerHeight = headerHeight.substring(0, headerHeight.length - 2);
+    console.log("after resize header height is ", eval(headerHeight + "+8"));
+    $("#request-new-creator-account-container").css(
+        "top",
+        eval(headerHeight + "+8")
+    );
+}
+setRequestPageContainerTop();
