@@ -2706,8 +2706,8 @@ function animationOnLikeHeart(img, height, time) {
 function displayLikeImg(post) {
     let image = likeImg();
     $(post).append(image);
-    animationOnLikeHeart(image, "110px", 300);
-    animationOnLikeHeart(image, "70px", 250);
+    animationOnLikeHeart(image, "110px", 100);
+    animationOnLikeHeart(image, "70px", 100);
 
     setTimeout(() => {
         $(image).remove();
