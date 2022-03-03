@@ -1,4 +1,4 @@
-//console.log("post script running");
+console.log("post script running @@@@@@@@@@@@@@@@@@@@@@@ ");
 //handleChangeNextPrev
 function addListenerToallNextPrevBtn(items) {
     ////console.log("items are ", items.length);
