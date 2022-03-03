@@ -179,10 +179,10 @@ async function add_admin(req, res) {
                     });
                 return res.redirect("back");
             }
-            console.log("err in finding user or may does not exist in student model");
-            return res.end(
-                "err in finding user or may does not exist in student model"
-            );
+            // console.log("err in finding user or may does not exist in student model");
+            // return res.end(
+            //     "err in finding user or may does not exist in student model"
+            // );
         });
 }
 
