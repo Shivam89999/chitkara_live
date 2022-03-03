@@ -1,0 +1,47 @@
+<% var url='http://chitkaralive.com';%>
+    <div style="
+    background-color: rgba(34, 33, 33, 0.842) !important;
+    color: white !important;
+    font-size: 15px;
+    padding: 10px;
+  ">
+        <%-include('../mail_header');-%>
+            <h4 style="color: rgb(0, 225, 255)">Dear,
+                <%=targetName%>,</h4>
+            <br />
+            <h3 style="text-align: center; margin-top: 0px">
+                Your are Added as admin of
+                <span style="color: aqua"><%=creatorProfile.name%> (<%=creatorProfile.onModel%>)</span
+    >
+    by Organiser
+  </h3>
+  <br />
+  <div>
+    <sub
+      >Link of
+      <span style="color: aqua"> <%=creatorProfile.name%> </span> Profile is given below !</sub>
+                <br />
+                <br />
+                <a href="<%=url%>/user/profile?user_id=<%=creatorProfile._id%>" style="text-decoration: none; color: white">
+      <img
+        src="<%=url%><%=creatorProfile.pic%>"
+        alt="pic"
+        height="40px"
+        width="40px"
+      />
+      <span style="color: aqua"
+        ><%=creatorProfile.name%> (<%=creatorProfile.onModel%>)</span
+      >
+    </a>
+                <br />
+    </div>
+    <br />
+    <br />
+    <div style="color: greenyellow">
+        Now, you can access
+        <span style="color: aqua"><%=creatorProfile.name%> (<%=creatorProfile.onModel%>)</span
+    >
+    account from your current account by toggle account option in header
+  </div>
+  <%-include('../mail_footer');-%>
+</div>

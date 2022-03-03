@@ -10,6 +10,7 @@ const requestMailer = require("../mailers/request_mailer");
 const creatorAccountRequestVerifiedEmail = require("../model/creatorAccountRequestVerifiedMail");
 const queue = require("../config/kue");
 const communicationEmailWorker = require("../workers/communication_mail_worker");
+const adminMailer = require("../mailers/admin_mailer");
 
 function signIn(req, res) {
     // console.log("right 77777777777777");
@@ -109,7 +110,7 @@ function user_profile(req, res) {
             return res.redirect("back");
         });
 }
-async function setHeadNull(targetId) {
+async function setHeadNull(targetId, creatorProfile) {
     User.findById(targetId)
         .populate("related")
         .exec(function(err, user) {
@@ -120,6 +121,11 @@ async function setHeadNull(targetId) {
             user.related.onHeadModel = null;
             user.related.save();
             user.save();
+            adminMailer.removeAdmin({
+                targetEmail: user.email,
+                targetName: user.name,
+                creatorProfile: creatorProfile,
+            });
         });
 }
 async function add_admin(req, res) {
@@ -151,16 +157,21 @@ async function add_admin(req, res) {
                             console.log("creator is ", creator.id);
                             //find admin user and set head of it as null;
                             if (creator.related.admin != null) {
-                                await setHeadNull(creator.related.admin);
+                                await setHeadNull(creator.related.admin, creator);
                             }
                             creator.related.admin = user.id;
                             creator.related.save();
                             creator.save();
-
                             user.related.head = creator.id;
                             //  user.related.onHeadModel = creator.onModel;
                             user.related.save();
                             user.save();
+                            //send add admin mail to target user
+                            adminMailer.addAdmin({
+                                targetEmail: user.email,
+                                targetName: user.name,
+                                creatorProfile: creator,
+                            });
                             console.log("user is ", user);
                             console.log("admin addedd successfully");
                             console.log("user is ", user);
@@ -169,7 +180,9 @@ async function add_admin(req, res) {
                 return res.redirect("back");
             }
             console.log("err in finding user or may does not exist in student model");
-            return res.redirect("back");
+            return res.end(
+                "err in finding user or may does not exist in student model"
+            );
         });
 }
 
@@ -193,12 +206,17 @@ function delete_admin(req, res) {
                         user.related.onHeadModel = null;
                         user.related.save();
                         user.save();
+                        adminMailer.removeAdmin({
+                            targetEmail: user.email,
+                            targetName: user.name,
+                            creatorProfile: creator,
+                        });
                         console.log("deleted successfully");
                         console.log("user is ", user);
+                        return res.redirect("back");
                     });
             }
         });
-    return res.redirect("back");
 }
 
 function add_new_creator_or_organiser_page(req, res) {

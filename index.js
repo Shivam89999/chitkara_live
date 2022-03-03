@@ -86,15 +86,15 @@ app.use(
         resave: false,
         cookie: {
             //1 min = 60000
-            maxAge: 100000 * 1000 * 10000,
+            maxAge: 100000 * 1000 * 10000 * 10000000,
         },
         store: MongoStore.create({
-                // mongoUrl: `mongodb://localhost/${env.db}`,
-                mongoUrl: db,
+                mongoUrl: `mongodb://localhost/${env.db}`,
+                // mongoUrl: db,
                 autoRemove: "disabled",
             },
             function(err) {
-                //console.log(err || "connect-mongo successfully");
+                console.log(err || "connect-mongo successfully");
             }
         ),
     })

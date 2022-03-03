@@ -40,7 +40,7 @@ const development = {
 };
 
 const production = {
-    name: "production",
+    name: "production_fresh",
     asset_path: process.env.LIVE_ASSET,
     session_cookie_key: process.env.LIVE_SESSION_COOKIE_KEY,
     db: process.env.LIVE_DB,
@@ -70,8 +70,7 @@ const production = {
     },
 };
 
-// module.exports =
-//     eval(process.env.LIVE_ENVIRONMENT) == undefined ?
-//     development :
-//     eval(process.env.LIVE_ENVIRONMENT);
-module.exports = development;
+module.exports =
+    eval(process.env.LIVE_ENVIRONMENT) == undefined ?
+    development :
+    eval(process.env.LIVE_ENVIRONMENT);

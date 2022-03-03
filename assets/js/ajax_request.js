@@ -2718,7 +2718,7 @@ function handlePostLikeUsingDoubleClick(post, type) {
     $(post).dblclick((e) => {
         let postId = $(post).attr("postId");
         displayLikeImg(post);
-        console.log("double click @@@@2222 %%%%% ");
+        //console.log("double click @@@@2222 %%%%% ");
         let toggle = $(`#toggle-post-like-span-${postId}`);
         toggle.html("");
         toggle.html(`<img
@@ -2759,7 +2759,7 @@ function handlePostLikeUsingDoubleClick(post, type) {
                     return;
                 }
                 //console.log("err is ", err.responseText);
-                handleNotification("error", xhr.responseJSON.err);
+                // handleNotification("error", xhr.responseJSON.err);
             },
         });
     });
