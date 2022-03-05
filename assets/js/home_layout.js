@@ -114,6 +114,20 @@ function findOptionPage(options) {
     return $(result);
 }
 
+function addNoInternetView() {
+    if ($("#no-internet").length <= 0) {
+        $("html").append(`<div id="no-internet>
+            <img src="/uploads/icons/39.wifi-off.png" alt="wi-fi" height="20px" width="25px" />
+            <span style="font-size: 20; padding: 5px; padding-right: 0px">Low Internet.</span
+      >
+      <span style="font-size: 15; padding: 5px; padding-left: 0px"
+        >Check data connection and refresh</span
+      >
+    </div>`);
+    }
+    $("#no-internet").addClass("no_visibality");
+}
+addNoInternetView();
 // document.addEventListener("mouseup", function(e) {
 //     let classs = "clickDisappear";
 //     // let not = document.getElementsByClassName("tem-member-edit-option");
@@ -160,20 +174,6 @@ function checkInternetConnected() {
     }
 }
 
-function addNoInternetView() {
-    if ($("#no-internet").length <= 0) {
-        $("html").append(`<div id="no-internet>
-            <img src="/uploads/icons/39.wifi-off.png" alt="wi-fi" height="20px" width="25px" />
-            <span style="font-size: 20; padding: 5px; padding-right: 0px">Low Internet.</span
-      >
-      <span style="font-size: 15; padding: 5px; padding-left: 0px"
-        >Check data connection and refresh</span
-      >
-    </div>`);
-    }
-    $("#no-internet").addClass("no_visibality");
-}
-addNoInternetView();
 setInterval(function() {
     checkInternetConnected();
 }, 100);
