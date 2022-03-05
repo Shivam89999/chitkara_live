@@ -114,20 +114,6 @@ function findOptionPage(options) {
     return $(result);
 }
 
-function addNoInternetView() {
-    if ($("#no-internet").length <= 0) {
-        $("html").append(`<div id="no-internet>
-            <img src="/uploads/icons/39.wifi-off.png" alt="wi-fi" height="20px" width="25px" />
-            <span style="font-size: 20; padding: 5px; padding-right: 0px">Low Internet.</span
-      >
-      <span style="font-size: 15; padding: 5px; padding-left: 0px"
-        >Check data connection and refresh</span
-      >
-    </div>`);
-    }
-    $("#no-internet").addClass("no_visibality");
-}
-addNoInternetView();
 // document.addEventListener("mouseup", function(e) {
 //     let classs = "clickDisappear";
 //     // let not = document.getElementsByClassName("tem-member-edit-option");
@@ -149,6 +135,7 @@ function animationOnInternet(top, time) {
     $("#no-internet").animate({
             top: top,
         },
+
         time,
         "linear"
     );
@@ -158,21 +145,27 @@ function checkInternetConnected() {
     if (!navigator.onLine) {
         // window.alert();
         // window.alert("jvbfjhbvfb");
-        let view = $("#no-internet");
-        if (view.hasClass(".no_visibality")) {
-            view.removeClass(".no_visibality");
+        if ($("#no-internet").length <= 0) {
+            $("html").append(`<div id="no-internet">
+        
+            <span style="font-size: 20; padding: 5px; padding-right: 0px">Low Internet.</span
+      >
+      <span style="font-size: 15; padding: 5px; padding-left: 0px"
+        >Check data connection and refresh</span
+      >
+    </div>`);
+
             animationOnInternet(60, 600);
             animationOnInternet(52, 300);
         }
-    } else if (!view.hasClass(".no_visibality")) {
+    } else if (navigator.onLine && $("#no-internet").length > 0) {
         animationOnInternet(60, 300);
         animationOnInternet(2, 600);
         setTimeout(() => {
-            view.addClass(".no_visibality");
+            $("#no-internet").remove();
         }, 900);
     }
 }
-
 setInterval(function() {
     checkInternetConnected();
 }, 100);
