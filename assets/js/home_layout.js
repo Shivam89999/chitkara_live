@@ -146,16 +146,16 @@ function checkInternetConnected() {
         // window.alert();
         // window.alert("jvbfjhbvfb");
         let view = $("#no-internet");
-        if (view.hasClass(".no_display")) {
-            view.removeClass(".no_display");
+        if (view.hasClass(".no_visibality")) {
+            view.removeClass(".no_visibality");
             animationOnInternet(60, 600);
             animationOnInternet(52, 300);
         }
-    } else if (!view.hasClass(".no_display")) {
+    } else if (!view.hasClass(".no_visibality")) {
         animationOnInternet(60, 300);
         animationOnInternet(2, 600);
         setTimeout(() => {
-            view.addClass(".no_display");
+            view.addClass(".no_visibality");
         }, 900);
     }
 }
@@ -171,7 +171,7 @@ function addNoInternetView() {
       >
     </div>`);
     }
-    $("#no-internet").addClass("no_display");
+    $("#no-internet").addClass("no_visibality");
 }
 addNoInternetView();
 setInterval(function() {
