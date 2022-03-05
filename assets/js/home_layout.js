@@ -145,8 +145,25 @@ function checkInternetConnected() {
     if (!navigator.onLine) {
         // window.alert();
         // window.alert("jvbfjhbvfb");
-        if ($("#no-internet").length <= 0) {
-            $("html").append(`<div id="no-internet">
+        let view = $("#no-internet");
+
+        if (view.hasClass(".no_display")) {
+            view.removeClass(".no_display");
+            animationOnInternet(60, 600);
+            animationOnInternet(52, 300);
+        }
+    } else if (!view.hasClass(".no_display")) {
+        animationOnInternet(60, 300);
+        animationOnInternet(2, 600);
+        setTimeout(() => {
+            view.addClass(".no_display");
+        }, 900);
+    }
+}
+
+function addNoInternetView() {
+    if ($("#no-internet").length <= 0) {
+        $("html").append(`<div id="no-internet class="no_display">
             <img src="/uploads/icons/39.wifi-off.png" alt="wi-fi" height="20px" width="25px" />
             <span style="font-size: 20; padding: 5px; padding-right: 0px">Low Internet.</span
       >
@@ -154,18 +171,9 @@ function checkInternetConnected() {
         >Check data connection and refresh</span
       >
     </div>`);
-
-            animationOnInternet(60, 600);
-            animationOnInternet(52, 300);
-        }
-    } else if (navigator.onLine && $("#no-internet").length > 0) {
-        animationOnInternet(60, 300);
-        animationOnInternet(2, 600);
-        setTimeout(() => {
-            $("#no-internet").remove();
-        }, 900);
     }
 }
+addNoInternetView();
 setInterval(function() {
     checkInternetConnected();
 }, 100);
