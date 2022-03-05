@@ -162,7 +162,7 @@ function checkInternetConnected() {
 
 function addNoInternetView() {
     if ($("#no-internet").length <= 0) {
-        $("html").append(`<div id="no-internet class="no_display">
+        $("html").append(`<div id="no-internet>
             <img src="/uploads/icons/39.wifi-off.png" alt="wi-fi" height="20px" width="25px" />
             <span style="font-size: 20; padding: 5px; padding-right: 0px">Low Internet.</span
       >
@@ -171,6 +171,7 @@ function addNoInternetView() {
       >
     </div>`);
     }
+    $("#no-internet").addClass("no_display");
 }
 addNoInternetView();
 setInterval(function() {
