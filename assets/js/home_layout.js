@@ -146,7 +146,6 @@ function checkInternetConnected() {
         // window.alert();
         // window.alert("jvbfjhbvfb");
         let view = $("#no-internet");
-
         if (view.hasClass(".no_display")) {
             view.removeClass(".no_display");
             animationOnInternet(60, 600);
