@@ -149,7 +149,6 @@ function animationOnInternet(top, time) {
     $("#no-internet").animate({
             top: top,
         },
-
         time,
         "linear"
     );
