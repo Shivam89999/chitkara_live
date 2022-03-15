@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const path = require("path");
 const NOTICE_PATH = path.join("/uploads/users/notices");
-
+const default_notice_image = NOTICE_PATH + "/" + "default_pdf_image.jpg";
 const noticeSchema = mongoose.Schema({
     caption: {
         type: "String",
@@ -30,7 +30,7 @@ const noticeSchema = mongoose.Schema({
     },
     image: {
         type: "String",
-        default: "/images/default_pdf_image.jpg",
+        default: default_notice_image,
     },
 }, {
     timestamps: true,
