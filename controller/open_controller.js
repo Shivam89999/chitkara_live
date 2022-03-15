@@ -839,7 +839,7 @@ function homeOptionPage(req, res) {
             return res.redirect("back");
         }
         return res.render("home_option_page", {
-            title: "Chitkara Live Home Option Page",
+            title: "Chitkara Live",
             users: users,
             type: type,
         });
