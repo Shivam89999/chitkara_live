@@ -71,6 +71,8 @@
         }
         .caption {
             max-width: 95%;
+            word-wrap: break-word;
+            word-break: break-all;
         }
     }
 }
