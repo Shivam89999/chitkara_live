@@ -532,11 +532,11 @@ function update(req, res) {
         if (
             prev.name.trim() != newdData.name.trim() ||
             prev.bio.trim() != newdData.bio.trim() ||
-            prev.whatsapp.trim() ||
-            (prev.name.trim() != newdData.name.trim()) != newdData.whatsapp.trim() ||
+            prev.whatsapp.trim() != newdData.whatsapp.trim() ||
             prev.mobile.trim() != newdData.mobile.trim() ||
             req.file
         ) {
+            console.log("yes chnages find  $$$$$$ ");
             req.flash("success", "Profile Updated successfully");
         }
         prev.name = newdData.name;
