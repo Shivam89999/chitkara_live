@@ -653,7 +653,7 @@ async function HomePage(req, res) {
         }
         //console.log("posts are ^^^^^^^^^^^^ ", posts);
         return res.render("home", {
-            title: "Chitkara Live Home ",
+            title: "Chitkara Live",
             posts: posts,
             alerts: alerts,
             noOfNotices: noOfNotices,
