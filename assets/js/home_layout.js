@@ -146,7 +146,7 @@ function checkInternetConnected() {
         // window.alert();
         // window.alert("jvbfjhbvfb");
         if ($("#no-internet").length <= 0) {
-            $("html").append(`<div id="no-internet">
+            $("body").append(`<div id="no-internet">
         
             <span style="font-size: 20; padding: 5px; padding-right: 0px">Low Internet.</span
       >
