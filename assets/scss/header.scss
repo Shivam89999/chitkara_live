@@ -36,12 +36,12 @@
 // }
 header {
     width: 100%;
-    min-width: 400px;
+    min-width: 350px;
     position: fixed;
     display: flex;
     flex-direction: row;
     color: black;
-    z-index: 999999999;
+    z-index: 999999999 !important;
     background-color: white;
     box-shadow: 0px 1px 14px 1px rgba(0, 0, 0, 0.2);
     padding: 2px;
