@@ -62,7 +62,6 @@
 #no-internet {
     position: fixed;
     top: 2px;
-    margin: auto !important;
     /* trick to make absolute/fixed position in center */
     left: 50% !important;
     // margin-left: -200px;
@@ -71,12 +70,13 @@
     height: auto;
     padding: 4px 10px 4px 10px;
     background-color: rgb(255, 179, 38);
-    z-index: 454454545;
+    z-index: 454454545 !important;
     color: white;
     font-weight: 480;
     vertical-align: middle;
     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.2);
     transform: translateX(-50%) !important;
+    margin: 10px;
 }
 
 .toggle-container {
