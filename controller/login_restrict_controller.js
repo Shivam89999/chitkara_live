@@ -2245,7 +2245,7 @@ async function toggleAccountDetail(req, res) {
         let user = await User.findById(userId);
         return res.status(200).json({
             user: user,
-            currentImg: "" + req.user.myUser.pic,
+            currentImg: "" + user.pic,
         });
     } catch (err) {
         return res.status(500).json({
