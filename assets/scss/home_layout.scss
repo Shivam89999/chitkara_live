@@ -518,6 +518,7 @@
 }
 
 .like-hover {
+    border-radius: 50%;
     &:hover {
         border: 2px solid aqua !important;
     }
