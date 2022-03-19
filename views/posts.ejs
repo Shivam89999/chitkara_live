@@ -140,7 +140,10 @@
                             <div>
                                 <%for(let i=0; i< 7 &&  i< post.likes.length; i++ ){%>
                                     <%if(post.likes[i].creator){%>
+                                        <a href="/user/profile?user_id=<%=post.likes[i].creator.id%>">
+
                                         <img src="<%=post.likes[i].creator.pic%>" alt="pic" height="40px" width="40px" style="border-radius: 50%; min-width: 40px; min-height: 40px; padding:0px 7px 0px 7px;">
+                                       </a>
                                         <%}%>
                                             <%}%>
                             </div>
