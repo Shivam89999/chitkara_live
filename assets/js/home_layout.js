@@ -326,7 +326,7 @@ function headerMediaQuery() {
     if ($("header .triple-line").length == 0) {
         $("header").prepend(
             $(
-                `<div class="triple-line" style='text-align:center; vertical-align:center;'>&#8801;</div>`
+                `<div class="triple-line" style='text-align:center !important; vertical-align:center !important; left:-4px;'>&#8801;</div>`
             )
         );
         listenerTo3Line();
