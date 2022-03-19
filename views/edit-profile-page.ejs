@@ -2,7 +2,7 @@
 <style>
     input {
         border: none;
-        border-bottom: 1px solid black;
+        border-bottom: 1.7px solid black;
         outline: none;
         font-size: medium;
     }
@@ -14,7 +14,7 @@
     <h3>Edit Profile Page</h3>
     <div>
         <form action="/user/update" enctype="multipart/form-data" method="POST">
-            <input type="file" name="avatar" id="file-input" placeholder="New Profile" />
+            <input type="file" name="avatar" style="border: none" id="file-input" placeholder="New Profile" />
             <div id="preview"></div>
             <div id="error-div" style="text-align: center; padding: 5px; margin: auto"></div>
             <input type="text" name="name" placeholder="Type name" value="<%=locals.user.name%>" />
