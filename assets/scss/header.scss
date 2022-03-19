@@ -124,3 +124,13 @@ header {
 .mid-div {
     width: 40%;
 }
+
+#search-form {
+    input {
+        outline: none !important;
+        border: none !important;
+        &:hover {
+            outline: 1px solid aqua;
+        }
+    }
+}
