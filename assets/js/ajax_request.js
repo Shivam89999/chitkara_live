@@ -1918,7 +1918,7 @@ function addPostToDom(localUser, post, count) {
                             <div>`;
         for (let i = 0; i < 7 && i < post.likes.length; i++) {
             if (post.likes[i].creator) {
-                res += `      <a class="like-hover" href="/user/profile?user_id=${post.likes[i].creator.id}">            <img src="${post.likes[i].creator.pic}" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px 7px 0px 7px;"> </a>
+                res += `      <a class="like-hover" href="/user/profile?user_id=${post.likes[i].creator.id}">            <img src="${post.likes[i].creator.pic}" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px; margin:3.5px;"> </a>
 `;
             }
         }
