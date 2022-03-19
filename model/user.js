@@ -23,7 +23,7 @@ const userSchema = mongoose.Schema({
     },
     bio: {
         type: "String",
-        default: "#Chitkarian ",
+        default: "#Chitkarian ⭐",
     },
     mobile: {
         type: "String",
