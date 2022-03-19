@@ -130,7 +130,8 @@ header {
         outline: none !important;
         border: none !important;
         &:hover {
-            outline: 1px solid aqua !important;
+            cursor: pointer;
+            border: 1px solid aqua !important;
         }
     }
 }
