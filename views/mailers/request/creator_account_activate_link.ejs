@@ -8,8 +8,8 @@
   ">
         <%-include('../mail_header');-%>
             <h4 style="text-align: center; color: cyan">
-                New
-                <%=obj.data.type%> Account Request Accepted
+                Link To Activate New
+                <%=obj.data.type%> Account
             </h4>
             <div>
                 <span>Hi <%=obj.data.name%>,</span>
@@ -50,7 +50,13 @@
       </span>
                     <br />
                     <br />
-                    <a href="<%=url%><%=obj.data.link%>">Link to activate your account</a>
+                    <div>
+                        <span style="padding: 2px 7px 2px 2px">Activation Link : </span>
+                        <a href="<%=url%><%=obj.data.link%>">
+                            <%=url%>
+                                <%=obj.data.link%>
+                        </a>
+                    </div>
                 </div>
                 <br />
 
