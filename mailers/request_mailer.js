@@ -128,7 +128,11 @@ exports.creatorAccountActivateLink = (obj) => {
     nodeMailer.transporter.sendMail({
             from: from,
             to: obj.targetEmail,
-            subject: "Link To Activate Creator Account",
+            subject: "Link To Activate " +
+                obj.data.name +
+                " (" +
+                obj.data.type +
+                ") Account",
             html: htmlString,
         },
         function(err, info) {
