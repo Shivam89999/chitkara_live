@@ -23,4 +23,4 @@ function toggleHead(headerId) {
     }
 }
 
-toggleHead("send-header");
+toggleHead("coming-header");
