@@ -355,7 +355,7 @@ function addLikesUserBar(post) {
   }&type=${post.photos ? "Post" : "TextPost"}">View All</a></span></div>
                             <div>`;
     for (let i = 0; i < 7 && i < post.likes.length; i++) {
-        string += `<img src="${post.likes[i].creator.pic}" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px 7px 0px 7px;">`;
+        string += `<img src="${post.likes[i].creator.pic}" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px; margin:3.5px;">`;
     }
 
     string += `</div>`;
