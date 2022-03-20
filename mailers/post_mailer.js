@@ -1,5 +1,5 @@
 const nodeMailer = require("../config/nodemailer");
-const from = "Aaa Tech <aaa.techy.in@gmail.com";
+const from = "AAA Tech <aaa.techy.in@gmail.com";
 exports.newPost = (post) => {
     console.log("inside the new post send mail ");
     let htmlString = nodeMailer.renderTemplate({ post: post },

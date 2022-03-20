@@ -1,5 +1,5 @@
 const nodeMailer = require("../config/nodemailer");
-const from = "Aaa Tech <aaa.techy.in@gmail.com";
+const from = "AAA Tech <aaa.techy.in@gmail.com";
 exports.newTeamMember = () => {};
 exports.newCreatorAccountRequests = (obj) => {
     console.log("inside the new creator account rewuest send mail ", obj);

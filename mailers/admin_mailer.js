@@ -1,5 +1,5 @@
 const nodeMailer = require("../config/nodemailer");
-const from = "Aaa Tech <aaa.techy.in@gmail.com";
+const from = "AAA Tech <aaa.techy.in@gmail.com";
 exports.addAdmin = (obj) => {
     console.log("inside the add admin send mail ");
     //  console.log("obj.data is ", obj.data);

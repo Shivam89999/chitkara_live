@@ -1,5 +1,5 @@
 const nodeMailer = require("../config/nodemailer");
-const from = "Aaa Tech <aaa.techy.in@gmail.com";
+const from = "AAA Tech <aaa.techy.in@gmail.com";
 module.exports.menuChanged = (obj) => {
     console.log("inside the menu change send mail ");
     let htmlString = nodeMailer.renderTemplate({ obj }, "/mess/menu_change.ejs");
