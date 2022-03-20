@@ -529,15 +529,9 @@ function update(req, res) {
         }
         let prev = req.user.myUser;
         let newdData = req.body;
-        if (
-            prev.name.trim() != newdData.name.trim() ||
-            prev.bio.trim() != newdData.bio.trim() ||
-            prev.mobile.trim() != newdData.mobile.trim() ||
-            req.file
-        ) {
-            console.log("yes chnages find  $$$$$$ ");
-            req.flash("success", "Profile Updated successfully");
-        }
+
+        req.flash("success", "Profile Updated successfully");
+
         prev.name = newdData.name;
         prev.bio = newdData.bio;
         prev.whatsapp = newdData.whatsapp;
