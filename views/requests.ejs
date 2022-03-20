@@ -98,29 +98,30 @@
           align-items: space-between !important;
         "
       >
-        <a
-          href="/user/profile?user_id=<%=u.id%>"
-          style="text-decoration: none; color: black"
-        >
-          <div class="add-on-hover">
-            <div>
-              <img
-                src="<%=u.pic%>"
-                alt="pic"
-                height="50px"
-                width="50px"
-                style="border-radius: 50%"
-              />
+        <div>
+          <a
+            href="/user/profile?user_id=<%=u.id%>"
+            style="text-decoration: none; color: black"
+          >
+            <div class="add-on-hover">
+              <div>
+                <img
+                  src="<%=u.pic%>"
+                  alt="pic"
+                  height="50px"
+                  width="50px"
+                  style="border-radius: 50%"
+                />
+              </div>
+              <div style="display: flex; flex-direction: column">
+                <span><%=u.name%></span>
+                <span style="font-size: 13"><%=u.onModel%></span>
+              </div>
             </div>
-            <div style="display: flex; flex-direction: column">
-              <span><%=u.name%></span>
-              <span style="font-size: 13"><%=u.onModel%></span>
-            </div>
-          </div>
-        </a>
-
-                            <div>
-                                <a class="request-link" href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
+          </a>
+                        </div>
+                        <div>
+                            <a class="request-link" href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
           >
         </div>
         <%}%>
