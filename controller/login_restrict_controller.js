@@ -532,7 +532,6 @@ function update(req, res) {
         if (
             prev.name.trim() != newdData.name.trim() ||
             prev.bio.trim() != newdData.bio.trim() ||
-            prev.whatsapp.trim() != newdData.whatsapp.trim() ||
             prev.mobile.trim() != newdData.mobile.trim() ||
             req.file
         ) {
