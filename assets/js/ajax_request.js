@@ -355,7 +355,10 @@ function addLikesUserBar(post) {
   }&type=${post.photos ? "Post" : "TextPost"}">View All</a></span></div>
                             <div>`;
     for (let i = 0; i < 7 && i < post.likes.length; i++) {
-        string += `<img src="${post.likes[i].creator.pic}" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px; margin:3.5px;">`;
+        string += `  <a href="/user/profile?user_id=${post.likes[i].creator._id}" class="like-hover">
+
+                                        <img src="${post.likes[i].creator.pic}" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px; margin:3.5px;">
+                                       </a>`;
     }
 
     string += `</div>`;
@@ -1918,8 +1921,10 @@ function addPostToDom(localUser, post, count) {
                             <div>`;
         for (let i = 0; i < 7 && i < post.likes.length; i++) {
             if (post.likes[i].creator) {
-                res += `      <a class="like-hover" href="/user/profile?user_id=${post.likes[i].creator._id}">            <img src="${post.likes[i].creator.pic}" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px; margin:3.5px;"> </a>
-`;
+                res += `  <a href="/user/profile?user_id=${post.likes[i].creator._id}" class="like-hover">
+
+                                        <img src="${post.likes[i].creator.pic}" alt="pic" height="40px" width="40px" style="border-radius: 50%; padding:0px; margin:3.5px;">
+                                       </a>`;
             }
         }
         res += `
@@ -1946,7 +1951,7 @@ function addPostToDom(localUser, post, count) {
 
                                     <button style="cursor: pointer;">
           <img
-            height="20px"
+            height="35px"
             width="35px"
             src="/uploads/icons/7.send-message.webp"
             alt=""
