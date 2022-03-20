@@ -206,7 +206,7 @@
                 // console.log("data is !!!!!!!!!!!!!111111111111111 !!!!!!!! ", data);
                 // let imgSrc = data.user.pic.replace(/\\/g, "/");
                 console.log("data is %%%%%%%%%%%% ", data);
-                $("#account-toggle-image").attr("src", data.user.pic);
+                $("#account-toggle-image").attr("src", data.currentImg);
                 $("#toggle-account-option").append(`<a href="/user/toggle-b/w-accounts">
                 <div style="
             display: flex;
@@ -221,7 +221,7 @@
             justify-content: space-between;
           ">
                     <div style="display: flex; flex-direction: row; align-items: center">
-                        <img src="" alt="some" height="50px" width="50px" style="border-radius: 50%" />
+                        <img src="${data.user.pic}" alt="some" height="50px" width="50px" style="border-radius: 50%" />
                           <span style="
                 padding-left: 5px;
                 display: flex;
@@ -280,4 +280,3 @@
 <script src="<%=assetPath('js/header.js')%>"></script>
 
 <!-- <script src="/js/ajax_request.js"></script> -->
-"toggle-account-option"
