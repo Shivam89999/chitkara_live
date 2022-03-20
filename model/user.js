@@ -68,7 +68,7 @@ const storage = multer.diskStorage({
     },
 });
 //max size can be 5mb
-const maxSize = 1024 * 1024 * 5;
+const maxSize = 1024 * 1024 * 15;
 
 userSchema.statics.uploadAvatar = multer({
     storage: storage,

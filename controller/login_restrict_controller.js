@@ -516,7 +516,7 @@ function update(req, res) {
     User.uploadAvatar(req, res, function(err) {
         if (err) {
             if (err.code === "LIMIT_FILE_SIZE") {
-                console.log("file is too large max size allowed is 5mb");
+                console.log("file is too large max size allowed is 15mb");
                 return res.redirect("back");
             }
 
