@@ -24,5 +24,3 @@ function toggleHead(headerId) {
 }
 
 toggleHead("send-header");
-
-toggleHead("send-header");
