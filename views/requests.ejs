@@ -56,7 +56,15 @@
         No send request found
       </div>
       <%}%> <%for(let u of locals.myProfile.related.sendRequest){%>
-      <div>
+      <div
+        style="
+          width: 100% !important;
+          display: flex;
+          flex-direction: row !important;
+          justify-content: space-between !important;
+          align-items: space-between !important;
+        "
+      >
         <a
           href="/user/profile?user_id=<%=u.id%>"
           style="text-decoration: none; color: black"
