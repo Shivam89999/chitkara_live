@@ -20,6 +20,12 @@
                 <br />
                 <sub>Link of <%=data.name%> Profile is given below !</sub>
             </div>
-            <a href="<%=url%>/user/profile?user_id=<%=data._id%>">Click to see profile</a>
+            <div>
+                Profile Link :
+                <a style="margin-left: 5px" href="<%=url%>/user/profile?user_id=<%=data._id%>">
+                    <%=url%>/user/profile?user_id=
+                        <%=data._id%>
+                </a>
+            </div>
             <%-include('../mail_footer');-%>
     </div>

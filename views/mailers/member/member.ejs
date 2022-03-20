@@ -20,7 +20,13 @@
                 <br />
                 <sub>Link is given below, check it out !</sub>
             </div>
-            <a href="<%=url%>/user/profile?user_id=<%=data._id%>">Click to see, who is new member</a
-  >
-  <%-include('../mail_footer');-%>
-</div>
+            <div>
+                Profile Link :
+                <a style="margin-left: 5px" href="<%=url%>/user/profile?user_id=<%=data._id%>">
+                    <%=url%>/user/profile?user_id=
+                        <%=data._id%>
+                </a>
+            </div>
+
+            <%-include('../mail_footer');-%>
+    </div>
