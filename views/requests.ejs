@@ -76,14 +76,7 @@
     <div class="request-header">
       <div style="width: 100%" id="member-header">Membership</div>
     </div>
-    <div
-      style="
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
-      "
-    >
+    <div style="display: flex; flex-direction: column">
       <%if(locals.myProfile.related.members.length==0){%>
       <div style="color: red; text-align: center; padding: 15px">
         No Member found
@@ -91,7 +84,7 @@
       <%}%> <%for(let u of locals.myProfile.related.members){%>
       <div
         style="
-          width: 100%;
+          width: 100% !important;
           display: flex;
           flex-direction: row !important;
           justify-content: space-between !important;
