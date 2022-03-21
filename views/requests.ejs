@@ -35,7 +35,7 @@
           justify-content: space-between !important;
           align-items: space-between !important;
         ">
-                                <div style="width: fit-content; margin: 0px">
+                                <div style="width: fit-content; margin: 0px !important">
                                     <a href="/user/profile?user_id=<%=u.id%>" style="text-decoration: none; color: black">
                                         <div class="add-on-hover">
                                             <div>
@@ -48,7 +48,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div style="width: fit-content; margin: 0px">
+                                <div style="width: fit-content; margin: 0px !important">
                                     <a class="request-link" href="/user/withdraw-request?target=<%=u.id%>"><button>Withdraw</button></a
           >
         </div>
@@ -72,7 +72,7 @@
           align-items: space-between !important;
         "
       >
-        <div style="width: fit-content; margin: 0px">
+        <div style="width: fit-content; margin: 0px !important">
           <a
             href="/user/profile?user_id=<%=u.id%>"
             style="text-decoration: none; color: black"
@@ -94,7 +94,7 @@
             </div>
           </a>
                                 </div>
-                                <div style="width: fit-content; margin: 0px">
+                                <div style="width: fit-content; margin: 0px !important">
                                     <a class="request-link" href="/user/accept-request?target=<%=u.id%>"><button>Accept</button></a
           >
           <a href="/user/ignore-request?target=<%=u.id%>" class="request-link"
@@ -132,7 +132,7 @@
           align-items: space-between !important;
         "
       >
-        <div style="width: fit-content; margin: 0px">
+        <div style="width: fit-content; margin: 0px !important">
           <a
             href="/user/profile?user_id=<%=u.id%>"
             style="text-decoration: none; color: black"
@@ -155,7 +155,7 @@
           </a>
                                 </div>
                                 <%if(locals.comingRequests!=null && locals.sendRequests!=null){%>
-                                    <div style="width: fit-content; margin: 0px">
+                                    <div style="width: fit-content; margin: 0px !important">
                                         <a class="request-link" href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
           >
         </div>
