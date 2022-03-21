@@ -149,10 +149,12 @@
             </div>
           </a>
                                 </div>
-                                <div>
-                                    <a class="request-link" href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
+                                <%if(locals.comingRequests!=null && locals.sendRequests!=null){%>
+                                    <div>
+                                        <a class="request-link" href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
           >
         </div>
+        <%}%>
       </div>
       <%}%>
     </div>

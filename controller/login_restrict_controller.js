@@ -1183,16 +1183,13 @@ function profileRequestsPage(req, res) {
                 return res.redirect("back");
             }
             console.log("user_id is ", user.id, " myUserId ", req.user.myUser.id);
-            console.log("result compare ", user.id + "" == req.user.myUser.id + "");
+            const compareResult = user.id + "" == req.user.myUser.id + "";
+            console.log("result compare ", compareResult);
             return res.render("requests", {
                 title: "requests page",
                 members: user.related.members,
-                comingRequest: user.id + "" == req.user.myUser.id + "" ?
-                    user.related.comingRequest :
-                    null,
-                sendRequests: user.id + "" == req.user.myUser.id + "" ?
-                    user.related.sendRequest :
-                    null,
+                comingRequests: compareResult ? user.related.comingRequest : null,
+                sendRequests: compareResult ? user.related.sendRequest : null,
                 // myProfile: user,
             });
         });
