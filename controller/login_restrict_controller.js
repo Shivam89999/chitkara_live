@@ -1162,7 +1162,8 @@ function likes(req, res) {
 
 function profileRequestsPage(req, res) {
     // populate the request and send to page
-    User.findById(req.user.myUser.id)
+    const userId = req.query.userId;
+    User.findById(userId)
         .populate({
             path: "related",
             populate: [{
@@ -1183,7 +1184,10 @@ function profileRequestsPage(req, res) {
             }
             return res.render("requests", {
                 title: "requests page",
-                myProfile: user,
+                members: user.related.members,
+                comingRequest: user.id == req.user.myUser.id ? user.related.comingRequest : null,
+                sendRequests: user.id == req.user.myUser.id ? user.related.sendRequest : null,
+                // myProfile: user,
             });
         });
 }

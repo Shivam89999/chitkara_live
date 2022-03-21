@@ -1,49 +1,50 @@
 <link rel="stylesheet" href="<%=assetPath('css/requests.css')%>" />
 
 <div id="requests-container">
-    <div style="display: flex; flex-direction: column">
-        <!-- header -->
+    <%if(locals.comingRequests!=null && locals.sendRequests!=null){%>
+        <div style="display: flex; flex-direction: column">
+            <!-- header -->
 
-        <div class="request-header">
-            <div id="send-header" type="send" class="header" onClick="toggleHead('send-header')">
-                Requested
-            </div>
-            <div id="coming-header" type="coming" class="header" onClick="toggleHead('coming-header')">
-                Coming Req
-            </div>
-        </div>
-
-        <!-- sending-request-div -->
-
-        <div class="send all" style="display: flex; flex-direction: column">
-            <%if(locals.myProfile.related.sendRequest.length==0){%>
-                <div style="color: red; text-align: center; padding: 15px">
-                    No send request found
+            <div class="request-header">
+                <div id="send-header" type="send" class="header" onClick="toggleHead('send-header')">
+                    Requested
                 </div>
-                <%}%>
-                    <%for(let u of locals.myProfile.related.sendRequest){%>
-                        <div style="
+                <div id="coming-header" type="coming" class="header" onClick="toggleHead('coming-header')">
+                    Coming Req
+                </div>
+            </div>
+
+            <!-- sending-request-div -->
+
+            <div class="send all" style="display: flex; flex-direction: column">
+                <%if(locals.sendRequests.length==0){%>
+                    <div style="color: red; text-align: center; padding: 15px">
+                        No send request found
+                    </div>
+                    <%}%>
+                        <%for(let u of locals.sendRequests){%>
+                            <div style="
           width: 100%;
           display: flex;
           flex-direction: row !important;
           justify-content: space-between !important;
           align-items: space-between !important;
         ">
-                            <div>
-                                <a href="/user/profile?user_id=<%=u.id%>" style="text-decoration: none; color: black">
-                                    <div class="add-on-hover">
-                                        <div>
-                                            <img src="<%=u.pic%>" alt="pic" height="50px" width="50px" style="border-radius: 50%" />
+                                <div>
+                                    <a href="/user/profile?user_id=<%=u.id%>" style="text-decoration: none; color: black">
+                                        <div class="add-on-hover">
+                                            <div>
+                                                <img src="<%=u.pic%>" alt="pic" height="50px" width="50px" style="border-radius: 50%" />
+                                            </div>
+                                            <div style="display: flex; flex-direction: column">
+                                                <span><%=u.name%></span>
+                                                <span style="font-size: 13"><%=u.onModel%></span>
+                                            </div>
                                         </div>
-                                        <div style="display: flex; flex-direction: column">
-                                            <span><%=u.name%></span>
-                                            <span style="font-size: 13"><%=u.onModel%></span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div>
-                                <a class="request-link" href="/user/withdraw-request?target=<%=u.id%>"><button>Withdraw</button></a
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="request-link" href="/user/withdraw-request?target=<%=u.id%>"><button>Withdraw</button></a
           >
         </div>
       </div>
@@ -52,11 +53,11 @@
     <!-- coming requests -->
 
     <div class="coming all" style="display: flex; flex-direction: column">
-      <%if(locals.myProfile.related.comingRequest.length==0){%>
+      <%if(locals.comingRequests.length==0){%>
       <div style="color: red; text-align: center; padding: 15px">
         No Coming request found
       </div>
-      <%}%> <%for(let u of locals.myProfile.related.comingRequest){%>
+      <%}%> <%for(let u of locals.comingRequests){%>
       <div
         style="
           width: 100%;
@@ -87,9 +88,9 @@
               </div>
             </div>
           </a>
-                            </div>
-                            <div style="width: fit-content">
-                                <a class="request-link" href="/user/accept-request?target=<%=u.id%>"><button>Accept</button></a
+                                </div>
+                                <div style="width: fit-content">
+                                    <a class="request-link" href="/user/accept-request?target=<%=u.id%>"><button>Accept</button></a
           >
           <a href="/user/ignore-request?target=<%=u.id%>" class="request-link"
             ><button>Ignore</button></a
@@ -99,7 +100,7 @@
       <%}%>
     </div>
   </div>
-
+  <%}%>
   <div style="width: 100%">
     <div class="request-header">
       <div style="width: 100%" id="member-header">Membership</div>
@@ -112,11 +113,11 @@
         align-items: center;
       "
     >
-      <%if(locals.myProfile.related.members.length==0){%>
+      <%if(locals.members.length==0){%>
       <div style="color: red; text-align: center; padding: 15px">
         No Member found
       </div>
-      <%}%> <%for(let u of locals.myProfile.related.members){%>
+      <%}%> <%for(let u of locals.members){%>
       <div
         style="
           width: 100%;
@@ -147,9 +148,9 @@
               </div>
             </div>
           </a>
-                            </div>
-                            <div>
-                                <a class="request-link" href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
+                                </div>
+                                <div>
+                                    <a class="request-link" href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
           >
         </div>
       </div>

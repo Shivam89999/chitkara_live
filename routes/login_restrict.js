@@ -61,7 +61,7 @@ router.get(
 );
 
 router.get(
-    "/profile-requests-page",
+    "/profile-requests-page/",
     login_restrict_controller.profileRequestsPage
 );
 
