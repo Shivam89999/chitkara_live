@@ -1183,6 +1183,7 @@ function profileRequestsPage(req, res) {
                 return res.redirect("back");
             }
             console.log("user_id is ", user.id, " myUserId ", req.user.myUser.id);
+            console.log("result compare ", user.id + "" == req.user.myUser.id + "");
             return res.render("requests", {
                 title: "requests page",
                 members: user.related.members,
