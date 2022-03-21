@@ -75,7 +75,7 @@
       <%}%>
     </div>
   </div>
-  <div>
+  <div style="width: 100%;">
     <div class="request-header">
       <div style="width: 100%" id="member-header">Membership</div>
     </div>
@@ -86,6 +86,7 @@
       </div>
       <%}%> <%for(let u of locals.myProfile.related.members){%>
       <div style=" width: 100%;  display: flex;  flex-direction: row !important; justify-content: space-between !important; align-items: space-between !important;">
+        <div>
         <a
           href="/user/profile?user_id=<%=u.id%>"
           style="text-decoration: none; color: black;"
@@ -106,9 +107,9 @@
             </div>
           </div>
         </a>
-
-                            <div>
-                                <a class="request-link" href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
+                        </div>
+                        <div>
+                            <a class="request-link" href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
           >
         </div>
         <%}%>
