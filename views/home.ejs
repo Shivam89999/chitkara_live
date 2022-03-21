@@ -290,7 +290,7 @@
                                     </div>
                                     <%if(locals.user){%>
                                         <div id="part-2">
-                                            <a href="/user/profile-requests-page">
+                                            <a href="/user/profile-requests-page?userId=<%=locals.user.id%>">
                                                 <div><span>Requests</span> <span><%=noOfComingRequests%> </span></div>
                                             </a>
                                             <a href="/user/my-save-items">
