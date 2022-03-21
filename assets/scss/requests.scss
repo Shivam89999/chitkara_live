@@ -21,6 +21,7 @@
         background-color: white;
         padding: 5px;
         margin: 0px 0px 5px 0px;
+        box-sizing: border-box !important;
         div {
             display: flex;
             flex-direction: column;
