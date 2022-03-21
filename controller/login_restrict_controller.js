@@ -1185,8 +1185,8 @@ function profileRequestsPage(req, res) {
             return res.render("requests", {
                 title: "requests page",
                 members: user.related.members,
-                comingRequest: user.id == req.user.myUser.id ? user.related.comingRequest : null,
-                sendRequests: user.id == req.user.myUser.id ? user.related.sendRequest : null,
+                comingRequest: user._id == req.user.myUser._id ? user.related.comingRequest : null,
+                sendRequests: user._id == req.user.myUser._id ? user.related.sendRequest : null,
                 // myProfile: user,
             });
         });
