@@ -5,9 +5,9 @@
     flex-wrap: wrap;
     flex-direction: column;
     width: 40%;
-    max-width: 40%;
-    min-width: 300px;
+    min-width: 340px !important;
     padding: 10px;
+    box-sizing: border-box !important;
     margin: auto;
     background-color: transparent;
     box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
