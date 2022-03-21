@@ -1182,6 +1182,7 @@ function profileRequestsPage(req, res) {
                 console.log("err in finding user or populating user ", err);
                 return res.redirect("back");
             }
+            console.log("user_id is ", user._id, " myUserId ", req.user.myUser._id);
             return res.render("requests", {
                 title: "requests page",
                 members: user.related.members,
