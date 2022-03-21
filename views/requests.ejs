@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="<%=assetPath('css/requests.css')%>" />
 
-<div class="requests-container">
-    <div class="request-header">
+<div id="requests-container">
+    <div id="request-header">
         <div id="send-header" type="send" class="header" onClick="toggleHead('send-header')">
             Requested
         </div>
@@ -94,10 +94,8 @@
   </div>
 
   <div style="display: flex; flex-direction: column">
-    <div class="request-header">
-      <div style="width: 100%; padding: 5px" class="member-header">
-        Membership
-      </div>
+    <div id="request-header">
+      <div style="width: 100%; padding: 5px" id="member-header">Membership</div>
     </div>
     <div style="display: flex; flex-direction: column">
       <%if(locals.myProfile.related.members.length==0){%>
