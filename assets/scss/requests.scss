@@ -64,26 +64,26 @@
 }
 
 .request-header {
-    display: flex;
-    flex-direction: row;
-    background-color: #77d6cd;
+    display: flex !important;
+    flex-direction: row !important;
+    background-color: #77d6cd !important;
     div {
-        background-color: inherit;
-        align-items: center;
-        justify-content: center;
-        width: 50%;
-        text-align: right;
-        margin: 0px;
-        color: white;
-        box-sizing: border-box;
+        background-color: inherit !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 50% !important;
+        text-align: right !important;
+        margin: 0px !important;
+        color: white !important;
+        box-sizing: border-box !important;
         &:hover {
             // background-color: rgb(40, 40, 134);
-            border-bottom: 2px solid black;
+            border-bottom: 2px solid black !important;
         }
     }
     #member-header {
         &:hover {
-            border-bottom: none;
+            border-bottom: none !important;
         }
     }
 }
