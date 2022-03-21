@@ -8,7 +8,7 @@
             <div id="profile-container">
                 <img id="profile-pic" src="<%=user_profile.pic%>" alt="profile-pic" />
                 <%if(locals.user_profile.id===locals.user.id){%>
-                    <a href="/user/profile-requests-page/userId=<%=user_profile.id%>" style="
+                    <a href="/user/profile-requests-page?userId=<%=user_profile.id%>" style="
             text-decoration: none;
             color: black;
             display: flex;
