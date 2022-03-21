@@ -35,7 +35,7 @@
           justify-content: space-between !important;
           align-items: space-between !important;
         ">
-                                <div>
+                                <div style="width: fit-content">
                                     <a href="/user/profile?user_id=<%=u.id%>" style="text-decoration: none; color: black">
                                         <div class="add-on-hover">
                                             <div>
@@ -48,7 +48,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div>
+                                <div style="width: fit-content">
                                     <a class="request-link" href="/user/withdraw-request?target=<%=u.id%>"><button>Withdraw</button></a
           >
         </div>
@@ -132,7 +132,7 @@
           align-items: space-between !important;
         "
       >
-        <div>
+        <div style="width: fit-content">
           <a
             href="/user/profile?user_id=<%=u.id%>"
             style="text-decoration: none; color: black"
@@ -155,7 +155,7 @@
           </a>
                                 </div>
                                 <%if(locals.comingRequests!=null && locals.sendRequests!=null){%>
-                                    <div>
+                                    <div style="width: fit-content">
                                         <a class="request-link" href="/user/remove-membership?target=<%=u.id%>"><button>Remove</button></a
           >
         </div>
