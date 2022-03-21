@@ -2,10 +2,15 @@
 
 <div id="requests-container">
     <%if(locals.comingRequests!=null && locals.sendRequests!=null){%>
-        <div style="display: flex; flex-direction: column">
+        <div style="
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      box-sizing: border-box;
+    ">
             <!-- header -->
 
-            <div class="request-header">
+            <div class="request-header" style="width: inherit">
                 <div id="send-header" type="send" class="header" onClick="toggleHead('send-header')">
                     Requested
                 </div>
@@ -16,9 +21,9 @@
 
             <!-- sending-request-div -->
 
-            <div class="send all" style="display: flex; flex-direction: column">
+            <div class="send all" style="display: flex; flex-direction: column; width: inherit">
                 <%if(locals.sendRequests.length==0){%>
-                    <div style="color: red; text-align: center; padding: 15px">
+                    <div style="color: red; text-align: center; padding: 15px; width: inherit">
                         No send request found
                     </div>
                     <%}%>
@@ -102,7 +107,7 @@
   </div>
   <%}%>
   <div style="width: 100%">
-    <div class="request-header">
+    <div class="request-header" style="width: 100%; box-sizing: border-box">
       <div style="width: 100%" id="member-header">Membership</div>
     </div>
     <div
