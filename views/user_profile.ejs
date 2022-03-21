@@ -7,8 +7,8 @@
         <div id="profile">
             <div id="profile-container">
                 <img id="profile-pic" src="<%=user_profile.pic%>" alt="profile-pic" />
-                <%if(locals.user_profile.id===locals.user.id){%>
-                    <a href="/user/profile-requests-page?userId=<%=user_profile.id%>" style="
+
+                <a href="/user/profile-requests-page?userId=<%=user_profile.id%>" style="
             text-decoration: none;
             color: black;
             display: flex;
@@ -16,11 +16,11 @@
             justify-content: center;
             align-items: center;
           ">
-                        <img height="40px" style="border-radius: 50%" width="40px" src="/uploads/icons/36.member.png" alt="user" />
+                    <img height="40px" style="border-radius: 50%" width="40px" src="/uploads/icons/36.member.png" alt="user" />
 
-                        <!-- <Span>7 Members</span> -->
-                    </a>
-                    <%}%>
+                    <!-- <Span>7 Members</span> -->
+                </a>
+
             </div>
 
             <div id="bio">
