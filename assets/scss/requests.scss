@@ -1,4 +1,4 @@
-#requests-container {
+.requests-container {
     position: relative;
     background-color: transparent;
     display: flex;
@@ -81,7 +81,7 @@
             border-bottom: 2px solid black !important;
         }
     }
-    #member-header {
+    .member-header {
         &:hover {
             border-bottom: none !important;
         }
