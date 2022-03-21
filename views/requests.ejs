@@ -1,7 +1,18 @@
 <link rel="stylesheet" href="<%=assetPath('css/requests.css')%>" />
 
 <div id="requests-container">
-    <div></div>
+    <div style="display: flex; flex-direction: column">
+        <!-- header -->
+
+        <div class="request-header">
+            <div id="send-header" type="send" class="header" onClick="toggleHead('send-header')">
+                Requested
+            </div>
+            <div id="coming-header" type="coming" class="header" onClick="toggleHead('coming-header')">
+                Coming Req
+            </div>
+        </div>
+    </div>
 
     <div style="width: 100%">
         <div class="request-header">
@@ -125,13 +136,3 @@
     </div> -->
 
 <!-- header -->
-<!-- 
-
-  <div class="request-header">
-            <div id="send-header" type="send" class="header" onClick="toggleHead('send-header')">
-                Requested
-            </div>
-            <div id="coming-header" type="coming" class="header" onClick="toggleHead('coming-header')">
-                Coming Req
-            </div>
-        </div> -->
