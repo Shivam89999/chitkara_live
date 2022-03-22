@@ -183,6 +183,7 @@ function handleAllEvents() {
 function handleEvents(item) {
     // //console.log("postDetails are ", postDetails);
     let postId = $(item).attr("postId");
+    console.log("start is $$$$$$$$$ &&&&&&& ", $(item).attr("start"));
     let startTime = parseInt(new Date($(item).attr("start")).valueOf());
     let location = $(item).attr("location");
     if (location == "") location = "not updated ";
