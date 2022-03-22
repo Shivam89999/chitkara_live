@@ -191,12 +191,15 @@ function handleEvents(item) {
     let currentTime = parseInt(new Date().valueOf());
     let type = "running";
     let startDateString =
-        new Date(startTime).toDateString() +
-        " | " +
-        new Date(startTime).toLocaleString("en-US", {
-            hour: "numeric",
-            minute: "numeric",
-            hour12: true,
+        // new Date(startTime).toDateString() +
+        // " | " +
+        // new Date(startTime).toLocaleString("en-US", {
+        //     hour: "numeric",
+        //     minute: "numeric",
+        //     hour12: true,
+        // });
+        new Date(startTime).toLocaleString(undefined, {
+            timeZone: "Asia/Kolkata",
         });
 
     let endDateString =
