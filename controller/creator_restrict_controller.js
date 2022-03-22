@@ -86,6 +86,8 @@ async function newPost(req, res) {
                     console.log("invalid request event end time is required");
                     return res.redirect("back");
                 }
+                console.log("req.body event start time ", req.body.eventStartTime);
+                console.log("req.body event end time ", req.body.eventEndTime);
                 let eventStartTime = new Date(req.body.eventStartTime).valueOf();
                 let eventEndTime = new Date(req.body.eventEndTime).valueOf();
                 console.log(

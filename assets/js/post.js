@@ -197,6 +197,7 @@ function handleEvents(item) {
             minute: "numeric",
             hour12: true,
         });
+
     let endDateString =
         new Date(endTime).toDateString() +
         " | " +
