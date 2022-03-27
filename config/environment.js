@@ -24,7 +24,7 @@ const development = {
             // user: "shivammittal00786@gmail.com",
             // pass: "Shivam@2515875",
             user: "aaa.techy.in@gmail.com",
-            pass: "Shivam@9876",
+            pass: "dukduk@57655434",
         },
         // name: "AAA Tech",
     },
