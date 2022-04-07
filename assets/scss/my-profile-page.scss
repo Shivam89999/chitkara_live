@@ -113,10 +113,16 @@
             flex-direction: row;
             align-items: center;
             padding: 10px;
+            flex-wrap: wrap;
             div {
+                max-width: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
+                span {
+                    max-width: 98%;
+                    word-wrap: break-word;
+                }
             }
         }
         &:hover {
