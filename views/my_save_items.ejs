@@ -1,5 +1,11 @@
 <link rel="stylesheet" href="<%=assetPath('css/save_items.css')%>" />
 <div id="my-save-items">
+    <div id="save-item-headers">
+        <div id="img-container">
+            <img height="65px" width="65px" style="border-radius: 50%" src="<%=locals.user.pic%>" alt="profile pic" />
+        </div>
+        <div id="heading">My Save Items</div>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3534721178469552" crossorigin="anonymous"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3534721178469552" crossorigin="anonymous"></script>
     <!-- chitkara live ads -->
@@ -7,12 +13,6 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-    <div id="save-item-headers">
-        <div id="img-container">
-            <img height="65px" width="65px" style="border-radius: 50%" src="<%=locals.user.pic%>" alt="profile pic" />
-        </div>
-        <div id="heading">My Save Items</div>
-    </div>
     <div id="save-item-container">
         <%if(saveItems.length==0){%>
             <div class="class-item" style="text-align: center; font-size: 18">
