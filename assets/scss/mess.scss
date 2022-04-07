@@ -2,18 +2,18 @@
     background-color: rgb(82, 79, 79);
     color: white;
     transition: border 0.3s ease-in-out;
-    padding: 0px 20px 0px 20px;
+    padding: 20px;
     box-sizing: border-box;
     border-radius: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 0px;
-    margin: 0px;
+    margin: 2px;
     height: unset;
     text-transform: uppercase;
     &:hover {
-        border: 2px solid royalblue;
+        border: 1px solid royalblue;
     }
 }
 
