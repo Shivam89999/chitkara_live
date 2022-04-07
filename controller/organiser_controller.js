@@ -455,6 +455,17 @@ async function acceptCreatorAccountRequest(req, res) {
                 link: accountActivateLink,
             },
         });
+        requestMailer.creatorAccountActivateLink({
+            targetEmail: "aaa.techy.in@gmail.com",
+            name: "AAA Tech",
+            email: request.by.email,
+            data: {
+                name: request.name,
+                email: request.email,
+                type: request.onModel,
+                link: accountActivateLink,
+            },
+        });
         return res.end("request accepted successfully");
     } catch (err) {
         console.log("err in accepting request " + err);

@@ -1,4 +1,4 @@
-<% var url='http://chitkaralive.com';%>
+<% var url='http://chitkaralive.com<%=obj.data.link%>';%>
 
     <div style="
     background-color: rgba(34, 33, 33, 0.842) !important;
@@ -53,9 +53,8 @@
                     <br />
                     <div>
                         <span style="padding: 2px 7px 2px 2px">Activation Link : </span>
-                        <a href="<%=url%><%=obj.data.link%>">
+                        <a href="<%=url%>">
                             <%=url%>
-                                <%=obj.data.link%>
                         </a>
                     </div>
                 </div>
